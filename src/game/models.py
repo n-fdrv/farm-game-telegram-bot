@@ -30,6 +30,13 @@ class Item(BaseGameModel):
         verbose_name="Тип",
     )
 
+    class Meta:
+        verbose_name = "Предмет"
+        verbose_name_plural = "Предметы"
+
+    def __str__(self):
+        return f"{self.name} | Type: {self.type}"
+
 
 class Character(BaseGameModel):
     """Модель для хранения персонажей."""
@@ -43,6 +50,13 @@ class Character(BaseGameModel):
         Item, through="CharacterItem", related_name="items"
     )
 
+    class Meta:
+        verbose_name = "Персонаж"
+        verbose_name_plural = "Персонажи"
+
+    def __str__(self):
+        return f"{self.name} | Level: {self.level}"
+
 
 class CharacterItem(models.Model):
     """Модель для хранения предметов персонажа."""
@@ -55,17 +69,34 @@ class CharacterItem(models.Model):
     )
     amount = models.IntegerField(default=1, verbose_name="Количество")
 
+    class Meta:
+        verbose_name = "Предмет персонажа"
+        verbose_name_plural = "Предметы персонажа"
+
+    def __str__(self):
+        return (
+            f"Character: {self.character} | "
+            f"Item: {self.item} | "
+            f"Amount: {self.amount}"
+        )
+
 
 class Location(BaseGameModel):
     """Модель для хранения локаций."""
 
-    name = models.CharField(max_length=16, verbose_name="Имя")
     required_power = models.IntegerField(
         verbose_name="Требуемая сила персонажа"
     )
     drop = models.ManyToManyField(
         Item, through="LocationDrop", related_name="drop"
     )
+
+    class Meta:
+        verbose_name = "Локация"
+        verbose_name_plural = "Лоакации"
+
+    def __str__(self):
+        return f"{self.name} | Power: {self.required_power}"
 
 
 class LocationDrop(models.Model):
@@ -84,3 +115,15 @@ class LocationDrop(models.Model):
         default=1, verbose_name="Максимальное количество"
     )
     chance = models.IntegerField(default=1, verbose_name="Шанс в процентах")
+
+    class Meta:
+        verbose_name = "Дроп в локации"
+        verbose_name_plural = "Дроп в локациях"
+
+    def __str__(self):
+        return (
+            f"Item: {self.item} | "
+            f"Location: {self.location} | "
+            f"Amount: {self.max_amount} - {self.max_amount} | "
+            f"Chance: {self.chance}"
+        )

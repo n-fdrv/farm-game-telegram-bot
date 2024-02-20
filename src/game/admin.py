@@ -55,6 +55,5 @@ class LocationAdmin(admin.ModelAdmin):
         "required_power",
     )
     list_display_links = ("name",)
-    list_filter = ("is_active", "key")
     search_fields = ("name",)
     inlines = (LocationDropInline,)

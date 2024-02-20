@@ -23,9 +23,9 @@ class UserAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.first_name,
                         row.last_name,
                         row.telegram_username,
-                        row.room,
+                        row.character,
                         row.registration_date,
-                        row.last_login_date,
+                        row.is_active,
                     ]
                 )
 
@@ -36,12 +36,11 @@ class UserAdmin(DjangoObjectActions, admin.ModelAdmin):
         "first_name",
         "last_name",
         "telegram_username",
-        "room",
-        "game",
+        "character",
         "registration_date",
-        "last_login_date",
+        "is_active",
     )
-    list_filter = ("room",)
+    list_filter = ("is_active",)
     search_fields = ("telegram_id", "telegram_username")
 
     def has_change_permission(self, request, obj=None):
