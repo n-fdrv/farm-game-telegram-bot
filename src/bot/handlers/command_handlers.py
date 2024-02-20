@@ -4,6 +4,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import ChatMemberUpdated
 
 from bot.constants import commands
+from bot.keyboards.main_keyboard import main_keyboard
 from bot.models import User
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
@@ -28,7 +29,11 @@ async def start_handler(message: types.Message, state: FSMContext):
     await user.asave(
         update_fields=("first_name", "last_name", "telegram_username")
     )
-    await message.answer(text="START_MESSAGE")
+    keyboard = await main_keyboard()
+    await message.answer(
+        text="START_MESSAGE",
+        reply_markup=keyboard.as_markup(resize_keyboard=True),
+    )
 
 
 @router.message(Command(commands.HELP_COMMAND))

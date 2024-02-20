@@ -1,0 +1,5 @@
+CHARACTER_BUTTON = "🧙 Персонаж"
+MARKET_BUTTON = "💱 Торговая площадка"
+TOP_BUTTON = "🏆 Топ персонажей"
+SHOP_BUTTON = "🏬 Магазин"
+INFORMATION_BUTTON = "ℹ️ Информация"
