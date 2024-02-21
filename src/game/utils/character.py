@@ -8,6 +8,7 @@ from loguru import logger
 from game.models import Character, CharacterItem, LocationDrop
 
 from bot.constants.messages.character_messages import CHARACTER_INFO_MESSAGE
+from bot.utils.schedulers import remove_scheduler
 
 
 async def check_nickname_exist(nickname: str) -> bool:
@@ -27,10 +28,14 @@ def get_character_info(character: Character) -> str:
     exp_in_percent = round(character.exp / character.exp_for_level_up * 100, 2)
     location = "<b>Город</b>"
     if character.current_location:
-        time_left = str(character.hunting_end - timezone.now()).split(".")[0]
+        time_left_text = "<b>Охота окончена</b>"
+        if character.hunting_end > timezone.now():
+            time_left = str(character.hunting_end - timezone.now()).split(".")[
+                0
+            ]
+            time_left_text = f"Осталось: <b>{time_left}</b>"
         location = (
-            f"<b>{character.current_location.name}</b>\n"
-            f"Осталось: <b>{time_left}</b>"
+            f"<b>{character.current_location.name}</b>\n" f"{time_left_text}"
         )
     return CHARACTER_INFO_MESSAGE.format(
         character.name,
@@ -39,6 +44,20 @@ def get_character_info(character: Character) -> str:
         character.power,
         location,
     )
+
+
+async def get_hunting_hours_with_effects(character: Character):
+    """Метод получения часов охоты с эффектами."""
+    buff_percent = character.power / character.current_location.required_power
+    hunting_end_time = timezone.now()
+    if hunting_end_time > character.hunting_end:
+        hunting_end_time = character.hunting_end
+    hunting_hours = (
+        (hunting_end_time - character.hunting_begin).seconds
+        * buff_percent
+        / 3600
+    )
+    return hunting_hours
 
 
 async def get_exp(character: Character, exp_amount: int):
@@ -59,12 +78,7 @@ async def get_exp(character: Character, exp_amount: int):
 
 async def get_hunting_loot(character: Character):
     """Метод получения трофеев с охоты."""
-    buff_percent = character.power / character.current_location.required_power
-    hunting_hours = (
-        (timezone.now() - character.hunting_begin).seconds
-        * buff_percent
-        / 3600
-    )
+    hunting_hours = await get_hunting_hours_with_effects(character)
     exp_gained = int(character.current_location.exp * hunting_hours)
     drop_data = {}
     await get_exp(character, exp_gained)
@@ -85,12 +99,20 @@ async def get_hunting_loot(character: Character):
                 await item.asave(update_fields=("amount",))
     logger.info(
         f"{character} - Вышел из {character.current_location} "
-        f"и получил {exp_gained} опыта и {drop_data}"
+        f"и получил {exp_gained} опыта и "
+        f"{drop_data} зв {hunting_hours} времени"
     )
     character.current_location = None
     character.hunting_begin = None
     character.hunting_end = None
+    await remove_scheduler(character.job_id)
+    character.job_id = None
     await character.asave(
-        update_fields=("current_location", "hunting_begin", "hunting_end")
+        update_fields=(
+            "current_location",
+            "hunting_begin",
+            "hunting_end",
+            "job_id",
+        )
     )
     return exp_gained, drop_data

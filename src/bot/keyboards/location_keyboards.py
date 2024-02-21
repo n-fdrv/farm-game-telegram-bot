@@ -6,7 +6,7 @@ from bot.constants.buttons import (
     location_buttons,
     main_buttons,
 )
-from bot.constants.callback_data import LocationData
+from bot.constants.callback_data import CharacterData, LocationData
 from bot.utils.paginator import Paginator
 
 
@@ -48,6 +48,17 @@ async def location_get(callback_data: LocationData):
         callback_data=LocationData(
             action=location_action.list, page=callback_data.page
         ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def location_exit():
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=location_buttons.GET_DROP_MESSAGE,
+        callback_data=CharacterData(action=character_action.exit_location),
     )
     keyboard.adjust(1)
     return keyboard

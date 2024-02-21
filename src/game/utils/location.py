@@ -1,3 +1,7 @@
+import datetime
+
+from django.utils import timezone
+
 from game.models import Character, Location
 
 from bot.constants.messages import location_messages
@@ -18,4 +22,18 @@ async def get_location_info(character: Character, location: Location) -> str:
         character.power - location.required_power,
         drop_text,
         drop_data,
+    )
+
+
+async def enter_location(character: Character, location: Location):
+    """Вход в локацию."""
+    character.current_location = location
+    character.hunting_begin = timezone.now()
+    character.hunting_end = timezone.now() + datetime.timedelta(
+        hours=character.max_hunting_time.hour,
+        minutes=character.max_hunting_time.minute,
+        seconds=character.max_hunting_time.second,
+    )
+    await character.asave(
+        update_fields=("current_location", "hunting_begin", "hunting_end")
     )

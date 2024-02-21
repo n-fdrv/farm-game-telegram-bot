@@ -75,6 +75,12 @@ class Character(BaseGameModel):
     items = models.ManyToManyField(
         Item, through="CharacterItem", related_name="items"
     )
+    job_id = models.CharField(
+        max_length=256,
+        null=True,
+        blank=True,
+        verbose_name="ID шедулера напоминания об окончании охоты",
+    )
 
     class Meta:
         verbose_name = "Персонаж"

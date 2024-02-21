@@ -1,7 +1,11 @@
-from datetime import datetime
+import datetime
 
+from apscheduler.jobstores.base import JobLookupError
 from django.apps import apps
+from loguru import logger
 
+from bot.constants.messages.location_messages import HUNTING_END_MESSAGE
+from bot.keyboards.location_keyboards import location_exit
 from bot.models import User
 from core.config.logging import log_schedulers
 
@@ -23,6 +27,35 @@ async def send_message_to_all_users(text: str):
         scheduler.add_job(
             bot.send_message,
             "date",
-            run_date=datetime.now(),
+            run_date=datetime.datetime.now(),
             args=[user.telegram_id, text],
         )
+
+
+@log_schedulers
+async def hunting_end_scheduler(user: User):
+    """Шедулер отправки сообщения об окончании охоты."""
+    bot, scheduler = await get_bot_and_scheduler()
+    keyboard = await location_exit()
+    job = scheduler.add_job(
+        bot.send_message,
+        "date",
+        run_date=user.character.hunting_end,
+        kwargs={
+            "chat_id": user.telegram_id,
+            "text": HUNTING_END_MESSAGE,
+            "reply_markup": keyboard.as_markup(),
+        },
+    )
+    user.character.job_id = job.id
+    await user.character.asave(update_fields=("job_id",))
+
+
+@log_schedulers
+async def remove_scheduler(job_id: str):
+    """Удаление шедулера по id."""
+    bot, scheduler = await get_bot_and_scheduler()
+    try:
+        scheduler.remove_job(job_id)
+    except JobLookupError:
+        logger.warning("Не удалось удалить job т.к. его не существует")
