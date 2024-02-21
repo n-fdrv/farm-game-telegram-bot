@@ -1,9 +1,17 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from game.models import Character
 
-from bot.constants.actions import character_action, location_action
+from bot.constants.actions import (
+    backpack_action,
+    character_action,
+    location_action,
+)
 from bot.constants.buttons import character_buttons, main_buttons
-from bot.constants.callback_data import CharacterData, LocationData
+from bot.constants.callback_data import (
+    BackpackData,
+    CharacterData,
+    LocationData,
+)
 
 
 async def character_get(character: Character):
@@ -18,7 +26,7 @@ async def character_get(character: Character):
         )
         keyboard.button(
             text=character_buttons.BACKPACK_BUTTON,
-            callback_data=CharacterData(action=character_action.get),
+            callback_data=BackpackData(action=backpack_action.list),
         )
         keyboard.adjust(1)
         return keyboard
@@ -28,7 +36,7 @@ async def character_get(character: Character):
     )
     keyboard.button(
         text=character_buttons.BACKPACK_BUTTON,
-        callback_data=CharacterData(action=character_action.get),
+        callback_data=BackpackData(action=backpack_action.list),
     )
     keyboard.button(
         text=character_buttons.SHOP_BUTTON,

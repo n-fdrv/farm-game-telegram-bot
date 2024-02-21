@@ -24,7 +24,15 @@ class LocationData(BaseCallbackData, prefix="loc"):
     pass
 
 
+class BackpackData(BaseCallbackData, prefix="bp"):
+    """Данные для хенжлеров локаций."""
+
+    user_id: Optional[int] = None
+    item_id: Optional[int] = None
+
+
 CALLBACK_DATA_PREFIX = {
     CharacterData.__prefix__: CharacterData,
     LocationData.__prefix__: LocationData,
+    BackpackData.__prefix__: BackpackData,
 }

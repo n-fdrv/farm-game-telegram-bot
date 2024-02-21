@@ -16,6 +16,7 @@ from redis.asyncio.client import Redis
 
 from bot.constants import commands
 from bot.handlers import (
+    backpack_handlers,
     character_handlers,
     command_handlers,
     location_handlers,
@@ -54,6 +55,7 @@ class AiogramApp:
             command_handlers.router,
             character_handlers.router,
             location_handlers.router,
+            backpack_handlers.router,
         ]
         self._download_routes(routes)
         asyncio.ensure_future(

@@ -38,5 +38,12 @@ class LocationAction(Action):
     enter = f"{callback_data.LocationData.__prefix__}-en"
 
 
+class BackpackAction(Action):
+    """Действия для хендлеров инвентаря."""
+
+    pass
+
+
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
 location_action = LocationAction(callback_data.LocationData.__prefix__)
+backpack_action = BackpackAction(callback_data.BackpackData.__prefix__)
