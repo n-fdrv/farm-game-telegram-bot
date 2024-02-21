@@ -8,3 +8,4 @@ CREATE_CHARACTER_BUTTON = "Создать персонажа 🧙"
 
 YES_BUTTON = "Да"
 NO_BUTTON = "Нет"
+BACK_BUTTON = "Назад"

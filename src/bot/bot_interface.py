@@ -18,6 +18,7 @@ from bot.constants import commands
 from bot.handlers import (
     character_handlers,
     command_handlers,
+    location_handlers,
 )
 
 
@@ -49,7 +50,11 @@ class AiogramApp:
 
     def start(self) -> None:
         """Запускает бота."""
-        routes = [command_handlers.router, character_handlers.router]
+        routes = [
+            command_handlers.router,
+            character_handlers.router,
+            location_handlers.router,
+        ]
         self._download_routes(routes)
         asyncio.ensure_future(
             self.bot.set_my_commands(

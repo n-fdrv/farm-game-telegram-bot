@@ -46,7 +46,7 @@ async def start_handler(message: types.Message, state: FSMContext):
         return
     await message.answer(
         text=main_menu_messages.START_MESSAGE,
-        reply_markup=keyboard.as_markup(),
+        reply_markup=keyboard.as_markup(resize_keyboard=True),
     )
     await message.answer(
         text=main_menu_messages.CHARACTER_MESSAGE,

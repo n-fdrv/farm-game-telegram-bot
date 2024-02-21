@@ -32,4 +32,11 @@ class CharacterAction(Action):
     exit_location = f"{callback_data.CharacterData.__prefix__}-exlo"
 
 
+class LocationAction(Action):
+    """Действия для хендлеров локаций."""
+
+    enter = f"{callback_data.LocationData.__prefix__}-en"
+
+
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
+location_action = LocationAction(callback_data.LocationData.__prefix__)

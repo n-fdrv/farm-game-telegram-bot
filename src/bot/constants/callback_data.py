@@ -18,4 +18,13 @@ class CharacterData(BaseCallbackData, prefix="ch"):
     pass
 
 
-CALLBACK_DATA_PREFIX = {CharacterData.__prefix__: CharacterData}
+class LocationData(BaseCallbackData, prefix="loc"):
+    """Данные для хенжлеров локаций."""
+
+    pass
+
+
+CALLBACK_DATA_PREFIX = {
+    CharacterData.__prefix__: CharacterData,
+    LocationData.__prefix__: LocationData,
+}

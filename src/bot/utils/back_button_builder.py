@@ -1,6 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from bot.constants import buttons
 from bot.utils.callback_helpers import get_callback_by_action
 
 
@@ -21,5 +20,5 @@ async def back_builder(
         callback.order_status = kwargs["order_status"]
     if page:
         callback.page = page
-    keyboard.button(text=buttons.BACK_BUTTON, callback_data=callback)
+    keyboard.button(text="Назад", callback_data=callback)
     return keyboard
