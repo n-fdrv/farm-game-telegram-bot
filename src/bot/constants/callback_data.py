@@ -12,4 +12,10 @@ class BaseCallbackData(CallbackData, prefix="pac"):
     back_action: Optional[str] = None
 
 
-CALLBACK_DATA_PREFIX = {}
+class CharacterData(BaseCallbackData, prefix="ch"):
+    """Данные для хенжлеров персонажа."""
+
+    pass
+
+
+CALLBACK_DATA_PREFIX = {CharacterData.__prefix__: CharacterData}

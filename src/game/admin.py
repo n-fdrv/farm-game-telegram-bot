@@ -31,6 +31,7 @@ class CharacterAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "level",
+        "power",
         "exp",
     )
     list_display_links = ("name",)

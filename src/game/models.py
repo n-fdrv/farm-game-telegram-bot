@@ -46,6 +46,7 @@ class Character(BaseGameModel):
     exp_for_level_up = models.IntegerField(
         default=100, verbose_name="Опыт для достижения уровня"
     )
+    power = models.IntegerField(default=100, verbose_name="Боевая мощь")
     items = models.ManyToManyField(
         Item, through="CharacterItem", related_name="items"
     )
@@ -55,7 +56,7 @@ class Character(BaseGameModel):
         verbose_name_plural = "Персонажи"
 
     def __str__(self):
-        return f"{self.name} | Level: {self.level}"
+        return f"{self.name} | Level: {self.level} | Power : {self.power}"
 
 
 class CharacterItem(models.Model):

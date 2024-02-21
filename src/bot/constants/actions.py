@@ -1,3 +1,6 @@
+from bot.constants import callback_data
+
+
 class Action:
     """Базовый класс действий для callback_data."""
 
@@ -18,3 +21,12 @@ class Action:
 
     def __str__(self):
         return self.callback
+
+
+class CharacterAction(Action):
+    """Действия для хендлеров персонажа."""
+
+    create_preview = f"{callback_data.CharacterData.__prefix__}-crpv"
+
+
+character_action = CharacterAction(callback_data.CharacterData.__prefix__)

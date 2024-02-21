@@ -16,6 +16,7 @@ from redis.asyncio.client import Redis
 
 from bot.constants import commands
 from bot.handlers import (
+    character_handlers,
     command_handlers,
 )
 
@@ -48,9 +49,7 @@ class AiogramApp:
 
     def start(self) -> None:
         """Запускает бота."""
-        routes = [
-            command_handlers.router,
-        ]
+        routes = [command_handlers.router, character_handlers.router]
         self._download_routes(routes)
         asyncio.ensure_future(
             self.bot.set_my_commands(

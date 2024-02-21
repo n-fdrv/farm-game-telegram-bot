@@ -4,7 +4,8 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import ChatMemberUpdated
 
 from bot.constants import commands
-from bot.keyboards.main_keyboard import main_keyboard
+from bot.constants.messages import main_menu_messages
+from bot.keyboards import main_keyboards
 from bot.models import User
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
@@ -17,7 +18,9 @@ router = Router()
 async def start_handler(message: types.Message, state: FSMContext):
     """Хендлер при нажатии кнопки start."""
     await state.clear()
-    user, created = await User.objects.aget_or_create(
+    user, created = await User.objects.select_related(
+        "character"
+    ).aget_or_create(
         telegram_id=message.from_user.id,
     )
     user.first_name = message.from_user.first_name
@@ -29,10 +32,25 @@ async def start_handler(message: types.Message, state: FSMContext):
     await user.asave(
         update_fields=("first_name", "last_name", "telegram_username")
     )
-    keyboard = await main_keyboard()
+    keyboard = await main_keyboards.main_keyboard()
+    if not user.character:
+        await message.answer(
+            text=main_menu_messages.START_MESSAGE,
+            reply_markup=keyboard.as_markup(resize_keyboard=True),
+        )
+        inline_keyboard = await main_keyboards.user_created_keyboard()
+        await message.answer(
+            text=main_menu_messages.NOT_CREATED_CHARACTER_MESSAGE,
+            reply_markup=inline_keyboard.as_markup(),
+        )
+        return
     await message.answer(
-        text="START_MESSAGE",
-        reply_markup=keyboard.as_markup(resize_keyboard=True),
+        text=main_menu_messages.START_MESSAGE,
+        reply_markup=keyboard.as_markup(),
+    )
+    await message.answer(
+        text=main_menu_messages.CHARACTER_MESSAGE,
+        # TODO Клавиатура в зависимости от того где находится персонаж
     )
 
 
