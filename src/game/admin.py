@@ -9,7 +9,8 @@ class ItemAdmin(admin.ModelAdmin):
 
     list_display = (
         "name",
-        "description",
+        "sell_price",
+        "buy_price",
         "type",
     )
     list_filter = ("type",)
@@ -32,12 +33,17 @@ class CharacterAdmin(admin.ModelAdmin):
         "name",
         "level",
         "power",
-        "exp",
+        "exp_percent",
+        "current_location",
     )
     list_display_links = ("name",)
     list_filter = ("level",)
     search_fields = ("name",)
     inlines = (CharacterItemInline,)
+
+    def exp_percent(self, obj):
+        """Получения опыта в процентах."""
+        return f"{obj.exp / obj.exp_for_level_up * 100}%"
 
 
 class LocationDropInline(admin.TabularInline):
@@ -53,6 +59,7 @@ class LocationAdmin(admin.ModelAdmin):
 
     list_display = (
         "name",
+        "exp",
         "required_power",
     )
     list_display_links = ("name",)

@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -18,12 +20,19 @@ class ItemType(models.TextChoices):
     TALISMAN = "talisman", "Талисман"
     MATERIAL = "material", "Ресурс"
     SCROLL = "scroll", "Свиток"
+    ETC = "etc", "Разное"
 
 
 class Item(BaseGameModel):
     """Модель для хранения предметов."""
 
     description = models.CharField(max_length=256, verbose_name="Описание")
+    sell_price = models.IntegerField(
+        default=0, verbose_name="Стоимость продажи"
+    )
+    buy_price = models.IntegerField(
+        default=0, verbose_name="Стоимость покупки"
+    )
     type = models.CharField(
         max_length=16,
         choices=ItemType.choices,
@@ -47,6 +56,22 @@ class Character(BaseGameModel):
         default=100, verbose_name="Опыт для достижения уровня"
     )
     power = models.IntegerField(default=100, verbose_name="Боевая мощь")
+    current_location = models.ForeignKey(
+        to="Location",
+        on_delete=models.SET_NULL,
+        verbose_name="Текущая локация",
+        null=True,
+        blank=True,
+    )
+    hunting_begin = models.DateTimeField(
+        null=True, blank=True, verbose_name="Начало охоты"
+    )
+    hunting_end = models.DateTimeField(
+        null=True, blank=True, verbose_name="Конец охоты"
+    )
+    max_hunting_time = models.TimeField(
+        default=datetime.time(hour=4), verbose_name="Максимальное время охоты"
+    )
     items = models.ManyToManyField(
         Item, through="CharacterItem", related_name="items"
     )
@@ -68,7 +93,7 @@ class CharacterItem(models.Model):
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, verbose_name="Предмет"
     )
-    amount = models.IntegerField(default=1, verbose_name="Количество")
+    amount = models.IntegerField(default=0, verbose_name="Количество")
 
     class Meta:
         verbose_name = "Предмет персонажа"
@@ -87,6 +112,9 @@ class Location(BaseGameModel):
 
     required_power = models.IntegerField(
         verbose_name="Требуемая сила персонажа"
+    )
+    exp = models.IntegerField(
+        default=100, verbose_name="Количество опыта в час"
     )
     drop = models.ManyToManyField(
         Item, through="LocationDrop", related_name="drop"
@@ -110,12 +138,14 @@ class LocationDrop(models.Model):
         Item, on_delete=models.CASCADE, verbose_name="Предмет"
     )
     min_amount = models.IntegerField(
-        default=1, verbose_name="Минимальное количество"
+        default=1, verbose_name="Минимальное количество в час"
     )
     max_amount = models.IntegerField(
-        default=1, verbose_name="Максимальное количество"
+        default=1, verbose_name="Максимальное количество в час"
     )
-    chance = models.IntegerField(default=1, verbose_name="Шанс в процентах")
+    chance = models.IntegerField(
+        default=1, verbose_name="Шанс в процентах в час"
+    )
 
     class Meta:
         verbose_name = "Дроп в локации"
@@ -125,6 +155,6 @@ class LocationDrop(models.Model):
         return (
             f"Item: {self.item} | "
             f"Location: {self.location} | "
-            f"Amount: {self.max_amount} - {self.max_amount} | "
+            f"Amount: {self.min_amount} - {self.max_amount} | "
             f"Chance: {self.chance}"
         )

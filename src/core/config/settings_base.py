@@ -122,3 +122,6 @@ REDIS_HOST = env.str('REDIS_HOST', default='127.0.0.1')
 REDIS_PORT = env.str('REDIS_PORT', default=6379)
 
 SUPPORT_FORM_URL = env.str('SUPPORT_FORM_URL', default='http://localhost:8000')
+
+EXP_FOR_LEVEL_UP_MULTIPLIER = 0.5
+POWER_LEVEL_UP_MULTIPLIER = 0.2

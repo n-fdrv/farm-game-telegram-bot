@@ -28,5 +28,8 @@ class CharacterAction(Action):
 
     create_preview = f"{callback_data.CharacterData.__prefix__}-crpv"
 
+    exit_location_confirm = f"{callback_data.CharacterData.__prefix__}-exco"
+    exit_location = f"{callback_data.CharacterData.__prefix__}-exlo"
+
 
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
