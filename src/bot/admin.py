@@ -17,14 +17,18 @@ class UserAdmin(DjangoObjectActions, admin.ModelAdmin):
         ) as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=",")
             for row in queryset:
+                character = None
+                if row.character:
+                    character = row.character.name
                 spamwriter.writerow(
                     [
                         row.telegram_id,
                         row.first_name,
                         row.last_name,
                         row.telegram_username,
-                        row.character,
                         row.registration_date,
+                        row.is_admin,
+                        character,
                         row.is_active,
                     ]
                 )
@@ -43,13 +47,13 @@ class UserAdmin(DjangoObjectActions, admin.ModelAdmin):
     list_filter = ("is_active",)
     search_fields = ("telegram_id", "telegram_username")
 
-    def has_change_permission(self, request, obj=None):
-        """Запрещает изменять объект."""
-        return False
+    # def has_change_permission(self, request, obj=None):
+    #     """Запрещает изменять объект."""
+    #     return False
 
-    def has_delete_permission(self, request, obj=None):
-        """Запрещает удалять объект."""
-        return False
+    # def has_delete_permission(self, request, obj=None):
+    #     """Запрещает удалять объект."""
+    #     return False
 
     def has_add_permission(self, request):
         """Запрещает добавлять объект."""

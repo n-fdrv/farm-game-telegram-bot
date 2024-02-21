@@ -64,7 +64,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                 hunting_end = None
                 job_id = None
                 if row.current_location:
-                    location = row.current_location.id
+                    location = row.current_location.name
                     hunting_begin = row.hunting_begin
                     hunting_end = row.hunting_end
                     job_id = row.job_id
@@ -89,8 +89,8 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
             for character_item in CharacterItem.objects.all():
                 spamwriter.writerow(
                     [
-                        character_item.item.id,
-                        character_item.character.id,
+                        character_item.item.name,
+                        character_item.character.name,
                         character_item.amount,
                     ]
                 )
@@ -147,8 +147,8 @@ class LocationAdmin(DjangoObjectActions, admin.ModelAdmin):
             for location_drop in LocationDrop.objects.all():
                 spamwriter.writerow(
                     [
-                        location_drop.location.id,
-                        location_drop.item.id,
+                        location_drop.location.name,
+                        location_drop.item.name,
                         location_drop.min_amount,
                         location_drop.max_amount,
                         location_drop.chance,

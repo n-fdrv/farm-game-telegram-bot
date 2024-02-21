@@ -34,8 +34,8 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             for row in reader:
                 try:
-                    location = Location.objects.get(id=row[0])
-                    item = Item.objects.get(id=row[1])
+                    location = Location.objects.get(name=row[0])
+                    item = Item.objects.get(name=row[1])
                     LocationDrop.objects.get_or_create(
                         location=location,
                         item=item,

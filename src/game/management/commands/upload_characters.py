@@ -27,7 +27,7 @@ class Command(BaseCommand):
                         job_id=row[9],
                     )
                     if row[5]:
-                        location = Location.objects.get(id=row[5])
+                        location = Location.objects.get(name=row[5])
                         character.current_location = location
                         character.hunting_begin = row[6]
                         character.hunting_end = row[7]
@@ -51,8 +51,8 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             for row in reader:
                 try:
-                    character = Character.objects.get(id=row[1])
-                    item = Item.objects.get(id=row[0])
+                    character = Character.objects.get(name=row[1])
+                    item = Item.objects.get(name=row[0])
                     CharacterItem.objects.get_or_create(
                         character=character,
                         item=item,
