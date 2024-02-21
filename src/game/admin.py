@@ -1,11 +1,34 @@
-from django.contrib import admin
+import csv
 
-from game.models import Character, Item, Location
+from django.contrib import admin
+from django_object_actions import DjangoObjectActions
+
+from game.models import Character, CharacterItem, Item, Location, LocationDrop
 
 
 @admin.register(Item)
-class ItemAdmin(admin.ModelAdmin):
+class ItemAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью предметов."""
+
+    def download_csv(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/items.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.name,
+                        row.description,
+                        row.sell_price,
+                        row.buy_price,
+                        row.type,
+                    ]
+                )
+
+    download_csv.short_description = "Download selected as csv"
+    changelist_actions = ("download_csv",)
 
     list_display = (
         "name",
@@ -26,8 +49,54 @@ class CharacterItemInline(admin.TabularInline):
 
 
 @admin.register(Character)
-class CharacterAdmin(admin.ModelAdmin):
+class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью персонажей."""
+
+    def download_csv(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/characters.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                location = None
+                hunting_begin = None
+                hunting_end = None
+                job_id = None
+                if row.current_location:
+                    location = row.current_location.id
+                    hunting_begin = row.hunting_begin
+                    hunting_end = row.hunting_end
+                    job_id = row.job_id
+                spamwriter.writerow(
+                    [
+                        row.name,
+                        row.level,
+                        row.exp,
+                        row.exp_for_level_up,
+                        row.power,
+                        location,
+                        hunting_begin,
+                        hunting_end,
+                        row.max_hunting_time,
+                        job_id,
+                    ]
+                )
+        with open(
+            "data/character_items.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for character_item in CharacterItem.objects.all():
+                spamwriter.writerow(
+                    [
+                        character_item.item.id,
+                        character_item.character.id,
+                        character_item.amount,
+                    ]
+                )
+
+    download_csv.short_description = "Download selected as csv"
+    changelist_actions = ("download_csv",)
 
     list_display = (
         "name",
@@ -54,8 +123,40 @@ class LocationDropInline(admin.TabularInline):
 
 
 @admin.register(Location)
-class LocationAdmin(admin.ModelAdmin):
+class LocationAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью локаций."""
+
+    def download_csv(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/locations.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.name,
+                        row.required_power,
+                        row.exp,
+                    ]
+                )
+        with open(
+            "data/location_drop.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for location_drop in LocationDrop.objects.all():
+                spamwriter.writerow(
+                    [
+                        location_drop.location.id,
+                        location_drop.item.id,
+                        location_drop.min_amount,
+                        location_drop.max_amount,
+                        location_drop.chance,
+                    ]
+                )
+
+    download_csv.short_description = "Download selected as csv"
+    changelist_actions = ("download_csv",)
 
     list_display = (
         "name",
