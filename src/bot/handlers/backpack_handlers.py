@@ -43,7 +43,7 @@ async def backpack_get(
     )
     await callback.message.edit_text(
         text=backpack_messages.ITEM_GET_MESSAGE.format(
-            character_item.item.name,
+            character_item.item.name_with_grade,
             character_item.amount,
             character_item.item.description,
             character_item.item.sell_price,

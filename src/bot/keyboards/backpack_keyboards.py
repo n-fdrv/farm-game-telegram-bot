@@ -22,7 +22,7 @@ async def backpack_list(user: User, callback_data: BackpackData):
         character=user.character
     ):
         keyboard.button(
-            text=f"{item.item.name} - {item.amount} шт.",
+            text=f"{item.item.name_with_grade} - {item.amount} шт.",
             callback_data=BackpackData(
                 action=backpack_action.get,
                 page=callback_data.page,

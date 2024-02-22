@@ -142,7 +142,7 @@ async def exit_location(
     exp, drop_data = await get_hunting_loot(user.character)
     drop_text = ""
     for name, amount in drop_data.items():
-        drop_text += f"- <b>{name}</b> - {amount} шт.\n"
+        drop_text += f"<b>{name}</b> - {amount} шт.\n"
     if not drop_data:
         drop_text = "Не получено"
     await callback.message.edit_text(

@@ -23,6 +23,16 @@ class ItemType(models.TextChoices):
     ETC = "etc", "Разное"
 
 
+class ItemGrade(models.TextChoices):
+    """Типы информационных карт."""
+
+    COMMON = "common", "️⚪️ Обычный"
+    UNCOMMON = "uncommon", "🟤 Необычный"
+    RARE = "rare", "🔵 Редкий"
+    LEGENDARY = "legendary", "🟠 Легендарный"
+    EPIC = "epic", "🔴 Эпический"
+
+
 class Item(BaseGameModel):
     """Модель для хранения предметов."""
 
@@ -38,6 +48,12 @@ class Item(BaseGameModel):
         choices=ItemType.choices,
         verbose_name="Тип",
     )
+    grade = models.CharField(
+        max_length=16,
+        choices=ItemGrade.choices,
+        default=ItemGrade.COMMON,
+        verbose_name="Ранг",
+    )
 
     class Meta:
         verbose_name = "Предмет"
@@ -45,6 +61,11 @@ class Item(BaseGameModel):
 
     def __str__(self):
         return f"{self.name} | Type: {self.type}"
+
+    @property
+    def name_with_grade(self):
+        """Возвращает полное имя пользователя."""
+        return f"{self.get_grade_display()[:2]} {self.name}"
 
 
 class Character(BaseGameModel):

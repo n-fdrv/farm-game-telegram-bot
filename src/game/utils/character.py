@@ -93,8 +93,8 @@ async def get_hunting_loot(character: Character):
                     character=character, item=drop.item
                 )
                 if drop.item.name not in drop_data:
-                    drop_data[drop.item.name] = 0
-                drop_data[drop.item.name] += amount
+                    drop_data[drop.item.name_with_grade] = 0
+                drop_data[drop.item.name_with_grade] += amount
                 item.amount += amount
                 await item.asave(update_fields=("amount",))
     logger.info(

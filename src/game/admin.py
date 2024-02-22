@@ -24,6 +24,7 @@ class ItemAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.sell_price,
                         row.buy_price,
                         row.type,
+                        row.grade,
                     ]
                 )
 
@@ -35,8 +36,9 @@ class ItemAdmin(DjangoObjectActions, admin.ModelAdmin):
         "sell_price",
         "buy_price",
         "type",
+        "grade",
     )
-    list_filter = ("type",)
+    list_filter = ("type", "grade")
     list_display_links = ("name",)
     search_fields = ("name",)
 

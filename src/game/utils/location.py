@@ -11,7 +11,7 @@ async def get_location_info(character: Character, location: Location) -> str:
     """Возвращает сообщение с данными о персонаже."""
     drop_data = ""
     async for item in location.drop.all():
-        drop_data += f"- <b>{item.name}</b>\n"
+        drop_data += f"<b>{item.name_with_grade}</b>\n"
     drop_multiplier = character.power / location.required_power * 100 - 100
     drop_text = f"штраф {drop_multiplier}"
     if drop_multiplier > 0:
