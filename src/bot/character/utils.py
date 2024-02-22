@@ -1,13 +1,14 @@
 import re
 from random import randint
 
-from character.models import Character, CharacterItem
+from character.models import Character, CharacterClass, CharacterItem
 from django.conf import settings
 from django.utils import timezone
 from location.models import LocationDrop
 from loguru import logger
 
 from bot.character.messages import CHARACTER_INFO_MESSAGE
+from bot.models import User
 from bot.utils.schedulers import remove_scheduler
 
 
@@ -21,6 +22,21 @@ def check_nickname_correct(nickname: str) -> bool:
     if not re.search("^[А-Яа-яA-Za-z0-9]{1,16}$", nickname):
         return False
     return True
+
+
+async def create_character(
+    user: User, name: str, character_class: CharacterClass
+) -> Character:
+    """Создает персонажа и присваивает его пользователю."""
+    character = await Character.objects.acreate(
+        name=name,
+        character_class=character_class,
+        attack=character_class.attack,
+        defence=character_class.defence,
+    )
+    user.character = character
+    await user.asave(update_fields=("character",))
+    return character
 
 
 def get_character_info(character: Character) -> str:
@@ -41,7 +57,8 @@ def get_character_info(character: Character) -> str:
         character.name,
         character.level,
         exp_in_percent,
-        character.power,
+        character.attack,
+        character.defence,
         location,
     )
 

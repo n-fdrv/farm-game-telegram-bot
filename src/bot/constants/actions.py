@@ -27,6 +27,8 @@ class CharacterAction(Action):
     """Действия для хендлеров персонажа."""
 
     create_preview = f"{callback_data.CharacterData.__prefix__}-crpv"
+    class_list = f"{callback_data.CharacterData.__prefix__}-clli"
+    class_get = f"{callback_data.CharacterData.__prefix__}-clge"
 
 
 class LocationAction(Action):
