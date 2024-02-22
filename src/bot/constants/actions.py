@@ -44,6 +44,17 @@ class BackpackAction(Action):
     pass
 
 
+class ShopAction(Action):
+    """Действия для хендлеров магазина."""
+
+    buy_list = f"{callback_data.ShopData.__prefix__}-buli"
+    buy_get = f"{callback_data.ShopData.__prefix__}-buge"
+
+    sell_list = f"{callback_data.ShopData.__prefix__}-seli"
+    sell_get = f"{callback_data.ShopData.__prefix__}-sege"
+
+
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
 location_action = LocationAction(callback_data.LocationData.__prefix__)
 backpack_action = BackpackAction(callback_data.BackpackData.__prefix__)
+shop_action = ShopAction(callback_data.ShopData.__prefix__)

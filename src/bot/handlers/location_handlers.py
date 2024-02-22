@@ -1,7 +1,7 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
-from game.models import Location
 from game.utils.location import enter_location, get_location_info
+from location.models import Location
 
 from bot.constants.actions import location_action
 from bot.constants.callback_data import LocationData

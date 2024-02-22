@@ -1,9 +1,10 @@
 import csv
 
 from django.core.management.base import BaseCommand
+from item.models import Item
 from loguru import logger
 
-from game.models import Item, Location, LocationDrop
+from location.models import Location, LocationDrop
 
 
 class Command(BaseCommand):
@@ -13,15 +14,16 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         """Метод при вызове команды."""
-        with open("data/locations.csv", encoding="utf-8") as f:
+        with open("data/locations/locations.csv", encoding="utf-8") as f:
             logger.info("Locations upload started")
             reader = csv.reader(f)
             for row in reader:
                 try:
                     Location.objects.get_or_create(
                         name=row[0],
-                        required_power=row[1],
-                        exp=row[2],
+                        attack=row[1],
+                        defence=row[2],
+                        exp=row[3],
                     )
                 except Exception as e:
                     logger.error(
@@ -29,7 +31,7 @@ class Command(BaseCommand):
                     )
                     raise e
             logger.info("Locations upload ended")
-        with open("data/location_drop.csv", encoding="utf-8") as f:
+        with open("data/locations/location_drop.csv", encoding="utf-8") as f:
             logger.info("Location Drop upload started")
             reader = csv.reader(f)
             for row in reader:

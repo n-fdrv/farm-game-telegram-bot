@@ -1,11 +1,11 @@
 import re
 from random import randint
 
+from character.models import Character, CharacterItem
 from django.conf import settings
 from django.utils import timezone
+from location.models import LocationDrop
 from loguru import logger
-
-from game.models import Character, CharacterItem, LocationDrop
 
 from bot.constants.messages.character_messages import CHARACTER_INFO_MESSAGE
 from bot.utils.schedulers import remove_scheduler

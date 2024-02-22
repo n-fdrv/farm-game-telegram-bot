@@ -1,5 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from game.models import CharacterItem
+from character.models import CharacterItem
 
 from bot.constants.actions import (
     backpack_action,

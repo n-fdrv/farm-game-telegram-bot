@@ -20,6 +20,7 @@ from bot.handlers import (
     character_handlers,
     command_handlers,
     location_handlers,
+    shop_handlers,
 )
 
 
@@ -56,6 +57,7 @@ class AiogramApp:
             character_handlers.router,
             location_handlers.router,
             backpack_handlers.router,
+            shop_handlers.router,
         ]
         self._download_routes(routes)
         asyncio.ensure_future(

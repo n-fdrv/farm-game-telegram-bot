@@ -1,6 +1,6 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
-from game.models import Character
+from character.models import Character
 from game.utils.character import (
     check_nickname_correct,
     check_nickname_exist,

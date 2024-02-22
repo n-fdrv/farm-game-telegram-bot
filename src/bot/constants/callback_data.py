@@ -25,14 +25,21 @@ class LocationData(BaseCallbackData, prefix="loc"):
 
 
 class BackpackData(BaseCallbackData, prefix="bp"):
-    """Данные для хенжлеров локаций."""
+    """Данные для хенжлеров инвентаря."""
 
     user_id: Optional[int] = None
     item_id: Optional[int] = None
+
+
+class ShopData(BaseCallbackData, prefix="sh"):
+    """Данные для хенжлеров магазина."""
+
+    pass
 
 
 CALLBACK_DATA_PREFIX = {
     CharacterData.__prefix__: CharacterData,
     LocationData.__prefix__: LocationData,
     BackpackData.__prefix__: BackpackData,
+    ShopData.__prefix__: ShopData,
 }

@@ -1,6 +1,6 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
-from game.models import CharacterItem
+from character.models import CharacterItem
 
 from bot.constants.actions import backpack_action
 from bot.constants.callback_data import BackpackData

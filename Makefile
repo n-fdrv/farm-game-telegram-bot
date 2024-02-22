@@ -44,6 +44,12 @@ collectstatic: # Собрать статику Django
 createsuperuser: # Создать супер пользователя
 	poetry run python src/manage.py createsuperuser --noinput
 
+upload-items: # Загрузить данные
+	cd src && poetry run python manage.py upload_armors && poetry run python manage.py upload_etc && poetry run python manage.py upload_materials && poetry run python manage.py upload_scrolls && poetry run python manage.py upload_weapons && cd ..
+
+upload-locations: # Загрузить данные
+	cd src && poetry run python manage.py upload_locations && cd ..
+
 upload-data: # Загрузить данные
 	cd src && poetry run python manage.py upload_items && poetry run python manage.py upload_locations && poetry run python manage.py upload_characters && poetry run python manage.py upload_users && cd ..
 
@@ -53,7 +59,7 @@ run-app: # Запуск Django и Telegram бота
 	echo -e "$(COLOR_GREEN)Bot stopped$(COLOR_RESET)"
 
 bot-init: # Базовая команда для запуска БД, миграций, бота и джанго
-	make clear-db start-db migrate collectstatic createsuperuser upload-data run-app
+	make clear-db start-db migrate collectstatic createsuperuser run-app
 
 bot-existing-bd: # запуск бота и контейнера PostgreSQL с существующими данными в БД:
 	make start-db run-app

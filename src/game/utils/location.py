@@ -1,8 +1,8 @@
 import datetime
 
+from character.models import Character
 from django.utils import timezone
-
-from game.models import Character, Location
+from location.models import Location
 
 from bot.constants.messages import location_messages
 

@@ -1,5 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from game.models import Location
+from location.models import Location
 
 from bot.constants.actions import character_action, location_action
 from bot.constants.buttons import (

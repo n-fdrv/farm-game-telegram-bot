@@ -1,5 +1,5 @@
+from character.models import Character
 from django.db import models
-from game.models import Character
 
 
 class User(models.Model):
