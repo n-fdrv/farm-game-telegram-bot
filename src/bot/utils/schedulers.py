@@ -4,8 +4,8 @@ from apscheduler.jobstores.base import JobLookupError
 from django.apps import apps
 from loguru import logger
 
-from bot.constants.messages.location_messages import HUNTING_END_MESSAGE
-from bot.keyboards.location_keyboards import location_exit
+from bot.location.keyboards import get_drop_keyboard
+from bot.location.messages import HUNTING_END_MESSAGE
 from bot.models import User
 from core.config.logging import log_schedulers
 
@@ -36,7 +36,7 @@ async def send_message_to_all_users(text: str):
 async def hunting_end_scheduler(user: User):
     """Шедулер отправки сообщения об окончании охоты."""
     bot, scheduler = await get_bot_and_scheduler()
-    keyboard = await location_exit()
+    keyboard = await get_drop_keyboard()
     job = scheduler.add_job(
         bot.send_message,
         "date",

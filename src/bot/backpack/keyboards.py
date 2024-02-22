@@ -1,12 +1,10 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from character.models import CharacterItem
 
+from bot.command.buttons import BACK_BUTTON
 from bot.constants.actions import (
     backpack_action,
     character_action,
-)
-from bot.constants.buttons import (
-    main_buttons,
 )
 from bot.constants.callback_data import (
     BackpackData,
@@ -15,7 +13,7 @@ from bot.models import User
 from bot.utils.paginator import Paginator
 
 
-async def backpack_list(user: User, callback_data: BackpackData):
+async def backpack_list_keyboard(user: User, callback_data: BackpackData):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
     async for item in CharacterItem.objects.select_related("item").filter(
@@ -37,16 +35,16 @@ async def backpack_list(user: User, callback_data: BackpackData):
         page=callback_data.page,
     )
     return paginator.get_paginator_with_button(
-        main_buttons.BACK_BUTTON, character_action.get
+        BACK_BUTTON, character_action.get
     )
 
 
-async def item_get(callback_data: BackpackData):
+async def item_get_keyboard(callback_data: BackpackData):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
     # TODO Использовать/надеть предмет
     keyboard.button(
-        text=main_buttons.BACK_BUTTON,
+        text=BACK_BUTTON,
         callback_data=BackpackData(
             action=backpack_action.list, page=callback_data.page
         ),

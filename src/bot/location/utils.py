@@ -4,7 +4,7 @@ from character.models import Character
 from django.utils import timezone
 from location.models import Location
 
-from bot.constants.messages import location_messages
+from bot.location.messages import LOCATION_GET_MESSAGE
 
 
 async def get_location_info(character: Character, location: Location) -> str:
@@ -16,7 +16,7 @@ async def get_location_info(character: Character, location: Location) -> str:
     drop_text = f"штраф {drop_multiplier}"
     if drop_multiplier > 0:
         drop_text = f"бонус {drop_multiplier}"
-    return location_messages.LOCATION_GET_MESSAGE.format(
+    return LOCATION_GET_MESSAGE.format(
         location.name,
         location.required_power,
         character.power - location.required_power,

@@ -14,9 +14,3 @@ CHARACTER_INFO_MESSAGE = (
     "Боевая мощь: <b>{}</b>\n\n"
     "Локация: {}"
 )
-
-EXIT_LOCATION_CONFIRMATION_MESSAGE = "Вы уверены, что хотите выйти из Локации?"
-
-EXIT_LOCATION_MESSAGE = (
-    "Вы вернулись в город!\n\n" "Получено: {} опыта\n" "Трофеев: \n{}"
-)

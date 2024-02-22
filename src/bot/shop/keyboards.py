@@ -2,42 +2,40 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from character.models import CharacterItem
 from item.models import Item
 
+from bot.command.buttons import BACK_BUTTON
 from bot.constants.actions import (
     character_action,
     shop_action,
-)
-from bot.constants.buttons import (
-    main_buttons,
-    shop_buttons,
 )
 from bot.constants.callback_data import (
     CharacterData,
     ShopData,
 )
 from bot.models import User
+from bot.shop.buttons import BUY_BUTTON, SELL_BUTTON
 from bot.utils.paginator import Paginator
 
 
-async def shop_get():
+async def shop_get_keyboard():
     """Клавиатура для магазина."""
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
-        text=shop_buttons.BUY_BUTTON,
+        text=BUY_BUTTON,
         callback_data=ShopData(action=shop_action.buy_list),
     )
     keyboard.button(
-        text=shop_buttons.SELL_BUTTON,
+        text=SELL_BUTTON,
         callback_data=ShopData(action=shop_action.sell_list),
     )
     keyboard.button(
-        text=main_buttons.BACK_BUTTON,
+        text=BACK_BUTTON,
         callback_data=CharacterData(action=character_action.get),
     )
     keyboard.adjust(1)
     return keyboard
 
 
-async def buy_list(callback_data: ShopData):
+async def buy_list_keyboard(callback_data: ShopData):
     """Клавиатура для списка покупок."""
     keyboard = InlineKeyboardBuilder()
     async for item in Item.objects.exclude(buy_price=0):
@@ -56,12 +54,10 @@ async def buy_list(callback_data: ShopData):
         size=6,
         page=callback_data.page,
     )
-    return paginator.get_paginator_with_button(
-        main_buttons.BACK_BUTTON, shop_action.get
-    )
+    return paginator.get_paginator_with_button(BACK_BUTTON, shop_action.get)
 
 
-async def sell_list(user: User, callback_data: ShopData):
+async def sell_list_keyboard(user: User, callback_data: ShopData):
     """Клавиатура для списка продаж."""
     keyboard = InlineKeyboardBuilder()
     async for item in CharacterItem.objects.select_related("item").exclude(
@@ -82,6 +78,4 @@ async def sell_list(user: User, callback_data: ShopData):
         size=6,
         page=callback_data.page,
     )
-    return paginator.get_paginator_with_button(
-        main_buttons.BACK_BUTTON, shop_action.get
-    )
+    return paginator.get_paginator_with_button(BACK_BUTTON, shop_action.get)

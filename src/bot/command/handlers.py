@@ -3,17 +3,21 @@ from aiogram.filters import KICKED, ChatMemberUpdatedFilter, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import ChatMemberUpdated
 
+from bot.command.keyboards import start_keyboard, user_created_keyboard
+from bot.command.messages import (
+    CHARACTER_MESSAGE,
+    NOT_CREATED_CHARACTER_MESSAGE,
+    START_MESSAGE,
+)
 from bot.constants import commands
-from bot.constants.messages import main_menu_messages
-from bot.keyboards import main_keyboards
 from bot.models import User
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
-router = Router()
+command_router = Router()
 
 
-@router.message(Command(commands.START_COMMAND))
+@command_router.message(Command(commands.START_COMMAND))
 @log_in_dev
 async def start_handler(message: types.Message, state: FSMContext):
     """Хендлер при нажатии кнопки start."""
@@ -32,43 +36,45 @@ async def start_handler(message: types.Message, state: FSMContext):
     await user.asave(
         update_fields=("first_name", "last_name", "telegram_username")
     )
-    keyboard = await main_keyboards.main_keyboard()
+    keyboard = await start_keyboard()
     if not user.character:
         await message.answer(
-            text=main_menu_messages.START_MESSAGE,
+            text=START_MESSAGE,
             reply_markup=keyboard.as_markup(resize_keyboard=True),
         )
-        inline_keyboard = await main_keyboards.user_created_keyboard()
+        inline_keyboard = await user_created_keyboard()
         await message.answer(
-            text=main_menu_messages.NOT_CREATED_CHARACTER_MESSAGE,
+            text=NOT_CREATED_CHARACTER_MESSAGE,
             reply_markup=inline_keyboard.as_markup(),
         )
         return
     await message.answer(
-        text=main_menu_messages.START_MESSAGE,
+        text=START_MESSAGE,
         reply_markup=keyboard.as_markup(resize_keyboard=True),
     )
     await message.answer(
-        text=main_menu_messages.CHARACTER_MESSAGE,
+        text=CHARACTER_MESSAGE,
         # TODO Клавиатура в зависимости от того где находится персонаж
     )
 
 
-@router.message(Command(commands.HELP_COMMAND))
+@command_router.message(Command(commands.HELP_COMMAND))
 @log_in_dev
 async def help_handler(message: types.Message, state: FSMContext):
     """Хендлер команды help."""
     await message.answer(text="HELP_MESSAGE")
 
 
-@router.message(Command(commands.SUPPORT_COMMAND))
+@command_router.message(Command(commands.SUPPORT_COMMAND))
 @log_in_dev
 async def support_handler(message: types.Message, state: FSMContext):
     """Хендлер команды rules."""
     await message.answer(text="SUPPORT_MESSAGE")
 
 
-@router.my_chat_member(ChatMemberUpdatedFilter(member_status_changed=KICKED))
+@command_router.my_chat_member(
+    ChatMemberUpdatedFilter(member_status_changed=KICKED)
+)
 @log_in_dev
 async def block_handler(event: ChatMemberUpdated, state: FSMContext):
     """Хендлер при блокировке бота."""

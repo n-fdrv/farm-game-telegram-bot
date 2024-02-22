@@ -14,14 +14,12 @@ from django.conf import settings
 from loguru import logger
 from redis.asyncio.client import Redis
 
+from bot.backpack.handlers import backpack_router
+from bot.character.handlers import character_router
+from bot.command.handlers import command_router
 from bot.constants import commands
-from bot.handlers import (
-    backpack_handlers,
-    character_handlers,
-    command_handlers,
-    location_handlers,
-    shop_handlers,
-)
+from bot.location.handlers import location_router
+from bot.shop.handlers import shop_router
 
 
 async def on_startup(bot: Bot):
@@ -53,11 +51,11 @@ class AiogramApp:
     def start(self) -> None:
         """Запускает бота."""
         routes = [
-            command_handlers.router,
-            character_handlers.router,
-            location_handlers.router,
-            backpack_handlers.router,
-            shop_handlers.router,
+            command_router,
+            character_router,
+            location_router,
+            backpack_router,
+            shop_router,
         ]
         self._download_routes(routes)
         asyncio.ensure_future(
