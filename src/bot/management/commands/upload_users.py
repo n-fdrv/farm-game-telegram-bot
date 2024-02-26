@@ -1,7 +1,7 @@
 import csv
 
+from character.models import Character
 from django.core.management.base import BaseCommand
-from game.models import Character
 from loguru import logger
 
 from bot.models import User

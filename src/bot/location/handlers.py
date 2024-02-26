@@ -17,7 +17,7 @@ from bot.location.messages import (
     LOCATION_LIST_MESSAGE,
 )
 from bot.location.utils import enter_location, get_location_info
-from bot.utils.schedulers import hunting_end_scheduler
+from bot.utils.schedulers import hunting_end_scheduler, remove_scheduler
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -50,11 +50,10 @@ async def location_get(
     callback_data: LocationData,
 ):
     """Коллбек получения локации."""
-    user = await get_user(callback.from_user.id)
     keyboard = await location_get_keyboard(callback_data)
     location = await Location.objects.aget(pk=callback_data.id)
     await callback.message.edit_text(
-        text=await get_location_info(user.character, location),
+        text=await get_location_info(location),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -75,7 +74,7 @@ async def location_enter(
     await callback.message.edit_text(
         text=LOCATION_ENTER_MESSAGE.format(
             location.name,
-            user.character.max_hunting_time,
+            user.character.hunting_end.strftime("%d.%m.%Y %H:%M:%S"),
         ),
     )
     await hunting_end_scheduler(user)
@@ -116,6 +115,7 @@ async def exit_location(
     if not user.character.current_location:
         await callback.message.delete()
         return
+    await remove_scheduler(user.character.job_id)
     exp, drop_data = await get_hunting_loot(user.character)
     drop_text = ""
     for name, amount in drop_data.items():

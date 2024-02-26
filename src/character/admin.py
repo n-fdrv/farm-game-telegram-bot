@@ -52,7 +52,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     def download_csv(modeladmin, request, queryset):
         """Сформировать файл с данными базы."""
         with open(
-            "data/characters.csv", "w", newline="", encoding="utf-8"
+            "data/characters/characters.csv", "w", newline="", encoding="utf-8"
         ) as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=",")
             for row in queryset:
@@ -82,7 +82,10 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                     ]
                 )
         with open(
-            "data/character_items.csv", "w", newline="", encoding="utf-8"
+            "data/characters/character_items.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
         ) as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=",")
             for character_item in CharacterItem.objects.all():

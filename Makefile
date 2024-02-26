@@ -50,8 +50,8 @@ upload-items: # Загрузить данные
 upload-locations: # Загрузить данные
 	cd src && poetry run python manage.py upload_locations && cd ..
 
-upload-data: # Загрузить данные
-	cd src && poetry run python manage.py upload_items && poetry run python manage.py upload_locations && poetry run python manage.py upload_characters && poetry run python manage.py upload_users && cd ..
+upload-characters: # Загрузить данные
+	cd src && poetry run python manage.py upload_characters && poetry run python manage.py upload_users && cd ..
 
 run-app: # Запуск Django и Telegram бота
 	@echo -e "$(COLOR_YELLOW)Starting bot...$(COLOR_RESET)"
@@ -59,7 +59,7 @@ run-app: # Запуск Django и Telegram бота
 	echo -e "$(COLOR_GREEN)Bot stopped$(COLOR_RESET)"
 
 bot-init: # Базовая команда для запуска БД, миграций, бота и джанго
-	make clear-db start-db migrate collectstatic createsuperuser run-app
+	make clear-db start-db migrate collectstatic createsuperuser upload-items upload-locations run-app
 
 bot-existing-bd: # запуск бота и контейнера PostgreSQL с существующими данными в БД:
 	make start-db run-app

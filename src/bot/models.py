@@ -31,6 +31,7 @@ class User(models.Model):
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
+        related_name="user",
         verbose_name="Персонаж",
     )
     is_active = models.BooleanField(default=True, verbose_name="Активен")

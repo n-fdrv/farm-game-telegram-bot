@@ -7,9 +7,11 @@ from django.utils import timezone
 from location.models import LocationDrop
 from loguru import logger
 
-from bot.character.messages import CHARACTER_INFO_MESSAGE
+from bot.character.messages import (
+    CHARACTER_INFO_MESSAGE,
+    CHARACTER_KILL_MESSAGE,
+)
 from bot.models import User
-from bot.utils.schedulers import remove_scheduler
 
 
 async def check_nickname_exist(nickname: str) -> bool:
@@ -65,7 +67,7 @@ def get_character_info(character: Character) -> str:
 
 async def get_hunting_hours_with_effects(character: Character):
     """Метод получения часов охоты с эффектами."""
-    buff_percent = character.power / character.current_location.required_power
+    buff_percent = character.attack / character.current_location.attack
     hunting_end_time = timezone.now()
     if hunting_end_time > character.hunting_end:
         hunting_end_time = character.hunting_end
@@ -85,11 +87,21 @@ async def get_exp(character: Character, exp_amount: int):
         character.exp_for_level_up += (
             character.exp_for_level_up * settings.EXP_FOR_LEVEL_UP_MULTIPLIER
         )
-        character.power += character.power * settings.POWER_LEVEL_UP_MULTIPLIER
+        character.attack += character.character_class.attack_level_increase
+        character.defence += character.character_class.defence_level_increase
         character.level += 1
     await character.asave(
-        update_fields=("level", "exp", "exp_for_level_up", "power")
+        update_fields=("level", "exp", "exp_for_level_up", "attack", "defence")
     )
+    return character
+
+
+async def remove_exp(character: Character, exp_amount: int):
+    """Метод отнятия опыта."""
+    character.exp -= exp_amount
+    if character.exp < 0:
+        character.exp = 0
+    await character.asave(update_fields=("exp",))
     return character
 
 
@@ -122,7 +134,6 @@ async def get_hunting_loot(character: Character):
     character.current_location = None
     character.hunting_begin = None
     character.hunting_end = None
-    await remove_scheduler(character.job_id)
     character.job_id = None
     await character.asave(
         update_fields=(
@@ -133,3 +144,22 @@ async def get_hunting_loot(character: Character):
         )
     )
     return exp_gained, drop_data
+
+
+async def kill_character(character: Character, bot):
+    """Убийство персонажа."""
+    character.hunting_end = timezone.now()
+    await character.asave(update_fields=("hunting_end",))
+    exp_gained, drop_data = await get_hunting_loot(character)
+    lost_exp = character.exp_for_level_up // 10
+    await remove_exp(character, lost_exp)
+    drop_text = ""
+    for name, amount in drop_data.items():
+        drop_text += f"<b>{name}</b> - {amount} шт.\n"
+    if not drop_data:
+        drop_text = "Не получено"
+    user = await User.objects.aget(character=character)
+    await bot.send_message(
+        user.telegram_id,
+        CHARACTER_KILL_MESSAGE.format(exp_gained - lost_exp, drop_text),
+    )

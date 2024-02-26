@@ -56,7 +56,7 @@ async def get_drop_keyboard():
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
         text=GET_DROP_MESSAGE,
-        callback_data=CharacterData(action=character_action.exit_location),
+        callback_data=LocationData(action=location_action.exit_location),
     )
     keyboard.adjust(1)
     return keyboard
@@ -67,7 +67,7 @@ async def exit_location_confirmation():
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
         text=YES_BUTTON,
-        callback_data=CharacterData(action=character_action.exit_location),
+        callback_data=LocationData(action=location_action.exit_location),
     )
     keyboard.button(
         text=NO_BUTTON,

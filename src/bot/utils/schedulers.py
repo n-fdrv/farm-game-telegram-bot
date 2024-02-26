@@ -1,9 +1,11 @@
 import datetime
 
 from apscheduler.jobstores.base import JobLookupError
+from character.models import Character
 from django.apps import apps
 from loguru import logger
 
+from bot.character.utils import kill_character
 from bot.location.keyboards import get_drop_keyboard
 from bot.location.messages import HUNTING_END_MESSAGE
 from bot.models import User
@@ -59,3 +61,27 @@ async def remove_scheduler(job_id: str):
         scheduler.remove_job(job_id)
     except JobLookupError:
         logger.warning("Не удалось удалить job т.к. его не существует")
+
+
+@log_schedulers
+async def kill_character_scheduler(character: Character, date):
+    """Шедулер убийства персонажа."""
+    bot, scheduler = await get_bot_and_scheduler()
+    scheduler.add_job(
+        kill_character,
+        "date",
+        run_date=date,
+        args=[character, bot],
+    )
+
+
+@log_schedulers
+async def send_message_to_user(user_id: int, text: str):
+    """Шедулер отправки сообщения пользователю."""
+    bot, scheduler = await get_bot_and_scheduler()
+    scheduler.add_job(
+        bot.send_message,
+        "date",
+        run_date=datetime.datetime.now(),
+        args=[user_id, text],
+    )
