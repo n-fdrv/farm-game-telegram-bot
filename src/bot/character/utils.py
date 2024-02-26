@@ -79,6 +79,15 @@ async def get_hunting_hours_with_effects(character: Character):
     return hunting_hours
 
 
+async def get_hunting_minutes(character: Character):
+    """Метод получения минут охоты."""
+    hunting_end_time = timezone.now()
+    if hunting_end_time > character.hunting_end:
+        hunting_end_time = character.hunting_end
+    minutes = (hunting_end_time - character.hunting_begin).seconds / 60
+    return int(minutes)
+
+
 async def get_exp(character: Character, exp_amount: int):
     """Метод получения опыта."""
     character.exp += exp_amount
@@ -107,21 +116,27 @@ async def remove_exp(character: Character, exp_amount: int):
 
 async def get_hunting_loot(character: Character):
     """Метод получения трофеев с охоты."""
-    hunting_hours = await get_hunting_hours_with_effects(character)
-    exp_gained = int(character.current_location.exp * hunting_hours)
+    hunting_minutes = await get_hunting_minutes(character)
+    exp_gained = int(character.current_location.exp * hunting_minutes)
     drop_data = {}
+    drop_modifier = character.attack / character.current_location.attack
     await get_exp(character, exp_gained)
     async for drop in LocationDrop.objects.select_related(
         "item", "location"
     ).filter(location=character.current_location):
-        for _hour in range(int(hunting_hours)):
-            success = randint(1, 100) <= drop.chance
+        for _minute in range(hunting_minutes):
+            chance = drop.chance * drop_modifier
+            random = randint(1, 100)
+            success = random <= chance
+            if random == 1 and chance < 1:
+                success = randint(1, 100) <= chance * 100
+
             if success:
                 amount = randint(drop.min_amount, drop.max_amount)
                 item, created = await CharacterItem.objects.aget_or_create(
                     character=character, item=drop.item
                 )
-                if drop.item.name not in drop_data:
+                if drop.item.name_with_grade not in drop_data:
                     drop_data[drop.item.name_with_grade] = 0
                 drop_data[drop.item.name_with_grade] += amount
                 item.amount += amount
@@ -129,7 +144,7 @@ async def get_hunting_loot(character: Character):
     logger.info(
         f"{character} - Вышел из {character.current_location} "
         f"и получил {exp_gained} опыта и "
-        f"{drop_data} зв {hunting_hours} времени"
+        f"{drop_data} за {hunting_minutes} минут"
     )
     character.current_location = None
     character.hunting_begin = None

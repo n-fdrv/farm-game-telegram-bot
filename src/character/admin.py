@@ -25,6 +25,8 @@ class CharacterClassAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.defence,
                         row.attack_level_increase,
                         row.defence_level_increase,
+                        row.armor_type,
+                        row.weapon_type,
                     ]
                 )
 

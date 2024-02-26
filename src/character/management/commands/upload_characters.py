@@ -28,6 +28,8 @@ class Command(BaseCommand):
                         defence=row[3],
                         attack_level_increase=row[4],
                         defence_level_increase=row[5],
+                        armor_type=row[6],
+                        weapon_type=row[7],
                     )
                 except Exception as e:
                     logger.error(

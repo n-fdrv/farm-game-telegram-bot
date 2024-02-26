@@ -7,7 +7,6 @@ from location.models import Location
 
 from bot.location.messages import LOCATION_GET_MESSAGE
 from bot.utils.schedulers import (
-    hunting_end_scheduler,
     kill_character_scheduler,
 )
 
@@ -48,5 +47,3 @@ async def enter_location(character: Character, location: Location):
             seconds=randint(1, farm_seconds),
         )
         await kill_character_scheduler(character, end_of_hunting)
-        return
-    await hunting_end_scheduler(character)

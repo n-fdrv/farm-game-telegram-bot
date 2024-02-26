@@ -17,7 +17,7 @@ class Location(BaseLocationModel):
     attack = models.IntegerField(verbose_name="Требуемая атака персонажа")
     defence = models.IntegerField(verbose_name="Требуемая защита персонажа")
     exp = models.IntegerField(
-        default=100, verbose_name="Количество опыта в час"
+        default=1, verbose_name="Количество опыта в минуту"
     )
     drop = models.ManyToManyField(
         Item, through="LocationDrop", related_name="drop"
@@ -41,13 +41,13 @@ class LocationDrop(models.Model):
         Item, on_delete=models.CASCADE, verbose_name="Предмет"
     )
     min_amount = models.IntegerField(
-        default=1, verbose_name="Минимальное количество в час"
+        default=1, verbose_name="Минимальное количество"
     )
     max_amount = models.IntegerField(
-        default=1, verbose_name="Максимальное количество в час"
+        default=1, verbose_name="Максимальное количество"
     )
-    chance = models.IntegerField(
-        default=1, verbose_name="Шанс в процентах в час"
+    chance = models.FloatField(
+        default=1, verbose_name="Шанс в процентах в минуту"
     )
 
     class Meta:
