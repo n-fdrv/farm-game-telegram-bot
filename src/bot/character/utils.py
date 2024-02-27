@@ -63,6 +63,12 @@ async def get_character_property(
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
     }
     chosen_property = property_data[effect_property]
+    if effect_property == EffectProperty.HUNTING_TIME:
+        chosen_property = (
+            character.max_hunting_time.hour * 3600
+            + character.max_hunting_time.minute * 60
+            + character.max_hunting_time.second
+        ) / 60
     async for effect in SkillEffect.objects.filter(
         property=effect_property, skill__in=character.skills.all()
     ).order_by("-in_percent"):
@@ -102,20 +108,6 @@ async def get_character_info(character: Character) -> str:
         await get_character_property(character, EffectProperty.DEFENCE),
         location,
     )
-
-
-async def get_hunting_hours_with_effects(character: Character):
-    """Метод получения часов охоты с эффектами."""
-    buff_percent = character.attack / character.current_location.attack
-    hunting_end_time = timezone.now()
-    if hunting_end_time > character.hunting_end:
-        hunting_end_time = character.hunting_end
-    hunting_hours = (
-        (hunting_end_time - character.hunting_begin).seconds
-        * buff_percent
-        / 3600
-    )
-    return hunting_hours
 
 
 async def get_hunting_minutes(character: Character):

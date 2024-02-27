@@ -50,10 +50,11 @@ async def location_get(
     callback_data: LocationData,
 ):
     """Коллбек получения локации."""
+    user = await get_user(callback.from_user.id)
     keyboard = await location_get_keyboard(callback_data)
     location = await Location.objects.aget(pk=callback_data.id)
     await callback.message.edit_text(
-        text=await get_location_info(location),
+        text=await get_location_info(user.character, location),
         reply_markup=keyboard.as_markup(),
     )
 
