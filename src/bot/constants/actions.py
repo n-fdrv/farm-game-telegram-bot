@@ -30,6 +30,11 @@ class CharacterAction(Action):
     class_list = f"{callback_data.CharacterData.__prefix__}-clli"
     class_get = f"{callback_data.CharacterData.__prefix__}-clge"
 
+    skill_list = f"{callback_data.CharacterData.__prefix__}-skli"
+    skill_get = f"{callback_data.CharacterData.__prefix__}-skge"
+
+    about = f"{callback_data.CharacterData.__prefix__}-ab"
+
 
 class LocationAction(Action):
     """Действия для хендлеров локаций."""

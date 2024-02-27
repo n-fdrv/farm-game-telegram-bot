@@ -36,7 +36,12 @@ class Skill(models.Model):
         verbose_name_plural = "Умения"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} Ур. {self.level}"
+
+    @property
+    def name_with_level(self):
+        """Возвращает имя умения с уровнем."""
+        return f"{self.name} Ур. {self.level}"
 
 
 class SkillEffect(models.Model):

@@ -39,3 +39,7 @@ CHARACTER_KILL_MESSAGE = (
     "За время охоты получено: {} опыта\n"
     'Трофеев: \n{}"'
 )
+
+SKILL_LIST_MESSAGE = "Умения вашего персонажа:"
+
+SKILL_GET_MESSAGE = "<b>{}</b>\n\n" "{}\n" "Эффекты:\n{}"

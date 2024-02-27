@@ -1,7 +1,7 @@
 import random
 import re
 
-from character.models import Character, CharacterClass, CharacterItem
+from character.models import Character, CharacterClass, CharacterItem, Skill
 from django.conf import settings
 from django.utils import timezone
 from location.models import LocationDrop
@@ -36,6 +36,9 @@ async def create_character(
         attack=character_class.attack,
         defence=character_class.defence,
     )
+
+    async for skill in character_class.skills.all():
+        await character.skills.aadd(skill)
     user.character = character
     await user.asave(update_fields=("character",))
     return character
@@ -174,3 +177,14 @@ async def kill_character(character: Character, bot):
         user.telegram_id,
         CHARACTER_KILL_MESSAGE.format(exp_gained - lost_exp, drop_text),
     )
+
+
+async def get_skill_effects_info(skill: Skill):
+    """Метод получения текста эффектов умения."""
+    text = ""
+    async for effect in skill.effect.all():
+        text += f"- {effect.get_property_display()}: {effect.amount}"
+        if effect.in_percent:
+            text += "%"
+        text += "\n"
+    return text
