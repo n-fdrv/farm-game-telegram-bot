@@ -18,6 +18,7 @@ from bot.backpack.handlers import backpack_router
 from bot.character.handlers import character_router
 from bot.command.handlers import command_router
 from bot.constants import commands
+from bot.craft.handlers import craft_router
 from bot.location.handlers import location_router
 from bot.shop.handlers import shop_router
 
@@ -56,6 +57,7 @@ class AiogramApp:
             location_router,
             backpack_router,
             shop_router,
+            craft_router,
         ]
         self._download_routes(routes)
         asyncio.ensure_future(

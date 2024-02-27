@@ -37,9 +37,16 @@ class ShopData(BaseCallbackData, prefix="sh"):
     pass
 
 
+class CraftData(BaseCallbackData, prefix="cra"):
+    """Данные для хенжлеров создания."""
+
+    pass
+
+
 CALLBACK_DATA_PREFIX = {
     CharacterData.__prefix__: CharacterData,
     LocationData.__prefix__: LocationData,
     BackpackData.__prefix__: BackpackData,
     ShopData.__prefix__: ShopData,
+    CraftData.__prefix__: CraftData,
 }

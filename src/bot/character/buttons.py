@@ -6,3 +6,5 @@ ABOUT_BUTTON = "🗣О персонаже"
 SHOP_BUTTON = "🪙Магазин"
 
 CLASS_CHOOSE_BUTTON = "Выбрать данный класс"
+
+CRAFT_BUTTON = "🔨Создать"

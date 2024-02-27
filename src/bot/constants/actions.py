@@ -60,7 +60,14 @@ class ShopAction(Action):
     sell_get = f"{callback_data.ShopData.__prefix__}-sege"
 
 
+class CraftAction(Action):
+    """Действия для хендлеров создания."""
+
+    pass
+
+
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
 location_action = LocationAction(callback_data.LocationData.__prefix__)
 backpack_action = BackpackAction(callback_data.BackpackData.__prefix__)
 shop_action = ShopAction(callback_data.ShopData.__prefix__)
+craft_action = CraftAction(callback_data.CraftData.__prefix__)

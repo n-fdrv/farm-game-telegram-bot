@@ -213,8 +213,8 @@ async def skill_get_callback(
     callback_data: CharacterData,
 ):
     """Хендлер получения умения персонажа."""
-    keyboard = await skill_get_keyboard()
     skill = await Skill.objects.aget(id=callback_data.id)
+    keyboard = await skill_get_keyboard(skill)
     await callback.message.edit_text(
         text=SKILL_GET_MESSAGE.format(
             skill.name_with_level,

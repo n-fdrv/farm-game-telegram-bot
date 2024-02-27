@@ -1,10 +1,11 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from character.models import Character, CharacterClass
+from character.models import Character, CharacterClass, Skill
 
 from bot.character.buttons import (
     ABOUT_BUTTON,
     BACKPACK_BUTTON,
     CLASS_CHOOSE_BUTTON,
+    CRAFT_BUTTON,
     EXIT_LOCATION_BUTTON,
     LOCATIONS_BUTTON,
     SHOP_BUTTON,
@@ -14,12 +15,14 @@ from bot.command.buttons import BACK_BUTTON, YES_BUTTON
 from bot.constants.actions import (
     backpack_action,
     character_action,
+    craft_action,
     location_action,
     shop_action,
 )
 from bot.constants.callback_data import (
     BackpackData,
     CharacterData,
+    CraftData,
     LocationData,
     ShopData,
 )
@@ -140,10 +143,15 @@ async def skill_list_keyboard(
     )
 
 
-async def skill_get_keyboard():
+async def skill_get_keyboard(skill: Skill):
     """Клавиатура выбора класса персонажа."""
     keyboard = InlineKeyboardBuilder()
     # TODO Улучшение способностей
+    if skill.name == "Мастер Создания":
+        keyboard.button(
+            text=CRAFT_BUTTON,
+            callback_data=CraftData(action=craft_action.list),
+        )
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=CharacterData(action=character_action.skill_list),
