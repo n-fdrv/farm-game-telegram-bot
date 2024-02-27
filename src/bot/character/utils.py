@@ -1,9 +1,16 @@
 import random
 import re
 
-from character.models import Character, CharacterClass, CharacterItem, Skill
+from character.models import (
+    Character,
+    CharacterClass,
+    CharacterItem,
+    Skill,
+    SkillEffect,
+)
 from django.conf import settings
 from django.utils import timezone
+from item.models import EffectProperty, ItemEffect
 from location.models import LocationDrop
 from loguru import logger
 
@@ -44,7 +51,36 @@ async def create_character(
     return character
 
 
-def get_character_info(character: Character) -> str:
+async def get_character_property(
+    character: Character, effect_property: EffectProperty
+):
+    """Метод получения характеристики персонажа."""
+    property_data = {
+        EffectProperty.DROP: character.drop_modifier,
+        EffectProperty.EXP: character.exp_modifier,
+        EffectProperty.ATTACK: character.attack,
+        EffectProperty.DEFENCE: character.defence,
+        EffectProperty.HUNTING_TIME: character.max_hunting_time,
+    }
+    chosen_property = property_data[effect_property]
+    async for effect in SkillEffect.objects.filter(
+        property=effect_property, skill__in=character.skills.all()
+    ).order_by("-in_percent"):
+        if effect.in_percent:
+            chosen_property += chosen_property * effect.amount / 100
+            continue
+        chosen_property += chosen_property + effect.amount
+    async for effect in ItemEffect.objects.filter(
+        property=effect_property, item__in=character.items.all()
+    ).order_by("-in_percent"):
+        if effect.in_percent:
+            chosen_property += chosen_property * effect.amount / 100
+            continue
+        chosen_property += chosen_property + effect.amount
+    return chosen_property
+
+
+async def get_character_info(character: Character) -> str:
     """Возвращает сообщение с данными о персонаже."""
     exp_in_percent = round(character.exp / character.exp_for_level_up * 100, 2)
     location = "<b>Город</b>"
@@ -62,8 +98,8 @@ def get_character_info(character: Character) -> str:
         character.name,
         character.level,
         exp_in_percent,
-        character.attack,
-        character.defence,
+        await get_character_property(character, EffectProperty.ATTACK),
+        await get_character_property(character, EffectProperty.DEFENCE),
         location,
     )
 
@@ -122,7 +158,13 @@ async def get_hunting_loot(character: Character):
     hunting_minutes = await get_hunting_minutes(character)
     exp_gained = int(character.current_location.exp * hunting_minutes)
     drop_data = {}
-    drop_modifier = character.attack / character.current_location.attack
+    location_drop_modifier = (
+        character.attack / character.current_location.attack
+    )
+    drop_modifier = (
+        await get_character_property(character, EffectProperty.DROP)
+        * location_drop_modifier
+    )
     await get_exp(character, exp_gained)
     async for drop in LocationDrop.objects.select_related(
         "item", "location"

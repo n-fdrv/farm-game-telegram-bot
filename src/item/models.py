@@ -43,7 +43,7 @@ class ItemGrade(models.TextChoices):
     EPIC = "epic", "🔴 Эпический"
 
 
-class ItemEffectProperty(models.TextChoices):
+class EffectProperty(models.TextChoices):
     """Типы эффектов."""
 
     ATTACK = "attack", "️Атака"
@@ -194,8 +194,8 @@ class ItemEffect(models.Model):
 
     property = models.CharField(
         max_length=16,
-        choices=ItemEffectProperty.choices,
-        default=ItemEffectProperty.ATTACK,
+        choices=EffectProperty.choices,
+        default=EffectProperty.ATTACK,
         verbose_name="Свойство",
     )
     amount = models.IntegerField(default=0, verbose_name="Количество")

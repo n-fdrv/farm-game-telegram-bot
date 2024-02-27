@@ -1,6 +1,7 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import CharacterClass, Skill
+from item.models import EffectProperty
 
 from bot.character.keyboards import (
     character_get_keyboard,
@@ -25,6 +26,7 @@ from bot.character.utils import (
     check_nickname_exist,
     create_character,
     get_character_info,
+    get_character_property,
     get_skill_effects_info,
 )
 from bot.command.buttons import CHARACTER_BUTTON
@@ -53,7 +55,7 @@ async def character_get(message: types.Message, state: FSMContext):
         return
     keyboard = await character_get_keyboard(user.character)
     await message.answer(
-        text=get_character_info(user.character),
+        text=await get_character_info(user.character),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -78,7 +80,7 @@ async def character_get_callback(
         return
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
-        text=get_character_info(user.character),
+        text=await get_character_info(user.character),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -179,7 +181,8 @@ async def create_character_callback(
     character = await create_character(user, nickname, character_class)
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
-        text=get_character_info(character), reply_markup=keyboard.as_markup()
+        text=await get_character_info(character),
+        reply_markup=keyboard.as_markup(),
     )
 
 
@@ -220,3 +223,17 @@ async def skill_get_callback(
         ),
         reply_markup=keyboard.as_markup(),
     )
+
+
+@character_router.callback_query(
+    CharacterData.filter(F.action == character_action.about)
+)
+@log_in_dev
+async def about_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: CharacterData,
+):
+    """Хендлер информации о персонаже."""
+    user = await get_user(callback.from_user.id)
+    print(await get_character_property(user.character, EffectProperty.DROP))

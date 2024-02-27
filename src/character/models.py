@@ -1,18 +1,8 @@
 import datetime
 
 from django.db import models
-from item.models import ArmorType, Item, WeaponType
+from item.models import ArmorType, EffectProperty, Item, WeaponType
 from location.models import Location
-
-
-class SkillEffectProperty(models.TextChoices):
-    """Типы эффектов умений."""
-
-    ATTACK = "attack", "️Атака"
-    DEFENCE = "defence", "Защита"
-    EXP = "exp", "Опыт"
-    DROP = "drop", "Выпадение предметов"
-    HUNTING_TIME = "hunting_time", "Время охоты"
 
 
 class BaseCharacterModel(models.Model):
@@ -49,8 +39,8 @@ class SkillEffect(models.Model):
 
     property = models.CharField(
         max_length=16,
-        choices=SkillEffectProperty.choices,
-        default=SkillEffectProperty.ATTACK,
+        choices=EffectProperty.choices,
+        default=EffectProperty.ATTACK,
         verbose_name="Свойство",
     )
     amount = models.IntegerField(default=0, verbose_name="Количество")
@@ -65,6 +55,12 @@ class SkillEffect(models.Model):
     class Meta:
         verbose_name = "Эффект"
         verbose_name_plural = "Эффекты"
+
+    def __str__(self):
+        text = f"{self.get_property_display()}: {self.amount}"
+        if self.in_percent:
+            text += "%"
+        return text
 
 
 class CharacterClass(BaseCharacterModel):
@@ -136,6 +132,12 @@ class Character(BaseCharacterModel):
     )
     attack = models.IntegerField(default=0, verbose_name="Атака")
     defence = models.IntegerField(default=0, verbose_name="Защита")
+    exp_modifier = models.IntegerField(
+        default=1, verbose_name="Модмфикатор опыта"
+    )
+    drop_modifier = models.IntegerField(
+        default=1, verbose_name="Модификатор дропа"
+    )
     current_location = models.ForeignKey(
         to=Location,
         on_delete=models.SET_NULL,
