@@ -43,6 +43,16 @@ class ItemGrade(models.TextChoices):
     EPIC = "epic", "🔴 Эпический"
 
 
+class ItemEffectProperty(models.TextChoices):
+    """Типы эффектов."""
+
+    ATTACK = "attack", "️Атака"
+    DEFENCE = "defence", "Защита"
+    EXP = "exp", "Опыт"
+    DROP = "drop", "Выпадение предметов"
+    HUNTING_TIME = "hunting_time", "Время охоты"
+
+
 class Item(models.Model):
     """Модель для хранения предметов."""
 
@@ -177,3 +187,26 @@ class Etc(Item):
     class Meta:
         verbose_name = "Разное"
         verbose_name_plural = "Разное"
+
+
+class ItemEffect(models.Model):
+    """Модель хранения эффектов предметов."""
+
+    property = models.CharField(
+        max_length=16,
+        choices=ItemEffectProperty.choices,
+        default=ItemEffectProperty.ATTACK,
+        verbose_name="Свойство",
+    )
+    amount = models.IntegerField(default=0, verbose_name="Количество")
+    in_percent = models.BooleanField(default=False, verbose_name="В процентах")
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        verbose_name="Предмет",
+        related_name="effect",
+    )
+
+    class Meta:
+        verbose_name = "Эффект предмета"
+        verbose_name_plural = "Эффекты предметов"

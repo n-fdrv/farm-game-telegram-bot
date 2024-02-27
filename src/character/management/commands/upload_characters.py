@@ -5,7 +5,13 @@ from item.models import Item
 from location.models import Location
 from loguru import logger
 
-from character.models import Character, CharacterClass, CharacterItem
+from character.models import (
+    Character,
+    CharacterClass,
+    CharacterItem,
+    CharacterSkill,
+    Skill,
+)
 
 
 class Command(BaseCommand):
@@ -16,26 +22,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         """Метод при вызове команды."""
         logger.info("Characters upload started")
-        with open("data/characters/classes.csv", encoding="utf-8") as f:
-            logger.info("Characters upload started")
-            reader = csv.reader(f)
-            for row in reader:
-                try:
-                    CharacterClass.objects.get_or_create(
-                        name=row[0],
-                        description=row[1],
-                        attack=row[2],
-                        defence=row[3],
-                        attack_level_increase=row[4],
-                        defence_level_increase=row[5],
-                        armor_type=row[6],
-                        weapon_type=row[7],
-                    )
-                except Exception as e:
-                    logger.error(
-                        f"error in uploading: Character - {row[0]}: {e}"
-                    )
-                    raise e
         with open("data/characters/characters.csv", encoding="utf-8") as f:
             reader = csv.reader(f)
             for row in reader:
@@ -88,3 +74,22 @@ class Command(BaseCommand):
                         f"error in uploading: Character Item - {row[0]}: {e}"
                     )
             logger.info("Character upload ended")
+        with open(
+            "data/characters/character_skills.csv", encoding="utf-8"
+        ) as f:
+            logger.info("Character Skills upload started")
+            reader = csv.reader(f)
+            for row in reader:
+                try:
+                    skill = Skill.objects.get(name=row[1], level=row[2])
+                    character = Character.objects.get(name=row[0])
+                    CharacterSkill.objects.get_or_create(
+                        character=character,
+                        skill=skill,
+                    )
+                except Exception as e:
+                    logger.error(
+                        "error in uploading: "
+                        f"Character Skills  - {row[0]}: {e}"
+                    )
+                    raise e

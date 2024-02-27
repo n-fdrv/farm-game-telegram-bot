@@ -1,5 +1,5 @@
+import random
 import re
-from random import randint
 
 from character.models import Character, CharacterClass, CharacterItem
 from django.conf import settings
@@ -126,13 +126,9 @@ async def get_hunting_loot(character: Character):
     ).filter(location=character.current_location):
         for _minute in range(hunting_minutes):
             chance = drop.chance * drop_modifier
-            random = randint(1, 100)
-            success = random <= chance
-            if random == 1 and chance < 1:
-                success = randint(1, 100) <= chance * 100
-
+            success = random.uniform(0.01, 100) <= chance
             if success:
-                amount = randint(drop.min_amount, drop.max_amount)
+                amount = random.randint(drop.min_amount, drop.max_amount)
                 item, created = await CharacterItem.objects.aget_or_create(
                     character=character, item=drop.item
                 )

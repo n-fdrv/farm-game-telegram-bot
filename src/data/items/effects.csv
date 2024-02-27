@@ -1,0 +1,10 @@
+defence,5,False,Мантия Новичка
+defence,6,False,Легкая Броня Новичка
+defence,7,False,Тяжелая Броня Новичка
+attack,6,False,Дубина Новичка
+attack,6,False,Кинжал Новичка
+attack,6,False,Меч Новичка
+attack,6,False,Посох Новичка
+hunting_time,10,True,Свиток Выносливости
+attack,10,True,Свиток Атаки
+exp,10,True,Свиток Опыта

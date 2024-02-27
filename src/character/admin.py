@@ -3,7 +3,77 @@ import csv
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
 
-from character.models import Character, CharacterClass, CharacterItem
+from character.models import (
+    Character,
+    CharacterClass,
+    CharacterClassSkill,
+    CharacterItem,
+    CharacterSkill,
+    Skill,
+    SkillEffect,
+)
+
+
+class CharacterSkillInline(admin.TabularInline):
+    """Инлайн модель умений персонажа."""
+
+    model = Character.skills.through
+    extra = 1
+
+
+class ClassSkillInline(admin.TabularInline):
+    """Инлайн модель умений классов."""
+
+    model = CharacterClass.skills.through
+    extra = 1
+
+
+class SkillEffectInline(admin.TabularInline):
+    """Инлайн модель эффектов предметов."""
+
+    model = SkillEffect
+    extra = 1
+
+
+@admin.register(Skill)
+class SkillAdmin(DjangoObjectActions, admin.ModelAdmin):
+    """Управление классами персонажа."""
+
+    def download_csv(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/characters/skills.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.name,
+                        row.description,
+                        row.level,
+                    ]
+                )
+        with open(
+            "data/characters/effects.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in SkillEffect.objects.all():
+                spamwriter.writerow(
+                    [
+                        row.property,
+                        row.amount,
+                        row.in_percent,
+                        row.skill.name,
+                    ]
+                )
+
+    download_csv.short_description = "Download selected as csv"
+    changelist_actions = ("download_csv",)
+    inlines = (SkillEffectInline,)
+    list_display = (
+        "name",
+        "level",
+    )
 
 
 @admin.register(CharacterClass)
@@ -29,10 +99,25 @@ class CharacterClassAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.weapon_type,
                     ]
                 )
+        with open(
+            "data/characters/class_skills.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in CharacterClassSkill.objects.all():
+                spamwriter.writerow(
+                    [
+                        row.character_class.name,
+                        row.skill.name,
+                        row.skill.level,
+                    ]
+                )
 
     download_csv.short_description = "Download selected as csv"
     changelist_actions = ("download_csv",)
-
+    inlines = (ClassSkillInline,)
     list_display = (
         "name",
         "attack",
@@ -98,10 +183,24 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                         character_item.amount,
                     ]
                 )
+        with open(
+            "data/characters/character_skills.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in CharacterSkill.objects.all():
+                spamwriter.writerow(
+                    [
+                        row.character.name,
+                        row.skill.name,
+                        row.skill.level,
+                    ]
+                )
 
     download_csv.short_description = "Download selected as csv"
     changelist_actions = ("download_csv",)
-
     list_display = (
         "name",
         "level",
@@ -113,7 +212,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     list_display_links = ("name",)
     list_filter = ("level",)
     search_fields = ("name",)
-    inlines = (CharacterItemInline,)
+    inlines = (CharacterSkillInline, CharacterItemInline)
 
     def exp_percent(self, obj):
         """Получения опыта в процентах."""

@@ -45,13 +45,22 @@ createsuperuser: # Создать супер пользователя
 	poetry run python src/manage.py createsuperuser --noinput
 
 upload-items: # Загрузить данные
-	cd src && poetry run python manage.py upload_armors && poetry run python manage.py upload_etc && poetry run python manage.py upload_materials && poetry run python manage.py upload_scrolls && poetry run python manage.py upload_weapons && cd ..
+	cd src && poetry run python manage.py upload_armors && \
+	poetry run python manage.py upload_etc && \
+	poetry run python manage.py upload_materials && \
+	poetry run python manage.py upload_scrolls && \
+	poetry run python manage.py upload_weapons && \
+	poetry run python manage.py upload_effects && cd ..
 
 upload-locations: # Загрузить данные
 	cd src && poetry run python manage.py upload_locations && cd ..
 
 upload-characters: # Загрузить данные
-	cd src && poetry run python manage.py upload_characters && poetry run python manage.py upload_users && cd ..
+	cd src && poetry run python manage.py upload_skills && \
+	poetry run python manage.py upload_classes && \
+	poetry run python manage.py upload_characters && \
+	poetry run python manage.py upload_users && \
+	cd ..
 
 run-app: # Запуск Django и Telegram бота
 	@echo -e "$(COLOR_YELLOW)Starting bot...$(COLOR_RESET)"

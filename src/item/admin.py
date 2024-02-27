@@ -3,7 +3,22 @@ import csv
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
 
-from item.models import Armor, Etc, Material, Scroll, Talisman, Weapon
+from item.models import (
+    Armor,
+    Etc,
+    ItemEffect,
+    Material,
+    Scroll,
+    Talisman,
+    Weapon,
+)
+
+
+class ItemEffectInline(admin.TabularInline):
+    """Инлайн модель эффектов предметов."""
+
+    model = ItemEffect
+    extra = 1
 
 
 @admin.register(Armor)
@@ -28,10 +43,23 @@ class ArmorAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.armor_type,
                     ]
                 )
+        with open(
+            "data/items/effects.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in ItemEffect.objects.all():
+                spamwriter.writerow(
+                    [
+                        row.property,
+                        row.amount,
+                        row.in_percent,
+                        row.item.name,
+                    ]
+                )
 
     download_csv.short_description = "Download selected as csv"
     changelist_actions = ("download_csv",)
-
+    inlines = (ItemEffectInline,)
     list_display = (
         "name",
         "sell_price",
@@ -69,7 +97,6 @@ class WeaponAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     download_csv.short_description = "Download selected as csv"
     changelist_actions = ("download_csv",)
-
     list_display = (
         "name",
         "sell_price",
@@ -77,6 +104,7 @@ class WeaponAdmin(DjangoObjectActions, admin.ModelAdmin):
         "weapon_type",
         "grade",
     )
+    inlines = (ItemEffectInline,)
     list_filter = ("weapon_type", "grade")
     list_display_links = ("name",)
     search_fields = ("name",)
@@ -180,7 +208,6 @@ class ScrollAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     download_csv.short_description = "Download selected as csv"
     changelist_actions = ("download_csv",)
-
     list_display = (
         "name",
         "sell_price",
@@ -188,6 +215,7 @@ class ScrollAdmin(DjangoObjectActions, admin.ModelAdmin):
         "type",
         "grade",
     )
+    inlines = (ItemEffectInline,)
     list_filter = ("type", "grade")
     list_display_links = ("name",)
     search_fields = ("name",)
@@ -217,7 +245,6 @@ class TalismanAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     download_csv.short_description = "Download selected as csv"
     changelist_actions = ("download_csv",)
-
     list_display = (
         "name",
         "sell_price",
@@ -225,6 +252,7 @@ class TalismanAdmin(DjangoObjectActions, admin.ModelAdmin):
         "type",
         "grade",
     )
+    inlines = (ItemEffectInline,)
     list_filter = ("type", "grade")
     list_display_links = ("name",)
     search_fields = ("name",)
