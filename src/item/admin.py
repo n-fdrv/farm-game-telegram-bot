@@ -5,7 +5,9 @@ from django_object_actions import DjangoObjectActions
 
 from item.models import (
     Armor,
+    CraftingItem,
     Etc,
+    Item,
     ItemEffect,
     Material,
     Scroll,
@@ -18,6 +20,13 @@ class ItemEffectInline(admin.TabularInline):
     """Инлайн модель эффектов предметов."""
 
     model = ItemEffect
+    extra = 1
+
+
+class CraftingItemInline(admin.TabularInline):
+    """Инлайн модель предметов для изготовления."""
+
+    model = Item.crafting_items.through
     extra = 1
 
 
@@ -59,13 +68,14 @@ class ArmorAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     download_csv.short_description = "Download selected as csv"
     changelist_actions = ("download_csv",)
-    inlines = (ItemEffectInline,)
+    inlines = (ItemEffectInline, CraftingItemInline)
     list_display = (
         "name",
         "sell_price",
         "buy_price",
         "armor_type",
         "grade",
+        "crafting_level",
     )
     list_filter = ("armor_type", "grade")
     list_display_links = ("name",)
@@ -92,6 +102,19 @@ class WeaponAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.type,
                         row.grade,
                         row.weapon_type,
+                        row.crafting_level,
+                    ]
+                )
+        with open(
+            "data/items/weapons_crafts.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in CraftingItem.objects.all():
+                spamwriter.writerow(
+                    [
+                        row.crafting_item.name,
+                        row.used_item.name,
+                        row.amount,
                     ]
                 )
 
@@ -104,7 +127,7 @@ class WeaponAdmin(DjangoObjectActions, admin.ModelAdmin):
         "weapon_type",
         "grade",
     )
-    inlines = (ItemEffectInline,)
+    inlines = (ItemEffectInline, CraftingItemInline)
     list_filter = ("weapon_type", "grade")
     list_display_links = ("name",)
     search_fields = ("name",)

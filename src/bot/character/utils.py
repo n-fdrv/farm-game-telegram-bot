@@ -102,6 +102,7 @@ async def get_character_info(character: Character) -> str:
         )
     return CHARACTER_INFO_MESSAGE.format(
         character.name,
+        character.character_class.emoji,
         character.level,
         exp_in_percent,
         await get_character_property(character, EffectProperty.ATTACK),

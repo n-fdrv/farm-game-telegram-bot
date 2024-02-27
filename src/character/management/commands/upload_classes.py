@@ -31,6 +31,7 @@ class Command(BaseCommand):
                         defence_level_increase=row[5],
                         armor_type=row[6],
                         weapon_type=row[7],
+                        emoji=row[8],
                     )
                 except Exception as e:
                     logger.error(f"error in uploading: Class - {row[0]}: {e}")

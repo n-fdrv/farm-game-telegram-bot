@@ -153,7 +153,7 @@ async def class_get_callback(
     keyboard = await class_get_keyboard(callback_data)
     await callback.message.edit_text(
         text=CLASS_GET_MESSAGE.format(
-            character_class.name,
+            character_class.emoji_name,
             character_class.description,
             character_class.attack,
             character_class.defence,

@@ -88,7 +88,7 @@ async def choose_class_keyboard():
     keyboard = InlineKeyboardBuilder()
     async for character_class in CharacterClass.objects.all():
         keyboard.button(
-            text=character_class.name,
+            text=character_class.emoji_name,
             callback_data=CharacterData(
                 action=character_action.class_get, id=character_class.id
             ),

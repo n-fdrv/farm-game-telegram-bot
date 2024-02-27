@@ -66,6 +66,7 @@ class SkillEffect(models.Model):
 class CharacterClass(BaseCharacterModel):
     """модель хранения классов персонаже."""
 
+    emoji = models.CharField(max_length=8, null=True, verbose_name="Эмоджи")
     description = models.TextField(verbose_name="Описание")
     attack = models.IntegerField(default=0, verbose_name="Атака")
     defence = models.IntegerField(default=0, verbose_name="Защита")
@@ -96,7 +97,12 @@ class CharacterClass(BaseCharacterModel):
         verbose_name_plural = "Классы"
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.emoji} {self.name}"
+
+    @property
+    def emoji_name(self):
+        """Возвращает название класса с эмоджи."""
+        return f"{self.emoji} {self.name}"
 
 
 class CharacterClassSkill(models.Model):

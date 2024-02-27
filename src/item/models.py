@@ -53,6 +53,24 @@ class EffectProperty(models.TextChoices):
     HUNTING_TIME = "hunting_time", "Время охоты"
 
 
+class CraftingItem(models.Model):
+    """Модель хранения предметов необходимых для создания другого предмета."""
+
+    crafting_item = models.ForeignKey(
+        to="Material",
+        on_delete=models.CASCADE,
+        verbose_name="Изготовленный предмет",
+        related_name="crafting",
+    )
+    used_item = models.ForeignKey(
+        to="Item",
+        on_delete=models.RESTRICT,
+        verbose_name="Необходимый предмет",
+        related_name="used_in_craft",
+    )
+    amount = models.IntegerField(default=1, verbose_name="Количество")
+
+
 class Item(models.Model):
     """Модель для хранения предметов."""
 
@@ -72,6 +90,12 @@ class Item(models.Model):
     )
     created = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания"
+    )
+    crafting_level = models.IntegerField(
+        default=0, verbose_name="Уровень создания"
+    )
+    crafting_items = models.ManyToManyField(
+        to="Item", through=CraftingItem, verbose_name="Предметы для крафта"
     )
 
     class Meta:
