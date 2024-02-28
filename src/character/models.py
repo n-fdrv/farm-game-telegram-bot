@@ -1,7 +1,7 @@
 import datetime
 
 from django.db import models
-from item.models import ArmorType, EffectProperty, Item, WeaponType
+from item.models import ArmorType, EffectProperty, Item, Recipe, WeaponType
 from location.models import Location
 
 
@@ -166,6 +166,9 @@ class Character(BaseCharacterModel):
     skills = models.ManyToManyField(
         Skill, through="CharacterSkill", related_name="character_skills"
     )
+    recipes = models.ManyToManyField(
+        Recipe, through="CharacterRecipe", related_name="character_recipes"
+    )
     job_id = models.CharField(
         max_length=256,
         null=True,
@@ -225,3 +228,21 @@ class CharacterItem(models.Model):
             f"Item: {self.item} | "
             f"Amount: {self.amount}"
         )
+
+
+class CharacterRecipe(models.Model):
+    """Модель для хранения рецептов персонажа."""
+
+    character = models.ForeignKey(
+        Character, on_delete=models.CASCADE, verbose_name="Персонаж"
+    )
+    recipe = models.ForeignKey(
+        Recipe, on_delete=models.CASCADE, verbose_name="Рецепт"
+    )
+
+    class Meta:
+        verbose_name = "Рецепт персонажа"
+        verbose_name_plural = "Рецепты персонажа"
+
+    def __str__(self):
+        return f"Character: {self.character} | " f"Item: {self.recipe}"

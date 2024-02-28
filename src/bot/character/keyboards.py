@@ -5,9 +5,9 @@ from bot.character.buttons import (
     ABOUT_BUTTON,
     BACKPACK_BUTTON,
     CLASS_CHOOSE_BUTTON,
-    CRAFT_BUTTON,
     EXIT_LOCATION_BUTTON,
     LOCATIONS_BUTTON,
+    RECIPE_BUTTON,
     SHOP_BUTTON,
     SKILLS_BUTTON,
 )
@@ -39,12 +39,11 @@ async def character_get_keyboard(character: Character):
                 action=location_action.exit_location_confirm
             ),
         )
+    else:
         keyboard.button(
-            text=BACKPACK_BUTTON,
-            callback_data=BackpackData(action=backpack_action.list),
+            text=SHOP_BUTTON,
+            callback_data=ShopData(action=shop_action.get),
         )
-        keyboard.adjust(1)
-        return keyboard
     keyboard.button(
         text=LOCATIONS_BUTTON,
         callback_data=LocationData(action=location_action.list),
@@ -60,10 +59,6 @@ async def character_get_keyboard(character: Character):
     keyboard.button(
         text=ABOUT_BUTTON,
         callback_data=CharacterData(action=character_action.about),
-    )
-    keyboard.button(
-        text=SHOP_BUTTON,
-        callback_data=ShopData(action=shop_action.get),
     )
     keyboard.adjust(1)
     return keyboard
@@ -149,7 +144,7 @@ async def skill_get_keyboard(skill: Skill):
     # TODO Улучшение способностей
     if skill.name == "Мастер Создания":
         keyboard.button(
-            text=CRAFT_BUTTON,
+            text=RECIPE_BUTTON,
             callback_data=CraftData(action=craft_action.list),
         )
     keyboard.button(

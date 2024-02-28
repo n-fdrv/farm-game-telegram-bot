@@ -200,6 +200,10 @@ class Recipe(Item):
     def __str__(self):
         return f"{self.name} ({self.chance}%) (Ур. {self.level})"
 
+    def get_name(self):
+        """Возвращает имя с шансом."""
+        return f"{self.name_with_grade} ({self.chance}%)"
+
 
 class Etc(Item):
     """Модель хранения других предметов."""

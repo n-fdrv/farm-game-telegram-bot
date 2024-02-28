@@ -133,6 +133,13 @@ class CharacterItemInline(admin.TabularInline):
     extra = 1
 
 
+class CharacterRecipeInline(admin.TabularInline):
+    """Инлайн модель предметов персонажа."""
+
+    model = Character.recipes.through
+    extra = 1
+
+
 @admin.register(Character)
 class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью персонажей."""
@@ -213,7 +220,11 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     list_display_links = ("name",)
     list_filter = ("level",)
     search_fields = ("name",)
-    inlines = (CharacterSkillInline, CharacterItemInline)
+    inlines = (
+        CharacterSkillInline,
+        CharacterItemInline,
+        CharacterRecipeInline,
+    )
 
     def exp_percent(self, obj):
         """Получения опыта в процентах."""
