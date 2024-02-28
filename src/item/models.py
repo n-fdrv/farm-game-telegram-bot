@@ -11,6 +11,7 @@ class ItemType(models.TextChoices):
     ARMOR = "armor", "Броня"
     WEAPON = "weapon", "Оружие"
     TALISMAN = "talisman", "Талисман"
+    RECIPE = "recipe", "Рецепт"
     MATERIAL = "material", "Ресурс"
     SCROLL = "scroll", "Свиток"
     ETC = "etc", "Разное"
@@ -46,29 +47,11 @@ class ItemGrade(models.TextChoices):
 class EffectProperty(models.TextChoices):
     """Типы эффектов."""
 
-    ATTACK = "attack", "️Атака"
-    DEFENCE = "defence", "Защита"
-    EXP = "exp", "Опыт"
-    DROP = "drop", "Выпадение предметов"
-    HUNTING_TIME = "hunting_time", "Время охоты"
-
-
-class CraftingItem(models.Model):
-    """Модель хранения предметов необходимых для создания другого предмета."""
-
-    crafting_item = models.ForeignKey(
-        to="Material",
-        on_delete=models.CASCADE,
-        verbose_name="Изготовленный предмет",
-        related_name="crafting",
-    )
-    used_item = models.ForeignKey(
-        to="Item",
-        on_delete=models.RESTRICT,
-        verbose_name="Необходимый предмет",
-        related_name="used_in_craft",
-    )
-    amount = models.IntegerField(default=1, verbose_name="Количество")
+    ATTACK = "attack", "️⚔️Атака"
+    DEFENCE = "defence", "🛡Защита"
+    EXP = "exp", "🔮Опыт"
+    DROP = "drop", "🍀Выпадение предметов"
+    HUNTING_TIME = "hunting_time", "⏳Время охоты"
 
 
 class Item(models.Model):
@@ -90,12 +73,6 @@ class Item(models.Model):
     )
     created = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания"
-    )
-    crafting_level = models.IntegerField(
-        default=0, verbose_name="Уровень создания"
-    )
-    crafting_items = models.ManyToManyField(
-        to="Item", through=CraftingItem, verbose_name="Предметы для крафта"
     )
 
     class Meta:
@@ -198,6 +175,32 @@ class Talisman(Item):
         verbose_name_plural = "Талисманы"
 
 
+class Recipe(Item):
+    """Модель хранения рецептов."""
+
+    type = models.CharField(
+        max_length=16,
+        choices=ItemType.choices,
+        default=ItemType.RECIPE,
+        verbose_name="Тип",
+    )
+    level = models.IntegerField(default=1, verbose_name="Уровень")
+    chance = models.IntegerField(default=100, verbose_name="Шанс изготовления")
+    create = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        verbose_name="Изготавливает",
+        related_name="recipe_create",
+    )
+
+    class Meta:
+        verbose_name = "Рецепт"
+        verbose_name_plural = "Рецепты"
+
+    def __str__(self):
+        return f"{self.name} ({self.chance}%) (Ур. {self.level})"
+
+
 class Etc(Item):
     """Модель хранения других предметов."""
 
@@ -234,3 +237,28 @@ class ItemEffect(models.Model):
     class Meta:
         verbose_name = "Эффект предмета"
         verbose_name_plural = "Эффекты предметов"
+
+
+class CraftingItem(models.Model):
+    """Модель хранения предметов рецепта."""
+
+    material = models.ForeignKey(
+        to=Material,
+        on_delete=models.RESTRICT,
+        verbose_name="Предмет",
+        related_name="recipes",
+    )
+    recipe = models.ForeignKey(
+        to=Recipe,
+        on_delete=models.CASCADE,
+        verbose_name="Рецепт",
+        related_name="materials",
+    )
+    amount = models.IntegerField(default=1, verbose_name="Количество")
+
+    class Meta:
+        verbose_name = "Предмет изготовлени"
+        verbose_name_plural = "Предметы изготовления"
+
+    def __str__(self):
+        return f"{self.recipe} | {self.material.name}"

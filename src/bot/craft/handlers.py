@@ -1,10 +1,12 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
+from item.models import Item
 
 from bot.constants.actions import craft_action
 from bot.constants.callback_data import CraftData
-from bot.craft.keyboards import craft_list_keyboard
+from bot.craft.keyboards import craft_get_keyboard, craft_list_keyboard
 from bot.craft.messages import CRAFTING_LIST_MESSAGE
+from bot.craft.utils import get_crafting_item_text
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -35,4 +37,9 @@ async def craft_get_callback(
     callback_data: CraftData,
 ):
     """Коллбек получения предмета создания."""
-    pass
+    item = await Item.objects.aget(id=callback_data.id)
+    keyboard = await craft_get_keyboard(item)
+    await callback.message.edit_text(
+        text=await get_crafting_item_text(item),
+        reply_markup=keyboard.as_markup(),
+    )
