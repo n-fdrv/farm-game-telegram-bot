@@ -4,9 +4,22 @@ from item.models import Recipe
 
 from bot.constants.actions import craft_action
 from bot.constants.callback_data import CraftData
-from bot.craft.keyboards import craft_get_keyboard, craft_list_keyboard
-from bot.craft.messages import CRAFTING_LIST_MESSAGE
-from bot.craft.utils import check_crafting_items, get_crafting_item_text
+from bot.craft.keyboards import (
+    craft_create_keyboard,
+    craft_get_keyboard,
+    craft_list_keyboard,
+)
+from bot.craft.messages import (
+    CRAFTING_LIST_MESSAGE,
+    NOT_ENOUGH_ITEMS_MESSAGE,
+    NOT_SUCCESS_CRAFT_MESSAGE,
+    SUCCESS_CRAFT_MESSAGE,
+)
+from bot.craft.utils import (
+    check_crafting_items,
+    craft_item,
+    get_crafting_item_text,
+)
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -58,4 +71,21 @@ async def craft_create_callback(
     recipe = await Recipe.objects.select_related("create").aget(
         id=callback_data.id
     )
-    print(await check_crafting_items(user.character, recipe))
+    enough_items = await check_crafting_items(user.character, recipe)
+    keyboard = await craft_create_keyboard(callback_data)
+    if not enough_items:
+        await callback.message.edit_text(
+            text=NOT_ENOUGH_ITEMS_MESSAGE, reply_markup=keyboard.as_markup()
+        )
+        return
+    success = await craft_item(user.character, recipe)
+    if success:
+        await callback.message.edit_text(
+            text=SUCCESS_CRAFT_MESSAGE.format(recipe.create.name_with_grade),
+            reply_markup=keyboard.as_markup(),
+        )
+        return
+    await callback.message.edit_text(
+        text=NOT_SUCCESS_CRAFT_MESSAGE.format(recipe.create.name_with_grade),
+        reply_markup=keyboard.as_markup(),
+    )

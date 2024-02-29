@@ -1,6 +1,10 @@
+import random
+
 from character.models import Character, CharacterItem
 from item.models import Item, Recipe
+from loguru import logger
 
+from bot.backpack.utils import add_item, remove_item
 from bot.craft.messages import CRAFTING_GET_MESSAGE
 
 
@@ -35,7 +39,7 @@ async def check_crafting_items(character: Character, recipe: Recipe):
     async for material in recipe.materials.select_related("material").all():
         is_exist = await character.items.filter(
             pk=material.material.pk
-        ).acount()
+        ).aexists()
         if not is_exist:
             return False
         item = await CharacterItem.objects.aget(
@@ -44,3 +48,22 @@ async def check_crafting_items(character: Character, recipe: Recipe):
         if item.amount < material.amount:
             return False
     return True
+
+
+async def craft_item(character: Character, recipe: Recipe):
+    """Метод крафта предмета."""
+    async for material in recipe.materials.select_related("material").all():
+        removed = await remove_item(
+            character, material.material, material.amount
+        )
+        if not removed:
+            logger.error(
+                "Произошла ошибка при крафте предмета: "
+                f"Character: {character} | Recipe: {recipe}"
+            )
+            return False
+    success = random.randint(1, 100) <= recipe.chance
+    if success:
+        await add_item(character, recipe.create, 1)
+        return True
+    return False

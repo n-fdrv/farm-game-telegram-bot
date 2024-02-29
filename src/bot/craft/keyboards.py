@@ -37,3 +37,14 @@ async def craft_get_keyboard(recipe: Recipe):
     )
     keyboard.adjust(1)
     return keyboard
+
+
+async def craft_create_keyboard(callback_data: CraftData):
+    """Клавиатура изготовления предмета."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=CraftData(action=craft_action.get, id=callback_data.id),
+    )
+    keyboard.adjust(1)
+    return keyboard
