@@ -34,7 +34,7 @@ class BackpackData(BaseCallbackData, prefix="bp"):
 class ShopData(BaseCallbackData, prefix="sh"):
     """Данные для хенжлеров магазина."""
 
-    pass
+    amount: Optional[int] = 1
 
 
 class CraftData(BaseCallbackData, prefix="cra"):

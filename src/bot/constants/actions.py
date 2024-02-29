@@ -59,6 +59,7 @@ class ShopAction(Action):
 
     sell_list = f"{callback_data.ShopData.__prefix__}-seli"
     sell_get = f"{callback_data.ShopData.__prefix__}-sege"
+    sell_amount = f"{callback_data.ShopData.__prefix__}-seam"
     sell = f"{callback_data.ShopData.__prefix__}-se"
 
 
