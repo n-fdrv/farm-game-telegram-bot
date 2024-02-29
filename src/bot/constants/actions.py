@@ -55,9 +55,11 @@ class ShopAction(Action):
 
     buy_list = f"{callback_data.ShopData.__prefix__}-buli"
     buy_get = f"{callback_data.ShopData.__prefix__}-buge"
+    buy = f"{callback_data.ShopData.__prefix__}-bu"
 
     sell_list = f"{callback_data.ShopData.__prefix__}-seli"
     sell_get = f"{callback_data.ShopData.__prefix__}-sege"
+    sell = f"{callback_data.ShopData.__prefix__}-se"
 
 
 class CraftAction(Action):

@@ -217,6 +217,7 @@ class CharacterItem(models.Model):
         Item, on_delete=models.CASCADE, verbose_name="Предмет"
     )
     amount = models.IntegerField(default=0, verbose_name="Количество")
+    equipped = models.BooleanField(default=False, verbose_name="Надето")
 
     class Meta:
         verbose_name = "Предмет персонажа"

@@ -189,6 +189,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                         character_item.item.name,
                         character_item.character.name,
                         character_item.amount,
+                        character_item.equipped,
                     ]
                 )
         with open(

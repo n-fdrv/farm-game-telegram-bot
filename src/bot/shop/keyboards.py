@@ -42,7 +42,7 @@ async def buy_list_keyboard(callback_data: ShopData):
         keyboard.button(
             text=f"{item.name_with_grade} - {item.buy_price} золота",
             callback_data=ShopData(
-                action=shop_action.get,
+                action=shop_action.buy_get,
                 page=callback_data.page,
                 id=item.id,
             ),
@@ -50,11 +50,37 @@ async def buy_list_keyboard(callback_data: ShopData):
     keyboard.adjust(1)
     paginator = Paginator(
         keyboard=keyboard,
-        action=shop_action.get,
+        action=shop_action.buy_list,
         size=6,
         page=callback_data.page,
     )
     return paginator.get_paginator_with_button(BACK_BUTTON, shop_action.get)
+
+
+async def buy_get_keyboard(callback_data: ShopData):
+    """Клавиатура для покупки товара."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BUY_BUTTON,
+        callback_data=ShopData(action=shop_action.buy, id=callback_data.id),
+    )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=ShopData(action=shop_action.buy_list),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def buy_keyboard():
+    """Клавиатура для покупки товара."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=ShopData(action=shop_action.buy_list),
+    )
+    keyboard.adjust(1)
+    return keyboard
 
 
 async def sell_list_keyboard(user: User, callback_data: ShopData):
