@@ -92,9 +92,11 @@ async def buy_keyboard():
 async def sell_list_keyboard(user: User, callback_data: ShopData):
     """Клавиатура для списка продаж."""
     keyboard = InlineKeyboardBuilder()
-    async for item in CharacterItem.objects.select_related("item").exclude(
-        item__sell_price=0
-    ).filter(character=user.character):
+    async for item in (
+        CharacterItem.objects.select_related("item")
+        .exclude(item__sell_price=0)
+        .filter(character=user.character)
+    ):
         keyboard.button(
             text=f"{item.item.name_with_grade} - {item.amount} шт.",
             callback_data=ShopData(
