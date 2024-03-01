@@ -13,8 +13,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         """Метод при вызове команды."""
-        with open("data/items/weapons.csv", encoding="utf-8") as f:
-            logger.info("Items upload started")
+        logger.info("Weapons upload started")
+        with open("data/items/weapon.csv", encoding="utf-8") as f:
+
             reader = csv.reader(f)
             for row in reader:
                 try:
@@ -28,4 +29,5 @@ class Command(BaseCommand):
                         weapon_type=row[6],
                     )
                 except Exception as e:
-                    logger.error(f"error in uploading: Item - {row[0]}: {e}")
+                    logger.error(f"error in uploading: Weapon - {row[0]}: {e}")
+        logger.info("Weapons upload ended")

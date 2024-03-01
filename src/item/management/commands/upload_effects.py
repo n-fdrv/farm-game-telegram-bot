@@ -13,8 +13,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         """Метод при вызове команды."""
+        logger.info("Effects upload started")
         with open("data/items/effects.csv", encoding="utf-8") as f:
-            logger.info("Effects upload started")
             reader = csv.reader(f)
             for row in reader:
                 try:
@@ -27,3 +27,4 @@ class Command(BaseCommand):
                     )
                 except Exception as e:
                     logger.error(f"error in uploading: Effect - {row[0]}: {e}")
+        logger.info("Effects upload ended")

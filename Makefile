@@ -45,10 +45,10 @@ createsuperuser: # Создать супер пользователя
 	poetry run python src/manage.py createsuperuser --noinput
 
 upload-items: # Загрузить данные
-	cd src && poetry run python manage.py upload_armors && \
-	poetry run python manage.py upload_etc && \
-	poetry run python manage.py upload_materials && \
-	poetry run python manage.py upload_scrolls && \
+	cd src && poetry run python manage.py upload_items && \
+	poetry run python manage.py upload_armors && \
+	poetry run python manage.py upload_potions && \
+	poetry run python manage.py upload_recipes && \
 	poetry run python manage.py upload_weapons && \
 	poetry run python manage.py upload_effects && cd ..
 

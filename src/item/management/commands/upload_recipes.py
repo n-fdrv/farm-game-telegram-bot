@@ -13,8 +13,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         """Метод при вызове команды."""
+        logger.info("Recipes upload started")
         with open("data/items/recipes.csv", encoding="utf-8") as f:
-            logger.info("Recipes upload started")
             reader = csv.reader(f)
             for row in reader:
                 try:
@@ -32,6 +32,8 @@ class Command(BaseCommand):
                     )
                 except Exception as e:
                     logger.error(f"error in uploading: Recipe - {row[0]}: {e}")
+        logger.info("Recipes upload ended")
+        logger.info("Items for recipes upload started")
         with open("data/items/recipes_items.csv", encoding="utf-8") as f:
             logger.info("Recipes Items upload started")
             reader = csv.reader(f)
@@ -48,3 +50,4 @@ class Command(BaseCommand):
                     logger.error(
                         f"error in uploading: Recipe item - {row[0]}: {e}"
                     )
+        logger.info("Items for recipes upload ended")
