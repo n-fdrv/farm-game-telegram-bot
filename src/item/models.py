@@ -74,6 +74,12 @@ class Item(models.Model):
     created = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания"
     )
+    type = models.CharField(
+        max_length=16,
+        choices=ItemType.choices,
+        default=ItemType.ETC,
+        verbose_name="Тип",
+    )
 
     class Meta:
         verbose_name = "Предмет"
@@ -91,12 +97,6 @@ class Item(models.Model):
 class Armor(Item):
     """Модель хранения брони."""
 
-    type = models.CharField(
-        max_length=16,
-        choices=ItemType.choices,
-        default=ItemType.ARMOR,
-        verbose_name="Тип",
-    )
     armor_type = models.CharField(
         max_length=16,
         choices=ArmorType.choices,
@@ -112,12 +112,6 @@ class Armor(Item):
 class Weapon(Item):
     """Модель хранения оружия."""
 
-    type = models.CharField(
-        max_length=16,
-        choices=ItemType.choices,
-        default=ItemType.WEAPON,
-        verbose_name="Тип",
-    )
     weapon_type = models.CharField(
         max_length=16,
         choices=WeaponType.choices,
@@ -133,12 +127,7 @@ class Weapon(Item):
 class Scroll(Item):
     """Модель хранения свитков."""
 
-    type = models.CharField(
-        max_length=16,
-        choices=ItemType.choices,
-        default=ItemType.SCROLL,
-        verbose_name="Тип",
-    )
+    pass
 
     class Meta:
         verbose_name = "Свиток"
@@ -148,12 +137,7 @@ class Scroll(Item):
 class Material(Item):
     """Модель хранения ресурсов."""
 
-    type = models.CharField(
-        max_length=16,
-        choices=ItemType.choices,
-        default=ItemType.MATERIAL,
-        verbose_name="Тип",
-    )
+    pass
 
     class Meta:
         verbose_name = "Ресурс"
@@ -163,12 +147,7 @@ class Material(Item):
 class Talisman(Item):
     """Модель хранения свитков."""
 
-    type = models.CharField(
-        max_length=16,
-        choices=ItemType.choices,
-        default=ItemType.TALISMAN,
-        verbose_name="Тип",
-    )
+    pass
 
     class Meta:
         verbose_name = "Талисман"
@@ -178,12 +157,6 @@ class Talisman(Item):
 class Recipe(Item):
     """Модель хранения рецептов."""
 
-    type = models.CharField(
-        max_length=16,
-        choices=ItemType.choices,
-        default=ItemType.RECIPE,
-        verbose_name="Тип",
-    )
     level = models.IntegerField(default=1, verbose_name="Уровень")
     chance = models.IntegerField(default=100, verbose_name="Шанс изготовления")
     create = models.ForeignKey(
@@ -208,12 +181,7 @@ class Recipe(Item):
 class Etc(Item):
     """Модель хранения других предметов."""
 
-    type = models.CharField(
-        max_length=16,
-        choices=ItemType.choices,
-        default=ItemType.ETC,
-        verbose_name="Тип",
-    )
+    pass
 
     class Meta:
         verbose_name = "Разное"

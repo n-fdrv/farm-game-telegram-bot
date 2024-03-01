@@ -47,7 +47,7 @@ class LocationAction(Action):
 class BackpackAction(Action):
     """Действия для хендлеров инвентаря."""
 
-    pass
+    preview = f"{callback_data.BackpackData.__prefix__}-pr"
 
 
 class ShopAction(Action):

@@ -29,6 +29,7 @@ class BackpackData(BaseCallbackData, prefix="bp"):
 
     user_id: Optional[int] = None
     item_id: Optional[int] = None
+    type: Optional[str] = None
 
 
 class ShopData(BaseCallbackData, prefix="sh"):

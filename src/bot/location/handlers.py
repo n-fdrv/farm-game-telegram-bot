@@ -2,6 +2,7 @@ from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from location.models import Location
 
+from bot.character.keyboards import character_get_keyboard
 from bot.character.utils import get_hunting_loot
 from bot.constants.actions import location_action
 from bot.constants.callback_data import LocationData
@@ -130,6 +131,8 @@ async def exit_location(
         drop_text += f"<b>{name}</b> - {amount} шт.\n"
     if not drop_data:
         drop_text = "Не получено"
+    keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
-        text=EXIT_LOCATION_MESSAGE.format(exp, drop_text)
+        text=EXIT_LOCATION_MESSAGE.format(exp, drop_text),
+        reply_markup=keyboard.as_markup(),
     )

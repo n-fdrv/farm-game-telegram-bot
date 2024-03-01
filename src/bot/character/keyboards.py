@@ -50,7 +50,7 @@ async def character_get_keyboard(character: Character):
         )
     keyboard.button(
         text=BACKPACK_BUTTON,
-        callback_data=BackpackData(action=backpack_action.list),
+        callback_data=BackpackData(action=backpack_action.preview),
     )
     keyboard.button(
         text=SKILLS_BUTTON,
