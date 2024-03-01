@@ -70,14 +70,21 @@ async def location_enter(
 ):
     """Коллбек входа в локацию."""
     user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     location = await Location.objects.aget(pk=callback_data.id)
     await enter_location(user.character, location)
+    time_left = str(
+        user.character.hunting_end - user.character.hunting_begin
+    ).split(".")[0]
     await callback.message.edit_text(
         text=LOCATION_ENTER_MESSAGE.format(
             location.name,
-            user.character.hunting_end.strftime("%d.%m.%Y %H:%M:%S"),
+            time_left,
         ),
     )
+
     await hunting_end_scheduler(user)
 
 

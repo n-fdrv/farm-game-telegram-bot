@@ -44,10 +44,10 @@ async def character_get_keyboard(character: Character):
             text=SHOP_BUTTON,
             callback_data=ShopData(action=shop_action.get),
         )
-    keyboard.button(
-        text=LOCATIONS_BUTTON,
-        callback_data=LocationData(action=location_action.list),
-    )
+        keyboard.button(
+            text=LOCATIONS_BUTTON,
+            callback_data=LocationData(action=location_action.list),
+        )
     keyboard.button(
         text=BACKPACK_BUTTON,
         callback_data=BackpackData(action=backpack_action.list),

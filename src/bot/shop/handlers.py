@@ -49,6 +49,10 @@ async def shop_get(
     callback_data: ShopData,
 ):
     """Коллбек перехода в магазин."""
+    user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     keyboard = await shop_get_keyboard()
     await callback.message.edit_text(
         text=SHOP_GET_MESSAGE, reply_markup=keyboard.as_markup()
@@ -63,6 +67,10 @@ async def shop_buy_list(
     callback_data: ShopData,
 ):
     """Коллбек перехода в покупки."""
+    user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     paginator = await buy_list_keyboard(callback_data)
     await callback.message.edit_text(
         text=BUY_LIST_MESSAGE, reply_markup=paginator
@@ -77,6 +85,10 @@ async def shop_buy_get_handler(
     callback_data: ShopData,
 ):
     """Хендлер товара для покупки."""
+    user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     item = await Item.objects.aget(pk=callback_data.id)
     keyboard = await buy_get_keyboard(callback_data)
     await callback.message.edit_text(
@@ -92,8 +104,11 @@ async def shop_buy_handler(
     callback_data: ShopData,
 ):
     """Хендлер покупки товара."""
-    item = await Item.objects.aget(pk=callback_data.id)
     user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
+    item = await Item.objects.aget(pk=callback_data.id)
     gold = await Item.objects.aget(name="Золото")
     enough_amount = await check_item_amount(
         user.character, gold, item.buy_price
@@ -121,6 +136,9 @@ async def shop_sell_list(
 ):
     """Коллбек перехода в продажи."""
     user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     paginator = await sell_list_keyboard(user, callback_data)
     await callback.message.edit_text(
         text=SELL_LIST_MESSAGE, reply_markup=paginator
@@ -136,6 +154,9 @@ async def shop_sell_get_handler(
 ):
     """Хендлер товара для покупки."""
     user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     item = await Item.objects.aget(pk=callback_data.id)
     character_item = await CharacterItem.objects.aget(
         item=item, character=user.character
@@ -157,6 +178,10 @@ async def shop_sell_amount_handler(
     callback_data: ShopData,
 ):
     """Хендлер ввода количества товаров."""
+    user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     keyboard = await sell_keyboard(callback_data)
     await callback.message.edit_text(
         text=SELL_AMOUNT_MESSAGE, reply_markup=keyboard.as_markup()
@@ -169,6 +194,10 @@ async def shop_sell_amount_handler(
 @log_in_dev
 async def shop_sell_amount_state(message: types.Message, state: FSMContext):
     """Хендлер обработки количества товаров."""
+    user = await get_user(message.from_user.id)
+    if user.character.current_location:
+        await message.message.delete()
+        return
     amount = message.text
     is_correct = await check_correct_amount(amount)
     keyboard = await in_shop_keyboard()
@@ -195,8 +224,12 @@ async def shop_sell_handler(
     callback_data: ShopData,
 ):
     """Хендлер продажи товара."""
-    item = await Item.objects.aget(pk=callback_data.id)
+    await state.clear()
     user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
+    item = await Item.objects.aget(pk=callback_data.id)
     gold = await Item.objects.aget(name="Золото")
     enough_amount = await check_item_amount(
         user.character, item, callback_data.amount
