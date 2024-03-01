@@ -1,5 +1,8 @@
+import datetime
+
 from character.models import Character, CharacterEffect, CharacterItem
-from item.models import Item
+from django.utils import timezone
+from item.models import Item, Potion
 
 from bot.backpack.messages import ITEM_GET_MESSAGE
 
@@ -102,3 +105,21 @@ async def equip_item(item: CharacterItem):
     async for effect in item.item.effect.all():
         await item.character.effects.aadd(effect)
     await item.asave(update_fields=("equipped",))
+
+
+async def use_potion(character: Character, item: Item):
+    """Метод использования предмета."""
+    potion = await Potion.objects.aget(pk=item.pk)
+    async for effect in potion.effect.all():
+        character_effect, created = (
+            await CharacterEffect.objects.aget_or_create(
+                character=character, effect=effect
+            )
+        )
+        character_effect.expired = timezone.now() + datetime.timedelta(
+            hours=potion.effect_time.hour,
+            minutes=potion.effect_time.minute,
+            seconds=potion.effect_time.second,
+        )
+        await character_effect.asave(update_fields=("expired",))
+    await remove_item(item=item, character=character, amount=1)

@@ -102,3 +102,16 @@ async def item_get_keyboard(callback_data: BackpackData):
     )
     keyboard.adjust(1)
     return keyboard
+
+
+async def use_potion_keyboard():
+    """Клавиатура после использования зелья."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.preview,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard

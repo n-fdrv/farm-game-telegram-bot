@@ -6,15 +6,18 @@ from bot.backpack.keyboards import (
     backpack_list_keyboard,
     backpack_preview_keyboard,
     item_get_keyboard,
+    use_potion_keyboard,
 )
 from bot.backpack.messages import (
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
+    SUCCESS_USE_POTION_MESSAGE,
 )
 from bot.backpack.utils import (
     equip_item,
     get_character_item_info_text,
     get_gold_amount,
+    use_potion,
 )
 from bot.constants.actions import backpack_action
 from bot.constants.callback_data import BackpackData
@@ -102,5 +105,29 @@ async def backpack_equip_handler(
     )
     await callback.message.edit_text(
         text=await get_character_item_info_text(character_item),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@backpack_router.callback_query(
+    BackpackData.filter(F.action == backpack_action.use)
+)
+@log_in_dev
+async def backpack_use_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: BackpackData,
+):
+    """Коллбек использования предмета."""
+    character_item = await CharacterItem.objects.select_related(
+        "character",
+        "item",
+    ).aget(id=callback_data.id)
+    await use_potion(character_item.character, character_item.item)
+    keyboard = await use_potion_keyboard()
+    await callback.message.edit_text(
+        text=SUCCESS_USE_POTION_MESSAGE.format(
+            character_item.item.name_with_grade
+        ),
         reply_markup=keyboard.as_markup(),
     )
