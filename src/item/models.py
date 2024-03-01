@@ -210,6 +210,12 @@ class ItemEffect(models.Model):
         verbose_name = "Эффект предмета"
         verbose_name_plural = "Эффекты предметов"
 
+    def __str__(self):
+        text = f"{self.get_property_display()}: {self.amount}"
+        if self.in_percent:
+            text += "%"
+        return text
+
 
 class CraftingItem(models.Model):
     """Модель хранения предметов рецепта."""

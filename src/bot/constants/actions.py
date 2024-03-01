@@ -48,6 +48,8 @@ class BackpackAction(Action):
     """Действия для хендлеров инвентаря."""
 
     preview = f"{callback_data.BackpackData.__prefix__}-pr"
+    equip = f"{callback_data.BackpackData.__prefix__}-eq"
+    use = f"{callback_data.BackpackData.__prefix__}-use"
 
 
 class ShopAction(Action):

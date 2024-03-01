@@ -8,10 +8,10 @@ from bot.backpack.keyboards import (
     item_get_keyboard,
 )
 from bot.backpack.messages import (
-    ITEM_GET_MESSAGE,
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
 )
+from bot.backpack.utils import equip_item, get_character_item_info_text
 from bot.constants.actions import backpack_action
 from bot.constants.callback_data import BackpackData
 from bot.utils.user_helpers import get_user
@@ -74,12 +74,30 @@ async def backpack_get(
         id=callback_data.id
     )
     await callback.message.edit_text(
-        text=ITEM_GET_MESSAGE.format(
-            character_item.item.name_with_grade,
-            character_item.amount,
-            character_item.item.description,
-            character_item.item.sell_price,
-            character_item.item.buy_price,
-        ),
+        text=await get_character_item_info_text(character_item),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@backpack_router.callback_query(
+    BackpackData.filter(F.action == backpack_action.equip)
+)
+@log_in_dev
+async def backpack_equip_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: BackpackData,
+):
+    """Коллбек надевания/снятия предмета."""
+    character_item = await CharacterItem.objects.select_related(
+        "character", "item"
+    ).aget(id=callback_data.id)
+    await equip_item(character_item)
+    keyboard = await item_get_keyboard(callback_data)
+    character_item = await CharacterItem.objects.select_related("item").aget(
+        id=callback_data.id
+    )
+    await callback.message.edit_text(
+        text=await get_character_item_info_text(character_item),
         reply_markup=keyboard.as_markup(),
     )

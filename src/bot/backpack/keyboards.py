@@ -2,6 +2,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from character.models import CharacterItem
 from item.models import ItemType
 
+from bot.backpack.buttons import EQUIP_BUTTON, USE_BUTTON
 from bot.command.buttons import BACK_BUTTON
 from bot.constants.actions import (
     backpack_action,
@@ -54,6 +55,7 @@ async def backpack_list_keyboard(user: User, callback_data: BackpackData):
                 action=backpack_action.get,
                 page=callback_data.page,
                 id=item.id,
+                type=callback_data.type,
             ),
         )
     keyboard.adjust(1)
@@ -71,11 +73,30 @@ async def backpack_list_keyboard(user: User, callback_data: BackpackData):
 async def item_get_keyboard(callback_data: BackpackData):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
-    # TODO Использовать/надеть предмет
+    equipped_data = [ItemType.WEAPON, ItemType.ARMOR, ItemType.TALISMAN]
+    usable_data = [ItemType.SCROLL, ItemType.RECIPE]
+    if callback_data.type in equipped_data:
+        keyboard.button(
+            text=EQUIP_BUTTON,
+            callback_data=BackpackData(
+                action=backpack_action.equip,
+                id=callback_data.id,
+                type=callback_data.type,
+            ),
+        )
+    if callback_data.type in usable_data:
+        keyboard.button(
+            text=USE_BUTTON,
+            callback_data=BackpackData(
+                action=backpack_action.use, id=callback_data.id
+            ),
+        )
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=BackpackData(
-            action=backpack_action.list, page=callback_data.page
+            action=backpack_action.list,
+            page=callback_data.page,
+            type=callback_data.type,
         ),
     )
     keyboard.adjust(1)

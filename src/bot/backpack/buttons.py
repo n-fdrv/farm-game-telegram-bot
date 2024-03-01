@@ -1,3 +1,2 @@
-EQUIP_BUTTON = "Надеть"
-REMOVE_BUTTON = "Снять"
+EQUIP_BUTTON = "Надеть/Снять"
 USE_BUTTON = "Использовать"

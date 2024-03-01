@@ -34,7 +34,7 @@ async def get_item_info_text(item: Item):
     """Метод получения текста информации о товаре."""
     effects = ""
     if await item.effect.aexists():
-        effects = "\nЭффекты:"
+        effects = "\nЭффекты:\n"
         async for effect in item.effect.all():
             effects += f"{effect.get_property_display()} - {effect.amount}"
             if effect.in_percent:
