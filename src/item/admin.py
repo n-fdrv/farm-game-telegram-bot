@@ -9,6 +9,7 @@ from item.models import (
     Etc,
     ItemEffect,
     Material,
+    Potion,
     Recipe,
     Scroll,
     Talisman,
@@ -186,6 +187,44 @@ class MaterialAdmin(DjangoObjectActions, admin.ModelAdmin):
     search_fields = ("name",)
 
 
+@admin.register(Potion)
+class PotionAdmin(DjangoObjectActions, admin.ModelAdmin):
+    """Управление моделью эликсиров."""
+
+    def download_csv(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/items/potions.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.name,
+                        row.description,
+                        row.sell_price,
+                        row.buy_price,
+                        row.type,
+                        row.grade,
+                        row.effect_time,
+                    ]
+                )
+
+    download_csv.short_description = "Download selected as csv"
+    changelist_actions = ("download_csv",)
+    list_display = (
+        "name",
+        "buy_price",
+        "sell_price",
+        "effect_time",
+        "grade",
+    )
+    inlines = (ItemEffectInline,)
+    list_filter = ("grade",)
+    list_display_links = ("name",)
+    search_fields = ("name",)
+
+
 @admin.register(Scroll)
 class ScrollAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью предметов."""
@@ -217,7 +256,6 @@ class ScrollAdmin(DjangoObjectActions, admin.ModelAdmin):
         "type",
         "grade",
     )
-    inlines = (ItemEffectInline,)
     list_filter = ("type", "grade")
     list_display_links = ("name",)
     search_fields = ("name",)

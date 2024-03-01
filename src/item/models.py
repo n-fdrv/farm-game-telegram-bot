@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -10,6 +12,7 @@ class ItemType(models.TextChoices):
 
     ARMOR = "armor", "Броня"
     WEAPON = "weapon", "Оружие"
+    POTION = "potion", "Эликсир"
     TALISMAN = "talisman", "Талисман"
     RECIPE = "recipe", "Рецепт"
     MATERIAL = "material", "Ресурс"
@@ -59,11 +62,11 @@ class Item(models.Model):
 
     name = models.CharField(max_length=32, verbose_name="Имя")
     description = models.CharField(max_length=256, verbose_name="Описание")
-    sell_price = models.IntegerField(
-        default=0, verbose_name="Стоимость продажи"
-    )
     buy_price = models.IntegerField(
         default=0, verbose_name="Стоимость покупки"
+    )
+    sell_price = models.IntegerField(
+        default=0, verbose_name="Стоимость продажи"
     )
     grade = models.CharField(
         max_length=16,
@@ -122,6 +125,18 @@ class Weapon(Item):
     class Meta:
         verbose_name = "Оружие"
         verbose_name_plural = "Оружия"
+
+
+class Potion(Item):
+    """Модель хранения свитков."""
+
+    effect_time = models.TimeField(
+        default=datetime.time(hour=12), verbose_name="Время действия"
+    )
+
+    class Meta:
+        verbose_name = "Эликсир"
+        verbose_name_plural = "Эликсиры"
 
 
 class Scroll(Item):
@@ -211,7 +226,10 @@ class ItemEffect(models.Model):
         verbose_name_plural = "Эффекты предметов"
 
     def __str__(self):
-        text = f"{self.get_property_display()}: {self.amount}"
+        text = (
+            f"{self.item.name_with_grade} | "
+            f"{self.get_property_display()}: {self.amount}"
+        )
         if self.in_percent:
             text += "%"
         return text

@@ -140,6 +140,13 @@ class CharacterRecipeInline(admin.TabularInline):
     extra = 1
 
 
+class CharacterEffectInline(admin.TabularInline):
+    """Инлайн модель эффектов персонажа."""
+
+    model = Character.effects.through
+    extra = 1
+
+
 @admin.register(Character)
 class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью персонажей."""
@@ -225,6 +232,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
         CharacterSkillInline,
         CharacterItemInline,
         CharacterRecipeInline,
+        CharacterEffectInline,
     )
 
     def exp_percent(self, obj):

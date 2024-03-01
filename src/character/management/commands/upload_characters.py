@@ -68,6 +68,7 @@ class Command(BaseCommand):
                         character=character,
                         item=item,
                         amount=row[2],
+                        equipped=row[3],
                     )
                 except Exception as e:
                     logger.error(

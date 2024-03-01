@@ -11,7 +11,11 @@ from bot.backpack.messages import (
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
 )
-from bot.backpack.utils import equip_item, get_character_item_info_text
+from bot.backpack.utils import (
+    equip_item,
+    get_character_item_info_text,
+    get_gold_amount,
+)
 from bot.constants.actions import backpack_action
 from bot.constants.callback_data import BackpackData
 from bot.utils.user_helpers import get_user
@@ -31,12 +35,10 @@ async def backpack_preview(
 ):
     """Коллбек получения инвентаря."""
     user = await get_user(callback.from_user.id)
-    gold = await CharacterItem.objects.aget(
-        character=user.character, item__name="Золото"
-    )
+    gold = await get_gold_amount(user.character)
     keyboard = await backpack_preview_keyboard()
     await callback.message.edit_text(
-        text=ITEM_PREVIEW_MESSAGE.format(gold.amount),
+        text=ITEM_PREVIEW_MESSAGE.format(gold),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -90,7 +92,8 @@ async def backpack_equip_handler(
 ):
     """Коллбек надевания/снятия предмета."""
     character_item = await CharacterItem.objects.select_related(
-        "character", "item"
+        "character",
+        "item",
     ).aget(id=callback_data.id)
     await equip_item(character_item)
     keyboard = await item_get_keyboard(callback_data)

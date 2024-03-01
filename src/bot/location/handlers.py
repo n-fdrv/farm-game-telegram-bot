@@ -79,11 +79,13 @@ async def location_enter(
     time_left = str(
         user.character.hunting_end - user.character.hunting_begin
     ).split(".")[0]
+    keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=LOCATION_ENTER_MESSAGE.format(
             location.name,
             time_left,
         ),
+        reply_markup=keyboard.as_markup(),
     )
 
     await hunting_end_scheduler(user)

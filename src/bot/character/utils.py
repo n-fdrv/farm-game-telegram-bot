@@ -10,7 +10,7 @@ from character.models import (
 )
 from django.conf import settings
 from django.utils import timezone
-from item.models import EffectProperty, ItemEffect
+from item.models import EffectProperty
 from location.models import LocationDrop
 from loguru import logger
 
@@ -76,9 +76,8 @@ async def get_character_property(
             chosen_property += chosen_property * effect.amount / 100
             continue
         chosen_property += effect.amount
-    async for effect in ItemEffect.objects.filter(
-        property=effect_property,
-        item__in=character.items.filter(characteritem__equipped=True),
+    async for effect in character.effects.filter(
+        property=effect_property
     ).order_by("-in_percent"):
         if effect.in_percent:
             chosen_property += chosen_property * effect.amount / 100

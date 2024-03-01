@@ -1,7 +1,14 @@
 import datetime
 
 from django.db import models
-from item.models import ArmorType, EffectProperty, Item, Recipe, WeaponType
+from item.models import (
+    ArmorType,
+    EffectProperty,
+    Item,
+    ItemEffect,
+    Recipe,
+    WeaponType,
+)
 from location.models import Location
 
 
@@ -166,6 +173,9 @@ class Character(BaseCharacterModel):
     skills = models.ManyToManyField(
         Skill, through="CharacterSkill", related_name="character_skills"
     )
+    effects = models.ManyToManyField(
+        ItemEffect, through="CharacterEffect", related_name="character_effects"
+    )
     recipes = models.ManyToManyField(
         Recipe, through="CharacterRecipe", related_name="character_recipes"
     )
@@ -247,3 +257,25 @@ class CharacterRecipe(models.Model):
 
     def __str__(self):
         return f"Character: {self.character} | " f"Item: {self.recipe}"
+
+
+class CharacterEffect(models.Model):
+    """Модель для хранения эффектов персонажа."""
+
+    character = models.ForeignKey(
+        Character, on_delete=models.CASCADE, verbose_name="Персонаж"
+    )
+    effect = models.ForeignKey(
+        ItemEffect, on_delete=models.RESTRICT, verbose_name="Эффект"
+    )
+    expired = models.DateTimeField(
+        default=datetime.datetime(year=2100, month=12, day=31),
+        verbose_name="Дата окончания эффекта",
+    )
+
+    class Meta:
+        verbose_name = "Эффект персонажа"
+        verbose_name_plural = "Эффекты персонажа"
+
+    def __str__(self):
+        return f"Character: {self.character} | " f"Effect: {self.effect}"

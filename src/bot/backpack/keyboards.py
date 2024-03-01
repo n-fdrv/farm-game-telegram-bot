@@ -34,7 +34,8 @@ async def backpack_preview_keyboard():
         if button_number == button_in_row:
             row.append(button_number)
             button_number = 0
-    row.append(button_number)
+    if button_number > 0:
+        row.append(button_number)
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=CharacterData(action=character_action.get),
@@ -74,7 +75,7 @@ async def item_get_keyboard(callback_data: BackpackData):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
     equipped_data = [ItemType.WEAPON, ItemType.ARMOR, ItemType.TALISMAN]
-    usable_data = [ItemType.SCROLL, ItemType.RECIPE]
+    usable_data = [ItemType.SCROLL, ItemType.RECIPE, ItemType.POTION]
     if callback_data.type in equipped_data:
         keyboard.button(
             text=EQUIP_BUTTON,

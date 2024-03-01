@@ -1,4 +1,4 @@
-from character.models import Character, CharacterItem
+from character.models import Character, CharacterEffect, CharacterItem
 from item.models import Item
 
 from bot.backpack.messages import ITEM_GET_MESSAGE
@@ -33,6 +33,19 @@ async def add_item(character: Character, item: Item, amount: int = 1):
     return True
 
 
+async def get_gold_amount(character: Character):
+    """Получение количества золота у персонажа."""
+    exists = await CharacterItem.objects.filter(
+        character=character, item__name="Золото"
+    ).aexists()
+    if exists:
+        gold = await CharacterItem.objects.aget(
+            character=character, item__name="Золото"
+        )
+        return gold.amount
+    return 0
+
+
 async def get_character_item_info_text(character_item: CharacterItem):
     """Метод получения текста информации о товаре."""
     effects = ""
@@ -64,16 +77,28 @@ async def equip_item(item: CharacterItem):
     """Метод надевания, снятия предмета."""
     if item.equipped:
         item.equipped = False
+        async for effect in item.item.effect.all():
+            await CharacterEffect.objects.filter(
+                character=item.character, effect=effect
+            ).adelete()
         await item.asave(update_fields=("equipped",))
         return
     type_equipped = await item.character.items.filter(
         characteritem__equipped=True, type=item.item.type
     ).aexists()
     if type_equipped:
-        equipped_item = await CharacterItem.objects.aget(
+        equipped_item = await CharacterItem.objects.select_related(
+            "item"
+        ).aget(
             character=item.character, item__type=item.item.type, equipped=True
         )
+        async for effect in equipped_item.item.effect.all():
+            await CharacterEffect.objects.filter(
+                character=item.character, effect=effect
+            ).adelete()
         equipped_item.equipped = False
         await equipped_item.asave(update_fields=("equipped",))
     item.equipped = True
+    async for effect in item.item.effect.all():
+        await item.character.effects.aadd(effect)
     await item.asave(update_fields=("equipped",))
