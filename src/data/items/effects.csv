@@ -1,3 +1,17 @@
 attack,10,True,Эликсир Силы
 defence,10,True,Эликсир Защиты
 hunting_time,10,True,Эликсир Выносливости
+defence,3,False,Потрепанная Мантия
+defence,4,False,Потрепанный Кожанный Доспех
+defence,5,False,Потрепанный Тяжелый Доспех
+defence,5,False,Мантия Ученика
+defence,6,False,Легкая Броня Ученика
+defence,7,False,Тяжелая Броня Ученика
+attack,5,False,Потрепанный Посох
+attack,5,False,Деревянный Кинжал
+attack,4,False,Деревянный Меч
+attack,4,False,Надломанная Дубина
+attack,8,False,Посох Ученика
+attack,7,False,Меч Ученика
+attack,8,False,Кинжал Ученика
+attack,7,False,Дубина Ученика

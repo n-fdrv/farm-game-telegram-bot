@@ -15,6 +15,7 @@ from location.models import LocationDrop
 from loguru import logger
 
 from bot.character.messages import (
+    CHARACTER_ABOUT_MESSAGE,
     CHARACTER_INFO_MESSAGE,
     CHARACTER_KILL_MESSAGE,
 )
@@ -98,16 +99,51 @@ async def get_character_info(character: Character) -> str:
             ]
             time_left_text = f"Осталось: <b>{time_left}</b>"
         location = (
-            f"<b>{character.current_location.name}</b>\n" f"{time_left_text}"
+            f"<b>{character.current_location.name}</b>\n" f"⏳{time_left_text}"
         )
     return CHARACTER_INFO_MESSAGE.format(
         character.name,
         character.character_class.emoji,
         character.level,
         exp_in_percent,
-        await get_character_property(character, EffectProperty.ATTACK),
-        await get_character_property(character, EffectProperty.DEFENCE),
+        int(await get_character_property(character, EffectProperty.ATTACK)),
+        int(await get_character_property(character, EffectProperty.DEFENCE)),
         location,
+    )
+
+
+async def get_character_about(character: Character) -> str:
+    """Возвращает сообщение с данными о персонаже."""
+    exp_in_percent = round(character.exp / character.exp_for_level_up * 100, 2)
+    skill_effect = SkillEffect.objects.filter(skill__in=character.skills.all())
+    return CHARACTER_ABOUT_MESSAGE.format(
+        character.name,
+        character.character_class.emoji,
+        character.level,
+        exp_in_percent,
+        int(await get_character_property(character, EffectProperty.ATTACK)),
+        int(await get_character_property(character, EffectProperty.DEFENCE)),
+        100
+        - await get_character_property(character, EffectProperty.EXP) * 100,
+        100
+        - await get_character_property(character, EffectProperty.DROP) * 100,
+        "\n".join(
+            [
+                x.name_with_grade
+                async for x in character.items.filter(
+                    characteritem__equipped=True
+                )
+            ]
+        ),
+        "\n".join(
+            [x.get_property_with_amount() async for x in skill_effect.all()]
+        ),
+        "\n".join(
+            [
+                x.get_property_with_amount()
+                async for x in character.effects.all()
+            ]
+        ),
     )
 
 

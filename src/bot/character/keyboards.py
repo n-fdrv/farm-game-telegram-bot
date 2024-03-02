@@ -153,3 +153,14 @@ async def skill_get_keyboard(skill: Skill):
     )
     keyboard.adjust(1)
     return keyboard
+
+
+async def about_keyboard():
+    """Клавиатура о персонаже."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=CharacterData(action=character_action.get),
+    )
+    keyboard.adjust(1)
+    return keyboard

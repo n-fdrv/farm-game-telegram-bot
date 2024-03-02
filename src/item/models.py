@@ -240,6 +240,13 @@ class ItemEffect(models.Model):
             text += "%"
         return text
 
+    def get_property_with_amount(self):
+        """Получение свойства с количеством."""
+        text = f"{self.get_property_display()}: {self.amount}"
+        if self.in_percent:
+            text += "%"
+        return text
+
 
 class CraftingItem(models.Model):
     """Модель хранения предметов рецепта."""

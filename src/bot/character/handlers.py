@@ -1,9 +1,9 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import CharacterClass, Skill
-from item.models import EffectProperty
 
 from bot.character.keyboards import (
+    about_keyboard,
     character_get_keyboard,
     choose_class_keyboard,
     class_get_keyboard,
@@ -25,8 +25,8 @@ from bot.character.utils import (
     check_nickname_correct,
     check_nickname_exist,
     create_character,
+    get_character_about,
     get_character_info,
-    get_character_property,
     get_skill_effects_info,
 )
 from bot.command.buttons import CHARACTER_BUTTON
@@ -240,4 +240,8 @@ async def about_callback(
 ):
     """Хендлер информации о персонаже."""
     user = await get_user(callback.from_user.id)
-    print(await get_character_property(user.character, EffectProperty.DROP))
+    keyboard = await about_keyboard()
+    await callback.message.edit_text(
+        text=await get_character_about(user.character),
+        reply_markup=keyboard.as_markup(),
+    )
