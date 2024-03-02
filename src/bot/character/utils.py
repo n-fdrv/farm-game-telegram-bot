@@ -1,16 +1,18 @@
+import datetime
 import random
 import re
 
 from character.models import (
     Character,
     CharacterClass,
+    CharacterEffect,
     CharacterItem,
     Skill,
     SkillEffect,
 )
 from django.conf import settings
 from django.utils import timezone
-from item.models import EffectProperty
+from item.models import EffectProperty, Item
 from location.models import LocationDrop
 from loguru import logger
 
@@ -112,10 +114,38 @@ async def get_character_info(character: Character) -> str:
     )
 
 
+async def get_item_with_effects(item: Item):
+    """Получение предмета с его эффектами."""
+    item_effects = ",".join(
+        [x.get_property_with_amount() async for x in item.effect.all()]
+    )
+    return f"{item.name_with_grade} ({item_effects})"
+
+
+async def get_elixir_with_effects_and_expired(character: Character):
+    """Получение эффектов от эликсиров."""
+    effects = (
+        CharacterEffect.objects.select_related("effect")
+        .filter(
+            character=character,
+            expired__lte=datetime.date(year=2030, month=12, day=12),
+        )
+        .all()
+    )
+    return "\n".join(
+        [
+            f"{x.effect.get_property_with_amount()} - "
+            f"{(x.expired - timezone.now()).seconds // 60} минут"
+            async for x in effects
+        ]
+    )
+
+
 async def get_character_about(character: Character) -> str:
     """Возвращает сообщение с данными о персонаже."""
     exp_in_percent = round(character.exp / character.exp_for_level_up * 100, 2)
     skill_effect = SkillEffect.objects.filter(skill__in=character.skills.all())
+
     return CHARACTER_ABOUT_MESSAGE.format(
         character.name,
         character.character_class.emoji,
@@ -123,13 +153,19 @@ async def get_character_about(character: Character) -> str:
         exp_in_percent,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
-        100
-        - await get_character_property(character, EffectProperty.EXP) * 100,
-        100
-        - await get_character_property(character, EffectProperty.DROP) * 100,
+        round(
+            await get_character_property(character, EffectProperty.EXP) * 100
+            - 100,
+            2,
+        ),
+        round(
+            await get_character_property(character, EffectProperty.DROP) * 100
+            - 100,
+            2,
+        ),
         "\n".join(
             [
-                x.name_with_grade
+                await get_item_with_effects(x)
                 async for x in character.items.filter(
                     characteritem__equipped=True
                 )
@@ -138,12 +174,7 @@ async def get_character_about(character: Character) -> str:
         "\n".join(
             [x.get_property_with_amount() async for x in skill_effect.all()]
         ),
-        "\n".join(
-            [
-                x.get_property_with_amount()
-                async for x in character.effects.all()
-            ]
-        ),
+        await get_elixir_with_effects_and_expired(character),
     )
 
 
