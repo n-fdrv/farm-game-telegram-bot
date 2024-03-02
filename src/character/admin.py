@@ -9,6 +9,7 @@ from character.models import (
     CharacterClassSkill,
     CharacterItem,
     CharacterSkill,
+    ClassEquipment,
     Skill,
     SkillEffect,
 )
@@ -25,6 +26,13 @@ class ClassSkillInline(admin.TabularInline):
     """Инлайн модель умений классов."""
 
     model = CharacterClass.skills.through
+    extra = 1
+
+
+class ClassEquipmentInline(admin.TabularInline):
+    """Инлайн модель умений классов."""
+
+    model = ClassEquipment
     extra = 1
 
 
@@ -93,10 +101,6 @@ class CharacterClassAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.description,
                         row.attack,
                         row.defence,
-                        row.attack_level_increase,
-                        row.defence_level_increase,
-                        row.armor_type,
-                        row.weapon_type,
                         row.emoji,
                     ]
                 )
@@ -115,10 +119,19 @@ class CharacterClassAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.skill.level,
                     ]
                 )
+        with open(
+            "data/characters/class_equipment.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in ClassEquipment.objects.all():
+                spamwriter.writerow([row.character_class.name, row.type])
 
     download_csv.short_description = "Download selected as csv"
     changelist_actions = ("download_csv",)
-    inlines = (ClassSkillInline,)
+    inlines = (ClassSkillInline, ClassEquipmentInline)
     list_display = (
         "name",
         "attack",
@@ -175,7 +188,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.exp_for_level_up,
                         row.attack,
                         row.defence,
-                        row.character_class,
+                        row.character_class.name,
                         location,
                         hunting_begin,
                         hunting_end,

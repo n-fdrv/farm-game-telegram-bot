@@ -2,7 +2,11 @@ import datetime
 
 from character.models import Character, CharacterEffect, CharacterItem
 from django.utils import timezone
-from item.models import Item, Potion
+from item.models import (
+    Equipment,
+    Item,
+    Potion,
+)
 
 from bot.backpack.messages import ITEM_GET_MESSAGE
 
@@ -78,6 +82,11 @@ async def get_character_item_info_text(character_item: CharacterItem):
 
 async def equip_item(item: CharacterItem):
     """Метод надевания, снятия предмета."""
+    equipment = await Equipment.objects.aget(pk=item.item.pk)
+    if equipment.equipment_type not in [
+        x.type async for x in item.character.character_class.equip.all()
+    ]:
+        return False
     if item.equipped:
         item.equipped = False
         async for effect in item.item.effect.all():
@@ -85,7 +94,7 @@ async def equip_item(item: CharacterItem):
                 character=item.character, effect=effect
             ).adelete()
         await item.asave(update_fields=("equipped",))
-        return
+        return True
     type_equipped = await item.character.items.filter(
         characteritem__equipped=True, type=item.item.type
     ).aexists()
@@ -105,6 +114,7 @@ async def equip_item(item: CharacterItem):
     async for effect in item.item.effect.all():
         await item.character.effects.aadd(effect)
     await item.asave(update_fields=("equipped",))
+    return True
 
 
 async def use_potion(character: Character, item: Item):

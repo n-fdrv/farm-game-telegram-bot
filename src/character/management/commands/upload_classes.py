@@ -6,6 +6,7 @@ from loguru import logger
 from character.models import (
     CharacterClass,
     CharacterClassSkill,
+    ClassEquipment,
     Skill,
 )
 
@@ -27,11 +28,22 @@ class Command(BaseCommand):
                         description=row[1],
                         attack=row[2],
                         defence=row[3],
-                        attack_level_increase=row[4],
-                        defence_level_increase=row[5],
-                        armor_type=row[6],
-                        weapon_type=row[7],
-                        emoji=row[8],
+                        emoji=row[4],
+                    )
+                except Exception as e:
+                    logger.error(f"error in uploading: Class - {row[0]}: {e}")
+                    raise e
+        with open(
+            "data/characters/class_equipment.csv", encoding="utf-8"
+        ) as f:
+            logger.info("Classes upload started")
+            reader = csv.reader(f)
+            for row in reader:
+                try:
+                    character_class = CharacterClass.objects.get(name=row[0])
+                    ClassEquipment.objects.get_or_create(
+                        character_class=character_class,
+                        type=row[1],
                     )
                 except Exception as e:
                     logger.error(f"error in uploading: Class - {row[0]}: {e}")

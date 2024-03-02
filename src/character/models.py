@@ -2,12 +2,11 @@ import datetime
 
 from django.db import models
 from item.models import (
-    ArmorType,
     EffectProperty,
+    EquipmentType,
     Item,
     ItemEffect,
     Recipe,
-    WeaponType,
 )
 from location.models import Location
 
@@ -77,24 +76,6 @@ class CharacterClass(BaseCharacterModel):
     description = models.TextField(verbose_name="Описание")
     attack = models.IntegerField(default=0, verbose_name="Атака")
     defence = models.IntegerField(default=0, verbose_name="Защита")
-    attack_level_increase = models.IntegerField(
-        default=1, verbose_name="Прирост атаки за уровень"
-    )
-    defence_level_increase = models.IntegerField(
-        default=1, verbose_name="Прирост защиты за уровень"
-    )
-    armor_type = models.CharField(
-        max_length=16,
-        choices=ArmorType.choices,
-        default=ArmorType.HEAVY,
-        verbose_name="Вид брони",
-    )
-    weapon_type = models.CharField(
-        max_length=16,
-        choices=WeaponType.choices,
-        default=WeaponType.SWORD,
-        verbose_name="Вид оружия",
-    )
     skills = models.ManyToManyField(
         Skill, through="CharacterClassSkill", related_name="class_skills"
     )
@@ -110,6 +91,30 @@ class CharacterClass(BaseCharacterModel):
     def emoji_name(self):
         """Возвращает название класса с эмоджи."""
         return f"{self.emoji} {self.name}"
+
+
+class ClassEquipment(models.Model):
+    """Модель для хранения умений классов."""
+
+    type = models.CharField(
+        max_length=16,
+        choices=EquipmentType.choices,
+        null=True,
+        verbose_name="Вид экипировки",
+    )
+    character_class = models.ForeignKey(
+        CharacterClass,
+        on_delete=models.CASCADE,
+        verbose_name="Класс",
+        related_name="equip",
+    )
+
+    class Meta:
+        verbose_name = "Классовая экипировка"
+        verbose_name_plural = "Классовые экипировки"
+
+    def __str__(self):
+        return f"{self.type} {self.character_class}"
 
 
 class CharacterClassSkill(models.Model):

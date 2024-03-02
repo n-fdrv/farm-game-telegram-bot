@@ -128,8 +128,8 @@ async def get_exp(character: Character, exp_amount: int):
         character.exp_for_level_up += (
             character.exp_for_level_up * settings.EXP_FOR_LEVEL_UP_MULTIPLIER
         )
-        character.attack += character.character_class.attack_level_increase
-        character.defence += character.character_class.defence_level_increase
+        character.attack += settings.ATTACK_INCREASE_LEVEL_UP
+        character.defence += settings.DEFENCE_INCREASE_LEVEL_UP
         character.level += 1
     await character.asave(
         update_fields=("level", "exp", "exp_for_level_up", "attack", "defence")

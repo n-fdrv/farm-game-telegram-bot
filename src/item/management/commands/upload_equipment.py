@@ -10,16 +10,15 @@ from item.models import ITEM_DATA
 class Command(BaseCommand):
     """Команда заполнения баззы данных."""
 
-    help = "Заполняет базу данных записями обычных предметов"
+    help = "Заполняет базу данных записями"
 
     def handle(self, *args, **kwargs):
         """Метод при вызове команды."""
-        logger.info("Base items upload started")
-        directory = "data/items/base/"
+        logger.info("Equipment upload started")
+        directory = "data/items/equipment/"
         files = os.listdir(directory)
         for file in files:
             with open(f"{directory}{file}", encoding="utf-8") as f:
-
                 reader = csv.reader(f)
                 for row in reader:
                     try:
@@ -30,9 +29,10 @@ class Command(BaseCommand):
                             buy_price=row[3],
                             type=row[4],
                             grade=row[5],
+                            equipment_type=row[6],
                         )
                     except Exception as e:
                         logger.error(
-                            f"error in uploading: Base item - {row[0]}: {e}"
+                            f"error in uploading: Equipment - {row[0]}: {e}"
                         )
-        logger.info("Base items upload started")
+        logger.info("Equipment upload ended")

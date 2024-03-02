@@ -20,16 +20,12 @@ class ItemType(models.TextChoices):
     ETC = "etc", "Разное"
 
 
-class ArmorType(models.TextChoices):
-    """Типы брони."""
+class EquipmentType(models.TextChoices):
+    """Типы экипировки."""
 
-    HEAVY = "heavy", "Тяжелая"
-    LIGHT = "light", "Легкая"
-    ROBE = "robe", "Ткань"
-
-
-class WeaponType(models.TextChoices):
-    """Типы брони."""
+    HEAVY_ARMOR = "heavy_armor", "Тяжелая Броня"
+    LIGHT_ARMOR = "light_armor", "Легкая Броня"
+    ROBE_ARMOR = "robe", "Мантия"
 
     SWORD = "sword", "Меч"
     STAFF = "staff", "Посох"
@@ -97,14 +93,14 @@ class Item(models.Model):
         return f"{self.get_grade_display()[:2]} {self.name}"
 
 
-class Armor(Item):
-    """Модель хранения брони."""
+class Equipment(Item):
+    """Модель хранения предметов которые можно надевать."""
 
-    armor_type = models.CharField(
+    equipment_type = models.CharField(
         max_length=16,
-        choices=ArmorType.choices,
-        default=ArmorType.HEAVY,
-        verbose_name="Вид брони",
+        choices=EquipmentType.choices,
+        default=EquipmentType.HEAVY_ARMOR,
+        verbose_name="Вид экипировки",
     )
 
     class Meta:
@@ -112,19 +108,39 @@ class Armor(Item):
         verbose_name_plural = "Броня"
 
 
-class Weapon(Item):
+class Armor(Equipment):
+    """Модель хранения брони."""
+
+    pass
+
+    class Meta:
+        verbose_name = "Броня"
+        verbose_name_plural = "Броня"
+
+
+class Weapon(Equipment):
     """Модель хранения оружия."""
 
-    weapon_type = models.CharField(
-        max_length=16,
-        choices=WeaponType.choices,
-        default=WeaponType.SWORD,
-        verbose_name="Вид оружия",
-    )
+    pass
 
     class Meta:
         verbose_name = "Оружие"
         verbose_name_plural = "Оружия"
+
+
+class Talisman(Item):
+    """Модель хранения талисманов."""
+
+    talisman_type = models.CharField(
+        max_length=16,
+        choices=EffectProperty.choices,
+        default=EffectProperty.ATTACK,
+        verbose_name="Вид талисмана",
+    )
+
+    class Meta:
+        verbose_name = "Талисман"
+        verbose_name_plural = "Талисманы"
 
 
 class Potion(Item):
@@ -157,16 +173,6 @@ class Material(Item):
     class Meta:
         verbose_name = "Ресурс"
         verbose_name_plural = "Ресурсы"
-
-
-class Talisman(Item):
-    """Модель хранения свитков."""
-
-    pass
-
-    class Meta:
-        verbose_name = "Талисман"
-        verbose_name_plural = "Талисманы"
 
 
 class Recipe(Item):
@@ -258,3 +264,14 @@ class CraftingItem(models.Model):
 
     def __str__(self):
         return f"{self.recipe} | {self.material.name}"
+
+
+ITEM_DATA = {
+    ItemType.TALISMAN: Talisman,
+    ItemType.ETC: Etc,
+    ItemType.MATERIAL: Material,
+    ItemType.SCROLL: Scroll,
+    ItemType.ARMOR: Armor,
+    ItemType.WEAPON: Weapon,
+    ItemType.RECIPE: Recipe,
+}

@@ -87,15 +87,17 @@ class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
     inlines = (ItemEffectInline,)
 
 
-@admin.register(Armor)
-class ArmorAdmin(BaseItemAdmin):
-    """Управление моделью предметов."""
+class BaseEquipmentAdmin(BaseItemAdmin):
+    """Базовая админ-панель для предметов."""
 
-    def download_csv(modeladmin, request, queryset):
+    def download_data(modeladmin, request, queryset):
         """Сформировать файл с данными базы."""
         file_name = str(modeladmin.model._meta).split(".")[1]
         with open(
-            f"data/items/{file_name}.csv", "w", newline="", encoding="utf-8"
+            f"data/items/equipment/{file_name}.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
         ) as csvfile:
             spamwriter = csv.writer(csvfile, delimiter=",")
             for row in queryset:
@@ -107,58 +109,39 @@ class ArmorAdmin(BaseItemAdmin):
                         row.buy_price,
                         row.type,
                         row.grade,
-                        row.armor_type,
+                        row.equipment_type,
                     ]
                 )
 
-    download_csv.short_description = "Download selected as csv"
-    changelist_actions = ("download_csv", "download_effects")
-    inlines = (ItemEffectInline,)
     list_display = (
         "name",
         "buy_price",
         "sell_price",
-        "armor_type",
+        "equipment_type",
         "grade",
     )
-    list_filter = ("grade", "armor_type")
+    list_filter = ("grade", "equipment_type")
+
+
+@admin.register(Armor)
+class ArmorAdmin(BaseEquipmentAdmin):
+    """Управление моделью предметов."""
+
+    pass
 
 
 @admin.register(Weapon)
-class WeaponAdmin(BaseItemAdmin):
+class WeaponAdmin(BaseEquipmentAdmin):
     """Управление моделью предметов."""
 
-    def download_csv(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        file_name = str(modeladmin.model._meta).split(".")[1]
-        with open(
-            f"data/items/{file_name}.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.sell_price,
-                        row.buy_price,
-                        row.type,
-                        row.grade,
-                        row.weapon_type,
-                    ]
-                )
+    pass
 
-    download_csv.short_description = "Download selected as csv"
-    changelist_actions = ("download_csv", "download_effects")
-    list_display = (
-        "name",
-        "sell_price",
-        "buy_price",
-        "weapon_type",
-        "grade",
-    )
-    inlines = (ItemEffectInline,)
-    list_filter = ("weapon_type", "grade")
+
+@admin.register(Talisman)
+class TalismanAdmin(BaseItemAdmin):
+    """Управление моделью предметов."""
+
+    pass
 
 
 @admin.register(Etc)
@@ -216,13 +199,6 @@ class PotionAdmin(BaseItemAdmin):
 
 @admin.register(Scroll)
 class ScrollAdmin(BaseItemAdmin):
-    """Управление моделью предметов."""
-
-    pass
-
-
-@admin.register(Talisman)
-class TalismanAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
 
     pass

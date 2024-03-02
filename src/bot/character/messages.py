@@ -17,12 +17,7 @@ CHOOSE_CLASS_MESSAGE = (
 )
 
 CLASS_GET_MESSAGE = (
-    "<b>{}</b> \n\n"
-    "{}\n"
-    "Атака: {}\n"
-    "Защита {}\n"
-    "Тип брони: {}\n"
-    "Тип оружия: {}\n"
+    "<b>{}</b> \n\n" "{}\n" "Атака: {}\n" "Защита {}\n" "Носит: {}"
 )
 
 CHARACTER_INFO_MESSAGE = (

@@ -157,8 +157,12 @@ async def class_get_callback(
             character_class.description,
             character_class.attack,
             character_class.defence,
-            character_class.get_armor_type_display(),
-            character_class.get_weapon_type_display(),
+            ", ".join(
+                [
+                    x.get_type_display()
+                    async for x in character_class.equip.all()
+                ]
+            ),
         ),
         reply_markup=keyboard.as_markup(),
     )

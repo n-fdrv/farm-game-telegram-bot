@@ -6,11 +6,13 @@ from bot.backpack.keyboards import (
     backpack_list_keyboard,
     backpack_preview_keyboard,
     item_get_keyboard,
+    not_success_equip_keyboard,
     use_potion_keyboard,
 )
 from bot.backpack.messages import (
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
+    NOT_SUCCESS_EQUIP_MESSAGE,
     SUCCESS_USE_POTION_MESSAGE,
 )
 from bot.backpack.utils import (
@@ -96,9 +98,17 @@ async def backpack_equip_handler(
     """Коллбек надевания/снятия предмета."""
     character_item = await CharacterItem.objects.select_related(
         "character",
+        "character__character_class",
         "item",
     ).aget(id=callback_data.id)
-    await equip_item(character_item)
+    success = await equip_item(character_item)
+    if not success:
+        keyboard = await not_success_equip_keyboard(callback_data)
+        await callback.message.edit_text(
+            text=NOT_SUCCESS_EQUIP_MESSAGE,
+            reply_markup=keyboard.as_markup(),
+        )
+        return
     keyboard = await item_get_keyboard(callback_data)
     character_item = await CharacterItem.objects.select_related("item").aget(
         id=callback_data.id
