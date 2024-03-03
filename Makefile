@@ -47,7 +47,6 @@ createsuperuser: # Создать супер пользователя
 upload-items: # Загрузить данные
 	cd src && poetry run python manage.py upload_items && \
 	poetry run python manage.py upload_equipment && \
-	poetry run python manage.py upload_potions && \
 	poetry run python manage.py upload_recipes && \
 	poetry run python manage.py upload_effects && cd ..
 

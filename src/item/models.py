@@ -1,5 +1,3 @@
-import datetime
-
 from django.db import models
 
 
@@ -146,9 +144,7 @@ class Talisman(Item):
 class Potion(Item):
     """Модель хранения свитков."""
 
-    effect_time = models.TimeField(
-        default=datetime.time(hour=12), verbose_name="Время действия"
-    )
+    pass
 
     class Meta:
         verbose_name = "Эликсир"

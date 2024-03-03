@@ -1,4 +1,3 @@
-import datetime
 import random
 import re
 
@@ -128,14 +127,14 @@ async def get_elixir_with_effects_and_expired(character: Character):
         CharacterEffect.objects.select_related("effect")
         .filter(
             character=character,
-            expired__lte=datetime.date(year=2030, month=12, day=12),
+            hunting_amount__gte=1,
         )
         .all()
     )
     return "\n".join(
         [
             f"{x.effect.get_property_with_amount()} - "
-            f"{(x.expired - timezone.now()).seconds // 60} минут"
+            f"{x.hunting_amount} ед."
             async for x in effects
         ]
     )
@@ -213,6 +212,16 @@ async def remove_exp(character: Character, exp_amount: int):
     return character
 
 
+async def remove_effect(character_effect: CharacterEffect):
+    """Метод снятия эффекта."""
+    character_effect.hunting_amount -= 1
+    if character_effect.hunting_amount == 0:
+        await character_effect.adelete()
+        return character_effect
+    await character_effect.asave(update_fields=("hunting_amount",))
+    return character_effect
+
+
 async def get_hunting_loot(character: Character):
     """Метод получения трофеев с охоты."""
     hunting_minutes = await get_hunting_minutes(character)
@@ -251,6 +260,10 @@ async def get_hunting_loot(character: Character):
     character.hunting_begin = None
     character.hunting_end = None
     character.job_id = None
+    async for character_effect in CharacterEffect.objects.filter(
+        character=character, permanent=False
+    ):
+        await remove_effect(character_effect)
     await character.asave(
         update_fields=(
             "current_location",

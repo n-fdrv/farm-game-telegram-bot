@@ -112,7 +112,12 @@ async def equip_item(item: CharacterItem):
         await equipped_item.asave(update_fields=("equipped",))
     item.equipped = True
     async for effect in item.item.effect.all():
-        await item.character.effects.aadd(effect)
+        await CharacterEffect.objects.acreate(
+            character=item.character,
+            effect=effect,
+            permanent=True,
+            hunting_amount=0,
+        )
     await item.asave(update_fields=("equipped",))
     return True
 

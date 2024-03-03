@@ -7,6 +7,7 @@ from character.models import (
     Character,
     CharacterClass,
     CharacterClassSkill,
+    CharacterEffect,
     CharacterItem,
     CharacterSkill,
     ClassEquipment,
@@ -225,6 +226,22 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.character.name,
                         row.skill.name,
                         row.skill.level,
+                    ]
+                )
+        with open(
+            "data/characters/character_effects.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in CharacterEffect.objects.all():
+                spamwriter.writerow(
+                    [
+                        row.character.name,
+                        row.effect.name,
+                        row.permanent,
+                        row.hunting_amount,
                     ]
                 )
 

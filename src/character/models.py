@@ -280,9 +280,9 @@ class CharacterEffect(models.Model):
     effect = models.ForeignKey(
         ItemEffect, on_delete=models.RESTRICT, verbose_name="Эффект"
     )
-    expired = models.DateTimeField(
-        default=datetime.datetime(year=2100, month=12, day=31),
-        verbose_name="Дата окончания эффекта",
+    permanent = models.BooleanField(default=False, verbose_name="Постоянный")
+    hunting_amount = models.IntegerField(
+        default=1, verbose_name="Количество охот"
     )
 
     class Meta:
