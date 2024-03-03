@@ -46,7 +46,7 @@ async def buy_list_keyboard(callback_data: ShopData):
     keyboard = InlineKeyboardBuilder()
     async for item in Item.objects.exclude(buy_price=0):
         keyboard.button(
-            text=f"{item.name_with_grade} - {item.buy_price} золота",
+            text=f"{item.name_with_type} - {item.buy_price} золота",
             callback_data=ShopData(
                 action=shop_action.buy_get,
                 page=callback_data.page,
@@ -98,7 +98,7 @@ async def sell_list_keyboard(user: User, callback_data: ShopData):
         .filter(character=user.character)
     ):
         keyboard.button(
-            text=f"{item.item.name_with_grade} - {item.amount} шт.",
+            text=f"{item.item.name_with_type} - {item.amount} шт.",
             callback_data=ShopData(
                 action=shop_action.sell_get,
                 page=callback_data.page,

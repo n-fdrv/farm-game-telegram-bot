@@ -24,11 +24,10 @@ async def get_crafting_item_text(recipe: Recipe):
     text = ""
     async for material in recipe.materials.select_related("material").all():
         text += (
-            f"{material.material.name_with_grade} - "
-            f"{material.amount} шт.\n"
+            f"{material.material.name_with_type} - " f"{material.amount} шт.\n"
         )
     return CRAFTING_GET_MESSAGE.format(
-        recipe.create.name_with_grade,
+        recipe.create.name_with_type,
         await get_item_effects_text(recipe.create),
         text,
     )

@@ -81,11 +81,11 @@ async def craft_create_callback(
     success = await craft_item(user.character, recipe)
     if success:
         await callback.message.edit_text(
-            text=SUCCESS_CRAFT_MESSAGE.format(recipe.create.name_with_grade),
+            text=SUCCESS_CRAFT_MESSAGE.format(recipe.create.name_with_type),
             reply_markup=keyboard.as_markup(),
         )
         return
     await callback.message.edit_text(
-        text=NOT_SUCCESS_CRAFT_MESSAGE.format(recipe.create.name_with_grade),
+        text=NOT_SUCCESS_CRAFT_MESSAGE.format(recipe.create.name_with_type),
         reply_markup=keyboard.as_markup(),
     )

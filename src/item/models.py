@@ -8,13 +8,14 @@ class BaseItemModel(models.Model):
 class ItemType(models.TextChoices):
     """Типы информационных карт."""
 
-    ARMOR = "armor", "Броня"
-    WEAPON = "weapon", "Оружие"
-    POTION = "potion", "Эликсир"
-    TALISMAN = "talisman", "Талисман"
-    RECIPE = "recipe", "Рецепт"
-    MATERIAL = "material", "Ресурс"
-    SCROLL = "scroll", "Свиток"
+    ARMOR = "armor", "🛡Броня"
+    WEAPON = "weapon", "⚔️Оружие"
+    POTION = "potion", "🍷Эликсир"
+    TALISMAN = "talisman", "⭐️Талисман"
+    RECIPE = "recipe", "📕Рецепт"
+    MATERIAL = "material", "🪵Ресурс"
+    SCROLL = "scroll", "📜Свиток"
+    BAG = "bag", "📦Мешок"
     ETC = "etc", "Разное"
 
 
@@ -29,16 +30,6 @@ class EquipmentType(models.TextChoices):
     STAFF = "staff", "Посох"
     BLUNT = "blunt", "Дубина"
     DAGGER = "dagger", "Кинжал"
-
-
-class ItemGrade(models.TextChoices):
-    """Типы информационных карт."""
-
-    COMMON = "common", "️⚪️ Обычный"
-    UNCOMMON = "uncommon", "🟤 Необычный"
-    RARE = "rare", "🔵 Редкий"
-    LEGENDARY = "legendary", "🟠 Легендарный"
-    EPIC = "epic", "🔴 Эпический"
 
 
 class EffectProperty(models.TextChoices):
@@ -62,12 +53,6 @@ class Item(models.Model):
     sell_price = models.IntegerField(
         default=0, verbose_name="Стоимость продажи"
     )
-    grade = models.CharField(
-        max_length=16,
-        choices=ItemGrade.choices,
-        default=ItemGrade.COMMON,
-        verbose_name="Ранг",
-    )
     created = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания"
     )
@@ -86,9 +71,11 @@ class Item(models.Model):
         return f"{self.name}"
 
     @property
-    def name_with_grade(self):
+    def name_with_type(self):
         """Возвращает полное имя пользователя."""
-        return f"{self.get_grade_display()[:2]} {self.name}"
+        if self.type == ItemType.ETC:
+            return f"{self.name}"
+        return f"{self.get_type_display()[:1]}{self.name}"
 
 
 class Equipment(Item):
@@ -203,6 +190,38 @@ class Etc(Item):
     class Meta:
         verbose_name = "Разное"
         verbose_name_plural = "Разное"
+
+
+class Bag(Item):
+    """Модель хранения мешков."""
+
+    pass
+
+    class Meta:
+        verbose_name = "Мешок"
+        verbose_name_plural = "Мешки"
+
+
+class BagItem(models.Model):
+    """Модель хранения предметов в мешке."""
+
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.RESTRICT,
+        verbose_name="Возможный предмет",
+        related_name="item_in_bag",
+    )
+    bag = models.ForeignKey(
+        Bag,
+        on_delete=models.RESTRICT,
+        verbose_name="Мешок",
+        related_name="bag_items",
+    )
+    chance = models.FloatField(default=1, verbose_name="Шанс")
+
+    class Meta:
+        verbose_name = "Предмет в мешке"
+        verbose_name_plural = "Предметы в мешке"
 
 
 class ItemEffect(models.Model):

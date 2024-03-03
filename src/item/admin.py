@@ -5,6 +5,8 @@ from django_object_actions import DjangoObjectActions
 
 from item.models import (
     Armor,
+    Bag,
+    BagItem,
     CraftingItem,
     Etc,
     ItemEffect,
@@ -31,6 +33,14 @@ class CraftingItemInline(admin.TabularInline):
     extra = 1
 
 
+class BagItemInline(admin.TabularInline):
+    """Инлайн модель предметов в мешке."""
+
+    model = BagItem
+    fk_name = "bag"
+    extra = 1
+
+
 class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Базовая админ-панель для предметов."""
 
@@ -52,7 +62,6 @@ class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.sell_price,
                         row.buy_price,
                         row.type,
-                        row.grade,
                     ]
                 )
 
@@ -79,9 +88,7 @@ class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
         "name",
         "buy_price",
         "sell_price",
-        "grade",
     )
-    list_filter = ("grade",)
     list_display_links = ("name",)
     search_fields = ("name",)
     inlines = (ItemEffectInline,)
@@ -108,7 +115,6 @@ class BaseEquipmentAdmin(BaseItemAdmin):
                         row.sell_price,
                         row.buy_price,
                         row.type,
-                        row.grade,
                         row.equipment_type,
                     ]
                 )
@@ -118,9 +124,8 @@ class BaseEquipmentAdmin(BaseItemAdmin):
         "buy_price",
         "sell_price",
         "equipment_type",
-        "grade",
     )
-    list_filter = ("grade", "equipment_type")
+    list_filter = ("equipment_type",)
 
 
 @admin.register(Armor)
@@ -190,7 +195,6 @@ class RecipeAdmin(BaseItemAdmin):
                         row.sell_price,
                         row.buy_price,
                         row.type,
-                        row.grade,
                         row.level,
                         row.chance,
                         row.create.name,
@@ -216,9 +220,31 @@ class RecipeAdmin(BaseItemAdmin):
         "sell_price",
         "buy_price",
         "type",
-        "grade",
     )
     inlines = (CraftingItemInline,)
-    list_filter = ("type", "grade")
+    list_filter = ("type",)
     list_display_links = ("name",)
     search_fields = ("name",)
+
+
+@admin.register(Bag)
+class BagAdmin(BaseItemAdmin):
+    """Управление моделью мешков."""
+
+    def download_loot(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/items/bag_items.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in BagItem.objects.all():
+                spamwriter.writerow(
+                    [
+                        row.bag.name,
+                        row.item.name,
+                        row.chance,
+                    ]
+                )
+
+    changelist_actions = ("download_data", "download_loot")
+    inlines = (BagItemInline,)

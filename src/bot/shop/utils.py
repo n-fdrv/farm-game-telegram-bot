@@ -46,5 +46,5 @@ async def get_item_info_text(item: Item):
     if item.sell_price:
         shop_text += f"\nПродажа: {item.sell_price} золота."
     return ITEM_GET_MESSAGE.format(
-        item.name_with_grade, item.description, effects, shop_text
+        item.name_with_type, item.description, effects, shop_text
     )

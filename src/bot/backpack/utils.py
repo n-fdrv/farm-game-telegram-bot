@@ -72,7 +72,7 @@ async def get_character_item_info_text(character_item: CharacterItem):
     if character_item.item.sell_price:
         shop_text += f"\nПродажа: {character_item.item.sell_price} золота."
     return ITEM_GET_MESSAGE.format(
-        character_item.item.name_with_grade,
+        character_item.item.name_with_type,
         character_item.amount,
         description,
         effects,

@@ -23,6 +23,8 @@ async def backpack_preview_keyboard():
     row = []
     button_in_row = 2
     for item_type in ItemType.choices:
+        if item_type[0] == ItemType.ETC:
+            continue
         keyboard.button(
             text=item_type[1],
             callback_data=BackpackData(
@@ -51,7 +53,7 @@ async def backpack_list_keyboard(user: User, callback_data: BackpackData):
         character=user.character, item__type=callback_data.type
     ):
         keyboard.button(
-            text=f"{item.item.name_with_grade} - {item.amount} шт.",
+            text=f"{item.item.name_with_type} - {item.amount} шт.",
             callback_data=BackpackData(
                 action=backpack_action.get,
                 page=callback_data.page,

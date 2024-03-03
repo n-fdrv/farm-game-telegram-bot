@@ -122,7 +122,7 @@ async def shop_buy_handler(
     await remove_item(user.character, gold, item.buy_price)
     await add_item(user.character, item)
     await callback.message.edit_text(
-        text=SUCCESS_BUY_MESSAGE.format(item.name_with_grade),
+        text=SUCCESS_BUY_MESSAGE.format(item.name_with_type),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -211,7 +211,7 @@ async def shop_sell_amount_state(message: types.Message, state: FSMContext):
     item = await Item.objects.aget(pk=data["item_id"])
     keyboard = await sell_amount_confirm_keyboard(item.id, int(amount))
     await message.answer(
-        text=CONFIRM_AMOUNT_MESSAGE.format(item.name_with_grade, amount),
+        text=CONFIRM_AMOUNT_MESSAGE.format(item.name_with_type, amount),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -246,7 +246,7 @@ async def shop_sell_handler(
     )
     await callback.message.edit_text(
         text=SUCCESS_SELL_MESSAGE.format(
-            item.name_with_grade,
+            item.name_with_type,
             callback_data.amount,
             callback_data.amount * item.sell_price,
         ),

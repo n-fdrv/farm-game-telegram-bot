@@ -17,7 +17,7 @@ async def get_location_info(character: Character, location: Location) -> str:
     """Возвращает сообщение с данными о персонаже."""
     drop_data = ""
     async for item in location.drop.all():
-        drop_data += f"<b>{item.name_with_grade}</b>\n"
+        drop_data += f"<b>{item.name_with_type}</b>\n"
     attack = await get_character_property(character, EffectProperty.ATTACK)
     defence = await get_character_property(character, EffectProperty.DEFENCE)
     attack_buff = attack / location.attack

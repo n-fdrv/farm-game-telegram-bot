@@ -137,7 +137,7 @@ async def backpack_use_handler(
     keyboard = await use_potion_keyboard()
     await callback.message.edit_text(
         text=SUCCESS_USE_POTION_MESSAGE.format(
-            character_item.item.name_with_grade
+            character_item.item.name_with_type
         ),
         reply_markup=keyboard.as_markup(),
     )

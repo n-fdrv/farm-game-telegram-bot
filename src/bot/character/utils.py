@@ -118,7 +118,7 @@ async def get_item_with_effects(item: Item):
     item_effects = ",".join(
         [x.get_property_with_amount() async for x in item.effect.all()]
     )
-    return f"{item.name_with_grade} ({item_effects})"
+    return f"{item.name_with_type} ({item_effects})"
 
 
 async def get_elixir_with_effects_and_expired(character: Character):
@@ -246,9 +246,9 @@ async def get_hunting_loot(character: Character):
                 item, created = await CharacterItem.objects.aget_or_create(
                     character=character, item=drop.item
                 )
-                if drop.item.name_with_grade not in drop_data:
-                    drop_data[drop.item.name_with_grade] = 0
-                drop_data[drop.item.name_with_grade] += amount
+                if drop.item.name_with_type not in drop_data:
+                    drop_data[drop.item.name_with_type] = 0
+                drop_data[drop.item.name_with_type] += amount
                 item.amount += amount
                 await item.asave(update_fields=("amount",))
     logger.info(
