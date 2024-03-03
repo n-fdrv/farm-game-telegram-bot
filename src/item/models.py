@@ -223,6 +223,9 @@ class BagItem(models.Model):
         verbose_name = "Предмет в мешке"
         verbose_name_plural = "Предметы в мешке"
 
+    def __str__(self):
+        return f"Bag: {self.bag} | Item: {self.item} | Chance: {self.chance}%"
+
 
 class ItemEffect(models.Model):
     """Модель хранения эффектов предметов."""

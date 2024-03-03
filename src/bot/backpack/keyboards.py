@@ -2,7 +2,12 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from character.models import CharacterItem
 from item.models import ItemType
 
-from bot.backpack.buttons import EQUIP_BUTTON, USE_BUTTON
+from bot.backpack.buttons import (
+    EQUIP_BUTTON,
+    OPEN_BUTTON,
+    OPEN_MORE_BUTTON,
+    USE_BUTTON,
+)
 from bot.command.buttons import BACK_BUTTON
 from bot.constants.actions import (
     backpack_action,
@@ -87,11 +92,18 @@ async def item_get_keyboard(callback_data: BackpackData):
                 type=callback_data.type,
             ),
         )
-    if callback_data.type in usable_data:
+    elif callback_data.type in usable_data:
         keyboard.button(
             text=USE_BUTTON,
             callback_data=BackpackData(
                 action=backpack_action.use, id=callback_data.id
+            ),
+        )
+    elif callback_data.type == ItemType.BAG:
+        keyboard.button(
+            text=OPEN_BUTTON,
+            callback_data=BackpackData(
+                action=backpack_action.open, id=callback_data.id
             ),
         )
     keyboard.button(
@@ -122,9 +134,29 @@ async def not_success_equip_keyboard(callback_data: BackpackData):
     return keyboard
 
 
-async def use_potion_keyboard():
-    """Клавиатура после использования зелья."""
+async def in_backpack_keyboard():
+    """Клавиатура возвращения в инвентарь."""
     keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.preview,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def open_more_keyboard(callback_data: BackpackData):
+    """Клавиатура предложения открыть еще."""
+    keyboard = InlineKeyboardBuilder()
+    if callback_data.amount > 0:
+        keyboard.button(
+            text=OPEN_MORE_BUTTON,
+            callback_data=BackpackData(
+                action=backpack_action.open, id=callback_data.id
+            ),
+        )
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=BackpackData(

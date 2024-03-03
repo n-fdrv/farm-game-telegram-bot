@@ -1,10 +1,14 @@
 import datetime
+import random
 
 from character.models import Character, CharacterEffect, CharacterItem
 from django.utils import timezone
 from item.models import (
+    Bag,
+    BagItem,
     Equipment,
     Item,
+    ItemType,
     Potion,
 )
 
@@ -55,14 +59,22 @@ async def get_gold_amount(character: Character):
 
 async def get_character_item_info_text(character_item: CharacterItem):
     """Метод получения текста информации о товаре."""
-    effects = ""
+    additional_info = ""
     if await character_item.item.effect.aexists():
-        effects = "\nЭффекты:\n"
+        additional_info = "\nЭффекты:\n"
         async for effect in character_item.item.effect.all():
-            effects += f"{effect.get_property_display()} - {effect.amount}"
+            additional_info += (
+                f"{effect.get_property_display()} - {effect.amount}"
+            )
             if effect.in_percent:
-                effects += "%"
-            effects += "\n"
+                additional_info += "%"
+            additional_info += "\n"
+    if character_item.item.type == ItemType.BAG:
+        additional_info += "\nВозможные трофеи:\n"
+        async for drop in BagItem.objects.select_related("item").filter(
+            bag=character_item.item
+        ):
+            additional_info += f"{drop.item.name_with_type}\n"
     description = character_item.item.description
     if character_item.equipped:
         description += "\n<b>Надето</b>"
@@ -75,7 +87,7 @@ async def get_character_item_info_text(character_item: CharacterItem):
         character_item.item.name_with_type,
         character_item.amount,
         description,
-        effects,
+        additional_info,
         shop_text,
     )
 
@@ -138,3 +150,25 @@ async def use_potion(character: Character, item: Item):
         )
         await character_effect.asave(update_fields=("expired",))
     await remove_item(item=item, character=character, amount=1)
+
+
+async def open_bag(character: Character, item: Item):
+    """Метод использования предмета."""
+    bag = await Bag.objects.aget(pk=item.pk)
+    chance = random.uniform(0.01, 100)
+    bag_item = (
+        await BagItem.objects.select_related("item")
+        .filter(bag=bag, chance__lte=chance)
+        .order_by("?")
+        .afirst()
+    )
+    if not bag_item:
+        bag_item = (
+            await BagItem.objects.select_related("item")
+            .filter(bag=bag, chance__gte=chance)
+            .order_by("?")
+            .afirst()
+        )
+    await add_item(item=bag_item.item, character=character, amount=1)
+    await remove_item(item=item, character=character, amount=1)
+    return bag_item

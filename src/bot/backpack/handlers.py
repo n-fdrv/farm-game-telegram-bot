@@ -5,20 +5,23 @@ from character.models import CharacterItem
 from bot.backpack.keyboards import (
     backpack_list_keyboard,
     backpack_preview_keyboard,
+    in_backpack_keyboard,
     item_get_keyboard,
     not_success_equip_keyboard,
-    use_potion_keyboard,
+    open_more_keyboard,
 )
 from bot.backpack.messages import (
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
     NOT_SUCCESS_EQUIP_MESSAGE,
+    SUCCESS_OPEN_BAG_MESSAGE,
     SUCCESS_USE_POTION_MESSAGE,
 )
 from bot.backpack.utils import (
     equip_item,
     get_character_item_info_text,
     get_gold_amount,
+    open_bag,
     use_potion,
 )
 from bot.constants.actions import backpack_action
@@ -134,10 +137,37 @@ async def backpack_use_handler(
         "item",
     ).aget(id=callback_data.id)
     await use_potion(character_item.character, character_item.item)
-    keyboard = await use_potion_keyboard()
+    keyboard = await in_backpack_keyboard()
     await callback.message.edit_text(
         text=SUCCESS_USE_POTION_MESSAGE.format(
             character_item.item.name_with_type
+        ),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@backpack_router.callback_query(
+    BackpackData.filter(F.action == backpack_action.open)
+)
+@log_in_dev
+async def backpack_open_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: BackpackData,
+):
+    """Коллбек открытия предмета."""
+    character_item = await CharacterItem.objects.select_related(
+        "character",
+        "item",
+    ).aget(id=callback_data.id)
+    bag_item = await open_bag(character_item.character, character_item.item)
+    callback_data.amount = character_item.amount - 1
+    keyboard = await open_more_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=SUCCESS_OPEN_BAG_MESSAGE.format(
+            character_item.item.name_with_type,
+            bag_item.item.name_with_type,
+            callback_data.amount,
         ),
         reply_markup=keyboard.as_markup(),
     )
