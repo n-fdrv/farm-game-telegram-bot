@@ -10,7 +10,7 @@ class ItemType(models.TextChoices):
 
     ARMOR = "armor", "🛡Броня"
     WEAPON = "weapon", "⚔️Оружие"
-    POTION = "potion", "🍷Эликсир"
+    POTION = "potion", "🌡Эликсир"
     TALISMAN = "talisman", "⭐️Талисман"
     RECIPE = "recipe", "📕Рецепт"
     MATERIAL = "material", "🪵Ресурс"
@@ -179,7 +179,7 @@ class Recipe(Item):
 
     def get_name(self):
         """Возвращает имя с шансом."""
-        return f"{self.name_with_grade} ({self.chance}%)"
+        return f"{self.name_with_type} ({self.chance}%)"
 
 
 class Etc(Item):
@@ -248,7 +248,7 @@ class ItemEffect(models.Model):
 
     def __str__(self):
         text = (
-            f"{self.item.name_with_grade} | "
+            f"{self.item.name_with_type} | "
             f"{self.get_property_display()}: {self.amount}"
         )
         if self.in_percent:
