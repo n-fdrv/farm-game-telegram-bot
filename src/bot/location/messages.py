@@ -16,7 +16,7 @@ LOCATION_ENTER_MESSAGE = (
 HUNTING_END_MESSAGE = (
     "<b>Охота окончена</b>\n"
     "За время охоты получено: {} опыта\n"
-    'Трофеев: \n{}"'
+    "Трофеев: \n{}"
 )
 
 EXIT_LOCATION_CONFIRMATION_MESSAGE = "Вы уверены, что хотите выйти из Локации?"

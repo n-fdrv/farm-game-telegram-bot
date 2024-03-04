@@ -1,6 +1,7 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem
+from item.models import ItemType
 
 from bot.backpack.keyboards import (
     backpack_list_keyboard,
@@ -23,6 +24,7 @@ from bot.backpack.utils import (
     get_gold_amount,
     open_bag,
     use_potion,
+    use_recipe,
 )
 from bot.constants.actions import backpack_action
 from bot.constants.callback_data import BackpackData
@@ -134,9 +136,16 @@ async def backpack_use_handler(
     """Коллбек использования предмета."""
     character_item = await CharacterItem.objects.select_related(
         "character",
+        "character__character_class",
         "item",
     ).aget(id=callback_data.id)
-    await use_potion(character_item.character, character_item.item)
+    usable_item_data = {
+        ItemType.POTION: use_potion,
+        ItemType.RECIPE: use_recipe,
+    }
+    await usable_item_data[character_item.item.type](
+        character_item.character, character_item.item
+    )
     keyboard = await in_backpack_keyboard()
     await callback.message.edit_text(
         text=SUCCESS_USE_POTION_MESSAGE.format(
