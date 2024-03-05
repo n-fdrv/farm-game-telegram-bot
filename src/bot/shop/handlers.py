@@ -230,7 +230,7 @@ async def shop_sell_handler(
         await callback.message.delete()
         return
     item = await Item.objects.aget(pk=callback_data.id)
-    gold = await Item.objects.aget(name="Золото")
+    gold = await Item.objects.aget(name__contains="Золото")
     enough_amount = await check_item_amount(
         user.character, item, callback_data.amount
     )

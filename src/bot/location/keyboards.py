@@ -4,16 +4,22 @@ from location.models import Location
 from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
 from bot.constants.actions import character_action, location_action
 from bot.constants.callback_data import CharacterData, LocationData
-from bot.location.buttons import GET_DROP_MESSAGE, START_HUNTING_MESSAGE
+from bot.location.buttons import (
+    GET_DROP_MESSAGE,
+    LOCATION_BUTTON,
+    START_HUNTING_MESSAGE,
+)
 from bot.utils.paginator import Paginator
 
 
 async def location_list_keyboard(callback_data: LocationData):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
-    async for location in Location.objects.all():
+    async for location in Location.objects.order_by("attack").all():
         keyboard.button(
-            text=location.name,
+            text=LOCATION_BUTTON.format(
+                location.name, location.attack, location.defence
+            ),
             callback_data=LocationData(
                 action=location_action.get,
                 page=callback_data.page,

@@ -4,7 +4,7 @@ from random import randint
 from character.models import Character
 from django.utils import timezone
 from item.models import EffectProperty
-from location.models import Location
+from location.models import Location, LocationDrop
 
 from bot.character.utils import get_character_property
 from bot.location.messages import LOCATION_GET_MESSAGE
@@ -16,29 +16,53 @@ from bot.utils.schedulers import (
 async def get_location_info(character: Character, location: Location) -> str:
     """Возвращает сообщение с данными о персонаже."""
     drop_data = ""
-    async for item in location.drop.all():
-        drop_data += f"<b>{item.name_with_type}</b>\n"
     attack = await get_character_property(character, EffectProperty.ATTACK)
     defence = await get_character_property(character, EffectProperty.DEFENCE)
     attack_buff = attack / location.attack
-    drop_buff = await get_character_property(character, EffectProperty.DROP)
-    drop_buff *= attack_buff * 100
-    defence_buff = 100 - defence / location.defence * 100
+    drop_modifier = await get_character_property(
+        character, EffectProperty.DROP
+    )
+    drop_buff = drop_modifier * attack_buff
+    drop_effect = drop_buff * 100 - 100
+    defence_buff = defence / location.defence * 100 - 100
     hunting_time = await get_character_property(
         character, EffectProperty.HUNTING_TIME
     )
-
     hunting_time *= defence / location.defence
+    dead_text = ""
     if defence_buff < 0:
-        defence_buff = 0
-    attack_text = f"Шанс падения предметов {int(drop_buff)}%"
-    defence_text = f"Шанс погибнуть: {int(defence_buff)}%"
+        dead_text = "☠️ Ваша защита меньше. Вы можете умереть!"
+    elif defence_buff > 0:
+        dead_text = "✅ Ваша защита больше. Время охоты увеличено!"
+    drop_text = (
+        f"✅ Ваша атака больше! "
+        f"Бонус к падению предметов: +{int(drop_effect)}%"
+    )
+    if drop_effect < 0:
+        drop_text = (
+            f"❌ Ваша атака меньше! "
+            f"Штраф к падению предметов: {int(drop_effect)}%"
+        )
+
+    async for location_drop in LocationDrop.objects.select_related(
+        "item"
+    ).filter(location=location):
+        chance = round(location_drop.chance * drop_buff, 2)
+        amount = ""
+        if location_drop.max_amount > 1:
+            amount = (
+                f"({location_drop.min_amount}-{location_drop.max_amount}) "
+            )
+        drop_data += (
+            f"<b>{location_drop.item.name_with_type}</b> {amount}{chance}%\n"
+        )
+
     return LOCATION_GET_MESSAGE.format(
         location.name,
         location.attack,
-        attack_text,
         location.defence,
-        defence_text,
+        drop_text,
+        dead_text,
         int(hunting_time),
         drop_data,
     )

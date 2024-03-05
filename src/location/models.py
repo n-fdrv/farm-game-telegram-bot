@@ -5,7 +5,7 @@ from item.models import Item
 class BaseLocationModel(models.Model):
     """Базовая модель для моделей игры."""
 
-    name = models.CharField(max_length=16, verbose_name="Имя")
+    name = models.CharField(max_length=32, verbose_name="Имя")
     created = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания"
     )
