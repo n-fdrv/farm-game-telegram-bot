@@ -170,23 +170,50 @@ async def use_recipe(character: Character, item: Item):
     return True
 
 
-async def open_bag(character: Character, item: Item):
-    """Метод использования предмета."""
+# async def open_bag(character: Character, item: Item):
+#     """Метод использования предмета."""
+#     bag = await Bag.objects.aget(pk=item.pk)
+#     chance = random.uniform(0.01, 100)
+#     bag_item = (
+#         await BagItem.objects.select_related("item")
+#         .filter(bag=bag, chance__lte=chance)
+#         .order_by("?")
+#         .afirst()
+#     )
+#     if not bag_item:
+#         bag_item = (
+#             await BagItem.objects.select_related("item")
+#             .filter(bag=bag, chance__gte=chance)
+#             .order_by("?")
+#             .afirst()
+#         )
+#     await add_item(item=bag_item.item, character=character, amount=1)
+#     await remove_item(item=item, character=character, amount=1)
+#     return bag_item
+
+
+async def open_bag(character: Character, item: Item, amount: int = 1):
+    """Метод открытия мешков."""
     bag = await Bag.objects.aget(pk=item.pk)
-    chance = random.uniform(0.01, 100)
-    bag_item = (
-        await BagItem.objects.select_related("item")
-        .filter(bag=bag, chance__lte=chance)
-        .order_by("?")
-        .afirst()
-    )
-    if not bag_item:
+    drop_data = {}
+    for _i in range(amount):
+        chance = random.uniform(0.01, 100)
         bag_item = (
             await BagItem.objects.select_related("item")
-            .filter(bag=bag, chance__gte=chance)
+            .filter(bag=bag, chance__lte=chance)
             .order_by("?")
             .afirst()
         )
-    await add_item(item=bag_item.item, character=character, amount=1)
-    await remove_item(item=item, character=character, amount=1)
-    return bag_item
+        if not bag_item:
+            bag_item = (
+                await BagItem.objects.select_related("item")
+                .filter(bag=bag, chance__gte=chance)
+                .order_by("?")
+                .afirst()
+            )
+        await add_item(item=bag_item.item, character=character, amount=1)
+        if bag_item.item.name_with_type not in drop_data:
+            drop_data[bag_item.item.name_with_type] = 0
+        drop_data[bag_item.item.name_with_type] += 1
+    await remove_item(item=item, character=character, amount=amount)
+    return drop_data

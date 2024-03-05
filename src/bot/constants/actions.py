@@ -50,7 +50,8 @@ class BackpackAction(Action):
     preview = f"{callback_data.BackpackData.__prefix__}-pr"
     equip = f"{callback_data.BackpackData.__prefix__}-eq"
     use = f"{callback_data.BackpackData.__prefix__}-use"
-    open = f"{callback_data.BackpackData.__prefix__}-open"
+    open = f"{callback_data.BackpackData.__prefix__}-op"
+    open_all = f"{callback_data.BackpackData.__prefix__}-opal"
 
 
 class ShopAction(Action):

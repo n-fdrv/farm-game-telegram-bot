@@ -4,6 +4,7 @@ from item.models import ItemType
 
 from bot.backpack.buttons import (
     EQUIP_BUTTON,
+    OPEN_ALL_BUTTON,
     OPEN_BUTTON,
     OPEN_MORE_BUTTON,
     USE_BUTTON,
@@ -64,6 +65,7 @@ async def backpack_list_keyboard(user: User, callback_data: BackpackData):
                 page=callback_data.page,
                 id=item.id,
                 type=callback_data.type,
+                amount=item.amount,
             ),
         )
     keyboard.adjust(1)
@@ -103,7 +105,15 @@ async def item_get_keyboard(callback_data: BackpackData):
         keyboard.button(
             text=OPEN_BUTTON,
             callback_data=BackpackData(
-                action=backpack_action.open, id=callback_data.id
+                action=backpack_action.open, id=callback_data.id, amount=1
+            ),
+        )
+        keyboard.button(
+            text=OPEN_ALL_BUTTON,
+            callback_data=BackpackData(
+                action=backpack_action.open,
+                id=callback_data.id,
+                amount=callback_data.amount,
             ),
         )
     keyboard.button(

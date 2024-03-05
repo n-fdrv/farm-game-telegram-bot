@@ -169,14 +169,23 @@ async def backpack_open_handler(
         "character",
         "item",
     ).aget(id=callback_data.id)
-    bag_item = await open_bag(character_item.character, character_item.item)
-    callback_data.amount = character_item.amount - 1
+    open_amount = callback_data.amount
+    drop_data = await open_bag(
+        character_item.character, character_item.item, open_amount
+    )
+    callback_data.amount -= open_amount
     keyboard = await open_more_keyboard(callback_data)
     await callback.message.edit_text(
         text=SUCCESS_OPEN_BAG_MESSAGE.format(
             character_item.item.name_with_type,
-            bag_item.item.name_with_type,
-            callback_data.amount,
+            open_amount,
+            "\n".join(
+                [
+                    f"{name} - {amount} шт."
+                    for name, amount in drop_data.items()
+                ]
+            ),
+            character_item.amount - open_amount,
         ),
         reply_markup=keyboard.as_markup(),
     )
