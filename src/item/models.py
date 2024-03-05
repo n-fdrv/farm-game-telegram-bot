@@ -31,6 +31,8 @@ class EquipmentType(models.TextChoices):
     BLUNT = "blunt", "Дубина"
     DAGGER = "dagger", "Кинжал"
 
+    BRACELET = "bracelet", "Браслет"
+
 
 class EffectProperty(models.TextChoices):
     """Типы эффектов."""
@@ -217,7 +219,7 @@ class BagItem(models.Model):
         verbose_name="Мешок",
         related_name="bag_items",
     )
-    chance = models.FloatField(default=1, verbose_name="Шанс")
+    chance = models.IntegerField(default=1, verbose_name="Количество в мешке")
 
     class Meta:
         verbose_name = "Предмет в мешке"

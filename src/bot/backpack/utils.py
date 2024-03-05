@@ -19,13 +19,17 @@ from item.models import (
 from bot.backpack.messages import ITEM_GET_MESSAGE
 
 
-async def remove_item(character: Character, item: Item, amount: int):
+async def remove_item(
+    character: Character, item: Item, amount: int, enhancement_level: int = 0
+):
     """Метод удаление предметов у персонажа."""
-    exists = await character.items.filter(pk=item.pk).aexists()
+    exists = await CharacterItem.objects.filter(
+        character=character, item=item, enhancement_level=enhancement_level
+    ).aexists()
     if not exists:
         return False
     character_items = await CharacterItem.objects.aget(
-        character=character, item=item
+        character=character, item=item, enhancement_level=enhancement_level
     )
     character_items.amount -= amount
     if character_items.amount == 0:
@@ -35,13 +39,26 @@ async def remove_item(character: Character, item: Item, amount: int):
     return True
 
 
-async def add_item(character: Character, item: Item, amount: int = 1):
+async def add_item(
+    character: Character,
+    item: Item,
+    amount: int = 1,
+    enhancement_level: int = 0,
+):
     """Метод добавления предмета персонажу."""
-    exists = await character.items.filter(pk=item.pk).aexists()
+    exists = await CharacterItem.objects.filter(
+        character=character, item=item, enhancement_level=enhancement_level
+    ).aexists()
     if not exists:
-        await character.items.aadd(item)
+        await CharacterItem.objects.acreate(
+            character=character,
+            item=item,
+            amount=amount,
+            enhancement_level=enhancement_level,
+        )
+        return True
     character_items = await CharacterItem.objects.aget(
-        character=character, item=item
+        character=character, item=item, enhancement_level=enhancement_level
     )
     character_items.amount += amount
     await character_items.asave(update_fields=("amount",))
@@ -88,7 +105,7 @@ async def get_character_item_info_text(character_item: CharacterItem):
     if character_item.item.sell_price:
         shop_text += f"\nПродажа: {character_item.item.sell_price} золота."
     return ITEM_GET_MESSAGE.format(
-        character_item.item.name_with_type,
+        character_item.name_with_enhance,
         character_item.amount,
         description,
         additional_info,
@@ -170,50 +187,21 @@ async def use_recipe(character: Character, item: Item):
     return True
 
 
-# async def open_bag(character: Character, item: Item):
-#     """Метод использования предмета."""
-#     bag = await Bag.objects.aget(pk=item.pk)
-#     chance = random.uniform(0.01, 100)
-#     bag_item = (
-#         await BagItem.objects.select_related("item")
-#         .filter(bag=bag, chance__lte=chance)
-#         .order_by("?")
-#         .afirst()
-#     )
-#     if not bag_item:
-#         bag_item = (
-#             await BagItem.objects.select_related("item")
-#             .filter(bag=bag, chance__gte=chance)
-#             .order_by("?")
-#             .afirst()
-#         )
-#     await add_item(item=bag_item.item, character=character, amount=1)
-#     await remove_item(item=item, character=character, amount=1)
-#     return bag_item
-
-
 async def open_bag(character: Character, item: Item, amount: int = 1):
     """Метод открытия мешков."""
     bag = await Bag.objects.aget(pk=item.pk)
     drop_data = {}
+    item_data = []
+    async for bag_item in BagItem.objects.select_related("item").filter(
+        bag=bag
+    ):
+        item_data.extend([bag_item.item] * bag_item.chance)
     for _i in range(amount):
-        chance = random.uniform(0.01, 100)
-        bag_item = (
-            await BagItem.objects.select_related("item")
-            .filter(bag=bag, chance__lte=chance)
-            .order_by("?")
-            .afirst()
-        )
-        if not bag_item:
-            bag_item = (
-                await BagItem.objects.select_related("item")
-                .filter(bag=bag, chance__gte=chance)
-                .order_by("?")
-                .afirst()
-            )
-        await add_item(item=bag_item.item, character=character, amount=1)
-        if bag_item.item.name_with_type not in drop_data:
-            drop_data[bag_item.item.name_with_type] = 0
-        drop_data[bag_item.item.name_with_type] += 1
+        chance = random.randint(0, len(item_data) - 1)
+        loot = item_data[chance]
+        await add_item(item=loot, character=character, amount=1)
+        if loot.name_with_type not in drop_data:
+            drop_data[loot.name_with_type] = 0
+        drop_data[loot.name_with_type] += 1
     await remove_item(item=item, character=character, amount=amount)
     return drop_data

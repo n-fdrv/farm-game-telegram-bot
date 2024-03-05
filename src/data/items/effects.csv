@@ -16,3 +16,4 @@ attack,7,False,Меч Ученика
 attack,8,False,Кинжал Ученика
 attack,7,False,Дубина Ученика
 exp,10,True,Эликсир Мудрости
+defence,10,False,Браслет

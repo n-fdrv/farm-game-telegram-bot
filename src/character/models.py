@@ -240,6 +240,16 @@ class CharacterItem(models.Model):
     )
     amount = models.IntegerField(default=0, verbose_name="Количество")
     equipped = models.BooleanField(default=False, verbose_name="Надето")
+    enhancement_level = models.IntegerField(
+        default=0, verbose_name="Уровень улучшения"
+    )
+
+    @property
+    def name_with_enhance(self):
+        """Возвращает название с уровнем улучшения."""
+        if self.enhancement_level:
+            return f"{self.item.name_with_type} +{self.enhancement_level}"
+        return f"{self.item.name_with_type}"
 
     class Meta:
         verbose_name = "Предмет персонажа"
