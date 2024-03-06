@@ -9,7 +9,6 @@ from character.models import (
     Skill,
     SkillEffect,
 )
-from django.conf import settings
 from django.utils import timezone
 from item.models import EffectProperty, Item
 from location.models import LocationDrop
@@ -21,6 +20,7 @@ from bot.character.messages import (
     CHARACTER_KILL_MESSAGE,
 )
 from bot.models import User
+from core.config import game_config
 
 
 async def check_nickname_exist(nickname: str) -> bool:
@@ -192,10 +192,11 @@ async def get_exp(character: Character, exp_amount: int):
     while character.exp >= character.exp_for_level_up:
         character.exp = character.exp - character.exp_for_level_up
         character.exp_for_level_up += (
-            character.exp_for_level_up * settings.EXP_FOR_LEVEL_UP_MULTIPLIER
+            character.exp_for_level_up
+            * game_config.EXP_FOR_LEVEL_UP_MULTIPLIER
         )
-        character.attack += settings.ATTACK_INCREASE_LEVEL_UP
-        character.defence += settings.DEFENCE_INCREASE_LEVEL_UP
+        character.attack += game_config.ATTACK_INCREASE_LEVEL_UP
+        character.defence += game_config.DEFENCE_INCREASE_LEVEL_UP
         character.level += 1
     await character.asave(
         update_fields=("level", "exp", "exp_for_level_up", "attack", "defence")

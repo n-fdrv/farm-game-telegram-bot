@@ -143,7 +143,12 @@ class Potion(Item):
 class Scroll(Item):
     """Модель хранения свитков."""
 
-    pass
+    enhance_type = models.CharField(
+        max_length=16,
+        choices=ItemType.choices,
+        default=ItemType.WEAPON,
+        verbose_name="Улучшаемый тип",
+    )
 
     class Meta:
         verbose_name = "Свиток"

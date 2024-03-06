@@ -1,30 +1,35 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem
-from item.models import ItemType
+from item.models import ItemType, Scroll
 
 from bot.backpack.keyboards import (
     backpack_list_keyboard,
     backpack_preview_keyboard,
+    enhance_get_keyboard,
     in_backpack_keyboard,
     item_get_keyboard,
     not_success_equip_keyboard,
     open_more_keyboard,
+    use_scroll_keyboards,
 )
 from bot.backpack.messages import (
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
     NOT_SUCCESS_EQUIP_MESSAGE,
+    SCROLL_LIST_MESSAGE,
     SUCCESS_OPEN_BAG_MESSAGE,
     SUCCESS_USE_POTION_MESSAGE,
 )
 from bot.backpack.utils import (
     equip_item,
+    get_character_item_enhance_text,
     get_character_item_info_text,
     get_gold_amount,
     open_bag,
     use_potion,
     use_recipe,
+    use_scroll,
 )
 from bot.constants.actions import backpack_action
 from bot.constants.callback_data import BackpackData
@@ -143,6 +148,16 @@ async def backpack_use_handler(
         ItemType.POTION: use_potion,
         ItemType.RECIPE: use_recipe,
     }
+    if character_item.item.type == ItemType.SCROLL:
+        scroll = await Scroll.objects.aget(pk=character_item.item.pk)
+        keyboard = await use_scroll_keyboards(character_item.character, scroll)
+        await callback.message.edit_text(
+            text=SCROLL_LIST_MESSAGE.format(
+                character_item.item.name_with_type
+            ),
+            reply_markup=keyboard.as_markup(),
+        )
+        return
     success, text = await usable_item_data[character_item.item.type](
         character_item.character, character_item.item
     )
@@ -193,5 +208,47 @@ async def backpack_open_handler(
             ),
             character_item.amount - open_amount,
         ),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@backpack_router.callback_query(
+    BackpackData.filter(F.action == backpack_action.enhance_get)
+)
+@log_in_dev
+async def enhance_get_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: BackpackData,
+):
+    """Коллбек получения предмета для улучшения."""
+    keyboard = await enhance_get_keyboard(callback_data)
+    character_item = await CharacterItem.objects.select_related("item").aget(
+        id=callback_data.id
+    )
+    await callback.message.edit_text(
+        text=await get_character_item_enhance_text(character_item),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@backpack_router.callback_query(
+    BackpackData.filter(F.action == backpack_action.enhance)
+)
+@log_in_dev
+async def enhance_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: BackpackData,
+):
+    """Коллбек получения предмета для улучшения."""
+    keyboard = await in_backpack_keyboard()
+    character_item = await CharacterItem.objects.select_related(
+        "item", "character"
+    ).aget(id=callback_data.id)
+    scroll = await Scroll.objects.aget(pk=callback_data.item_id)
+    success, text = await use_scroll(scroll, character_item)
+    await callback.message.edit_text(
+        text=text,
         reply_markup=keyboard.as_markup(),
     )

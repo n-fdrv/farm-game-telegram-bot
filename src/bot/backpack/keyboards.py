@@ -1,16 +1,17 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from character.models import Character, CharacterItem
 from django.db.models import Count
-from item.models import ItemType
+from item.models import ItemType, Scroll
 
 from bot.backpack.buttons import (
+    ENHANCE_BUTTON,
     EQUIP_BUTTON,
     OPEN_ALL_BUTTON,
     OPEN_BUTTON,
     OPEN_MORE_BUTTON,
     USE_BUTTON,
 )
-from bot.command.buttons import BACK_BUTTON
+from bot.command.buttons import BACK_BUTTON, CANCEL_BUTTON
 from bot.constants.actions import (
     backpack_action,
     character_action,
@@ -146,6 +147,52 @@ async def not_success_equip_keyboard(callback_data: BackpackData):
             page=callback_data.page,
             id=callback_data.id,
             type=callback_data.type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def use_scroll_keyboards(character: Character, scroll: Scroll):
+    """Клавиатура возвращения в инвентарь."""
+    keyboard = InlineKeyboardBuilder()
+    async for character_item in CharacterItem.objects.select_related(
+        "item"
+    ).filter(character=character, item__type=scroll.enhance_type):
+        keyboard.button(
+            text=character_item.name_with_enhance,
+            callback_data=BackpackData(
+                action=backpack_action.enhance_get,
+                id=character_item.id,
+                item_id=scroll.pk,
+            ),
+        )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.list,
+            type=scroll.type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def enhance_get_keyboard(callback_data: BackpackData):
+    """Клавиатура возвращения в инвентарь."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=ENHANCE_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.enhance,
+            id=callback_data.id,
+            item_id=callback_data.item_id,
+        ),
+    )
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.preview,
         ),
     )
     keyboard.adjust(1)

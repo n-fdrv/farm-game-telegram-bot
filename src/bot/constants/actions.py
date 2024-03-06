@@ -53,6 +53,10 @@ class BackpackAction(Action):
     open = f"{callback_data.BackpackData.__prefix__}-op"
     open_all = f"{callback_data.BackpackData.__prefix__}-opal"
 
+    enhance_list = f"{callback_data.BackpackData.__prefix__}-enli"
+    enhance_get = f"{callback_data.BackpackData.__prefix__}-enge"
+    enhance = f"{callback_data.BackpackData.__prefix__}-en"
+
 
 class ShopAction(Action):
     """Действия для хендлеров магазина."""

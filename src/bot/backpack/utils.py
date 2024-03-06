@@ -14,9 +14,11 @@ from item.models import (
     ItemType,
     Potion,
     Recipe,
+    Scroll,
 )
 
-from bot.backpack.messages import ITEM_GET_MESSAGE
+from bot.backpack.messages import ENHANCE_GET_MESSAGE, ITEM_GET_MESSAGE
+from core.config import game_config
 
 
 async def remove_item(
@@ -78,24 +80,39 @@ async def get_gold_amount(character: Character):
     return 0
 
 
+async def get_character_item_effects(character_item: CharacterItem) -> str:
+    """Метод получения эффектов предмета."""
+    effects = ""
+    if not await character_item.item.effect.aexists():
+        return effects
+    enhance_type = game_config.ENHANCE_PROPERTY_INCREASE
+    if character_item.item.type == ItemType.TALISMAN:
+        enhance_type = game_config.ENHANCE_TALISMAN_INCREASE
+    effects = "\nЭффекты:\n"
+    async for effect in character_item.item.effect.all():
+        amount = effect.amount + (
+            enhance_type * character_item.enhancement_level
+        )
+        effects += f"{effect.get_property_display()} - {amount}"
+        if effect.in_percent:
+            effects += "%"
+        effects += "\n"
+    return effects
+
+
+async def get_bag_loot(item: Item) -> str:
+    """Метод получения дропа из мешков."""
+    loot = "\nВозможные трофеи:\n"
+    async for drop in BagItem.objects.select_related("item").filter(bag=item):
+        loot += f"{drop.item.name_with_type}\n"
+    return loot
+
+
 async def get_character_item_info_text(character_item: CharacterItem):
     """Метод получения текста информации о товаре."""
-    additional_info = ""
-    if await character_item.item.effect.aexists():
-        additional_info = "\nЭффекты:\n"
-        async for effect in character_item.item.effect.all():
-            additional_info += (
-                f"{effect.get_property_display()} - {effect.amount}"
-            )
-            if effect.in_percent:
-                additional_info += "%"
-            additional_info += "\n"
+    additional_info = await get_character_item_effects(character_item)
     if character_item.item.type == ItemType.BAG:
-        additional_info += "\nВозможные трофеи:\n"
-        async for drop in BagItem.objects.select_related("item").filter(
-            bag=character_item.item
-        ):
-            additional_info += f"{drop.item.name_with_type}\n"
+        additional_info += get_bag_loot(character_item.item)
     description = character_item.item.description
     if character_item.equipped:
         description += "\n<b>Надето</b>"
@@ -110,6 +127,24 @@ async def get_character_item_info_text(character_item: CharacterItem):
         description,
         additional_info,
         shop_text,
+    )
+
+
+async def get_character_item_enhance_text(character_item: CharacterItem):
+    """Метод получения текста информации о товаре."""
+    additional_info = await get_character_item_effects(character_item)
+    description = ""
+    if character_item.equipped:
+        description += "Надето"
+    enhance_increase = game_config.ENHANCE_PROPERTY_INCREASE
+    if character_item.item.type == ItemType.TALISMAN:
+        enhance_increase = game_config.ENHANCE_TALISMAN_INCREASE
+    return ENHANCE_GET_MESSAGE.format(
+        character_item.name_with_enhance,
+        description,
+        additional_info,
+        game_config.ENHANCE_CHANCE[character_item.enhancement_level],
+        enhance_increase,
     )
 
 
@@ -190,6 +225,32 @@ async def use_recipe(character: Character, item: Item):
     await character.recipes.aadd(recipe)
     await remove_item(item=item, character=character, amount=1)
     return True, "Успешное использование!"
+
+
+async def use_scroll(scroll: Scroll, character_item: CharacterItem):
+    """Метод использования свитка."""
+    if scroll.enhance_type != character_item.item.type:
+        return False, "Свиток не подходит для данного предмета!"
+    enhance_chance = game_config.ENHANCE_CHANCE[
+        character_item.enhancement_level
+    ]
+    success = random.randint(1, 100) <= enhance_chance
+    await remove_item(character_item.character, scroll, 1)
+    if not success:
+        return False, "❌Улучшение не удалось!"
+    await remove_item(
+        character_item.character,
+        character_item.item,
+        amount=1,
+        enhancement_level=character_item.enhancement_level,
+    )
+    await add_item(
+        character_item.character,
+        character_item.item,
+        amount=1,
+        enhancement_level=character_item.enhancement_level + 1,
+    )
+    return True, "✅Улучшение прошло успешно!"
 
 
 async def open_bag(character: Character, item: Item, amount: int = 1):
