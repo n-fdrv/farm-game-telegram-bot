@@ -168,23 +168,28 @@ async def use_potion(character: Character, item: Item):
             character_effect.hunting_amount += 1
             await character_effect.asave(update_fields=("hunting_amount",))
     await remove_item(item=item, character=character, amount=1)
+    return True, "Успешное использование!"
 
 
 async def use_recipe(character: Character, item: Item):
     """Метод использования рецепта."""
     if character.character_class.name != "Мастер":
-        return False
+        return False, "Ваш класс не Мастер! Вы не можете изучать рецепты."
     recipe = await Recipe.objects.aget(pk=item.pk)
     character_skill = await CharacterSkill.objects.select_related(
         "skill"
     ).aget(character=character, skill__name="Мастер Создания")
     if character_skill.skill.level < recipe.level:
-        return False
+        return (
+            False,
+            "Ващ уровень умения Мастер Создания "
+            "недостаточен для данного рецепта!",
+        )
     if await character.recipes.filter(name=recipe.name).aexists():
-        return False
+        return False, "Вы уже знаете данный рецепт!"
     await character.recipes.aadd(recipe)
     await remove_item(item=item, character=character, amount=1)
-    return True
+    return True, "Успешное использование!"
 
 
 async def open_bag(character: Character, item: Item, amount: int = 1):

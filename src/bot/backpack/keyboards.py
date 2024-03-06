@@ -1,5 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from character.models import CharacterItem
+from character.models import Character, CharacterItem
+from django.db.models import Count
 from item.models import ItemType
 
 from bot.backpack.buttons import (
@@ -22,26 +23,33 @@ from bot.models import User
 from bot.utils.paginator import Paginator
 
 
-async def backpack_preview_keyboard():
+async def backpack_preview_keyboard(character: Character):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
     button_number = 0
     row = []
     button_in_row = 2
+    items_data = [
+        x
+        async for x in character.items.values_list("type", flat=True)
+        .annotate(Count("type"))
+        .all()
+    ]
     for item_type in ItemType.choices:
         if item_type[0] == ItemType.ETC:
             continue
-        keyboard.button(
-            text=item_type[1],
-            callback_data=BackpackData(
-                action=backpack_action.list,
-                type=item_type[0],
-            ),
-        )
-        button_number += 1
-        if button_number == button_in_row:
-            row.append(button_number)
-            button_number = 0
+        if item_type[0] in items_data:
+            keyboard.button(
+                text=item_type[1],
+                callback_data=BackpackData(
+                    action=backpack_action.list,
+                    type=item_type[0],
+                ),
+            )
+            button_number += 1
+            if button_number == button_in_row:
+                row.append(button_number)
+                button_number = 0
     if button_number > 0:
         row.append(button_number)
     keyboard.button(

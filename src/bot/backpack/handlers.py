@@ -46,7 +46,7 @@ async def backpack_preview(
     """Коллбек получения инвентаря."""
     user = await get_user(callback.from_user.id)
     gold = await get_gold_amount(user.character)
-    keyboard = await backpack_preview_keyboard()
+    keyboard = await backpack_preview_keyboard(user.character)
     await callback.message.edit_text(
         text=ITEM_PREVIEW_MESSAGE.format(gold),
         reply_markup=keyboard.as_markup(),
@@ -143,10 +143,16 @@ async def backpack_use_handler(
         ItemType.POTION: use_potion,
         ItemType.RECIPE: use_recipe,
     }
-    await usable_item_data[character_item.item.type](
+    success, text = await usable_item_data[character_item.item.type](
         character_item.character, character_item.item
     )
     keyboard = await in_backpack_keyboard()
+    if not success:
+        await callback.message.edit_text(
+            text=text,
+            reply_markup=keyboard.as_markup(),
+        )
+        return
     await callback.message.edit_text(
         text=SUCCESS_USE_POTION_MESSAGE.format(
             character_item.item.name_with_type
