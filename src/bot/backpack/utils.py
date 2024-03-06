@@ -15,6 +15,7 @@ from item.models import (
     Potion,
     Recipe,
     Scroll,
+    Talisman,
 )
 
 from bot.backpack.messages import ENHANCE_GET_MESSAGE, ITEM_GET_MESSAGE
@@ -46,6 +47,7 @@ async def add_item(
     item: Item,
     amount: int = 1,
     enhancement_level: int = 0,
+    equipped: bool = False,
 ):
     """Метод добавления предмета персонажу."""
     exists = await CharacterItem.objects.filter(
@@ -57,6 +59,7 @@ async def add_item(
             item=item,
             amount=amount,
             enhancement_level=enhancement_level,
+            equipped=equipped,
         )
         return True
     character_items = await CharacterItem.objects.aget(
@@ -154,11 +157,11 @@ async def equip_item(item: CharacterItem):
     if equipment.equipment_type not in [
         x.type async for x in item.character.character_class.equip.all()
     ]:
-        return False
+        return False, "Вы не можете носить данный тип Экипировки!"
     if item.equipped:
         item.equipped = False
         await item.asave(update_fields=("equipped",))
-        return True
+        return True, "Предмет успешно снят!"
     type_equipped = await item.character.items.filter(
         characteritem__equipped=True, type=item.item.type
     ).aexists()
@@ -172,7 +175,47 @@ async def equip_item(item: CharacterItem):
         await equipped_item.asave(update_fields=("equipped",))
     item.equipped = True
     await item.asave(update_fields=("equipped",))
-    return True
+    return True, "Предмет успешно надет!"
+
+
+async def equip_talisman(item: CharacterItem):
+    """Метод надевания, снятия талисмана."""
+    if item.equipped:
+        item.equipped = False
+        await item.asave(update_fields=("equipped",))
+        return True, "Предмет снят успешно!"
+    character = item.character
+    bracelet_name = "Браслет"
+    if not await CharacterItem.objects.filter(
+        character=character, item__name=bracelet_name, equipped=True
+    ).aexists():
+        return False, "Для экипировки Талисмана требуется Браслет!"
+
+    talisman = await Talisman.objects.aget(pk=item.item.pk)
+    type_equipped = await CharacterItem.objects.filter(
+        character=character, equipped=True, item=talisman
+    ).aexists()
+    if type_equipped:
+        equipped_item = await CharacterItem.objects.select_related(
+            "item"
+        ).aget(character=character, item=talisman, equipped=True)
+        equipped_item.equipped = False
+        await equipped_item.asave(update_fields=("equipped",))
+    bracelet = await CharacterItem.objects.aget(
+        character=character, item__name=bracelet_name, equipped=True
+    )
+    talisman_equipped_amount = await CharacterItem.objects.filter(
+        character=character, item__type=ItemType.TALISMAN, equipped=True
+    ).acount()
+    if talisman_equipped_amount == bracelet.enhancement_level + 1:
+        return False, (
+            f"Вы можете носить {talisman_equipped_amount} шт. "
+            f"Талисмана одновремено.\n"
+            f"Для увеличения данного количества - улучшите свой Браслет"
+        )
+    item.equipped = True
+    await item.asave(update_fields=("equipped",))
+    return True, "Предмет успешно надет"
 
 
 async def use_potion(character: Character, item: Item):
@@ -234,6 +277,7 @@ async def use_scroll(scroll: Scroll, character_item: CharacterItem):
         character_item.item,
         amount=1,
         enhancement_level=character_item.enhancement_level + 1,
+        equipped=character_item.equipped,
     )
     return True, "✅Улучшение прошло успешно!"
 

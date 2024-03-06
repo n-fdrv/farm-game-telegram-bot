@@ -146,7 +146,26 @@ class WeaponAdmin(BaseEquipmentAdmin):
 class TalismanAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
 
-    pass
+    def download_data(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/items/talismans.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.name,
+                        row.description,
+                        row.sell_price,
+                        row.buy_price,
+                        row.type,
+                        row.talisman_type,
+                    ]
+                )
 
 
 @admin.register(Etc)

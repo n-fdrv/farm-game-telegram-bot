@@ -16,13 +16,13 @@ from bot.backpack.keyboards import (
 from bot.backpack.messages import (
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
-    NOT_SUCCESS_EQUIP_MESSAGE,
     SCROLL_LIST_MESSAGE,
     SUCCESS_OPEN_BAG_MESSAGE,
     SUCCESS_USE_POTION_MESSAGE,
 )
 from bot.backpack.utils import (
     equip_item,
+    equip_talisman,
     get_character_item_enhance_text,
     get_character_item_info_text,
     get_gold_amount,
@@ -111,11 +111,18 @@ async def backpack_equip_handler(
         "character__character_class",
         "item",
     ).aget(id=callback_data.id)
-    success = await equip_item(character_item)
+    equip_item_data = {
+        ItemType.WEAPON: equip_item,
+        ItemType.ARMOR: equip_item,
+        ItemType.TALISMAN: equip_talisman,
+    }
+    success, text = await equip_item_data[character_item.item.type](
+        character_item
+    )
     if not success:
         keyboard = await not_success_equip_keyboard(callback_data)
         await callback.message.edit_text(
-            text=NOT_SUCCESS_EQUIP_MESSAGE,
+            text=text,
             reply_markup=keyboard.as_markup(),
         )
         return

@@ -12,8 +12,6 @@ SUCCESS_OPEN_BAG_MESSAGE = (
     "Осталось сундуков: <b>{} шт.</b>"
 )
 
-NOT_SUCCESS_EQUIP_MESSAGE = "Данный предмет надеть невозможно!"
-
 SCROLL_LIST_MESSAGE = "Выберите предмет для улучшения"
 
 ENHANCE_GET_MESSAGE = (

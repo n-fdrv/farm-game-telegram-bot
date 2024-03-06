@@ -91,17 +91,19 @@ async def get_character_property(
         async for effect in character_item.item.effect.filter(
             property=effect_property
         ):
-            amount = (
-                effect.amount
-                + character_item.enhancement_level
-                * game_config.ENHANCE_PROPERTY_INCREASE
-            )
             if character_item.item.type == ItemType.TALISMAN:
                 amount = (
                     effect.amount
                     + character_item.enhancement_level
                     * game_config.ENHANCE_TALISMAN_INCREASE
                 )
+                chosen_property += chosen_property * amount / 100
+                continue
+            amount = (
+                effect.amount
+                + character_item.enhancement_level
+                * game_config.ENHANCE_PROPERTY_INCREASE
+            )
             chosen_property += amount
     return chosen_property
 
@@ -147,6 +149,8 @@ async def get_character_item_with_effects(character_item: CharacterItem):
                 * game_config.ENHANCE_TALISMAN_INCREASE
             )
         effects += f"{effect.get_property_display()}: {amount}"
+        if effect.in_percent:
+            effects += "%"
     return f"{character_item.name_with_enhance} ({effects})"
 
 

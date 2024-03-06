@@ -48,6 +48,9 @@ async def get_location_info(character: Character, location: Location) -> str:
         "item"
     ).filter(location=location):
         chance = round(location_drop.chance * drop_buff, 2)
+        chance_limit = 100
+        if chance > chance_limit:
+            chance = chance_limit
         amount = ""
         if location_drop.max_amount > 1:
             amount = (

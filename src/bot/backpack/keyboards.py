@@ -22,6 +22,7 @@ from bot.constants.callback_data import (
 )
 from bot.models import User
 from bot.utils.paginator import Paginator
+from core.config import game_config
 
 
 async def backpack_preview_keyboard(character: Character):
@@ -158,7 +159,11 @@ async def use_scroll_keyboards(character: Character, scroll: Scroll):
     keyboard = InlineKeyboardBuilder()
     async for character_item in CharacterItem.objects.select_related(
         "item"
-    ).filter(character=character, item__type=scroll.enhance_type):
+    ).filter(
+        character=character,
+        item__type=scroll.enhance_type,
+        enhancement_level__lt=len(game_config.ENHANCE_CHANCE),
+    ):
         keyboard.button(
             text=character_item.name_with_enhance,
             callback_data=BackpackData(
