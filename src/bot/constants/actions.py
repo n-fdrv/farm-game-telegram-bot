@@ -57,10 +57,12 @@ class BackpackAction(Action):
 class ShopAction(Action):
     """Действия для хендлеров магазина."""
 
+    buy_preview = f"{callback_data.ShopData.__prefix__}-bupr"
     buy_list = f"{callback_data.ShopData.__prefix__}-buli"
     buy_get = f"{callback_data.ShopData.__prefix__}-buge"
     buy = f"{callback_data.ShopData.__prefix__}-bu"
 
+    sell_preview = f"{callback_data.ShopData.__prefix__}-sepr"
     sell_list = f"{callback_data.ShopData.__prefix__}-seli"
     sell_get = f"{callback_data.ShopData.__prefix__}-sege"
     sell_amount = f"{callback_data.ShopData.__prefix__}-seam"

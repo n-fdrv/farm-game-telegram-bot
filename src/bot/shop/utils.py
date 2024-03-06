@@ -7,14 +7,17 @@ from bot.shop.messages import ITEM_GET_MESSAGE
 
 
 async def check_item_amount(
-    character: Character, item: Item, amount: int = 1
+    character: Character,
+    item: Item,
+    amount: int = 1,
+    enhancement_level: int = 0,
 ) -> bool:
     """Метод проверки наличия товара у персонажа."""
     exists = await character.items.filter(pk=item.pk).aexists()
     if not exists:
         return False
     character_item = await CharacterItem.objects.aget(
-        character=character, item=item
+        character=character, item=item, enhancement_level=enhancement_level
     )
     if character_item.amount < amount:
         return False

@@ -36,6 +36,7 @@ class BackpackData(BaseCallbackData, prefix="bp"):
 class ShopData(BaseCallbackData, prefix="sh"):
     """Данные для хенжлеров магазина."""
 
+    type: Optional[str] = None
     amount: Optional[int] = 1
 
 

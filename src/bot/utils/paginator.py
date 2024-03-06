@@ -79,8 +79,8 @@ class Paginator:
         callback = get_callback_by_action(self.action)
         if "user_id" in self.kwargs:
             callback.user_id = self.kwargs["user_id"]
-        if "order_status" in self.kwargs:
-            callback.order_status = self.kwargs["order_status"]
+        if "type" in self.kwargs:
+            callback.type = self.kwargs["type"]
         if self.page > 1:
             callback.page = self.page - 1
             pagination_keyboard.button(text="⬅️", callback_data=callback)

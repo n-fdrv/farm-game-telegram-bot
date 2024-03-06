@@ -67,7 +67,7 @@ async def backpack_list_keyboard(user: User, callback_data: BackpackData):
         character=user.character, item__type=callback_data.type
     ):
         keyboard.button(
-            text=f"{item.item.name_with_type} - {item.amount} шт.",
+            text=f"{item.name_with_enhance} - {item.amount} шт.",
             callback_data=BackpackData(
                 action=backpack_action.get,
                 page=callback_data.page,

@@ -3,7 +3,11 @@ from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem
 from item.models import Item
 
-from bot.backpack.utils import add_item, remove_item
+from bot.backpack.utils import (
+    add_item,
+    get_character_item_info_text,
+    remove_item,
+)
 from bot.constants.actions import shop_action
 from bot.constants.callback_data import ShopData
 from bot.constants.states import ShopState
@@ -11,16 +15,21 @@ from bot.shop.keyboards import (
     buy_get_keyboard,
     buy_keyboard,
     buy_list_keyboard,
+    buy_preview_keyboard,
+    in_sell_keyboard,
     in_shop_keyboard,
     sell_amount_confirm_keyboard,
     sell_get_keyboard,
     sell_keyboard,
     sell_list_keyboard,
+    sell_preview_keyboard,
     shop_get_keyboard,
 )
 from bot.shop.messages import (
     BUY_LIST_MESSAGE,
+    BUY_PREVIEW_MESSAGE,
     CONFIRM_AMOUNT_MESSAGE,
+    EQUIPPED_ITEM_MESSAGE,
     NOT_CORRECT_AMOUNT_MESSAGE,
     NOT_ENOUGH_GOLD_MESSAGE,
     NOT_ENOUGH_ITEMS_MESSAGE,
@@ -56,6 +65,26 @@ async def shop_get(
     keyboard = await shop_get_keyboard()
     await callback.message.edit_text(
         text=SHOP_GET_MESSAGE, reply_markup=keyboard.as_markup()
+    )
+
+
+@shop_router.callback_query(
+    ShopData.filter(F.action == shop_action.buy_preview)
+)
+@log_in_dev
+async def shop_buy_preview(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ShopData,
+):
+    """Коллбек перехода в покупки."""
+    user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
+    keyboard = await buy_preview_keyboard()
+    await callback.message.edit_text(
+        text=BUY_PREVIEW_MESSAGE, reply_markup=keyboard.as_markup()
     )
 
 
@@ -109,7 +138,7 @@ async def shop_buy_handler(
         await callback.message.delete()
         return
     item = await Item.objects.aget(pk=callback_data.id)
-    gold = await Item.objects.aget(name="Золото")
+    gold = await Item.objects.aget(name__contains="Золото")
     enough_amount = await check_item_amount(
         user.character, gold, item.buy_price
     )
@@ -124,6 +153,26 @@ async def shop_buy_handler(
     await callback.message.edit_text(
         text=SUCCESS_BUY_MESSAGE.format(item.name_with_type),
         reply_markup=keyboard.as_markup(),
+    )
+
+
+@shop_router.callback_query(
+    ShopData.filter(F.action == shop_action.sell_preview)
+)
+@log_in_dev
+async def shop_sell_preview(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ShopData,
+):
+    """Коллбек перехода в продажи."""
+    user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
+    keyboard = await sell_preview_keyboard(user.character)
+    await callback.message.edit_text(
+        text=BUY_PREVIEW_MESSAGE, reply_markup=keyboard.as_markup()
     )
 
 
@@ -157,14 +206,14 @@ async def shop_sell_get_handler(
     if user.character.current_location:
         await callback.message.delete()
         return
-    item = await Item.objects.aget(pk=callback_data.id)
-    character_item = await CharacterItem.objects.aget(
-        item=item, character=user.character
+    character_item = await CharacterItem.objects.select_related("item").aget(
+        pk=callback_data.id
     )
     callback_data.amount = character_item.amount
     keyboard = await sell_get_keyboard(callback_data)
     await callback.message.edit_text(
-        text=await get_item_info_text(item), reply_markup=keyboard.as_markup()
+        text=await get_character_item_info_text(character_item),
+        reply_markup=keyboard.as_markup(),
     )
 
 
@@ -186,7 +235,7 @@ async def shop_sell_amount_handler(
     await callback.message.edit_text(
         text=SELL_AMOUNT_MESSAGE, reply_markup=keyboard.as_markup()
     )
-    await state.update_data(item_id=callback_data.id)
+    await state.update_data(character_item_id=callback_data.id)
     await state.set_state(ShopState.item_amount)
 
 
@@ -208,10 +257,12 @@ async def shop_sell_amount_state(message: types.Message, state: FSMContext):
         await state.set_state(ShopState.item_amount)
         return
     data = await state.get_data()
-    item = await Item.objects.aget(pk=data["item_id"])
+    item = await CharacterItem.objects.select_related("item").aget(
+        pk=data["character_item_id"]
+    )
     keyboard = await sell_amount_confirm_keyboard(item.id, int(amount))
     await message.answer(
-        text=CONFIRM_AMOUNT_MESSAGE.format(item.name_with_type, amount),
+        text=CONFIRM_AMOUNT_MESSAGE.format(item.name_with_enhance, amount),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -225,30 +276,52 @@ async def shop_sell_handler(
 ):
     """Хендлер продажи товара."""
     await state.clear()
+
+    character_item = await CharacterItem.objects.select_related("item").aget(
+        pk=callback_data.id
+    )
+    keyboard = await in_sell_keyboard(character_item.item.type)
+    if (
+        character_item.equipped
+        and character_item.amount <= callback_data.amount
+    ):
+        await callback.message.edit_text(
+            text=EQUIPPED_ITEM_MESSAGE, reply_markup=keyboard.as_markup()
+        )
+        return
     user = await get_user(callback.from_user.id)
     if user.character.current_location:
         await callback.message.delete()
         return
-    item = await Item.objects.aget(pk=callback_data.id)
     gold = await Item.objects.aget(name__contains="Золото")
     enough_amount = await check_item_amount(
-        user.character, item, callback_data.amount
+        user.character,
+        character_item.item,
+        callback_data.amount,
+        character_item.enhancement_level,
     )
-    keyboard = await in_shop_keyboard()
+
     if not enough_amount:
         await callback.message.edit_text(
             text=NOT_ENOUGH_ITEMS_MESSAGE, reply_markup=keyboard.as_markup()
         )
         return
-    await remove_item(user.character, item, callback_data.amount)
+    await remove_item(
+        user.character,
+        character_item.item,
+        callback_data.amount,
+        character_item.enhancement_level,
+    )
     await add_item(
-        user.character, gold, callback_data.amount * item.sell_price
+        user.character,
+        gold,
+        callback_data.amount * character_item.item.sell_price,
     )
     await callback.message.edit_text(
         text=SUCCESS_SELL_MESSAGE.format(
-            item.name_with_type,
+            character_item.name_with_enhance,
             callback_data.amount,
-            callback_data.amount * item.sell_price,
+            callback_data.amount * character_item.item.sell_price,
         ),
         reply_markup=keyboard.as_markup(),
     )
