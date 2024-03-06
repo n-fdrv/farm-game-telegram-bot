@@ -157,10 +157,6 @@ async def equip_item(item: CharacterItem):
         return False
     if item.equipped:
         item.equipped = False
-        async for effect in item.item.effect.all():
-            await CharacterEffect.objects.filter(
-                character=item.character, effect=effect
-            ).adelete()
         await item.asave(update_fields=("equipped",))
         return True
     type_equipped = await item.character.items.filter(
@@ -172,20 +168,9 @@ async def equip_item(item: CharacterItem):
         ).aget(
             character=item.character, item__type=item.item.type, equipped=True
         )
-        async for effect in equipped_item.item.effect.all():
-            await CharacterEffect.objects.filter(
-                character=item.character, effect=effect
-            ).adelete()
         equipped_item.equipped = False
         await equipped_item.asave(update_fields=("equipped",))
     item.equipped = True
-    async for effect in item.item.effect.all():
-        await CharacterEffect.objects.acreate(
-            character=item.character,
-            effect=effect,
-            permanent=True,
-            hunting_amount=0,
-        )
     await item.asave(update_fields=("equipped",))
     return True
 

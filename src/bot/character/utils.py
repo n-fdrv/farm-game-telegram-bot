@@ -10,7 +10,7 @@ from character.models import (
     SkillEffect,
 )
 from django.utils import timezone
-from item.models import EffectProperty, Item
+from item.models import EffectProperty, ItemType
 from location.models import LocationDrop
 from loguru import logger
 
@@ -85,6 +85,24 @@ async def get_character_property(
             chosen_property += chosen_property * effect.amount / 100
             continue
         chosen_property += effect.amount
+    async for character_item in CharacterItem.objects.select_related(
+        "item"
+    ).filter(character=character, equipped=True):
+        async for effect in character_item.item.effect.filter(
+            property=effect_property
+        ):
+            amount = (
+                effect.amount
+                + character_item.enhancement_level
+                * game_config.ENHANCE_PROPERTY_INCREASE
+            )
+            if character_item.item.type == ItemType.TALISMAN:
+                amount = (
+                    effect.amount
+                    + character_item.enhancement_level
+                    * game_config.ENHANCE_TALISMAN_INCREASE
+                )
+            chosen_property += amount
     return chosen_property
 
 
@@ -113,12 +131,23 @@ async def get_character_info(character: Character) -> str:
     )
 
 
-async def get_item_with_effects(item: Item):
+async def get_character_item_with_effects(character_item: CharacterItem):
     """Получение предмета с его эффектами."""
-    item_effects = ",".join(
-        [x.get_property_with_amount() async for x in item.effect.all()]
-    )
-    return f"{item.name_with_type} ({item_effects})"
+    effects = ""
+    async for effect in character_item.item.effect.all():
+        amount = (
+            effect.amount
+            + character_item.enhancement_level
+            * game_config.ENHANCE_PROPERTY_INCREASE
+        )
+        if character_item.item.type == ItemType.TALISMAN:
+            amount = (
+                effect.amount
+                + character_item.enhancement_level
+                * game_config.ENHANCE_TALISMAN_INCREASE
+            )
+        effects += f"{effect.get_property_display()}: {amount}"
+    return f"{character_item.name_with_enhance} ({effects})"
 
 
 async def get_elixir_with_effects_and_expired(character: Character):
@@ -164,10 +193,10 @@ async def get_character_about(character: Character) -> str:
         ),
         "\n".join(
             [
-                await get_item_with_effects(x)
-                async for x in character.items.filter(
-                    characteritem__equipped=True
-                )
+                await get_character_item_with_effects(x)
+                async for x in CharacterItem.objects.select_related(
+                    "item"
+                ).filter(character=character, equipped=True)
             ]
         ),
         "\n".join(
