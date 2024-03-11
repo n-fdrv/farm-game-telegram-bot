@@ -79,8 +79,30 @@ class CraftAction(Action):
     pass
 
 
+class MarketplaceAction(Action):
+    """Действия для хендлеров торговой площадки."""
+
+    preview = f"{callback_data.MarketplaceData.__prefix__}-pr"
+
+    buy_preview = f"{callback_data.MarketplaceData.__prefix__}-bupr"
+    sell_preview = f"{callback_data.MarketplaceData.__prefix__}-sepr"
+
+    items_list = f"{callback_data.MarketplaceData.__prefix__}-itli"
+    sell_list = f"{callback_data.MarketplaceData.__prefix__}-seli"
+    buy_list = f"{callback_data.MarketplaceData.__prefix__}-buli"
+
+    sell_get = f"{callback_data.MarketplaceData.__prefix__}-sege"
+
+    add_preview = f"{callback_data.MarketplaceData.__prefix__}-adpr"
+    choose_currency = f"{callback_data.MarketplaceData.__prefix__}-chcu"
+    add = f"{callback_data.MarketplaceData.__prefix__}-add"
+
+
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
 location_action = LocationAction(callback_data.LocationData.__prefix__)
 backpack_action = BackpackAction(callback_data.BackpackData.__prefix__)
 shop_action = ShopAction(callback_data.ShopData.__prefix__)
 craft_action = CraftAction(callback_data.CraftData.__prefix__)
+marketplace_action = MarketplaceAction(
+    callback_data.MarketplaceData.__prefix__
+)

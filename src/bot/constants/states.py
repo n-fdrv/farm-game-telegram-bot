@@ -11,3 +11,10 @@ class ShopState(StatesGroup):
     """Состояния для хендлеров магазина."""
 
     item_amount = State()
+
+
+class MarketplaceState(StatesGroup):
+    """Состояния для хендлеров торговой площадки."""
+
+    item_price = State()
+    item_amount = State()

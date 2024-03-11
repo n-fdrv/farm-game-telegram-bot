@@ -6,6 +6,7 @@ from character.models import (
     CharacterItem,
     CharacterSkill,
 )
+from django.conf import settings
 from item.models import (
     Bag,
     BagItem,
@@ -73,11 +74,11 @@ async def add_item(
 async def get_gold_amount(character: Character):
     """Получение количества золота у персонажа."""
     exists = await CharacterItem.objects.filter(
-        character=character, item__name__contains="Золото"
+        character=character, item__name=settings.GOLD_NAME
     ).aexists()
     if exists:
         gold = await CharacterItem.objects.aget(
-            character=character, item__name__contains="Золото"
+            character=character, item__name=settings.GOLD_NAME
         )
         return gold.amount
     return 0

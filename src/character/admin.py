@@ -11,6 +11,7 @@ from character.models import (
     CharacterItem,
     CharacterSkill,
     ClassEquipment,
+    MarketplaceItem,
     Skill,
     SkillEffect,
 )
@@ -268,3 +269,33 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     def exp_percent(self, obj):
         """Получения опыта в процентах."""
         return f"{obj.exp / obj.exp_for_level_up * 100}%"
+
+
+@admin.register(MarketplaceItem)
+class MarketplaceItemAdmin(DjangoObjectActions, admin.ModelAdmin):
+    """Управление торговой площадкой."""
+
+    def download_csv(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/characters/marketplace.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.seller.name,
+                        row.item.name,
+                        row.amount,
+                        row.enhancement_level,
+                        row.sell_currency.name,
+                        row.price,
+                    ]
+                )
+
+    download_csv.short_description = "Download selected as csv"
+    changelist_actions = ("download_csv",)
+    list_display = ("seller", "item", "sell_currency", "price")

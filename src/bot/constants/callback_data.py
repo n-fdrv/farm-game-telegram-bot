@@ -46,10 +46,19 @@ class CraftData(BaseCallbackData, prefix="cra"):
     pass
 
 
+class MarketplaceData(BaseCallbackData, prefix="mp"):
+    """Данные для хендлеров торговой площадки.."""
+
+    currency: Optional[str] = None
+    type: Optional[str] = None
+    amount: Optional[int] = 1
+
+
 CALLBACK_DATA_PREFIX = {
     CharacterData.__prefix__: CharacterData,
     LocationData.__prefix__: LocationData,
     BackpackData.__prefix__: BackpackData,
     ShopData.__prefix__: ShopData,
+    MarketplaceData.__prefix__: MarketplaceData,
     CraftData.__prefix__: CraftData,
 }

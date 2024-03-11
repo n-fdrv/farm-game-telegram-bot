@@ -1,0 +1,5 @@
+BUY_BUTTON = "Купить"
+SELL_BUTTON = "Продать"
+ITEMS_BUTTON = "Ваши Предметы"
+ADD_ON_MARKETPLACE_BUTTON = "Выставить на продажу"
+ADD_BUTTON = "Выставить"

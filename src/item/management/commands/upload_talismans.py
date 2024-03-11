@@ -24,8 +24,7 @@ class Command(BaseCommand):
                         sell_price=row[2],
                         buy_price=row[3],
                         type=row[4],
-                        grade=row[5],
-                        talisman_type=row[6],
+                        talisman_type=row[5],
                     )
                 except Exception as e:
                     logger.error(

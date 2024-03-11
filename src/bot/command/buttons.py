@@ -1,10 +1,10 @@
 CHARACTER_BUTTON = "🧙 Персонаж"
-MARKET_BUTTON = "💱 Торговая площадка"
-TOP_BUTTON = "🏆 Топ персонажей"
-PREMIUM_SHOP_BUTTON = "🏬 Премиум магазин"
+MARKET_BUTTON = "💱 Торговая Площадка"
+TOP_BUTTON = "🏆 Топ Персонажей"
+PREMIUM_SHOP_BUTTON = "🏬 Премиум Магазин"
 INFORMATION_BUTTON = "ℹ️ Информация"
 
-CREATE_CHARACTER_BUTTON = "🧙Создать персонажа"
+CREATE_CHARACTER_BUTTON = "🧙Создать Персонажа"
 
 YES_BUTTON = "✅Да"
 NO_BUTTON = "❌Нет"

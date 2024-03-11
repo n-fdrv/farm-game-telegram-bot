@@ -4,6 +4,7 @@ from django.db import models
 from item.models import (
     EffectProperty,
     EquipmentType,
+    Etc,
     Item,
     ItemEffect,
     Recipe,
@@ -301,3 +302,48 @@ class CharacterEffect(models.Model):
 
     def __str__(self):
         return f"Character: {self.character} | " f"Effect: {self.effect}"
+
+
+class MarketplaceItem(models.Model):
+    """Модель для хранения предметов персонажа."""
+
+    seller = models.ForeignKey(
+        Character, on_delete=models.CASCADE, verbose_name="Продавец"
+    )
+    item = models.ForeignKey(
+        Item,
+        on_delete=models.CASCADE,
+        verbose_name="Предмет",
+        related_name="marketplace_item",
+    )
+    amount = models.IntegerField(default=0, verbose_name="Количество")
+    enhancement_level = models.IntegerField(
+        default=0, verbose_name="Уровень улучшения"
+    )
+    sell_currency = models.ForeignKey(
+        Etc,
+        on_delete=models.PROTECT,
+        default=1,
+        verbose_name="Валюта продажи",
+        related_name="marketplace_currency",
+    )
+    price = models.IntegerField(default=1, verbose_name="Стоимость")
+
+    @property
+    def name_with_enhance(self):
+        """Возвращает название с уровнем улучшения."""
+        if self.enhancement_level:
+            return f"{self.item.name_with_type} +{self.enhancement_level}"
+        return f"{self.item.name_with_type}"
+
+    class Meta:
+        verbose_name = "Предмет на Торговой Площадке"
+        verbose_name_plural = "Предметы на Торговой Площадке"
+
+    def __str__(self):
+        return (
+            f"Seller: {self.seller} | "
+            f"Item: {self.name_with_enhance} | "
+            f"Amount: {self.amount} |"
+            f"Price: {self.price}"
+        )

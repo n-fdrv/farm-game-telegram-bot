@@ -306,4 +306,6 @@ ITEM_DATA = {
     ItemType.ARMOR: Armor,
     ItemType.WEAPON: Weapon,
     ItemType.RECIPE: Recipe,
+    ItemType.BAG: Bag,
+    ItemType.POTION: Potion,
 }

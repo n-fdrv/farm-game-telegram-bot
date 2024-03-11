@@ -3,7 +3,7 @@ import csv
 from django.core.management.base import BaseCommand
 from loguru import logger
 
-from item.models import CraftingItem, Item, Recipe
+from item.models import CraftingItem, Item, Material, Recipe
 
 
 class Command(BaseCommand):
@@ -18,16 +18,15 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             for row in reader:
                 try:
-                    create = Item.objects.get(name=row[8])
+                    create = Item.objects.get(name=row[7])
                     Recipe.objects.get_or_create(
                         name=row[0],
                         description=row[1],
                         sell_price=row[2],
                         buy_price=row[3],
                         type=row[4],
-                        grade=row[5],
-                        level=row[6],
-                        chance=row[7],
+                        level=row[5],
+                        chance=row[6],
                         create=create,
                     )
                 except Exception as e:
@@ -39,7 +38,7 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             for row in reader:
                 try:
-                    material = Item.objects.get(name=row[0])
+                    material = Material.objects.get(name=row[0])
                     recipe = Recipe.objects.get(name=row[1])
                     CraftingItem.objects.get_or_create(
                         material=material,
