@@ -79,6 +79,13 @@ class Item(models.Model):
             return f"{self.name}"
         return f"{self.get_type_display()[:1]}{self.name}"
 
+    @property
+    def emoji(self):
+        """Возвращает полное имя пользователя."""
+        if self.type == ItemType.ETC:
+            return f"{self.name[:1]}"
+        return f"{self.get_type_display()[:1]}"
+
 
 class Equipment(Item):
     """Модель хранения предметов которые можно надевать."""

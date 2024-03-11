@@ -1,6 +1,6 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
-from character.models import CharacterItem
+from character.models import CharacterItem, MarketplaceItem
 
 from bot.command.buttons import MARKET_BUTTON
 from bot.constants.actions import marketplace_action
@@ -8,33 +8,47 @@ from bot.constants.callback_data import MarketplaceData
 from bot.constants.states import MarketplaceState
 from bot.marketplace.keyboards import (
     add_preview_keyboard,
+    buy_confirm_keyboard,
+    buy_get_keyboard,
+    buy_list_keyboard,
+    buy_preview_keyboard,
+    choose_buy_currency_keyboard,
     marketplace_preview_keyboard,
     sell_confirm_keyboard,
     sell_get_keyboard,
     sell_list_keyboard,
     sell_preview_keyboard,
+    to_buy_preview_keyboard,
     to_sell_preview_keyboard,
 )
 from bot.marketplace.messages import (
     ADD_PREVIEW_MESSAGE,
     ADD_PRICE_MESSAGE,
+    BUY_CONFIRM_MESSAGE,
+    CHOOSE_BUY_CURRENCY_MESSAGE,
     CONFIRM_LOT_MESSAGE,
     CORRECT_PRICE_MESSAGE,
     MARKETPLACE_PREVIEW_MESSAGE,
     NO_CHARACTER_MESSAGE,
     NOT_CORRECT_PRICE_MESSAGE,
     NOT_SUCCESS_LOT_MESSAGE,
+    PREVIEW_MESSAGE,
     SELL_LIST_MESSAGE,
-    SELL_PREVIEW_MESSAGE,
     SUCCESS_LOT_MESSAGE,
+    SUCCESS_SELL_MESSAGE,
 )
 from bot.marketplace.utils import (
     add_item_on_marketplace,
+    buy_item,
     get_character_item_marketplace_text,
+    get_lot_text,
 )
+from bot.models import User
 from bot.shop.messages import NOT_CORRECT_AMOUNT_MESSAGE
 from bot.shop.utils import check_correct_amount
+from bot.utils.schedulers import send_message_to_user
 from bot.utils.user_helpers import get_user
+from core.config import game_config
 from core.config.logging import log_in_dev
 
 marketplace_router = Router()
@@ -92,7 +106,7 @@ async def marketplace_sell_preview_callback(
     user = await get_user(callback.from_user.id)
     keyboard = await sell_preview_keyboard(user.character)
     await callback.message.edit_text(
-        text=SELL_PREVIEW_MESSAGE, reply_markup=keyboard.as_markup()
+        text=PREVIEW_MESSAGE, reply_markup=keyboard.as_markup()
     )
 
 
@@ -207,9 +221,11 @@ async def marketplace_sell_amount_state(
             text=NOT_CORRECT_AMOUNT_MESSAGE, reply_markup=keyboard.as_markup()
         )
         await state.set_state(MarketplaceState.item_amount)
+        return
     amount = int(amount)
-
     data = await state.get_data()
+    price = int(data["price"])
+    price_with_tax = int(price - price / game_config.MARKETPLACE_TAX)
     character_item = await CharacterItem.objects.select_related("item").aget(
         pk=data["character_item_id"]
     )
@@ -221,8 +237,11 @@ async def marketplace_sell_amount_state(
         CONFIRM_LOT_MESSAGE.format(
             character_item.name_with_enhance,
             amount,
-            data["price"],
+            price,
             data["currency"],
+            price_with_tax,
+            data["currency"],
+            game_config.MARKETPLACE_TAX,
         ),
         reply_markup=keyboard.as_markup(),
     )
@@ -252,4 +271,137 @@ async def add_callback(
     await callback.message.edit_text(
         text=SUCCESS_LOT_MESSAGE,
         reply_markup=keyboard.as_markup(),
+    )
+
+
+@marketplace_router.callback_query(
+    MarketplaceData.filter(F.action == marketplace_action.buy_currency)
+)
+@log_in_dev
+async def marketplace_choose_buy_currency_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MarketplaceData,
+):
+    """Коллбек получения персонажа."""
+    await state.clear()
+    keyboard = await choose_buy_currency_keyboard()
+    await callback.message.edit_text(
+        text=CHOOSE_BUY_CURRENCY_MESSAGE, reply_markup=keyboard.as_markup()
+    )
+
+
+@marketplace_router.callback_query(
+    MarketplaceData.filter(F.action == marketplace_action.buy_preview)
+)
+@log_in_dev
+async def marketplace_buy_preview_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MarketplaceData,
+):
+    """Коллбек получения персонажа."""
+    await state.clear()
+    keyboard = await buy_preview_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=PREVIEW_MESSAGE, reply_markup=keyboard.as_markup()
+    )
+
+
+@marketplace_router.callback_query(
+    MarketplaceData.filter(F.action == marketplace_action.buy_list)
+)
+@log_in_dev
+async def marketplace_buy_list_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MarketplaceData,
+):
+    """Коллбек получения персонажа."""
+    await state.clear()
+    paginator = await buy_list_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=SELL_LIST_MESSAGE, reply_markup=paginator
+    )
+
+
+@marketplace_router.callback_query(
+    MarketplaceData.filter(F.action == marketplace_action.buy_get)
+)
+@log_in_dev
+async def buy_get_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MarketplaceData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    await state.clear()
+    keyboard = await buy_get_keyboard(callback_data)
+    marketplace_item = await MarketplaceItem.objects.select_related(
+        "item", "seller", "sell_currency"
+    ).aget(id=callback_data.id)
+    await callback.message.edit_text(
+        text=await get_lot_text(marketplace_item),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@marketplace_router.callback_query(
+    MarketplaceData.filter(F.action == marketplace_action.buy_confirm)
+)
+@log_in_dev
+async def buy_confirm_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MarketplaceData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    await state.clear()
+    keyboard = await buy_confirm_keyboard(callback_data)
+    marketplace_item = await MarketplaceItem.objects.select_related(
+        "item", "sell_currency"
+    ).aget(id=callback_data.id)
+    await callback.message.edit_text(
+        text=BUY_CONFIRM_MESSAGE.format(
+            marketplace_item.name_with_enhance,
+            marketplace_item.amount,
+            f"{marketplace_item.price}{marketplace_item.sell_currency.emoji}",
+        ),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@marketplace_router.callback_query(
+    MarketplaceData.filter(F.action == marketplace_action.buy)
+)
+@log_in_dev
+async def buy_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MarketplaceData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    await state.clear()
+    user = await get_user(callback.from_user.id)
+    keyboard = await to_buy_preview_keyboard()
+    marketplace_item = await MarketplaceItem.objects.select_related(
+        "item", "sell_currency", "seller"
+    ).aget(id=callback_data.id)
+    success, text = await buy_item(marketplace_item, user.character)
+    await callback.message.edit_text(
+        text=text,
+        reply_markup=keyboard.as_markup(),
+    )
+    price_after_tax = int(
+        marketplace_item.price
+        - marketplace_item.price / game_config.MARKETPLACE_TAX
+    )
+    seller = await User.objects.aget(character=marketplace_item.seller)
+    await send_message_to_user(
+        seller.telegram_id,
+        SUCCESS_SELL_MESSAGE.format(
+            marketplace_item.name_with_enhance,
+            marketplace_item.amount,
+            f"{price_after_tax}{marketplace_item.sell_currency.emoji}",
+        ),
     )

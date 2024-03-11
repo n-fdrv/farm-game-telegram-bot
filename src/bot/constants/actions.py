@@ -83,6 +83,7 @@ class MarketplaceAction(Action):
     """Действия для хендлеров торговой площадки."""
 
     preview = f"{callback_data.MarketplaceData.__prefix__}-pr"
+    buy_currency = f"{callback_data.MarketplaceData.__prefix__}-bucu"
 
     buy_preview = f"{callback_data.MarketplaceData.__prefix__}-bupr"
     sell_preview = f"{callback_data.MarketplaceData.__prefix__}-sepr"
@@ -92,10 +93,15 @@ class MarketplaceAction(Action):
     buy_list = f"{callback_data.MarketplaceData.__prefix__}-buli"
 
     sell_get = f"{callback_data.MarketplaceData.__prefix__}-sege"
+    buy_get = f"{callback_data.MarketplaceData.__prefix__}-buge"
+    item_search = f"{callback_data.MarketplaceData.__prefix__}-itse"
+
+    buy_confirm = f"{callback_data.MarketplaceData.__prefix__}-buco"
 
     add_preview = f"{callback_data.MarketplaceData.__prefix__}-adpr"
     choose_currency = f"{callback_data.MarketplaceData.__prefix__}-chcu"
     add = f"{callback_data.MarketplaceData.__prefix__}-add"
+    buy = f"{callback_data.MarketplaceData.__prefix__}-buy"
 
 
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)

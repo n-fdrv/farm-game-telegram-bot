@@ -116,7 +116,7 @@ async def get_character_item_info_text(character_item: CharacterItem):
     """Метод получения текста информации о товаре."""
     additional_info = await get_character_item_effects(character_item)
     if character_item.item.type == ItemType.BAG:
-        additional_info += get_bag_loot(character_item.item)
+        additional_info += await get_bag_loot(character_item.item)
     description = character_item.item.description
     if character_item.equipped:
         description += "\n<b>Надето</b>"
