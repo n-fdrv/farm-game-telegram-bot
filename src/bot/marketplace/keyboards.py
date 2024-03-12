@@ -21,6 +21,7 @@ from bot.marketplace.buttons import (
     ITEMS_BUTTON,
     REMOVE_LOT_BUTTON,
     SEARCH_ITEM_BUTTON,
+    SEARCH_LOT_LIST_BUTTON,
     SELL_BUTTON,
 )
 from bot.models import User
@@ -325,15 +326,26 @@ async def buy_get_keyboard(callback_data: MarketplaceData):
             type=callback_data.type,
         ),
     )
-    keyboard.button(
-        text=BACK_BUTTON,
-        callback_data=MarketplaceData(
-            action=marketplace_action.buy_list,
-            page=callback_data.page,
-            type=callback_data.type,
-            currency=callback_data.currency,
-        ),
-    )
+    if callback_data.back_action == "search":
+        keyboard.button(
+            text=BACK_BUTTON,
+            callback_data=MarketplaceData(
+                action=marketplace_action.search_lot_list,
+                page=callback_data.page,
+                currency=callback_data.currency,
+                name_contains=callback_data.name_contains,
+            ),
+        )
+    else:
+        keyboard.button(
+            text=BACK_BUTTON,
+            callback_data=MarketplaceData(
+                action=marketplace_action.buy_list,
+                page=callback_data.page,
+                type=callback_data.type,
+                currency=callback_data.currency,
+            ),
+        )
     keyboard.adjust(1)
     return keyboard
 
@@ -429,3 +441,67 @@ async def remove_preview_keyboard(callback_data: MarketplaceData):
     )
     keyboard.adjust(1)
     return keyboard
+
+
+async def item_search_keyboard(currency_name: str, item_name_contains: str):
+    """Клавиатура получения предмета для продажи."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=SEARCH_LOT_LIST_BUTTON,
+        callback_data=MarketplaceData(
+            action=marketplace_action.search_lot_list,
+            currency=currency_name,
+            name_contains=item_name_contains,
+        ),
+    )
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=MarketplaceData(action=marketplace_action.buy_preview),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def lot_item_list_keyboard(callback_data: MarketplaceData):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    async for item in (
+        MarketplaceItem.objects.select_related("item", "sell_currency")
+        .annotate(price_per_item=F("price") / F("amount"))
+        .filter(
+            item__name__contains=callback_data.name_contains,
+            sell_currency__name=callback_data.currency,
+        )
+        .order_by("price_per_item")
+    ):
+        keyboard.button(
+            text=item.name_with_price_and_amount,
+            callback_data=MarketplaceData(
+                action=marketplace_action.buy_get,
+                page=callback_data.page,
+                id=item.id,
+                currency=callback_data.currency,
+                name_contains=callback_data.name_contains,
+                back_action="search",
+            ),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=marketplace_action.search_lot_list,
+        size=6,
+        page=callback_data.page,
+        name_contains=callback_data.name_contains,
+        currency=callback_data.currency,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            (
+                BACK_BUTTON,
+                MarketplaceData(
+                    action=marketplace_action.buy_preview,
+                    currency=callback_data.currency,
+                ),
+            ),
+        ]
+    )

@@ -9,7 +9,6 @@ class BaseCallbackData(CallbackData, prefix="pac"):
     action: str
     id: Optional[int] = None
     page: int = 1
-    back_action: Optional[str] = None
 
 
 class CharacterData(BaseCallbackData, prefix="ch"):
@@ -52,6 +51,8 @@ class MarketplaceData(BaseCallbackData, prefix="mp"):
     currency: Optional[str] = None
     type: Optional[str] = None
     amount: Optional[int] = 1
+    name_contains: Optional[str] = None
+    back_action: Optional[str] = None
 
 
 CALLBACK_DATA_PREFIX = {

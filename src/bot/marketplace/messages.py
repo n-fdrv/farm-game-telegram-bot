@@ -60,3 +60,9 @@ ITEM_LIST_MESSAGE = "Список ваших выставленных предм
 REMOVE_CONFIRM_MESSAGE = "Вы уверены, что хотите удалить лот с продажи?"
 
 NO_MARKETPLACE_ITEM_MESSAGE = "❗️ Данный лот уже был удален или выкуплен!"
+
+ITEM_SEARCH_MESSAGE = "Введите название предмета в сообщении"
+
+ITEM_SEARCH_AMOUNT_MESSAGE = "Найдено <b>{}</b> лот(ов) по запросу: <b>{}</b>"
+
+SEARCH_ITEM_LIST_MESSAGE = "Список найденных предметов:"

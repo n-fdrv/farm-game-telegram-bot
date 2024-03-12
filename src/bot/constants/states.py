@@ -18,3 +18,4 @@ class MarketplaceState(StatesGroup):
 
     item_price = State()
     item_amount = State()
+    item_search = State()

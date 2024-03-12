@@ -1,6 +1,6 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
-from character.models import CharacterItem
+from character.models import CharacterItem, MarketplaceItem
 
 from bot.command.buttons import MARKET_BUTTON
 from bot.constants.actions import marketplace_action
@@ -14,7 +14,9 @@ from bot.marketplace.keyboards import (
     buy_preview_keyboard,
     choose_buy_currency_keyboard,
     item_get_keyboard,
+    item_search_keyboard,
     items_list_keyboard,
+    lot_item_list_keyboard,
     marketplace_preview_keyboard,
     remove_preview_keyboard,
     sell_confirm_keyboard,
@@ -32,6 +34,8 @@ from bot.marketplace.messages import (
     CONFIRM_LOT_MESSAGE,
     CORRECT_PRICE_MESSAGE,
     ITEM_LIST_MESSAGE,
+    ITEM_SEARCH_AMOUNT_MESSAGE,
+    ITEM_SEARCH_MESSAGE,
     MARKETPLACE_PREVIEW_MESSAGE,
     NO_CHARACTER_MESSAGE,
     NO_MARKETPLACE_ITEM_MESSAGE,
@@ -39,6 +43,7 @@ from bot.marketplace.messages import (
     NOT_SUCCESS_LOT_MESSAGE,
     PREVIEW_MESSAGE,
     REMOVE_CONFIRM_MESSAGE,
+    SEARCH_ITEM_LIST_MESSAGE,
     SELL_LIST_MESSAGE,
     SUCCESS_LOT_MESSAGE,
     SUCCESS_SELL_MESSAGE,
@@ -409,19 +414,20 @@ async def buy_callback(
         text=text,
         reply_markup=keyboard.as_markup(),
     )
-    price_after_tax = int(
-        marketplace_item.price
-        - marketplace_item.price / game_config.MARKETPLACE_TAX
-    )
-    seller = await User.objects.aget(character=marketplace_item.seller)
-    await send_message_to_user(
-        seller.telegram_id,
-        SUCCESS_SELL_MESSAGE.format(
-            marketplace_item.name_with_enhance,
-            marketplace_item.amount,
-            f"{price_after_tax}{marketplace_item.sell_currency.emoji}",
-        ),
-    )
+    if success:
+        price_after_tax = int(
+            marketplace_item.price
+            - marketplace_item.price / game_config.MARKETPLACE_TAX
+        )
+        seller = await User.objects.aget(character=marketplace_item.seller)
+        await send_message_to_user(
+            seller.telegram_id,
+            SUCCESS_SELL_MESSAGE.format(
+                marketplace_item.name_with_enhance,
+                marketplace_item.amount,
+                f"{price_after_tax}{marketplace_item.sell_currency.emoji}",
+            ),
+        )
 
 
 @marketplace_router.callback_query(
@@ -499,4 +505,58 @@ async def remove_callback(
     success, text = await remove_lot(marketplace_item)
     await callback.message.edit_text(
         text=text, reply_markup=keyboard.as_markup()
+    )
+
+
+@marketplace_router.callback_query(
+    MarketplaceData.filter(F.action == marketplace_action.item_search)
+)
+@log_in_dev
+async def item_search_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MarketplaceData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    await state.clear()
+    keyboard = await to_buy_preview_keyboard()
+    await callback.message.edit_text(
+        text=ITEM_SEARCH_MESSAGE, reply_markup=keyboard.as_markup()
+    )
+    await state.update_data(currency=callback_data.currency)
+    await state.set_state(MarketplaceState.item_search)
+
+
+@marketplace_router.message(MarketplaceState.item_search)
+@log_in_dev
+async def item_search_state(message: types.Message, state: FSMContext):
+    """Хендлер обработки количества товаров."""
+    data = await state.get_data()
+    currency = data["currency"]
+    name_contains = message.text
+    items_amount = await MarketplaceItem.objects.filter(
+        item__name__contains=name_contains,
+        sell_currency__name=currency,
+    ).acount()
+    keyboard = await item_search_keyboard(currency, name_contains)
+    await message.answer(
+        text=ITEM_SEARCH_AMOUNT_MESSAGE.format(items_amount, name_contains),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@marketplace_router.callback_query(
+    MarketplaceData.filter(F.action == marketplace_action.search_lot_list)
+)
+@log_in_dev
+async def search_lot_list_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MarketplaceData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    await state.clear()
+    paginator = await lot_item_list_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=SEARCH_ITEM_LIST_MESSAGE, reply_markup=paginator
     )
