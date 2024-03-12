@@ -15,11 +15,13 @@ from bot.character.messages import (
     CHOOSE_CLASS_MESSAGE,
     CLASS_GET_MESSAGE,
     CREATE_CHARACTER_MESSAGE,
+    ERROR_CREATING_CHARACTER,
     NICKNAME_CONFIRM_MESSAGE,
     NICKNAME_NOT_CORRECT_MESSAGE,
     NICKNAME_TAKEN_MESSAGE,
     SKILL_GET_MESSAGE,
     SKILL_LIST_MESSAGE,
+    SUCCESS_CREATING_CHARACTER,
 )
 from bot.character.utils import (
     check_nickname_correct,
@@ -30,7 +32,7 @@ from bot.character.utils import (
     get_skill_effects_info,
 )
 from bot.command.buttons import CHARACTER_BUTTON
-from bot.command.keyboards import user_created_keyboard
+from bot.command.keyboards import start_keyboard, user_created_keyboard
 from bot.command.messages import NOT_CREATED_CHARACTER_MESSAGE
 from bot.constants.actions import character_action
 from bot.constants.callback_data import CharacterData
@@ -45,6 +47,7 @@ character_router = Router()
 @log_in_dev
 async def character_get(message: types.Message, state: FSMContext):
     """Хендлер получения персонажа."""
+    await state.clear()
     user = await get_user(message.from_user.id)
     if not user.character:
         inline_keyboard = await user_created_keyboard()
@@ -95,10 +98,7 @@ async def character_create(
     callback_data: CharacterData,
 ):
     """Хендлер создания персонажа."""
-    await callback.message.edit_text(
-        text=CREATE_CHARACTER_MESSAGE
-        # TODO Возможно сделать клавиатуру отмены и редиректа куда-то
-    )
+    await callback.message.edit_text(text=CREATE_CHARACTER_MESSAGE)
     await state.set_state(CharacterState.enter_nickname)
 
 
@@ -177,12 +177,23 @@ async def create_character_callback(
     state: FSMContext,
     callback_data: CharacterData,
 ):
-    """Хендлер получения класса."""
+    """Хендлер создания персонажа."""
     data = await state.get_data()
+    await state.clear()
     user = await get_user(callback.from_user.id)
+    if "name" not in data:
+        await callback.message.edit_text(
+            text=ERROR_CREATING_CHARACTER,
+        )
+        return
     nickname = data["name"]
     character_class = await CharacterClass.objects.aget(pk=callback_data.id)
     character = await create_character(user, nickname, character_class)
+    keyboard = await start_keyboard()
+    await callback.message.answer(
+        text=SUCCESS_CREATING_CHARACTER,
+        reply_markup=keyboard.as_markup(resize_keyboard=True),
+    )
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=await get_character_info(character),

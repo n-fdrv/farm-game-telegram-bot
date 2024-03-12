@@ -30,7 +30,7 @@ from bot.utils.paginator import Paginator
 
 
 async def character_get_keyboard(character: Character):
-    """Клавиатура для нового пользователя."""
+    """Клавиатура персонажа."""
     keyboard = InlineKeyboardBuilder()
     if character.current_location:
         keyboard.button(
@@ -60,7 +60,7 @@ async def character_get_keyboard(character: Character):
         text=ABOUT_BUTTON,
         callback_data=CharacterData(action=character_action.about),
     )
-    keyboard.adjust(1)
+    keyboard.adjust(1, 2, 2)
     return keyboard
 
 

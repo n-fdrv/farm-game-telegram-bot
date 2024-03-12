@@ -4,9 +4,9 @@ TOP_BUTTON = "🏆 Топ Персонажей"
 PREMIUM_SHOP_BUTTON = "🏬 Премиум Магазин"
 INFORMATION_BUTTON = "ℹ️ Информация"
 
-CREATE_CHARACTER_BUTTON = "🧙Создать Персонажа"
+CREATE_CHARACTER_BUTTON = "🧙Создать"
 
 YES_BUTTON = "✅Да"
 NO_BUTTON = "❌Нет"
-BACK_BUTTON = "↩️ Назад"
+BACK_BUTTON = "↩️Назад"
 CANCEL_BUTTON = "❌Отмена"

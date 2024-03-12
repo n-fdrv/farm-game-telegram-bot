@@ -3,9 +3,10 @@ from aiogram.filters import KICKED, ChatMemberUpdatedFilter, Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import ChatMemberUpdated
 
+from bot.character.keyboards import character_get_keyboard
+from bot.character.utils import get_character_info
 from bot.command.keyboards import start_keyboard, user_created_keyboard
 from bot.command.messages import (
-    CHARACTER_MESSAGE,
     NOT_CREATED_CHARACTER_MESSAGE,
     START_MESSAGE,
 )
@@ -52,9 +53,10 @@ async def start_handler(message: types.Message, state: FSMContext):
         text=START_MESSAGE,
         reply_markup=keyboard.as_markup(resize_keyboard=True),
     )
+    keyboard = await character_get_keyboard(user.character)
     await message.answer(
-        text=CHARACTER_MESSAGE,
-        # TODO Клавиатура в зависимости от того где находится персонаж
+        text=await get_character_info(user.character),
+        reply_markup=keyboard.as_markup(),
     )
 
 
