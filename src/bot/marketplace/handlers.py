@@ -45,7 +45,6 @@ from bot.marketplace.messages import (
     REMOVE_CONFIRM_MESSAGE,
     SEARCH_ITEM_LIST_MESSAGE,
     SELL_LIST_MESSAGE,
-    SUCCESS_LOT_MESSAGE,
     SUCCESS_SELL_MESSAGE,
 )
 from bot.marketplace.utils import (
@@ -278,11 +277,11 @@ async def add_callback(
     character_item = await CharacterItem.objects.select_related(
         "character", "item"
     ).aget(pk=data["character_item_id"])
-    await add_item_on_marketplace(
+    success, text = await add_item_on_marketplace(
         character_item, data["price"], data["amount"], data["currency"]
     )
     await callback.message.edit_text(
-        text=SUCCESS_LOT_MESSAGE,
+        text=text,
         reply_markup=keyboard.as_markup(),
     )
 
@@ -443,8 +442,12 @@ async def items_list_callback(
     await state.clear()
     user = await get_user(callback.from_user.id)
     keyboard = await items_list_keyboard(user.character)
+    lots_amount = await MarketplaceItem.objects.filter(
+        seller=user.character
+    ).acount()
     await callback.message.edit_text(
-        text=ITEM_LIST_MESSAGE, reply_markup=keyboard.as_markup()
+        text=ITEM_LIST_MESSAGE.format(lots_amount, game_config.MAX_LOT_AMOUNT),
+        reply_markup=keyboard.as_markup(),
     )
 
 

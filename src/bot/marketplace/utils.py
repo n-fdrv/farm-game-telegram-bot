@@ -41,6 +41,11 @@ async def add_item_on_marketplace(
     character_item: CharacterItem, price: int, amount: int, sell_currency: str
 ):
     """Метод добавления предмета на торговую площадку."""
+    lots_amount = await MarketplaceItem.objects.filter(
+        seller=character_item.character
+    ).acount()
+    if lots_amount >= game_config.MAX_LOT_AMOUNT:
+        return False, "Достигнуто максимальное количество возможных лотов!"
     sell_currency = await Etc.objects.aget(name=sell_currency)
     await MarketplaceItem.objects.acreate(
         seller=character_item.character,
@@ -56,6 +61,7 @@ async def add_item_on_marketplace(
         enhancement_level=character_item.enhancement_level,
         amount=amount,
     )
+    return True, "Предмет успешно выставлен на Торговую Площадку"
 
 
 async def get_marketplace_item_effects(
