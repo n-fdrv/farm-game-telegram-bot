@@ -12,6 +12,15 @@ from bot.shop.utils import check_item_amount
 from core.config import game_config
 
 
+async def get_marketplace_item(marketplace_id: int):
+    """Метод проверки и получения лота."""
+    if not await MarketplaceItem.objects.filter(pk=marketplace_id).aexists():
+        return False
+    return await MarketplaceItem.objects.select_related(
+        "seller", "item", "sell_currency"
+    ).aget(pk=marketplace_id)
+
+
 async def get_character_item_marketplace_text(character_item: CharacterItem):
     """Метод получения текста информации о товаре."""
     additional_info = await get_character_item_effects(character_item)
@@ -121,4 +130,19 @@ async def buy_item(marketplace_item: MarketplaceItem, buyer: Character):
         f"{marketplace_item.name_with_enhance} успешно приобретен\n"
         f"Вы заплатили {marketplace_item.price}"
         f"{marketplace_item.sell_currency.emoji}"
+    )
+
+
+async def remove_lot(marketplace_item: MarketplaceItem):
+    """Метод добавления предмета на торговую площадку."""
+    await add_item(
+        character=marketplace_item.seller,
+        item=marketplace_item.item,
+        amount=marketplace_item.amount,
+        enhancement_level=marketplace_item.enhancement_level,
+    )
+    await marketplace_item.adelete()
+    return True, (
+        f"{marketplace_item.name_with_enhance} "
+        "успешно удален с торговой площадки"
     )

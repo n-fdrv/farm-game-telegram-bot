@@ -336,6 +336,17 @@ class MarketplaceItem(models.Model):
             return f"{self.item.name_with_type} +{self.enhancement_level}"
         return f"{self.item.name_with_type}"
 
+    @property
+    def name_with_price_and_amount(self):
+        """Возвращает название предмета с ценой и количеством."""
+        amount = ""
+        price_per_item = int(self.price / self.amount)
+        price = f"{price_per_item}{self.sell_currency.emoji}"
+        if self.amount > 1:
+            amount = f"{self.amount} шт."
+            price += " за шт."
+        return f"{self.name_with_enhance} {amount} ({price})"
+
     class Meta:
         verbose_name = "Предмет на Торговой Площадке"
         verbose_name_plural = "Предметы на Торговой Площадке"

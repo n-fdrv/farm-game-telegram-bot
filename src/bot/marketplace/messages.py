@@ -53,3 +53,10 @@ BUY_CONFIRM_MESSAGE = (
 SUCCESS_SELL_MESSAGE = (
     "Вы продали <b>{}</b> - <b>{}</b> шт. и получили <b>{}</b>"
 )
+
+
+ITEM_LIST_MESSAGE = "Список ваших выставленных предметов на продажу"
+
+REMOVE_CONFIRM_MESSAGE = "Вы уверены, что хотите удалить лот с продажи?"
+
+NO_MARKETPLACE_ITEM_MESSAGE = "❗️ Данный лот уже был удален или выкуплен!"

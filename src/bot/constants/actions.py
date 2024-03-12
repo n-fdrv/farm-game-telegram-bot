@@ -94,7 +94,10 @@ class MarketplaceAction(Action):
 
     sell_get = f"{callback_data.MarketplaceData.__prefix__}-sege"
     buy_get = f"{callback_data.MarketplaceData.__prefix__}-buge"
+    item_get = f"{callback_data.MarketplaceData.__prefix__}-itge"
     item_search = f"{callback_data.MarketplaceData.__prefix__}-itse"
+
+    remove_preview = f"{callback_data.MarketplaceData.__prefix__}-repr"
 
     buy_confirm = f"{callback_data.MarketplaceData.__prefix__}-buco"
 

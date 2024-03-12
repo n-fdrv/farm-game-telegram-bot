@@ -19,6 +19,7 @@ from bot.marketplace.buttons import (
     ADD_ON_MARKETPLACE_BUTTON,
     BUY_BUTTON,
     ITEMS_BUTTON,
+    REMOVE_LOT_BUTTON,
     SEARCH_ITEM_BUTTON,
     SELL_BUTTON,
 )
@@ -279,13 +280,8 @@ async def buy_list_keyboard(callback_data: MarketplaceData):
         )
         .order_by("price_per_item")
     ):
-        amount = ""
-        price = f"{item.price_per_item}{item.sell_currency.emoji}"
-        if item.amount > 1:
-            amount = f"{item.amount} шт."
-            price += " за шт."
         keyboard.button(
-            text=f"{item.name_with_enhance} {amount} ({price})",
+            text=item.name_with_price_and_amount,
             callback_data=MarketplaceData(
                 action=marketplace_action.buy_get,
                 page=callback_data.page,
@@ -373,6 +369,62 @@ async def to_buy_preview_keyboard():
         text=CANCEL_BUTTON,
         callback_data=MarketplaceData(
             action=marketplace_action.buy_currency,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def items_list_keyboard(character: Character):
+    """Клавиатура получения предмета для продажи."""
+    keyboard = InlineKeyboardBuilder()
+    async for marketplace_item in MarketplaceItem.objects.select_related(
+        "sell_currency", "item"
+    ).filter(seller=character):
+        keyboard.button(
+            text=marketplace_item.name_with_price_and_amount,
+            callback_data=MarketplaceData(
+                action=marketplace_action.item_get, id=marketplace_item.id
+            ),
+        )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=MarketplaceData(action=marketplace_action.preview),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def item_get_keyboard(callback_data: MarketplaceData):
+    """Клавиатура получения предмета для продажи."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=REMOVE_LOT_BUTTON,
+        callback_data=MarketplaceData(
+            action=marketplace_action.remove_preview, id=callback_data.id
+        ),
+    )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=MarketplaceData(action=marketplace_action.items_list),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def remove_preview_keyboard(callback_data: MarketplaceData):
+    """Клавиатура получения предмета для продажи."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=MarketplaceData(
+            action=marketplace_action.remove, id=callback_data.id
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=MarketplaceData(
+            action=marketplace_action.item_get, id=callback_data.id
         ),
     )
     keyboard.adjust(1)
