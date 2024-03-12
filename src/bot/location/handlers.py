@@ -13,7 +13,7 @@ from bot.location.keyboards import (
 )
 from bot.location.messages import (
     EXIT_LOCATION_CONFIRMATION_MESSAGE,
-    EXIT_LOCATION_MESSAGE,
+    HUNTING_END_MESSAGE,
     LOCATION_ENTER_MESSAGE,
     LOCATION_LIST_MESSAGE,
 )
@@ -29,12 +29,12 @@ location_router = Router()
     LocationData.filter(F.action == location_action.list)
 )
 @log_in_dev
-async def location_list(
+async def location_list_handler(
     callback: types.CallbackQuery,
     state: FSMContext,
     callback_data: LocationData,
 ):
-    """Коллбек получения локаций."""
+    """Коллбек получения списка локаций."""
     paginator = await location_list_keyboard(callback_data)
     await callback.message.edit_text(
         text=LOCATION_LIST_MESSAGE, reply_markup=paginator
@@ -45,7 +45,7 @@ async def location_list(
     LocationData.filter(F.action == location_action.get)
 )
 @log_in_dev
-async def location_get(
+async def location_get_handler(
     callback: types.CallbackQuery,
     state: FSMContext,
     callback_data: LocationData,
@@ -130,11 +130,11 @@ async def exit_location(
     exp, drop_data = await get_hunting_loot(user.character)
     drop_text = ""
     for name, amount in drop_data.items():
-        drop_text += f"<b>{name}</b> - {amount} шт.\n"
+        drop_text += f"\n<b>{name}</b> - {amount} шт."
     if not drop_data:
-        drop_text = "Не получено"
+        drop_text = "❌"
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
-        text=EXIT_LOCATION_MESSAGE.format(exp, drop_text),
+        text=HUNTING_END_MESSAGE.format(exp, drop_text),
         reply_markup=keyboard.as_markup(),
     )

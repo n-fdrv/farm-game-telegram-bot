@@ -8,5 +8,5 @@ CREATE_CHARACTER_BUTTON = "🧙Создать"
 
 YES_BUTTON = "✅Да"
 NO_BUTTON = "❌Нет"
-BACK_BUTTON = "↩️Назад"
+BACK_BUTTON = "↩️ Назад"
 CANCEL_BUTTON = "❌Отмена"

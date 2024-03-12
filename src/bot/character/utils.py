@@ -320,7 +320,7 @@ async def kill_character(character: Character, bot):
     for name, amount in drop_data.items():
         drop_text += f"<b>{name}</b> - {amount} шт.\n"
     if not drop_data:
-        drop_text = "Не получено"
+        drop_text = "❌"
     user = await User.objects.aget(character=character)
     await bot.send_message(
         user.telegram_id,
