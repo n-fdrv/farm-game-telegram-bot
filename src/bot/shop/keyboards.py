@@ -86,7 +86,7 @@ async def buy_list_keyboard(callback_data: ShopData):
         buy_price__gt=0, type=callback_data.type
     ):
         keyboard.button(
-            text=f"{item.name_with_type} - {item.buy_price} золота",
+            text=f"{item.name_with_type} - {item.buy_price}🟡",
             callback_data=ShopData(
                 action=shop_action.buy_get,
                 page=callback_data.page,

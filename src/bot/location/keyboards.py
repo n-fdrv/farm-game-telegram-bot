@@ -13,7 +13,7 @@ from bot.utils.paginator import Paginator
 
 
 async def location_list_keyboard(callback_data: LocationData):
-    """Клавиатура для нового пользователя."""
+    """Клавиатура списка локаций."""
     keyboard = InlineKeyboardBuilder()
     async for location in Location.objects.order_by("attack").all():
         keyboard.button(
@@ -39,7 +39,7 @@ async def location_list_keyboard(callback_data: LocationData):
 
 
 async def location_get_keyboard(callback_data: LocationData):
-    """Клавиатура для нового пользователя."""
+    """Клавиатура локации."""
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
         text=START_HUNTING_MESSAGE,

@@ -122,9 +122,9 @@ async def get_character_item_info_text(character_item: CharacterItem):
         description += "\n<b>Надето</b>"
     shop_text = ""
     if character_item.item.buy_price:
-        shop_text += f"Покупка: {character_item.item.buy_price} золота."
+        shop_text += f"Покупка: <b>{character_item.item.buy_price}🟡</b> "
     if character_item.item.sell_price:
-        shop_text += f"\nПродажа: {character_item.item.sell_price} золота."
+        shop_text += f"Продажа: <b>{character_item.item.sell_price}🟡</b>"
     return ITEM_GET_MESSAGE.format(
         character_item.name_with_enhance,
         character_item.amount,
