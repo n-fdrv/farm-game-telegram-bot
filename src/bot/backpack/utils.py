@@ -47,14 +47,16 @@ async def remove_item(
     ).aexists()
     if not exists:
         return False
-    character_items = await CharacterItem.objects.aget(
+    character_item = await CharacterItem.objects.aget(
         character=character, item=item, enhancement_level=enhancement_level
     )
-    character_items.amount -= amount
-    if character_items.amount == 0:
-        await character_items.adelete()
+    if character_item.amount < amount:
+        return False
+    character_item.amount -= amount
+    if character_item.amount == 0:
+        await character_item.adelete()
         return True
-    await character_items.asave(update_fields=("amount",))
+    await character_item.asave(update_fields=("amount",))
     return True
 
 
