@@ -19,7 +19,22 @@ from item.models import (
     Talisman,
 )
 
-from bot.backpack.messages import ENHANCE_GET_MESSAGE, ITEM_GET_MESSAGE
+from bot.backpack.messages import (
+    ALREADY_KNOWN_RECIPE,
+    ENHANCE_GET_MESSAGE,
+    EQUIP_MESSAGE,
+    FAILURE_ENCHANT,
+    ITEM_GET_MESSAGE,
+    NO_BRACELET_MESSAGE,
+    NOT_CORRECT_EQUIPMENT_TYPE_MESSAGE,
+    NOT_CORRECT_SCROLL_TYPE_MESSAGE,
+    NOT_ENOUGH_BRACELET_LEVEL_MESSAGE,
+    NOT_ENOUGH_SKILL_LEVEL_MESSAGE,
+    NOT_MASTER_CLASS_MESSAGE,
+    SUCCESS_ENCHANT,
+    SUCCESS_USE_MESSAGE,
+    UNEQUIP_MESSAGE,
+)
 from core.config import game_config
 
 
@@ -84,6 +99,19 @@ async def get_gold_amount(character: Character):
     return 0
 
 
+async def get_diamond_amount(character: Character):
+    """Получение количества алмазов у персонажа."""
+    exists = await CharacterItem.objects.filter(
+        character=character, item__name=settings.DIAMOND_NAME
+    ).aexists()
+    if exists:
+        diamond = await CharacterItem.objects.aget(
+            character=character, item__name=settings.DIAMOND_NAME
+        )
+        return diamond.amount
+    return 0
+
+
 async def get_character_item_effects(character_item: CharacterItem) -> str:
     """Метод получения эффектов предмета."""
     effects = ""
@@ -92,7 +120,7 @@ async def get_character_item_effects(character_item: CharacterItem) -> str:
     enhance_type = game_config.ENHANCE_PROPERTY_INCREASE
     if character_item.item.type == ItemType.TALISMAN:
         enhance_type = game_config.ENHANCE_TALISMAN_INCREASE
-    effects = "\nЭффекты:\n"
+    effects = "\n<i>Эффекты:</i>\n"
     async for effect in character_item.item.effect.all():
         amount = effect.amount + (
             enhance_type * character_item.enhancement_level
@@ -106,10 +134,19 @@ async def get_character_item_effects(character_item: CharacterItem) -> str:
 
 async def get_bag_loot(item: Item) -> str:
     """Метод получения дропа из мешков."""
-    loot = "\nВозможные трофеи:\n"
+    text = "\nВозможные трофеи:\n"
+    all_chance = sum(
+        [
+            x
+            async for x in BagItem.objects.values_list(
+                "chance", flat=True
+            ).filter(bag=item)
+        ]
+    )
     async for drop in BagItem.objects.select_related("item").filter(bag=item):
-        loot += f"{drop.item.name_with_type}\n"
-    return loot
+        chance = round(drop.chance / all_chance * 100, 2)
+        text += f"<b>{drop.item.name_with_type}</b> - {chance}%\n"
+    return text
 
 
 async def get_character_item_info_text(character_item: CharacterItem):
@@ -117,18 +154,23 @@ async def get_character_item_info_text(character_item: CharacterItem):
     additional_info = await get_character_item_effects(character_item)
     if character_item.item.type == ItemType.BAG:
         additional_info += await get_bag_loot(character_item.item)
-    description = character_item.item.description
+    equipped = ""
     if character_item.equipped:
-        description += "\n<b>Надето</b>"
+        equipped = "\n⤴️Экипировано"
     shop_text = ""
     if character_item.item.buy_price:
-        shop_text += f"Покупка: <b>{character_item.item.buy_price}🟡</b> "
+        shop_text += (
+            f"<i>Покупка:</i> <b>{character_item.item.buy_price}🟡</b> | "
+        )
     if character_item.item.sell_price:
-        shop_text += f"Продажа: <b>{character_item.item.sell_price}🟡</b>"
+        shop_text += (
+            f"<i>Продажа:</i> <b>{character_item.item.sell_price}🟡</b>"
+        )
     return ITEM_GET_MESSAGE.format(
         character_item.name_with_enhance,
         character_item.amount,
-        description,
+        equipped,
+        character_item.item.description,
         additional_info,
         shop_text,
     )
@@ -158,11 +200,11 @@ async def equip_item(item: CharacterItem):
     if equipment.equipment_type not in [
         x.type async for x in item.character.character_class.equip.all()
     ]:
-        return False, "Вы не можете носить данный тип Экипировки!"
+        return False, NOT_CORRECT_EQUIPMENT_TYPE_MESSAGE
     if item.equipped:
         item.equipped = False
         await item.asave(update_fields=("equipped",))
-        return True, "Предмет успешно снят!"
+        return True, UNEQUIP_MESSAGE
     type_equipped = await item.character.items.filter(
         characteritem__equipped=True, type=item.item.type
     ).aexists()
@@ -176,7 +218,7 @@ async def equip_item(item: CharacterItem):
         await equipped_item.asave(update_fields=("equipped",))
     item.equipped = True
     await item.asave(update_fields=("equipped",))
-    return True, "Предмет успешно надет!"
+    return True, EQUIP_MESSAGE
 
 
 async def equip_talisman(item: CharacterItem):
@@ -184,13 +226,13 @@ async def equip_talisman(item: CharacterItem):
     if item.equipped:
         item.equipped = False
         await item.asave(update_fields=("equipped",))
-        return True, "Предмет снят успешно!"
+        return True, UNEQUIP_MESSAGE
     character = item.character
     bracelet_name = "Браслет"
     if not await CharacterItem.objects.filter(
         character=character, item__name=bracelet_name, equipped=True
     ).aexists():
-        return False, "Для экипировки Талисмана требуется Браслет!"
+        return False, NO_BRACELET_MESSAGE
 
     talisman = await Talisman.objects.aget(pk=item.item.pk)
     type_equipped = await CharacterItem.objects.filter(
@@ -209,14 +251,12 @@ async def equip_talisman(item: CharacterItem):
         character=character, item__type=ItemType.TALISMAN, equipped=True
     ).acount()
     if talisman_equipped_amount == bracelet.enhancement_level + 1:
-        return False, (
-            f"Вы можете носить {talisman_equipped_amount} шт. "
-            f"Талисмана одновремено.\n"
-            f"Для увеличения данного количества - улучшите свой Браслет"
+        return False, NOT_ENOUGH_BRACELET_LEVEL_MESSAGE.format(
+            talisman_equipped_amount
         )
     item.equipped = True
     await item.asave(update_fields=("equipped",))
-    return True, "Предмет успешно надет"
+    return True, EQUIP_MESSAGE
 
 
 async def use_potion(character: Character, item: Item):
@@ -232,41 +272,37 @@ async def use_potion(character: Character, item: Item):
             character_effect.hunting_amount += 1
             await character_effect.asave(update_fields=("hunting_amount",))
     await remove_item(item=item, character=character, amount=1)
-    return True, "Успешное использование!"
+    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type)
 
 
 async def use_recipe(character: Character, item: Item):
     """Метод использования рецепта."""
     if character.character_class.name != "Мастер":
-        return False, "Ваш класс не Мастер! Вы не можете изучать рецепты."
+        return False, NOT_MASTER_CLASS_MESSAGE
     recipe = await Recipe.objects.aget(pk=item.pk)
     character_skill = await CharacterSkill.objects.select_related(
         "skill"
     ).aget(character=character, skill__name="Мастер Создания")
     if character_skill.skill.level < recipe.level:
-        return (
-            False,
-            "Ващ уровень умения Мастер Создания "
-            "недостаточен для данного рецепта!",
-        )
+        return (False, NOT_ENOUGH_SKILL_LEVEL_MESSAGE)
     if await character.recipes.filter(name=recipe.name).aexists():
-        return False, "Вы уже знаете данный рецепт!"
+        return False, ALREADY_KNOWN_RECIPE
     await character.recipes.aadd(recipe)
     await remove_item(item=item, character=character, amount=1)
-    return True, "Успешное использование!"
+    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type)
 
 
 async def use_scroll(scroll: Scroll, character_item: CharacterItem):
     """Метод использования свитка."""
     if scroll.enhance_type != character_item.item.type:
-        return False, "Свиток не подходит для данного предмета!"
+        return False, NOT_CORRECT_SCROLL_TYPE_MESSAGE
     enhance_chance = game_config.ENHANCE_CHANCE[
         character_item.enhancement_level
     ]
     success = random.randint(1, 100) <= enhance_chance
     await remove_item(character_item.character, scroll, 1)
     if not success:
-        return False, "❌Улучшение не удалось!"
+        return False, FAILURE_ENCHANT
     await remove_item(
         character_item.character,
         character_item.item,
@@ -280,7 +316,7 @@ async def use_scroll(scroll: Scroll, character_item: CharacterItem):
         enhancement_level=character_item.enhancement_level + 1,
         equipped=character_item.equipped,
     )
-    return True, "✅Улучшение прошло успешно!"
+    return True, SUCCESS_ENCHANT
 
 
 async def open_bag(character: Character, item: Item, amount: int = 1):

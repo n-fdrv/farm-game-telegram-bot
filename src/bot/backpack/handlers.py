@@ -18,13 +18,13 @@ from bot.backpack.messages import (
     ITEM_PREVIEW_MESSAGE,
     SCROLL_LIST_MESSAGE,
     SUCCESS_OPEN_BAG_MESSAGE,
-    SUCCESS_USE_POTION_MESSAGE,
 )
 from bot.backpack.utils import (
     equip_item,
     equip_talisman,
     get_character_item_enhance_text,
     get_character_item_info_text,
+    get_diamond_amount,
     get_gold_amount,
     open_bag,
     use_potion,
@@ -51,9 +51,10 @@ async def backpack_preview(
     """Коллбек получения инвентаря."""
     user = await get_user(callback.from_user.id)
     gold = await get_gold_amount(user.character)
+    diamond = await get_diamond_amount(user.character)
     keyboard = await backpack_preview_keyboard(user.character)
     await callback.message.edit_text(
-        text=ITEM_PREVIEW_MESSAGE.format(gold),
+        text=ITEM_PREVIEW_MESSAGE.format(gold, diamond),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -85,7 +86,7 @@ async def backpack_get(
     callback_data: BackpackData,
 ):
     """Коллбек получения предмета в инвентаре."""
-    # TODO Изображение всех предметов
+    # TODO Изображение всех предметов ???
     keyboard = await item_get_keyboard(callback_data)
     character_item = await CharacterItem.objects.select_related("item").aget(
         id=callback_data.id
@@ -169,16 +170,8 @@ async def backpack_use_handler(
         character_item.character, character_item.item
     )
     keyboard = await in_backpack_keyboard()
-    if not success:
-        await callback.message.edit_text(
-            text=text,
-            reply_markup=keyboard.as_markup(),
-        )
-        return
     await callback.message.edit_text(
-        text=SUCCESS_USE_POTION_MESSAGE.format(
-            character_item.item.name_with_type
-        ),
+        text=text,
         reply_markup=keyboard.as_markup(),
     )
 
@@ -249,12 +242,12 @@ async def enhance_handler(
     callback_data: BackpackData,
 ):
     """Коллбек получения предмета для улучшения."""
-    keyboard = await in_backpack_keyboard()
     character_item = await CharacterItem.objects.select_related(
         "item", "character"
     ).aget(id=callback_data.id)
     scroll = await Scroll.objects.aget(pk=callback_data.item_id)
     success, text = await use_scroll(scroll, character_item)
+    keyboard = await in_backpack_keyboard()
     await callback.message.edit_text(
         text=text,
         reply_markup=keyboard.as_markup(),
