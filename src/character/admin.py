@@ -255,6 +255,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
         "defence",
         "exp_percent",
         "current_location",
+        "premium_expired",
     )
     list_display_links = ("name",)
     list_filter = ("level",)

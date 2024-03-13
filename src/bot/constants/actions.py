@@ -79,6 +79,12 @@ class CraftAction(Action):
     pass
 
 
+class PremiumAction(Action):
+    """Действия для хендлеров создания."""
+
+    buy = f"{callback_data.PremiumData.__prefix__}-buy"
+
+
 class MarketplaceAction(Action):
     """Действия для хендлеров торговой площадки."""
 
@@ -116,3 +122,4 @@ craft_action = CraftAction(callback_data.CraftData.__prefix__)
 marketplace_action = MarketplaceAction(
     callback_data.MarketplaceData.__prefix__
 )
+premium_action = PremiumAction(callback_data.PremiumData.__prefix__)

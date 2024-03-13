@@ -17,6 +17,13 @@ class CharacterData(BaseCallbackData, prefix="ch"):
     pass
 
 
+class PremiumData(BaseCallbackData, prefix="pr"):
+    """Данные для хенжлеров премиум магазина."""
+
+    type: Optional[str] = None
+    price: Optional[int] = 0
+
+
 class LocationData(BaseCallbackData, prefix="loc"):
     """Данные для хенжлеров локаций."""
 
@@ -62,4 +69,5 @@ CALLBACK_DATA_PREFIX = {
     ShopData.__prefix__: ShopData,
     MarketplaceData.__prefix__: MarketplaceData,
     CraftData.__prefix__: CraftData,
+    PremiumData.__prefix__: PremiumData,
 }

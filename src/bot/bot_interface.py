@@ -21,6 +21,7 @@ from bot.constants import commands
 from bot.craft.handlers import craft_router
 from bot.location.handlers import location_router
 from bot.marketplace.handlers import marketplace_router
+from bot.premium_shop.handlers import premium_router
 from bot.shop.handlers import shop_router
 
 
@@ -60,6 +61,7 @@ class AiogramApp:
             shop_router,
             craft_router,
             marketplace_router,
+            premium_router,
         ]
         self._download_routes(routes)
         asyncio.ensure_future(

@@ -64,6 +64,10 @@ async def get_character_property(
         EffectProperty.DEFENCE: character.defence,
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
     }
+    premium_data = {
+        EffectProperty.DROP: game_config.PREMIUM_DROP_MODIFIER,
+        EffectProperty.EXP: game_config.PREMIUM_EXP_MODIFIER,
+    }
     chosen_property = property_data[effect_property]
     if effect_property == EffectProperty.HUNTING_TIME:
         chosen_property = (
@@ -71,6 +75,11 @@ async def get_character_property(
             + character.max_hunting_time.minute * 60
             + character.max_hunting_time.second
         ) / 60
+    if (
+        effect_property in premium_data.keys()
+        and character.premium_expired > timezone.now()
+    ):
+        chosen_property *= premium_data[effect_property]
     async for effect in SkillEffect.objects.filter(
         property=effect_property, skill__in=character.skills.all()
     ).order_by("-in_percent"):
@@ -123,8 +132,7 @@ async def get_character_info(character: Character) -> str:
             f"<b>{character.current_location.name}</b>\n" f"⏳{time_left_text}"
         )
     return CHARACTER_INFO_MESSAGE.format(
-        character.name,
-        character.character_class.emoji,
+        character.name_with_class,
         character.level,
         exp_in_percent,
         int(await get_character_property(character, EffectProperty.ATTACK)),
@@ -179,12 +187,12 @@ async def get_character_about(character: Character) -> str:
     skill_effect = SkillEffect.objects.filter(skill__in=character.skills.all())
 
     return CHARACTER_ABOUT_MESSAGE.format(
-        character.name,
-        character.character_class.emoji,
+        character.name_with_class,
         character.level,
         exp_in_percent,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
+        character.premium_expired.strftime("%d.%m.%Y %H:%M:%S"),
         round(
             await get_character_property(character, EffectProperty.EXP) * 100
             - 100,
@@ -315,6 +323,8 @@ async def kill_character(character: Character, bot):
     await character.asave(update_fields=("hunting_end",))
     exp_gained, drop_data = await get_hunting_loot(character)
     lost_exp = character.exp_for_level_up // 10
+    if character.premium_expired > timezone.now():
+        lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
     await remove_exp(character, lost_exp)
     drop_text = ""
     for name, amount in drop_data.items():

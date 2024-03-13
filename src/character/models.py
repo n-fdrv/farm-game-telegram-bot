@@ -1,6 +1,7 @@
 import datetime
 
 from django.db import models
+from django.utils import timezone
 from item.models import (
     EffectProperty,
     EquipmentType,
@@ -164,6 +165,9 @@ class Character(BaseCharacterModel):
     drop_modifier = models.IntegerField(
         default=1, verbose_name="Модификатор дропа"
     )
+    premium_expired = models.DateTimeField(
+        default=timezone.now, verbose_name="Окончание Премиума"
+    )
     current_location = models.ForeignKey(
         to=Location,
         on_delete=models.SET_NULL,
@@ -211,6 +215,13 @@ class Character(BaseCharacterModel):
             f"Defence: {self.defence}"
         )
 
+    @property
+    def name_with_class(self):
+        """Метод получения имени персонажа с классом и премиумом."""
+        if self.premium_expired > timezone.now():
+            return f"🔸{self.name}{self.character_class.emoji}"
+        return f"{self.name}{self.character_class.emoji}"
+
 
 class CharacterSkill(models.Model):
     """Модель для хранения умений персонажей."""
@@ -239,7 +250,7 @@ class CharacterItem(models.Model):
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, verbose_name="Предмет"
     )
-    amount = models.IntegerField(default=0, verbose_name="Количество")
+    amount = models.IntegerField(default=1, verbose_name="Количество")
     equipped = models.BooleanField(default=False, verbose_name="Надето")
     enhancement_level = models.IntegerField(
         default=0, verbose_name="Уровень улучшения"
