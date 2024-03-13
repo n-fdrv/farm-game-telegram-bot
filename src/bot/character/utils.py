@@ -332,8 +332,8 @@ async def get_skill_effects_info(skill: Skill):
     """Метод получения текста эффектов умения."""
     text = ""
     async for effect in skill.effect.all():
-        text += f"- {effect.get_property_display()}: {effect.amount}"
+        text += f"- {effect.get_property_display()}: <b>{effect.amount}</b>"
         if effect.in_percent:
-            text += "%"
+            text += "<b>%</b>"
         text += "\n"
     return text

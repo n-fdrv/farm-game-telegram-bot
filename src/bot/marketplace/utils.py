@@ -7,7 +7,15 @@ from bot.backpack.utils import (
     get_character_item_effects,
     remove_item,
 )
-from bot.marketplace.messages import BUY_GET_MESSAGE, SELL_GET_MESSAGE
+from bot.marketplace.messages import (
+    BUY_GET_MESSAGE,
+    MAX_LOT_AMOUNT_MESSAGE,
+    NOT_ENOUGH_CURRENCY,
+    REMOVE_LOT_MESSAGE,
+    SELL_GET_MESSAGE,
+    SUCCESS_ADD_LOT_MESSAGE,
+    SUCCESS_BUY_MESSAGE,
+)
 from bot.shop.utils import check_item_amount
 from core.config import game_config
 
@@ -45,7 +53,7 @@ async def add_item_on_marketplace(
         seller=character_item.character
     ).acount()
     if lots_amount >= game_config.MAX_LOT_AMOUNT:
-        return False, "Достигнуто максимальное количество возможных лотов!"
+        return False, MAX_LOT_AMOUNT_MESSAGE
     sell_currency = await Etc.objects.aget(name=sell_currency)
     await MarketplaceItem.objects.acreate(
         seller=character_item.character,
@@ -61,7 +69,7 @@ async def add_item_on_marketplace(
         enhancement_level=character_item.enhancement_level,
         amount=amount,
     )
-    return True, "Предмет успешно выставлен на Торговую Площадку"
+    return True, SUCCESS_ADD_LOT_MESSAGE
 
 
 async def get_marketplace_item_effects(
@@ -74,14 +82,14 @@ async def get_marketplace_item_effects(
     enhance_type = game_config.ENHANCE_PROPERTY_INCREASE
     if marketplace_item.item.type == ItemType.TALISMAN:
         enhance_type = game_config.ENHANCE_TALISMAN_INCREASE
-    effects = "\nЭффекты:\n"
+    effects = "\n<i>Эффекты:</i>\n"
     async for effect in marketplace_item.item.effect.all():
         amount = effect.amount + (
             enhance_type * marketplace_item.enhancement_level
         )
-        effects += f"{effect.get_property_display()} - {amount}"
+        effects += f"{effect.get_property_display()} - <b>{amount}</b>"
         if effect.in_percent:
-            effects += "%"
+            effects += "<b>%</b>"
         effects += "\n"
     return effects
 
@@ -110,7 +118,9 @@ async def buy_item(marketplace_item: MarketplaceItem, buyer: Character):
         amount=marketplace_item.price,
     )
     if not enough_currency:
-        return False, f"Недостаточно {marketplace_item.sell_currency.emoji}"
+        return False, NOT_ENOUGH_CURRENCY.format(
+            marketplace_item.sell_currency.emoji
+        )
     await remove_item(
         character=buyer,
         item=marketplace_item.sell_currency,
@@ -132,10 +142,9 @@ async def buy_item(marketplace_item: MarketplaceItem, buyer: Character):
         enhancement_level=marketplace_item.enhancement_level,
     )
     await marketplace_item.adelete()
-    return True, (
-        f"{marketplace_item.name_with_enhance} успешно приобретен\n"
-        f"Вы заплатили {marketplace_item.price}"
-        f"{marketplace_item.sell_currency.emoji}"
+    return True, SUCCESS_BUY_MESSAGE.format(
+        marketplace_item.name_with_enhance,
+        f"{marketplace_item.price}{marketplace_item.sell_currency.emoji}",
     )
 
 
@@ -148,7 +157,4 @@ async def remove_lot(marketplace_item: MarketplaceItem):
         enhancement_level=marketplace_item.enhancement_level,
     )
     await marketplace_item.adelete()
-    return True, (
-        f"{marketplace_item.name_with_enhance} "
-        "успешно удален с торговой площадки"
-    )
+    return True, REMOVE_LOT_MESSAGE.format(marketplace_item.name_with_enhance)
