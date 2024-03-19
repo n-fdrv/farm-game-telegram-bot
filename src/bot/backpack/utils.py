@@ -117,13 +117,13 @@ async def get_diamond_amount(character: Character):
 async def get_character_item_effects(character_item: CharacterItem) -> str:
     """Метод получения эффектов предмета."""
     effects = ""
-    if not await character_item.item.effect.aexists():
+    if not await character_item.item.effects.aexists():
         return effects
     enhance_type = game_config.ENHANCE_PROPERTY_INCREASE
     if character_item.item.type == ItemType.TALISMAN:
         enhance_type = game_config.ENHANCE_TALISMAN_INCREASE
     effects = "\n<i>Эффекты:</i>\n"
-    async for effect in character_item.item.effect.all():
+    async for effect in character_item.item.effects.all():
         amount = effect.amount + (
             enhance_type * character_item.enhancement_level
         )
@@ -264,15 +264,15 @@ async def equip_talisman(item: CharacterItem):
 async def use_potion(character: Character, item: Item):
     """Метод использования предмета."""
     potion = await Potion.objects.aget(pk=item.pk)
-    async for effect in potion.effect.all():
+    async for effect in potion.effects.all():
         character_effect, created = (
             await CharacterEffect.objects.aget_or_create(
                 character=character, effect=effect
             )
         )
         if not created:
-            character_effect.hunting_amount += 1
-            await character_effect.asave(update_fields=("hunting_amount",))
+            character_effect.hunting_minutes += 240
+            await character_effect.asave(update_fields=("hunting_minutes",))
     await remove_item(item=item, character=character, amount=1)
     return True, SUCCESS_USE_MESSAGE.format(item.name_with_type)
 

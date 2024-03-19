@@ -41,7 +41,7 @@ class ClassEquipmentInline(admin.TabularInline):
 class SkillEffectInline(admin.TabularInline):
     """Инлайн модель эффектов предметов."""
 
-    model = SkillEffect
+    model = Skill.effects.through
     extra = 1
 
 
@@ -70,9 +70,9 @@ class SkillAdmin(DjangoObjectActions, admin.ModelAdmin):
             for row in SkillEffect.objects.all():
                 spamwriter.writerow(
                     [
-                        row.property,
-                        row.amount,
-                        row.in_percent,
+                        row.effect.property,
+                        row.effect.amount,
+                        row.effect.in_percent,
                         row.skill.name,
                     ]
                 )

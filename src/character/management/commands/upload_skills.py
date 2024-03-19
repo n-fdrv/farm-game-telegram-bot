@@ -1,6 +1,7 @@
 import csv
 
 from django.core.management.base import BaseCommand
+from item.models import Effect
 from loguru import logger
 
 from character.models import Skill, SkillEffect
@@ -30,11 +31,14 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             for row in reader:
                 try:
-                    skill = Skill.objects.get(name=row[3])
-                    SkillEffect.objects.get_or_create(
+                    effect, created = Effect.objects.get_or_create(
                         property=row[0],
                         amount=row[1],
                         in_percent=row[2],
+                    )
+                    skill = Skill.objects.get(name=row[3])
+                    SkillEffect.objects.get_or_create(
+                        effect=effect,
                         skill=skill,
                     )
                 except Exception as e:

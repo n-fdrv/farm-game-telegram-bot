@@ -46,9 +46,9 @@ async def check_correct_amount(message: str):
 async def get_item_info_text(item: Item):
     """Метод получения текста информации о товаре."""
     effects = ""
-    if await item.effect.aexists():
+    if await item.effects.aexists():
         effects = "\n<b>Эффекты:</b>\n"
-        async for effect in item.effect.all():
+        async for effect in item.effects.all():
             effects += f"{effect.get_property_display()} - {effect.amount}"
             if effect.in_percent:
                 effects += "%"

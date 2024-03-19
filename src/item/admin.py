@@ -8,6 +8,7 @@ from item.models import (
     Bag,
     BagItem,
     CraftingItem,
+    Effect,
     Etc,
     ItemEffect,
     Material,
@@ -64,9 +65,6 @@ class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.type,
                     ]
                 )
-
-    def download_effects(self, request, queryset):
-        """Сформировать файл с эффектами."""
         with open(
             "data/items/effects.csv", "w", newline="", encoding="utf-8"
         ) as csvfile:
@@ -74,16 +72,15 @@ class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
             for row in ItemEffect.objects.all():
                 spamwriter.writerow(
                     [
-                        row.property,
-                        row.amount,
-                        row.in_percent,
+                        row.effect.property,
+                        row.effect.amount,
+                        row.effect.in_percent,
                         row.item.name,
                     ]
                 )
 
     download_data.short_description = "Загрузить данные"
-    download_effects.short_description = "Загрузить эффекты"
-    changelist_actions = ("download_data", "download_effects")
+    changelist_actions = ("download_data",)
     list_display = (
         "name",
         "buy_price",
@@ -116,6 +113,19 @@ class BaseEquipmentAdmin(BaseItemAdmin):
                         row.buy_price,
                         row.type,
                         row.equipment_type,
+                    ]
+                )
+        with open(
+            "data/items/effects.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in ItemEffect.objects.all():
+                spamwriter.writerow(
+                    [
+                        row.effect.property,
+                        row.effect.amount,
+                        row.effect.in_percent,
+                        row.item.name,
                     ]
                 )
 
@@ -219,7 +229,7 @@ class ScrollAdmin(BaseItemAdmin):
 class RecipeAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
 
-    def download_csv(modeladmin, request, queryset):
+    def download_data(modeladmin, request, queryset):
         """Сформировать файл с данными базы."""
         with open(
             "data/items/recipes.csv", "w", newline="", encoding="utf-8"
@@ -251,8 +261,6 @@ class RecipeAdmin(BaseItemAdmin):
                     ]
                 )
 
-    download_csv.short_description = "Download selected as csv"
-    changelist_actions = ("download_csv", "download_effects")
     list_display = (
         "name",
         "sell_price",
@@ -286,3 +294,38 @@ class BagAdmin(BaseItemAdmin):
 
     changelist_actions = ("download_data", "download_loot")
     inlines = (BagItemInline,)
+
+
+@admin.register(Effect)
+class EffectAdmin(DjangoObjectActions, admin.ModelAdmin):
+    """Управление моделью мешков."""
+
+    def download_data(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        file_name = str(modeladmin.model._meta).split(".")[1]
+        with open(
+            f"data/items/{file_name}.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.property,
+                        row.amount,
+                        row.in_percent,
+                    ]
+                )
+
+    download_data.short_description = "Download selected as csv"
+    changelist_actions = ("download_data",)
+    list_display = (
+        "property",
+        "amount",
+        "in_percent",
+    )
+    list_filter = ("property", "in_percent")
+    list_display_links = ("property",)
+    search_fields = ("property",)

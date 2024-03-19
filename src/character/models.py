@@ -3,11 +3,10 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from item.models import (
-    EffectProperty,
+    Effect,
     EquipmentType,
     Etc,
     Item,
-    ItemEffect,
     Recipe,
 )
 from location.models import Location
@@ -28,6 +27,9 @@ class Skill(models.Model):
     name = models.CharField(max_length=32, verbose_name="Название")
     description = models.TextField(verbose_name="Описание")
     level = models.IntegerField(default=1, verbose_name="Уровень")
+    effects = models.ManyToManyField(
+        Effect, through="SkillEffect", verbose_name="Эффекты способностей"
+    )
 
     class Meta:
         verbose_name = "Умение"
@@ -43,39 +45,21 @@ class Skill(models.Model):
 
 
 class SkillEffect(models.Model):
-    """Модель хранения эффектов."""
+    """Модель хранения эффектов предметов."""
 
-    property = models.CharField(
-        max_length=16,
-        choices=EffectProperty.choices,
-        default=EffectProperty.ATTACK,
-        verbose_name="Свойство",
-    )
-    amount = models.IntegerField(default=0, verbose_name="Количество")
-    in_percent = models.BooleanField(default=False, verbose_name="В процентах")
     skill = models.ForeignKey(
-        Skill,
-        on_delete=models.CASCADE,
-        verbose_name="Умение",
-        related_name="effect",
+        Skill, on_delete=models.RESTRICT, verbose_name="Способность"
+    )
+    effect = models.ForeignKey(
+        to=Effect, on_delete=models.RESTRICT, verbose_name="Эффект"
     )
 
     class Meta:
-        verbose_name = "Эффект"
-        verbose_name_plural = "Эффекты"
+        verbose_name = "Эффект способности"
+        verbose_name_plural = "Эффекты способностей"
 
     def __str__(self):
-        text = f"{self.get_property_display()}: {self.amount}"
-        if self.in_percent:
-            text += "%"
-        return text
-
-    def get_property_with_amount(self):
-        """Получение свойства с количеством."""
-        text = f"{self.get_property_display()}: {self.amount}"
-        if self.in_percent:
-            text += "%"
-        return text
+        return f"{self.skill} {self.effect}"
 
 
 class CharacterClass(BaseCharacterModel):
@@ -191,7 +175,7 @@ class Character(BaseCharacterModel):
         Skill, through="CharacterSkill", related_name="character_skills"
     )
     effects = models.ManyToManyField(
-        ItemEffect, through="CharacterEffect", related_name="character_effects"
+        Effect, through="CharacterEffect", related_name="character_effects"
     )
     recipes = models.ManyToManyField(
         Recipe, through="CharacterRecipe", related_name="character_recipes"
@@ -300,11 +284,10 @@ class CharacterEffect(models.Model):
         Character, on_delete=models.CASCADE, verbose_name="Персонаж"
     )
     effect = models.ForeignKey(
-        ItemEffect, on_delete=models.RESTRICT, verbose_name="Эффект"
+        Effect, on_delete=models.RESTRICT, verbose_name="Эффект"
     )
-    permanent = models.BooleanField(default=False, verbose_name="Постоянный")
-    hunting_amount = models.IntegerField(
-        default=1, verbose_name="Количество охот"
+    hunting_minutes = models.IntegerField(
+        default=240, verbose_name="Минут действия"
     )
 
     class Meta:

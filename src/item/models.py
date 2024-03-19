@@ -64,6 +64,9 @@ class Item(models.Model):
         default=ItemType.ETC,
         verbose_name="Тип",
     )
+    effects = models.ManyToManyField(
+        "Effect", through="ItemEffect", verbose_name="Эффекты предметов"
+    )
 
     class Meta:
         verbose_name = "Предмет"
@@ -241,8 +244,8 @@ class BagItem(models.Model):
         return f"Bag: {self.bag} | Item: {self.item} | Chance: {self.chance}%"
 
 
-class ItemEffect(models.Model):
-    """Модель хранения эффектов предметов."""
+class Effect(models.Model):
+    """Модель хранения эффектов."""
 
     property = models.CharField(
         max_length=16,
@@ -252,22 +255,13 @@ class ItemEffect(models.Model):
     )
     amount = models.IntegerField(default=0, verbose_name="Количество")
     in_percent = models.BooleanField(default=False, verbose_name="В процентах")
-    item = models.ForeignKey(
-        Item,
-        on_delete=models.CASCADE,
-        verbose_name="Предмет",
-        related_name="effect",
-    )
 
     class Meta:
-        verbose_name = "Эффект предмета"
-        verbose_name_plural = "Эффекты предметов"
+        verbose_name = "Эффект"
+        verbose_name_plural = "Эффекты"
 
     def __str__(self):
-        text = (
-            f"{self.item.name_with_type} | "
-            f"{self.get_property_display()}: {self.amount}"
-        )
+        text = f"{self.get_property_display()}: {self.amount}"
         if self.in_percent:
             text += "%"
         return text
@@ -278,6 +272,24 @@ class ItemEffect(models.Model):
         if self.in_percent:
             text += "%"
         return text
+
+
+class ItemEffect(models.Model):
+    """Модель хранения эффектов предметов."""
+
+    item = models.ForeignKey(
+        Item, on_delete=models.RESTRICT, verbose_name="Предмет"
+    )
+    effect = models.ForeignKey(
+        Effect, on_delete=models.RESTRICT, verbose_name="Эффект"
+    )
+
+    class Meta:
+        verbose_name = "Эффект предмета"
+        verbose_name_plural = "Эффекты предметов"
+
+    def __str__(self):
+        return f"{self.item} {self.effect}"
 
 
 class CraftingItem(models.Model):

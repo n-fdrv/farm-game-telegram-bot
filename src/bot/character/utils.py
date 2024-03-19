@@ -80,13 +80,19 @@ async def get_character_property(
         and character.premium_expired > timezone.now()
     ):
         chosen_property *= premium_data[effect_property]
-    async for effect in SkillEffect.objects.filter(
-        property=effect_property, skill__in=character.skills.all()
-    ).order_by("-in_percent"):
-        if effect.in_percent:
-            chosen_property += chosen_property * effect.amount / 100
+    async for skill_effect in (
+        SkillEffect.objects.select_related("effect")
+        .filter(
+            effect__property=effect_property, skill__in=character.skills.all()
+        )
+        .order_by("effect__in_percent")
+    ):
+        if skill_effect.effect.in_percent:
+            chosen_property += (
+                chosen_property * skill_effect.effect.amount / 100
+            )
             continue
-        chosen_property += effect.amount
+        chosen_property += skill_effect.effect.amount
     async for effect in character.effects.filter(
         property=effect_property
     ).order_by("-in_percent"):
@@ -97,7 +103,7 @@ async def get_character_property(
     async for character_item in CharacterItem.objects.select_related(
         "item"
     ).filter(character=character, equipped=True):
-        async for effect in character_item.item.effect.filter(
+        async for effect in character_item.item.effects.filter(
             property=effect_property
         ):
             if character_item.item.type == ItemType.TALISMAN:
@@ -144,7 +150,7 @@ async def get_character_info(character: Character) -> str:
 async def get_character_item_with_effects(character_item: CharacterItem):
     """Получение предмета с его эффектами."""
     effects = ""
-    async for effect in character_item.item.effect.all():
+    async for effect in character_item.item.effects.all():
         amount = (
             effect.amount
             + character_item.enhancement_level
@@ -168,14 +174,14 @@ async def get_elixir_with_effects_and_expired(character: Character):
         CharacterEffect.objects.select_related("effect")
         .filter(
             character=character,
-            hunting_amount__gte=1,
+            hunting_minutes__gte=1,
         )
         .all()
     )
     return "\n".join(
         [
             f"{x.effect.get_property_with_amount()} - "
-            f"{x.hunting_amount} ед."
+            f"{x.hunting_minutes} минут"
             async for x in effects
         ]
     )
@@ -184,7 +190,9 @@ async def get_elixir_with_effects_and_expired(character: Character):
 async def get_character_about(character: Character) -> str:
     """Возвращает сообщение с данными о персонаже."""
     exp_in_percent = round(character.exp / character.exp_for_level_up * 100, 2)
-    skill_effect = SkillEffect.objects.filter(skill__in=character.skills.all())
+    skill_effect = SkillEffect.objects.select_related("effect").filter(
+        skill__in=character.skills.all()
+    )
 
     return CHARACTER_ABOUT_MESSAGE.format(
         character.name_with_class,
@@ -212,7 +220,10 @@ async def get_character_about(character: Character) -> str:
             ]
         ),
         "\n".join(
-            [x.get_property_with_amount() async for x in skill_effect.all()]
+            [
+                x.effect.get_property_with_amount()
+                async for x in skill_effect.all()
+            ]
         ),
         await get_elixir_with_effects_and_expired(character),
     )
@@ -302,6 +313,7 @@ async def get_hunting_loot(character: Character):
     character.hunting_begin = None
     character.hunting_end = None
     character.job_id = None
+
     async for character_effect in CharacterEffect.objects.filter(
         character=character, permanent=False
     ):
@@ -341,7 +353,7 @@ async def kill_character(character: Character, bot):
 async def get_skill_effects_info(skill: Skill):
     """Метод получения текста эффектов умения."""
     text = ""
-    async for effect in skill.effect.all():
+    async for effect in skill.effects.all():
         text += f"- {effect.get_property_display()}: <b>{effect.amount}</b>"
         if effect.in_percent:
             text += "<b>%</b>"

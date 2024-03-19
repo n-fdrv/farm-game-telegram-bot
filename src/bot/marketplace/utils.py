@@ -77,13 +77,13 @@ async def get_marketplace_item_effects(
 ) -> str:
     """Метод получения эффектов предмета."""
     effects = ""
-    if not await marketplace_item.item.effect.aexists():
+    if not await marketplace_item.item.effects.aexists():
         return effects
     enhance_type = game_config.ENHANCE_PROPERTY_INCREASE
     if marketplace_item.item.type == ItemType.TALISMAN:
         enhance_type = game_config.ENHANCE_TALISMAN_INCREASE
     effects = "\n<i>Эффекты:</i>\n"
-    async for effect in marketplace_item.item.effect.all():
+    async for effect in marketplace_item.item.effects.all():
         amount = effect.amount + (
             enhance_type * marketplace_item.enhancement_level
         )
