@@ -286,8 +286,8 @@ class CharacterEffect(models.Model):
     effect = models.ForeignKey(
         Effect, on_delete=models.RESTRICT, verbose_name="Эффект"
     )
-    hunting_minutes = models.IntegerField(
-        default=240, verbose_name="Минут действия"
+    expired = models.DateTimeField(
+        default=timezone.now, verbose_name="Окончание Эффекта"
     )
 
     class Meta:

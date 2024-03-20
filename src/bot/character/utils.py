@@ -53,6 +53,85 @@ async def create_character(
     return character
 
 
+async def get_property_modifier(
+    character: Character, effect_property: EffectProperty
+):
+    """Получение прибавки характеристики от процентных эффектов."""
+    modifier = 1
+
+    premium_data = {
+        EffectProperty.DROP: game_config.PREMIUM_DROP_MODIFIER,
+        EffectProperty.EXP: game_config.PREMIUM_EXP_MODIFIER,
+    }
+    if (
+        effect_property in premium_data.keys()
+        and character.premium_expired > timezone.now()
+    ):
+        modifier *= premium_data[effect_property]
+    async for skill_effect in SkillEffect.objects.select_related(
+        "effect"
+    ).filter(
+        effect__property=effect_property,
+        effect__in_percent=True,
+        skill__in=character.skills.all(),
+    ):
+        modifier += modifier * skill_effect.effect.amount / 100
+    async for character_effect in CharacterEffect.objects.filter(
+        effect__property=effect_property,
+        character=character,
+        expired__gte=timezone.now(),
+        effect__in_percent=True,
+    ):
+        modifier += modifier * character_effect.effect.amount / 100
+    async for character_item in CharacterItem.objects.select_related(
+        "item"
+    ).filter(character=character, equipped=True):
+        async for effect in character_item.item.effects.filter(
+            property=effect_property, in_percent=True
+        ):
+            amount = (
+                effect.amount
+                + character_item.enhancement_level
+                * game_config.ENHANCE_TALISMAN_INCREASE
+            )
+            modifier += modifier * amount / 100
+    return modifier
+
+
+async def get_property_amount(
+    character: Character, effect_property: EffectProperty
+):
+    """Получение прибавки характеристики от непроцентных эффектов."""
+    amount = 0
+    async for skill_effect in SkillEffect.objects.select_related(
+        "effect"
+    ).filter(
+        effect__property=effect_property,
+        effect__in_percent=False,
+        skill__in=character.skills.all(),
+    ):
+        amount += skill_effect.effect.amount
+    async for character_effect in CharacterEffect.objects.filter(
+        effect__property=effect_property,
+        character=character,
+        expired__gte=timezone.now(),
+        effect__in_percent=False,
+    ):
+        amount += character_effect.effect.amount
+    async for character_item in CharacterItem.objects.select_related(
+        "item"
+    ).filter(character=character, equipped=True):
+        async for effect in character_item.item.effects.filter(
+            property=effect_property, in_percent=False
+        ):
+            amount += (
+                effect.amount
+                + character_item.enhancement_level
+                * game_config.ENHANCE_PROPERTY_INCREASE
+            )
+    return amount
+
+
 async def get_character_property(
     character: Character, effect_property: EffectProperty
 ):
@@ -64,62 +143,17 @@ async def get_character_property(
         EffectProperty.DEFENCE: character.defence,
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
     }
-    premium_data = {
-        EffectProperty.DROP: game_config.PREMIUM_DROP_MODIFIER,
-        EffectProperty.EXP: game_config.PREMIUM_EXP_MODIFIER,
-    }
     chosen_property = property_data[effect_property]
-    if effect_property == EffectProperty.HUNTING_TIME:
-        chosen_property = (
-            character.max_hunting_time.hour * 3600
-            + character.max_hunting_time.minute * 60
-            + character.max_hunting_time.second
-        ) / 60
-    if (
-        effect_property in premium_data.keys()
-        and character.premium_expired > timezone.now()
-    ):
-        chosen_property *= premium_data[effect_property]
-    async for skill_effect in (
-        SkillEffect.objects.select_related("effect")
-        .filter(
-            effect__property=effect_property, skill__in=character.skills.all()
+    if game_config.IN_PERCENT_MODIFIER_FIRST:
+        chosen_property *= await get_property_modifier(
+            character, effect_property
         )
-        .order_by("effect__in_percent")
-    ):
-        if skill_effect.effect.in_percent:
-            chosen_property += (
-                chosen_property * skill_effect.effect.amount / 100
-            )
-            continue
-        chosen_property += skill_effect.effect.amount
-    async for effect in character.effects.filter(
-        property=effect_property
-    ).order_by("-in_percent"):
-        if effect.in_percent:
-            chosen_property += chosen_property * effect.amount / 100
-            continue
-        chosen_property += effect.amount
-    async for character_item in CharacterItem.objects.select_related(
-        "item"
-    ).filter(character=character, equipped=True):
-        async for effect in character_item.item.effects.filter(
-            property=effect_property
-        ):
-            if character_item.item.type == ItemType.TALISMAN:
-                amount = (
-                    effect.amount
-                    + character_item.enhancement_level
-                    * game_config.ENHANCE_TALISMAN_INCREASE
-                )
-                chosen_property += chosen_property * amount / 100
-                continue
-            amount = (
-                effect.amount
-                + character_item.enhancement_level
-                * game_config.ENHANCE_PROPERTY_INCREASE
-            )
-            chosen_property += amount
+        chosen_property += await get_property_amount(
+            character, effect_property
+        )
+        return chosen_property
+    chosen_property += await get_property_amount(character, effect_property)
+    chosen_property *= await get_property_modifier(character, effect_property)
     return chosen_property
 
 
@@ -174,14 +208,14 @@ async def get_elixir_with_effects_and_expired(character: Character):
         CharacterEffect.objects.select_related("effect")
         .filter(
             character=character,
-            hunting_minutes__gte=1,
+            expired__gt=timezone.now(),
         )
         .all()
     )
     return "\n".join(
         [
             f"{x.effect.get_property_with_amount()} - "
-            f"{x.hunting_minutes} минут"
+            f"{x.expired - timezone.now()}"
             async for x in effects
         ]
     )
@@ -193,14 +227,18 @@ async def get_character_about(character: Character) -> str:
     skill_effect = SkillEffect.objects.select_related("effect").filter(
         skill__in=character.skills.all()
     )
-
+    premium_expired = "Нет"
+    if character.premium_expired > timezone.now():
+        premium_expired = character.premium_expired.strftime(
+            "%d.%m.%Y %H:%M:%S"
+        )
     return CHARACTER_ABOUT_MESSAGE.format(
         character.name_with_class,
         character.level,
         exp_in_percent,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
-        character.premium_expired.strftime("%d.%m.%Y %H:%M:%S"),
+        premium_expired,
         round(
             await get_character_property(character, EffectProperty.EXP) * 100
             - 100,
@@ -267,7 +305,7 @@ async def remove_exp(character: Character, exp_amount: int):
 
 async def remove_effect(character_effect: CharacterEffect):
     """Метод снятия эффекта."""
-    character_effect.hunting_amount -= 1
+    character_effect.expired -= 1
     if character_effect.hunting_amount == 0:
         await character_effect.adelete()
         return character_effect
@@ -279,6 +317,7 @@ async def get_hunting_loot(character: Character):
     """Метод получения трофеев с охоты."""
     hunting_minutes = await get_hunting_minutes(character)
     exp_gained = int(character.current_location.exp * hunting_minutes)
+    exp_gained *= await get_character_property(character, EffectProperty.EXP)
     drop_data = {}
     location_drop_modifier = (
         character.attack / character.current_location.attack
@@ -313,11 +352,10 @@ async def get_hunting_loot(character: Character):
     character.hunting_begin = None
     character.hunting_end = None
     character.job_id = None
-
     async for character_effect in CharacterEffect.objects.filter(
-        character=character, permanent=False
+        character=character, expired__lte=timezone.now()
     ):
-        await remove_effect(character_effect)
+        await character_effect.adelete()
     await character.asave(
         update_fields=(
             "current_location",
