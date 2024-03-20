@@ -16,8 +16,13 @@ from bot.location.messages import (
     HUNTING_END_MESSAGE,
     LOCATION_ENTER_MESSAGE,
     LOCATION_LIST_MESSAGE,
+    LOCATION_NOT_AVAILABLE,
 )
-from bot.location.utils import enter_location, get_location_info
+from bot.location.utils import (
+    check_location_access,
+    enter_location,
+    get_location_info,
+)
 from bot.utils.schedulers import hunting_end_scheduler, remove_scheduler
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
@@ -75,6 +80,13 @@ async def location_enter(
         await callback.message.delete()
         return
     location = await Location.objects.aget(pk=callback_data.id)
+    if not await check_location_access(user.character, location):
+        paginator = await location_list_keyboard(callback_data)
+        await callback.message.edit_text(
+            text=LOCATION_NOT_AVAILABLE,
+            reply_markup=paginator,
+        )
+        return
     await enter_location(user.character, location)
     time_left = str(
         user.character.hunting_end - user.character.hunting_begin

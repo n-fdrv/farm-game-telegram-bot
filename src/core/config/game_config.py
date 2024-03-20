@@ -1,6 +1,9 @@
 EXP_RATE = 1
 DROP_RATE = 1
 DROP_AMOUNT_RATE = 1
+EXP_DECREASE_PERCENT = 10
+
+LOCATION_STAT_DIFFERENCE = 3
 
 # Эффекты в процентах добавляются первыми
 IN_PERCENT_MODIFIER_FIRST = True

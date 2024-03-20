@@ -11,6 +11,7 @@ from bot.location.messages import LOCATION_GET_MESSAGE
 from bot.utils.schedulers import (
     kill_character_scheduler,
 )
+from core.config import game_config
 
 
 async def get_location_info(character: Character, location: Location) -> str:
@@ -71,6 +72,19 @@ async def get_location_info(character: Character, location: Location) -> str:
     )
 
 
+async def check_location_access(character: Character, location: Location):
+    """Проверка доступа в локацию."""
+    check_data = [
+        location.attack / character.attack,
+        location.defence / character.defence,
+        character.attack / location.attack,
+        character.defence / location.defence,
+    ]
+    if max(check_data) >= game_config.LOCATION_STAT_DIFFERENCE:
+        return False
+    return True
+
+
 async def enter_location(character: Character, location: Location):
     """Вход в локацию."""
     character.current_location = location
@@ -79,7 +93,7 @@ async def enter_location(character: Character, location: Location):
     hunting_time = await get_character_property(
         character, EffectProperty.HUNTING_TIME
     )
-    if character.defence > location.defence:
+    if character.defence < location.defence:
         hunting_time *= character.defence / location.defence
     character.hunting_end = timezone.now() + datetime.timedelta(
         minutes=int(hunting_time),
@@ -89,6 +103,6 @@ async def enter_location(character: Character, location: Location):
     )
     if randint(1, 100) <= dead_chance:
         end_of_hunting = timezone.now() + datetime.timedelta(
-            minutes=randint(1, hunting_time),
+            minutes=randint(1, int(hunting_time)),
         )
         await kill_character_scheduler(character, end_of_hunting)

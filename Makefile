@@ -49,6 +49,7 @@ upload-items: # Загрузить данные
 	poetry run python manage.py upload_equipment && \
 	poetry run python manage.py upload_recipes && \
 	poetry run python manage.py upload_scrolls && \
+	poetry run python manage.py upload_potions && \
 	poetry run python manage.py upload_talismans && \
 	poetry run python manage.py upload_loot && \
 	poetry run python manage.py upload_effects && cd ..

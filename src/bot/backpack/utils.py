@@ -1,3 +1,4 @@
+import datetime
 import random
 
 from character.models import (
@@ -7,6 +8,7 @@ from character.models import (
     CharacterSkill,
 )
 from django.conf import settings
+from django.utils import timezone
 from item.models import (
     Bag,
     BagItem,
@@ -270,9 +272,14 @@ async def use_potion(character: Character, item: Item):
                 character=character, effect=effect
             )
         )
-        if not created:
-            character_effect.hunting_minutes += 240
-            await character_effect.asave(update_fields=("hunting_minutes",))
+        if character_effect.expired < timezone.now():
+            character_effect.expired = timezone.now()
+        character_effect.expired += datetime.timedelta(
+            hours=potion.effect_time.hour,
+            minutes=potion.effect_time.minute,
+            seconds=potion.effect_time.second,
+        )
+        await character_effect.asave(update_fields=("expired",))
     await remove_item(item=item, character=character, amount=1)
     return True, SUCCESS_USE_MESSAGE.format(item.name_with_type)
 
@@ -286,7 +293,7 @@ async def use_recipe(character: Character, item: Item):
         "skill"
     ).aget(character=character, skill__name="Мастер Создания")
     if character_skill.skill.level < recipe.level:
-        return (False, NOT_ENOUGH_SKILL_LEVEL_MESSAGE)
+        return False, NOT_ENOUGH_SKILL_LEVEL_MESSAGE
     if await character.recipes.filter(name=recipe.name).aexists():
         return False, ALREADY_KNOWN_RECIPE
     await character.recipes.aadd(recipe)

@@ -196,7 +196,26 @@ class MaterialAdmin(BaseItemAdmin):
 class PotionAdmin(BaseItemAdmin):
     """Управление моделью эликсиров."""
 
-    pass
+    def download_data(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/items/potions.csv",
+            "w",
+            newline="",
+            encoding="utf-8",
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.name,
+                        row.description,
+                        row.sell_price,
+                        row.buy_price,
+                        row.type,
+                        row.effect_time,
+                    ]
+                )
 
 
 @admin.register(Scroll)

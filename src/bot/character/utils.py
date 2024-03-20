@@ -76,7 +76,9 @@ async def get_property_modifier(
         skill__in=character.skills.all(),
     ):
         modifier += modifier * skill_effect.effect.amount / 100
-    async for character_effect in CharacterEffect.objects.filter(
+    async for character_effect in CharacterEffect.objects.select_related(
+        "effect"
+    ).filter(
         effect__property=effect_property,
         character=character,
         expired__gte=timezone.now(),
@@ -144,6 +146,12 @@ async def get_character_property(
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
     }
     chosen_property = property_data[effect_property]
+    if effect_property == EffectProperty.HUNTING_TIME:
+        chosen_property = (
+            character.max_hunting_time.hour * 3600
+            + character.max_hunting_time.minute * 60
+            + character.max_hunting_time.second
+        ) / 60
     if game_config.IN_PERCENT_MODIFIER_FIRST:
         chosen_property *= await get_property_modifier(
             character, effect_property
@@ -215,7 +223,7 @@ async def get_elixir_with_effects_and_expired(character: Character):
     return "\n".join(
         [
             f"{x.effect.get_property_with_amount()} - "
-            f"{x.expired - timezone.now()}"
+            f"<b>{str(x.expired - timezone.now()).split('.')[0]}</b>"
             async for x in effects
         ]
     )
@@ -229,9 +237,7 @@ async def get_character_about(character: Character) -> str:
     )
     premium_expired = "Нет"
     if character.premium_expired > timezone.now():
-        premium_expired = character.premium_expired.strftime(
-            "%d.%m.%Y %H:%M:%S"
-        )
+        premium_expired = character.premium_expired.strftime("%d.%m.%Y %H:%M")
     return CHARACTER_ABOUT_MESSAGE.format(
         character.name_with_class,
         character.level,
@@ -303,16 +309,6 @@ async def remove_exp(character: Character, exp_amount: int):
     return character
 
 
-async def remove_effect(character_effect: CharacterEffect):
-    """Метод снятия эффекта."""
-    character_effect.expired -= 1
-    if character_effect.hunting_amount == 0:
-        await character_effect.adelete()
-        return character_effect
-    await character_effect.asave(update_fields=("hunting_amount",))
-    return character_effect
-
-
 async def get_hunting_loot(character: Character):
     """Метод получения трофеев с охоты."""
     hunting_minutes = await get_hunting_minutes(character)
@@ -372,10 +368,13 @@ async def kill_character(character: Character, bot):
     character.hunting_end = timezone.now()
     await character.asave(update_fields=("hunting_end",))
     exp_gained, drop_data = await get_hunting_loot(character)
-    lost_exp = character.exp_for_level_up // 10
+    lost_exp = int(
+        character.exp_for_level_up / 100 * game_config.EXP_DECREASE_PERCENT
+    )
     if character.premium_expired > timezone.now():
         lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
     await remove_exp(character, lost_exp)
+    await character.effects.aclear()
     drop_text = ""
     for name, amount in drop_data.items():
         drop_text += f"<b>{name}</b> - {amount} шт.\n"
