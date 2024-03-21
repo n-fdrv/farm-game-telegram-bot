@@ -11,6 +11,7 @@ class ItemType(models.TextChoices):
     """Типы информационных карт."""
 
     ARMOR = "armor", "🛡Броня"
+    BOOK = "book", "📕Книга"
     WEAPON = "weapon", "⚔️Оружие"
     POTION = "potion", "🌡Эликсир"
     TALISMAN = "talisman", "⭐️Талисман"
@@ -59,7 +60,11 @@ class Item(models.Model):
     """Модель для хранения предметов."""
 
     name = models.CharField(max_length=32, verbose_name="Имя")
-    description = models.CharField(max_length=256, verbose_name="Описание")
+    description = models.CharField(
+        max_length=256,
+        default="Нет описания предмета",
+        verbose_name="Описание",
+    )
     buy_price = models.IntegerField(
         default=0, verbose_name="Стоимость покупки"
     )
@@ -186,6 +191,41 @@ class Material(Item):
     class Meta:
         verbose_name = "Ресурс"
         verbose_name_plural = "Ресурсы"
+
+
+class Book(Item):
+    """Модель хранения книг."""
+
+    character_class = models.ForeignKey(
+        to="character.CharacterClass",
+        on_delete=models.CASCADE,
+        verbose_name="Требуемый класс",
+        null=True,
+        blank=True,
+    )
+    required_level = models.IntegerField(
+        default=1, verbose_name="Требуемый уровень"
+    )
+    required_skill = models.ForeignKey(
+        to="character.Skill",
+        on_delete=models.CASCADE,
+        verbose_name="Требуемое умение",
+        null=True,
+        blank=True,
+        related_name="book_required",
+    )
+    skill = models.ForeignKey(
+        to="character.Skill",
+        on_delete=models.CASCADE,
+        verbose_name="Получаемое умение",
+        null=True,
+        blank=True,
+        related_name="book_give",
+    )
+
+    class Meta:
+        verbose_name = "Книга"
+        verbose_name_plural = "Книги"
 
 
 class Recipe(Item):
@@ -338,6 +378,7 @@ class CraftingItem(models.Model):
 
 ITEM_DATA = {
     ItemType.TALISMAN: Talisman,
+    ItemType.BOOK: Book,
     ItemType.ETC: Etc,
     ItemType.MATERIAL: Material,
     ItemType.SCROLL: Scroll,

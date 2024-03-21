@@ -14,6 +14,19 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         """Метод при вызове команды."""
         logger.info("Effects upload started")
+        with open("data/items/effect.csv", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            for row in reader:
+                try:
+                    Effect.objects.get_or_create(
+                        property=row[0],
+                        amount=row[1],
+                        in_percent=row[2],
+                        slug=row[4],
+                    )
+                except Exception as e:
+                    logger.error(f"error in uploading: Effect - {row[0]}: {e}")
+        logger.info("Effects upload ended")
         with open("data/items/effects.csv", encoding="utf-8") as f:
             reader = csv.reader(f)
             for row in reader:

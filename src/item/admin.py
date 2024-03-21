@@ -7,6 +7,7 @@ from item.models import (
     Armor,
     Bag,
     BagItem,
+    Book,
     CraftingItem,
     Effect,
     Etc,
@@ -40,6 +41,7 @@ class BagItemInline(admin.TabularInline):
     model = BagItem
     fk_name = "bag"
     extra = 1
+    ordering = ("item__type",)
 
 
 class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
@@ -294,6 +296,45 @@ class RecipeAdmin(BaseItemAdmin):
     search_fields = ("name",)
 
 
+@admin.register(Book)
+class BookAdmin(BaseItemAdmin):
+    """Управление моделью предметов."""
+
+    def download_data(modeladmin, request, queryset):
+        """Сформировать файл с данными базы."""
+        with open(
+            "data/items/books.csv", "w", newline="", encoding="utf-8"
+        ) as csvfile:
+            spamwriter = csv.writer(csvfile, delimiter=",")
+            for row in queryset:
+                spamwriter.writerow(
+                    [
+                        row.name,
+                        row.description,
+                        row.sell_price,
+                        row.buy_price,
+                        row.type,
+                        row.character_class.name,
+                        row.required_level,
+                        row.required_skill.name,
+                        row.required_skill.level,
+                        row.skill.name,
+                        row.skill.level,
+                    ]
+                )
+
+    list_display = (
+        "name",
+        "character_class",
+        "required_level",
+        "required_skill",
+        "skill",
+    )
+    list_filter = ("type",)
+    list_display_links = ("name",)
+    search_fields = ("name",)
+
+
 @admin.register(Bag)
 class BagAdmin(BaseItemAdmin):
     """Управление моделью мешков."""
@@ -333,11 +374,7 @@ class EffectAdmin(DjangoObjectActions, admin.ModelAdmin):
             spamwriter = csv.writer(csvfile, delimiter=",")
             for row in queryset:
                 spamwriter.writerow(
-                    [
-                        row.property,
-                        row.amount,
-                        row.in_percent,
-                    ]
+                    [row.property, row.amount, row.in_percent, row.slug]
                 )
 
     download_data.short_description = "Download selected as csv"

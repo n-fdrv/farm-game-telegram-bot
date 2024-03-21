@@ -1,3 +1,6 @@
-defence,10,True,Улучшенная защита
-attack,10,True,Улучшенная атака
-drop,10,True,Улучшенное чутье
+defence,10,True,Улучшенная Защита,potion
+attack,10,True,Улучшенная Атака,potion
+drop,10,True,Улучшенное Чутье,potion
+drop,20,True,Улучшенное Чутье,skill
+attack,20,True,Улучшенная Атака,skill
+defence,20,True,Улучшенная Защита,skill
