@@ -22,6 +22,7 @@ class Command(BaseCommand):
                         property=row[0],
                         amount=row[1],
                         in_percent=row[2],
+                        slug=row[4],
                     )
                     item = Item.objects.get(name=row[3])
                     ItemEffect.objects.get_or_create(

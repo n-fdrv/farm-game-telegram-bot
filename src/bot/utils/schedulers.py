@@ -5,9 +5,7 @@ from character.models import Character
 from django.apps import apps
 from loguru import logger
 
-from bot.character.utils import kill_character
-from bot.location.keyboards import get_drop_keyboard
-from bot.location.messages import HUNTING_END_MESSAGE
+from bot.character.utils import end_hunting, kill_character
 from bot.models import User
 from core.config.logging import log_schedulers
 
@@ -35,22 +33,17 @@ async def send_message_to_all_users(text: str):
 
 
 @log_schedulers
-async def hunting_end_scheduler(user: User):
+async def hunting_end_scheduler(character: Character):
     """Шедулер отправки сообщения об окончании охоты."""
     bot, scheduler = await get_bot_and_scheduler()
-    keyboard = await get_drop_keyboard()
     job = scheduler.add_job(
-        bot.send_message,
+        end_hunting,
         "date",
-        run_date=user.character.hunting_end,
-        kwargs={
-            "chat_id": user.telegram_id,
-            "text": HUNTING_END_MESSAGE,
-            "reply_markup": keyboard.as_markup(),
-        },
+        run_date=character.hunting_end,
+        args=[character, bot],
     )
-    user.character.job_id = job.id
-    await user.character.asave(update_fields=("job_id",))
+    character.job_id = job.id
+    await character.asave(update_fields=("job_id",))
 
 
 @log_schedulers
@@ -64,14 +57,16 @@ async def remove_scheduler(job_id: str):
 
 
 @log_schedulers
-async def kill_character_scheduler(character: Character, date):
+async def kill_character_scheduler(
+    character: Character, date, attacker: Character = None
+):
     """Шедулер убийства персонажа."""
     bot, scheduler = await get_bot_and_scheduler()
     scheduler.add_job(
         kill_character,
         "date",
         run_date=date,
-        args=[character, bot],
+        args=[character, bot, attacker],
     )
 
 

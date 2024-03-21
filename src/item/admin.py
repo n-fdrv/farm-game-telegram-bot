@@ -76,6 +76,7 @@ class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.effect.amount,
                         row.effect.in_percent,
                         row.item.name,
+                        row.effect.slug,
                     ]
                 )
 
@@ -126,6 +127,7 @@ class BaseEquipmentAdmin(BaseItemAdmin):
                         row.effect.amount,
                         row.effect.in_percent,
                         row.item.name,
+                        row.effect.slug,
                     ]
                 )
 

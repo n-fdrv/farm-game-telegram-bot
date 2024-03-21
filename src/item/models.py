@@ -46,6 +46,15 @@ class EffectProperty(models.TextChoices):
     HUNTING_TIME = "hunting_time", "⏳Время охоты"
 
 
+class EffectSlug(models.TextChoices):
+    """Slug эффектов."""
+
+    POTION = "potion", "🌡Эликсир"
+    SKILL = "skill", "↗️Способность"
+    ITEM = "item", "🎒Предмет"
+    FATIGUE = "fatigue", "♦️Усталость"
+
+
 class Item(models.Model):
     """Модель для хранения предметов."""
 
@@ -259,6 +268,12 @@ class Effect(models.Model):
     )
     amount = models.IntegerField(default=0, verbose_name="Количество")
     in_percent = models.BooleanField(default=False, verbose_name="В процентах")
+    slug = models.CharField(
+        max_length=16,
+        choices=EffectSlug.choices,
+        default=EffectSlug.POTION,
+        verbose_name="Вид эффекта",
+    )
 
     class Meta:
         verbose_name = "Эффект"

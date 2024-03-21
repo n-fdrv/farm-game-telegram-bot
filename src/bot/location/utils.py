@@ -1,14 +1,27 @@
 import datetime
+import random
 from random import randint
 
-from character.models import Character
+from character.models import Character, CharacterEffect, CharacterItem
 from django.utils import timezone
-from item.models import EffectProperty
+from item.models import Effect, EffectProperty, EffectSlug
 from location.models import Location, LocationDrop
+from loguru import logger
 
-from bot.character.utils import get_character_property
-from bot.location.messages import LOCATION_GET_MESSAGE
+from bot.character.utils import (
+    get_character_item_with_effects,
+    get_character_property,
+    get_elixir_with_effects_and_expired,
+    remove_exp,
+)
+from bot.location.messages import (
+    FAIL_KILL_MESSAGE,
+    LOCATION_CHARACTER_GET_MESSAGE,
+    LOCATION_GET_MESSAGE,
+    SUCCESS_KILL_MESSAGE,
+)
 from bot.utils.schedulers import (
+    hunting_end_scheduler,
     kill_character_scheduler,
 )
 from core.config import game_config
@@ -106,3 +119,76 @@ async def enter_location(character: Character, location: Location):
             minutes=randint(1, int(hunting_time)),
         )
         await kill_character_scheduler(character, end_of_hunting)
+        return
+    await hunting_end_scheduler(character)
+
+
+async def location_get_character_about(character: Character) -> str:
+    """Возвращает сообщение с данными о персонаже."""
+    return LOCATION_CHARACTER_GET_MESSAGE.format(
+        character.name_with_class,
+        character.level,
+        int(await get_character_property(character, EffectProperty.ATTACK)),
+        int(await get_character_property(character, EffectProperty.DEFENCE)),
+        "\n".join(
+            [
+                await get_character_item_with_effects(x)
+                async for x in CharacterItem.objects.select_related(
+                    "item"
+                ).filter(character=character, equipped=True)
+            ]
+        ),
+        await get_elixir_with_effects_and_expired(character),
+    )
+
+
+async def attack_character(attacker: Character, target: Character):
+    """Обработка атаки на персонажа."""
+    attacker_attack = (
+        int(await get_character_property(attacker, EffectProperty.ATTACK)),
+    )
+    attacker_defence = (
+        int(await get_character_property(attacker, EffectProperty.DEFENCE)),
+    )
+    target_attack = (
+        int(await get_character_property(target, EffectProperty.ATTACK)),
+    )
+    target_defence = (
+        int(await get_character_property(target, EffectProperty.DEFENCE)),
+    )
+    attack_difference = attacker_attack[0] / target_defence[0]
+    defence_difference = attacker_defence[0] / target_attack[0]
+    difference = (attack_difference + defence_difference) / 2
+    chance = round(difference * 50, 2)
+    text = (
+        f"\nПерсонаж: {attacker.name_with_class} "
+        f"(Атака: {attacker_attack[0]}, Защита: {attacker_defence[0]})\n"
+        f"Атакует: {target.name_with_class} "
+        f"(Атака: {target_attack[0]}, Защита: {target_defence[0]})\n"
+        f"Шанс успеха: {chance}%"
+    )
+    if random.uniform(0.01, 100) <= chance:
+        text += "\nУспешно"
+        await kill_character_scheduler(target, timezone.now(), attacker)
+        async for effect in Effect.objects.filter(slug=EffectSlug.FATIGUE):
+            await CharacterEffect.objects.acreate(
+                character=attacker,
+                effect=effect,
+                expired=timezone.now() + datetime.timedelta(hours=12),
+            )
+        logger.info(text)
+        return True, SUCCESS_KILL_MESSAGE.format(target.name_with_class)
+    lost_exp = int(
+        attacker.exp_for_level_up / 100 * game_config.EXP_DECREASE_PERCENT
+    )
+    if attacker.premium_expired > timezone.now():
+        lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
+    await remove_exp(attacker, lost_exp)
+    async for character_effect in CharacterEffect.objects.exclude(
+        effect__slug=EffectSlug.FATIGUE
+    ).filter(
+        character=attacker,
+    ):
+        await character_effect.adelete()
+    logger.info(text)
+    return False, FAIL_KILL_MESSAGE.format(attacker)

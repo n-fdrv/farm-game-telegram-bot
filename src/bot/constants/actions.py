@@ -43,6 +43,11 @@ class LocationAction(Action):
     exit_location_confirm = f"{callback_data.LocationData.__prefix__}-exco"
     exit_location = f"{callback_data.LocationData.__prefix__}-exlo"
 
+    characters_list = f"{callback_data.LocationData.__prefix__}-chli"
+    characters_get = f"{callback_data.LocationData.__prefix__}-chge"
+    characters_kill_confirm = f"{callback_data.LocationData.__prefix__}-chkico"
+    characters_kill = f"{callback_data.LocationData.__prefix__}-chki"
+
 
 class BackpackAction(Action):
     """Действия для хендлеров инвентаря."""

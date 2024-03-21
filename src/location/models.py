@@ -22,6 +22,7 @@ class Location(BaseLocationModel):
     drop = models.ManyToManyField(
         Item, through="LocationDrop", related_name="drop"
     )
+    place = models.IntegerField(default=10, verbose_name="Мест в локации")
 
     class Meta:
         verbose_name = "Локация"

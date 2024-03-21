@@ -27,7 +27,7 @@ class PremiumData(BaseCallbackData, prefix="pr"):
 class LocationData(BaseCallbackData, prefix="loc"):
     """Данные для хенжлеров локаций."""
 
-    pass
+    character_id: Optional[int] = 0
 
 
 class BackpackData(BaseCallbackData, prefix="bp"):

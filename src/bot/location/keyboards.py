@@ -1,12 +1,15 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from character.models import Character
 from location.models import Location
 
 from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
 from bot.constants.actions import character_action, location_action
 from bot.constants.callback_data import CharacterData, LocationData
 from bot.location.buttons import (
+    CHARACTER_KILL_BUTTON,
     GET_DROP_MESSAGE,
     LOCATION_BUTTON,
+    LOCATION_CHARACTERS_BUTTON,
     START_HUNTING_MESSAGE,
 )
 from bot.utils.paginator import Paginator
@@ -48,6 +51,12 @@ async def location_get_keyboard(callback_data: LocationData):
         ),
     )
     keyboard.button(
+        text=LOCATION_CHARACTERS_BUTTON,
+        callback_data=LocationData(
+            action=location_action.characters_list, id=callback_data.id
+        ),
+    )
+    keyboard.button(
         text=BACK_BUTTON,
         callback_data=LocationData(
             action=location_action.list, page=callback_data.page
@@ -78,6 +87,89 @@ async def exit_location_confirmation():
     keyboard.button(
         text=NO_BUTTON,
         callback_data=CharacterData(action=character_action.get),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def character_list_keyboard(callback_data: LocationData):
+    """Клавиатура списка локаций."""
+    keyboard = InlineKeyboardBuilder()
+    async for character in (
+        Character.objects.select_related("character_class")
+        .filter(current_location__id=callback_data.id)
+        .all()
+    ):
+        keyboard.button(
+            text=character.name_with_class,
+            callback_data=LocationData(
+                action=location_action.characters_get,
+                id=callback_data.id,
+                character_id=character.id,
+            ),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=location_action.list,
+        size=6,
+        page=callback_data.page,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            [
+                BACK_BUTTON,
+                LocationData(
+                    action=location_action.get,
+                    page=callback_data.page,
+                    id=callback_data.id,
+                ),
+            ]
+        ]
+    )
+
+
+async def location_character_get_keyboard(callback_data: LocationData):
+    """Клавиатура подтверждения выхода из локации."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=CHARACTER_KILL_BUTTON,
+        callback_data=LocationData(
+            action=location_action.characters_kill_confirm,
+            id=callback_data.id,
+            character_id=callback_data.character_id,
+        ),
+    )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=LocationData(
+            action=location_action.characters_list,
+            id=callback_data.id,
+            character_id=callback_data.character_id,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def kill_character_confirm_keyboard(callback_data: LocationData):
+    """Клавиатура подтверждения выхода из локации."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=LocationData(
+            action=location_action.characters_kill,
+            id=callback_data.id,
+            character_id=callback_data.character_id,
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=LocationData(
+            action=location_action.characters_get,
+            id=callback_data.id,
+            character_id=callback_data.character_id,
+        ),
     )
     keyboard.adjust(2)
     return keyboard

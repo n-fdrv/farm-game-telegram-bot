@@ -1,17 +1,26 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
+from character.models import Character
 from location.models import Location
 
 from bot.character.keyboards import character_get_keyboard
-from bot.character.utils import get_hunting_loot
+from bot.character.utils import (
+    get_character_info,
+    get_hunting_loot,
+)
 from bot.constants.actions import location_action
 from bot.constants.callback_data import LocationData
 from bot.location.keyboards import (
+    character_list_keyboard,
     exit_location_confirmation,
+    kill_character_confirm_keyboard,
+    location_character_get_keyboard,
     location_get_keyboard,
     location_list_keyboard,
 )
 from bot.location.messages import (
+    CHARACTER_KILL_CONFIRM_MESSAGE,
+    CHARACTER_LIST_MESSAGE,
     EXIT_LOCATION_CONFIRMATION_MESSAGE,
     HUNTING_END_MESSAGE,
     LOCATION_ENTER_MESSAGE,
@@ -19,11 +28,13 @@ from bot.location.messages import (
     LOCATION_NOT_AVAILABLE,
 )
 from bot.location.utils import (
+    attack_character,
     check_location_access,
     enter_location,
     get_location_info,
+    location_get_character_about,
 )
-from bot.utils.schedulers import hunting_end_scheduler, remove_scheduler
+from bot.utils.schedulers import remove_scheduler
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -100,8 +111,6 @@ async def location_enter(
         reply_markup=keyboard.as_markup(),
     )
 
-    await hunting_end_scheduler(user)
-
 
 @location_router.callback_query(
     LocationData.filter(F.action == location_action.exit_location_confirm)
@@ -139,14 +148,95 @@ async def exit_location(
         await callback.message.delete()
         return
     await remove_scheduler(user.character.job_id)
-    exp, drop_data = await get_hunting_loot(user.character)
+    exp, drop_text = await get_hunting_loot(user.character)
     drop_text = ""
-    for name, amount in drop_data.items():
-        drop_text += f"\n<b>{name}</b> - {amount} шт."
-    if not drop_data:
-        drop_text = "❌"
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=HUNTING_END_MESSAGE.format(exp, drop_text),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@location_router.callback_query(
+    LocationData.filter(F.action == location_action.characters_list)
+)
+@log_in_dev
+async def character_list_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: LocationData,
+):
+    """Хендлер подтверждения выхода из локации."""
+    paginator = await character_list_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=CHARACTER_LIST_MESSAGE,
+        reply_markup=paginator,
+    )
+
+
+@location_router.callback_query(
+    LocationData.filter(F.action == location_action.characters_get)
+)
+@log_in_dev
+async def location_character_get_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: LocationData,
+):
+    """Хендлер подтверждения выхода из локации."""
+    character = await Character.objects.select_related(
+        "current_location", "character_class"
+    ).aget(id=callback_data.character_id)
+    keyboard = await location_character_get_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=await location_get_character_about(character),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@location_router.callback_query(
+    LocationData.filter(F.action == location_action.characters_kill_confirm)
+)
+@log_in_dev
+async def location_character_kill_confirm_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: LocationData,
+):
+    """Хендлер подтверждения выхода из локации."""
+    character = await Character.objects.select_related("character_class").aget(
+        id=callback_data.character_id
+    )
+    keyboard = await kill_character_confirm_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=CHARACTER_KILL_CONFIRM_MESSAGE.format(
+            character.name_with_class, character.name_with_class
+        ),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@location_router.callback_query(
+    LocationData.filter(F.action == location_action.characters_kill)
+)
+@log_in_dev
+async def location_character_kill_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: LocationData,
+):
+    """Хендлер подтверждения выхода из локации."""
+    character = await Character.objects.select_related(
+        "current_location",
+        "character_class",
+    ).aget(id=callback_data.character_id)
+    user = await get_user(callback.from_user.id)
+    success, text = await attack_character(user.character, character)
+    keyboard = await character_get_keyboard(user.character)
+    await callback.message.edit_text(
+        text=text,
+    )
+    await callback.message.answer(
+        text=await get_character_info(user.character),
         reply_markup=keyboard.as_markup(),
     )

@@ -10,15 +10,17 @@ from character.models import (
     SkillEffect,
 )
 from django.utils import timezone
-from item.models import EffectProperty, ItemType
+from item.models import EffectProperty, EffectSlug, ItemType
 from location.models import LocationDrop
 from loguru import logger
 
+from bot.character.keyboards import character_get_keyboard
 from bot.character.messages import (
     CHARACTER_ABOUT_MESSAGE,
     CHARACTER_INFO_MESSAGE,
     CHARACTER_KILL_MESSAGE,
 )
+from bot.location.messages import HUNTING_END_MESSAGE
 from bot.models import User
 from core.config import game_config
 
@@ -352,6 +354,11 @@ async def get_hunting_loot(character: Character):
         character=character, expired__lte=timezone.now()
     ):
         await character_effect.adelete()
+    drop_text = "\n"
+    for name, amount in drop_data.items():
+        drop_text += f"<b>{name}</b> - {amount} шт.\n"
+    if not drop_data:
+        drop_text = "❌"
     await character.asave(
         update_fields=(
             "current_location",
@@ -360,30 +367,50 @@ async def get_hunting_loot(character: Character):
             "job_id",
         )
     )
-    return exp_gained, drop_data
+    return exp_gained, drop_text
 
 
-async def kill_character(character: Character, bot):
+async def end_hunting(character: Character, bot):
+    """Конец охоты по времени."""
+    await character.asave(update_fields=("hunting_end",))
+    exp_gained, drop_text = await get_hunting_loot(character)
+    user = await User.objects.aget(character=character)
+    keyboard = await character_get_keyboard(character)
+    await bot.send_message(
+        user.telegram_id,
+        HUNTING_END_MESSAGE.format(exp_gained, drop_text),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+async def kill_character(
+    character: Character, bot, attacker: Character = None
+):
     """Убийство персонажа."""
     character.hunting_end = timezone.now()
     await character.asave(update_fields=("hunting_end",))
-    exp_gained, drop_data = await get_hunting_loot(character)
+    exp_gained, drop_text = await get_hunting_loot(character)
     lost_exp = int(
         character.exp_for_level_up / 100 * game_config.EXP_DECREASE_PERCENT
     )
     if character.premium_expired > timezone.now():
         lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
     await remove_exp(character, lost_exp)
-    await character.effects.aclear()
-    drop_text = ""
-    for name, amount in drop_data.items():
-        drop_text += f"<b>{name}</b> - {amount} шт.\n"
-    if not drop_data:
-        drop_text = "❌"
+    async for character_effect in CharacterEffect.objects.exclude(
+        effect__slug=EffectSlug.FATIGUE
+    ).filter(
+        character=attacker,
+    ):
+        await character_effect.adelete()
+    attacker_text = "Монстры в Локации"
+    if attacker:
+        attacker_text = attacker.name_with_class
     user = await User.objects.aget(character=character)
     await bot.send_message(
         user.telegram_id,
-        CHARACTER_KILL_MESSAGE.format(exp_gained - lost_exp, drop_text),
+        CHARACTER_KILL_MESSAGE.format(
+            attacker_text, exp_gained - lost_exp, drop_text
+        ),
     )
 
 

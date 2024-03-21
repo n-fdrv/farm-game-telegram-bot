@@ -74,6 +74,7 @@ class SkillAdmin(DjangoObjectActions, admin.ModelAdmin):
                         row.effect.amount,
                         row.effect.in_percent,
                         row.skill.name,
+                        row.effect.slug,
                     ]
                 )
 
