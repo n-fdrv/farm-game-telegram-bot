@@ -24,6 +24,7 @@ class Command(BaseCommand):
                         attack=row[1],
                         defence=row[2],
                         exp=row[3],
+                        place=row[4],
                     )
                 except Exception as e:
                     logger.error(

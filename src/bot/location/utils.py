@@ -17,7 +17,10 @@ from bot.character.utils import (
 from bot.location.messages import (
     FAIL_KILL_MESSAGE,
     LOCATION_CHARACTER_GET_MESSAGE,
+    LOCATION_FULL_MESSAGE,
     LOCATION_GET_MESSAGE,
+    LOCATION_NOT_AVAILABLE,
+    LOCATION_WEEK_STRONG_MESSAGE,
     SUCCESS_KILL_MESSAGE,
 )
 from bot.utils.schedulers import (
@@ -27,37 +30,43 @@ from bot.utils.schedulers import (
 from core.config import game_config
 
 
-async def get_location_info(character: Character, location: Location) -> str:
-    """Возвращает сообщение с данными о персонаже."""
-    drop_data = ""
-    attack = await get_character_property(character, EffectProperty.ATTACK)
+async def get_location_defence_effect(
+    character: Character, location: Location
+) -> str:
+    """Получение информации об эффектах защиты локации."""
     defence = await get_character_property(character, EffectProperty.DEFENCE)
+    defence_buff = defence / location.defence * 100 - 100
+    if defence_buff < 0:
+        return "<i>☠️ Ваша защита меньше. Вы можете умереть!</i>"
+    return "<i>✅ Ваша защита больше. Время охоты увеличено!</i>"
+
+
+async def get_location_attack_effect(
+    character: Character, location: Location
+) -> str:
+    """Получение информации об эффектах защиты локации."""
+    attack = await get_character_property(character, EffectProperty.ATTACK)
+    attack_buff = attack / location.attack * 100 - 100
+    if attack_buff < 0:
+        return (
+            f"<i>❌ Ваша атака меньше! "
+            f"Штраф к падению предметов:</i> <b>{int(attack_buff)}%</b>"
+        )
+    return (
+        f"<i>✅ Ваша атака больше! "
+        f"Бонус к падению предметов:</i> <b>+{int(attack_buff)}%</b>"
+    )
+
+
+async def get_location_drop(character: Character, location: Location) -> str:
+    """Получение информации об эффектах защиты локации."""
+    attack = await get_character_property(character, EffectProperty.ATTACK)
     attack_buff = attack / location.attack
     drop_modifier = await get_character_property(
         character, EffectProperty.DROP
     )
     drop_buff = drop_modifier * attack_buff
-    drop_effect = drop_buff * 100 - 100
-    defence_buff = defence / location.defence * 100 - 100
-    hunting_time = await get_character_property(
-        character, EffectProperty.HUNTING_TIME
-    )
-    hunting_time *= defence / location.defence
-    dead_text = ""
-    if defence_buff < 0:
-        dead_text = "☠️ Ваша защита меньше. Вы можете умереть!"
-    elif defence_buff > 0:
-        dead_text = "✅ Ваша защита больше. Время охоты увеличено!"
-    drop_text = (
-        f"✅ Ваша атака больше! "
-        f"Бонус к падению предметов: +{int(drop_effect)}%"
-    )
-    if drop_effect < 0:
-        drop_text = (
-            f"❌ Ваша атака меньше! "
-            f"Штраф к падению предметов: {int(drop_effect)}%"
-        )
-
+    drop_data = ""
     async for location_drop in LocationDrop.objects.select_related(
         "item"
     ).filter(location=location):
@@ -71,17 +80,31 @@ async def get_location_info(character: Character, location: Location) -> str:
                 f"({location_drop.min_amount}-{location_drop.max_amount}) "
             )
         drop_data += (
-            f"<b>{location_drop.item.name_with_type}</b> {amount}{chance}%\n"
+            f"<b>{location_drop.item.name_with_type}</b> "
+            f"<i>{amount}- {chance}%</i>\n"
         )
+    return drop_data
 
+
+async def get_location_info(character: Character, location: Location) -> str:
+    """Возвращает сообщение с данными о персонаже."""
+    defence = await get_character_property(character, EffectProperty.DEFENCE)
+    hunting_time = await get_character_property(
+        character, EffectProperty.HUNTING_TIME
+    )
+    hunting_time *= defence / location.defence
+    characters_in_location = await Character.objects.filter(
+        current_location=location
+    ).acount()
     return LOCATION_GET_MESSAGE.format(
         location.name,
         location.attack,
         location.defence,
-        drop_text,
-        dead_text,
+        f"{characters_in_location}/{location.place}",
+        await get_location_attack_effect(character, location),
+        await get_location_defence_effect(character, location),
         int(hunting_time),
-        drop_data,
+        await get_location_drop(character, location),
     )
 
 
@@ -94,8 +117,15 @@ async def check_location_access(character: Character, location: Location):
         character.defence / location.defence,
     ]
     if max(check_data) >= game_config.LOCATION_STAT_DIFFERENCE:
-        return False
-    return True
+        return False, LOCATION_NOT_AVAILABLE.format(
+            LOCATION_WEEK_STRONG_MESSAGE
+        )
+    characters_in_location = await Character.objects.filter(
+        current_location=location
+    ).acount()
+    if characters_in_location >= location.place:
+        return False, LOCATION_NOT_AVAILABLE.format(LOCATION_FULL_MESSAGE)
+    return True, "Успешно"
 
 
 async def enter_location(character: Character, location: Location):

@@ -25,12 +25,7 @@ class LocationAdmin(DjangoObjectActions, admin.ModelAdmin):
             spamwriter = csv.writer(csvfile, delimiter=",")
             for row in queryset:
                 spamwriter.writerow(
-                    [
-                        row.name,
-                        row.attack,
-                        row.defence,
-                        row.exp,
-                    ]
+                    [row.name, row.attack, row.defence, row.exp, row.place]
                 )
         with open(
             "data/locations/location_drop.csv",

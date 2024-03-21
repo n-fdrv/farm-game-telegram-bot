@@ -25,7 +25,7 @@ from bot.location.messages import (
     HUNTING_END_MESSAGE,
     LOCATION_ENTER_MESSAGE,
     LOCATION_LIST_MESSAGE,
-    LOCATION_NOT_AVAILABLE,
+    NO_CHARACTER_CURRENT_LOCATION,
 )
 from bot.location.utils import (
     attack_character,
@@ -91,10 +91,11 @@ async def location_enter(
         await callback.message.delete()
         return
     location = await Location.objects.aget(pk=callback_data.id)
-    if not await check_location_access(user.character, location):
+    success, text = await check_location_access(user.character, location)
+    if not success:
         paginator = await location_list_keyboard(callback_data)
         await callback.message.edit_text(
-            text=LOCATION_NOT_AVAILABLE,
+            text=text,
             reply_markup=paginator,
         )
         return
@@ -230,6 +231,11 @@ async def location_character_kill_handler(
         "current_location",
         "character_class",
     ).aget(id=callback_data.character_id)
+    if not character.current_location:
+        await callback.message.edit_text(
+            NO_CHARACTER_CURRENT_LOCATION.format(character.name_with_class),
+        )
+        return
     user = await get_user(callback.from_user.id)
     success, text = await attack_character(user.character, character)
     keyboard = await character_get_keyboard(user.character)
