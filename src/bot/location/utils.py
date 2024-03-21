@@ -221,4 +221,4 @@ async def attack_character(attacker: Character, target: Character):
     ):
         await character_effect.adelete()
     logger.info(text)
-    return False, FAIL_KILL_MESSAGE.format(attacker)
+    return False, FAIL_KILL_MESSAGE.format(target.name_with_class)

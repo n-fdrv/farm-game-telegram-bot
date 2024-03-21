@@ -121,11 +121,11 @@ async def get_character_item_effects(character_item: CharacterItem) -> str:
     effects = ""
     if not await character_item.item.effects.aexists():
         return effects
-    enhance_type = game_config.ENHANCE_PROPERTY_INCREASE
-    if character_item.item.type == ItemType.TALISMAN:
-        enhance_type = game_config.ENHANCE_TALISMAN_INCREASE
     effects = "\n<i>Эффекты:</i>\n"
     async for effect in character_item.item.effects.all():
+        enhance_type = game_config.ENHANCE_INCREASE
+        if effect.in_percent:
+            enhance_type = game_config.ENHANCE_IN_PERCENT_INCREASE
         amount = effect.amount + (
             enhance_type * character_item.enhancement_level
         )
@@ -186,15 +186,13 @@ async def get_character_item_enhance_text(character_item: CharacterItem):
     description = ""
     if character_item.equipped:
         description += "Надето"
-    enhance_increase = game_config.ENHANCE_PROPERTY_INCREASE
-    if character_item.item.type == ItemType.TALISMAN:
-        enhance_increase = game_config.ENHANCE_TALISMAN_INCREASE
     return ENHANCE_GET_MESSAGE.format(
         character_item.name_with_enhance,
         description,
         additional_info,
         game_config.ENHANCE_CHANCE[character_item.enhancement_level],
-        enhance_increase,
+        game_config.ENHANCE_INCREASE,
+        game_config.ENHANCE_IN_PERCENT_INCREASE,
     )
 
 

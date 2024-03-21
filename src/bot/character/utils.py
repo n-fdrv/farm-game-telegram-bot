@@ -10,7 +10,7 @@ from character.models import (
     SkillEffect,
 )
 from django.utils import timezone
-from item.models import EffectProperty, EffectSlug, ItemType
+from item.models import EffectProperty, EffectSlug
 from location.models import LocationDrop
 from loguru import logger
 
@@ -77,7 +77,7 @@ async def get_property_modifier(
         effect__in_percent=True,
         skill__in=character.skills.all(),
     ):
-        modifier += modifier * skill_effect.effect.amount / 100
+        modifier += skill_effect.effect.amount / 100
     async for character_effect in CharacterEffect.objects.select_related(
         "effect"
     ).filter(
@@ -86,7 +86,7 @@ async def get_property_modifier(
         expired__gte=timezone.now(),
         effect__in_percent=True,
     ):
-        modifier += modifier * character_effect.effect.amount / 100
+        modifier += character_effect.effect.amount / 100
     async for character_item in CharacterItem.objects.select_related(
         "item"
     ).filter(character=character, equipped=True):
@@ -96,9 +96,11 @@ async def get_property_modifier(
             amount = (
                 effect.amount
                 + character_item.enhancement_level
-                * game_config.ENHANCE_TALISMAN_INCREASE
+                * game_config.ENHANCE_IN_PERCENT_INCREASE
             )
-            modifier += modifier * amount / 100
+            modifier += amount / 100
+    if modifier < 0:
+        modifier = 0
     return modifier
 
 
@@ -131,7 +133,7 @@ async def get_property_amount(
             amount += (
                 effect.amount
                 + character_item.enhancement_level
-                * game_config.ENHANCE_PROPERTY_INCREASE
+                * game_config.ENHANCE_INCREASE
             )
     return amount
 
@@ -195,21 +197,24 @@ async def get_character_item_with_effects(character_item: CharacterItem):
     """Получение предмета с его эффектами."""
     effects = ""
     async for effect in character_item.item.effects.all():
-        amount = (
-            effect.amount
-            + character_item.enhancement_level
-            * game_config.ENHANCE_PROPERTY_INCREASE
-        )
-        if character_item.item.type == ItemType.TALISMAN:
+        if effect.in_percent:
             amount = (
                 effect.amount
                 + character_item.enhancement_level
-                * game_config.ENHANCE_TALISMAN_INCREASE
+                * game_config.ENHANCE_IN_PERCENT_INCREASE
             )
-        effects += f"{effect.get_property_display()}: {amount}"
+        else:
+            amount = (
+                effect.amount
+                + character_item.enhancement_level
+                * game_config.ENHANCE_INCREASE
+            )
+        effects += (
+            f"\n- <i>{effect.get_property_display()}:</i> <b>{amount}</b>"
+        )
         if effect.in_percent:
             effects += "%"
-    return f"{character_item.name_with_enhance} ({effects})"
+    return f"{character_item.name_with_enhance}{effects}"
 
 
 async def get_elixir_with_effects_and_expired(character: Character):
@@ -224,7 +229,7 @@ async def get_elixir_with_effects_and_expired(character: Character):
     )
     return "\n".join(
         [
-            f"{x.effect.get_property_with_amount()} - "
+            f"<i>{x.effect.get_property_with_amount()}</i> - "
             f"<b>{str(x.expired - timezone.now()).split('.')[0]}</b>"
             async for x in effects
         ]
@@ -288,11 +293,8 @@ async def get_exp(character: Character, exp_amount: int):
     """Метод получения опыта."""
     character.exp += exp_amount
     while character.exp >= character.exp_for_level_up:
-        character.exp = character.exp - character.exp_for_level_up
-        character.exp_for_level_up += (
-            character.exp_for_level_up
-            * game_config.EXP_FOR_LEVEL_UP_MULTIPLIER
-        )
+        character.exp -= character.exp_for_level_up
+        character.exp_for_level_up *= game_config.EXP_FOR_LEVEL_UP_MULTIPLIER
         character.attack += game_config.ATTACK_INCREASE_LEVEL_UP
         character.defence += game_config.DEFENCE_INCREASE_LEVEL_UP
         character.level += 1
@@ -305,9 +307,18 @@ async def get_exp(character: Character, exp_amount: int):
 async def remove_exp(character: Character, exp_amount: int):
     """Метод отнятия опыта."""
     character.exp -= exp_amount
-    if character.exp < 0:
+    if character.level == 1 and character.exp < 0:
         character.exp = 0
-    await character.asave(update_fields=("exp",))
+    while character.exp < 0:
+        character.level -= 1
+        character.exp_for_level_up /= game_config.EXP_FOR_LEVEL_UP_MULTIPLIER
+        character.exp += character.exp_for_level_up
+        character.attack -= game_config.ATTACK_INCREASE_LEVEL_UP
+        character.defence -= game_config.DEFENCE_INCREASE_LEVEL_UP
+
+    await character.asave(
+        update_fields=("level", "exp", "exp_for_level_up", "attack", "defence")
+    )
     return character
 
 
