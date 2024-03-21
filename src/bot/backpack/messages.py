@@ -76,3 +76,27 @@ NOT_CORRECT_SCROLL_TYPE_MESSAGE = (
 FAILURE_ENCHANT = "<b>❌ Неудача</b>\n\n" "Улучшение не удалось!\n"
 
 SUCCESS_ENCHANT = "<b>✅ Успех</b>\n\n" "Улучшение прошло успешно!\n"
+
+
+BOOK_INFO_MESSAGE = (
+    "\n<i>Требуемый класс:</i> <b>{}</b>\n"
+    "<i>Требуемый уровень:</i> <b>{}</b>\n"
+    "<i>Требуемая способность:</i> <b>{}</b>\n"
+)
+
+NOT_CORRECT_CHARACTER_CLASS_MESSAGE = (
+    "<b>❌ Неудача</b>\n\n"
+    "Класс <b>Персонажа</b> не соответствует требуемому"
+)
+
+NOT_CORRECT_CHARACTER_SKILL_MESSAGE = (
+    "<b>❌ Неудача</b>\n\n" "У Вас нет требуемой <b>Способности</b>"
+)
+
+NOT_ENOUGH_CHARACTER_LEVEL_MESSAGE = (
+    "<b>❌ Неудача</b>\n\n" "Недостаточный уровень <b>Персонажа</b>"
+)
+
+ALREADY_KNOWN_SKILL_MESSAGE = (
+    "<b>❌ Неудача</b>\n\n" "Вы уже знаете данную способность"
+)

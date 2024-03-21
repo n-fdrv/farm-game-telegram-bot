@@ -12,6 +12,7 @@ from django.utils import timezone
 from item.models import (
     Bag,
     BagItem,
+    Book,
     Equipment,
     Item,
     ItemType,
@@ -23,14 +24,19 @@ from item.models import (
 
 from bot.backpack.messages import (
     ALREADY_KNOWN_RECIPE,
+    ALREADY_KNOWN_SKILL_MESSAGE,
+    BOOK_INFO_MESSAGE,
     ENHANCE_GET_MESSAGE,
     EQUIP_MESSAGE,
     FAILURE_ENCHANT,
     ITEM_GET_MESSAGE,
     NO_BRACELET_MESSAGE,
+    NOT_CORRECT_CHARACTER_CLASS_MESSAGE,
+    NOT_CORRECT_CHARACTER_SKILL_MESSAGE,
     NOT_CORRECT_EQUIPMENT_TYPE_MESSAGE,
     NOT_CORRECT_SCROLL_TYPE_MESSAGE,
     NOT_ENOUGH_BRACELET_LEVEL_MESSAGE,
+    NOT_ENOUGH_CHARACTER_LEVEL_MESSAGE,
     NOT_ENOUGH_SKILL_LEVEL_MESSAGE,
     NOT_MASTER_CLASS_MESSAGE,
     SUCCESS_ENCHANT,
@@ -153,11 +159,24 @@ async def get_bag_loot(item: Item) -> str:
     return text
 
 
+async def get_book_info(item: Item) -> str:
+    """Метод получения дропа из мешков."""
+    book = await Book.objects.select_related(
+        "character_class",
+        "required_skill",
+    ).aget(pk=item.pk)
+    return BOOK_INFO_MESSAGE.format(
+        book.character_class, book.required_level, book.required_skill
+    )
+
+
 async def get_character_item_info_text(character_item: CharacterItem):
     """Метод получения текста информации о товаре."""
     additional_info = await get_character_item_effects(character_item)
     if character_item.item.type == ItemType.BAG:
         additional_info += await get_bag_loot(character_item.item)
+    if character_item.item.type == ItemType.BOOK:
+        additional_info += await get_book_info(character_item.item)
     equipped = ""
     if character_item.equipped:
         equipped = "\n⤴️Экипировано"
@@ -324,6 +343,32 @@ async def use_scroll(scroll: Scroll, character_item: CharacterItem):
         equipped=character_item.equipped,
     )
     return True, SUCCESS_ENCHANT
+
+
+async def use_book(character: Character, item: Item):
+    """Метод использования книги."""
+    book = await Book.objects.select_related(
+        "character_class", "required_skill", "skill"
+    ).aget(pk=item.pk)
+    if character.character_class != book.character_class:
+        return False, NOT_CORRECT_CHARACTER_CLASS_MESSAGE
+    if character.level < book.required_level:
+        return False, NOT_ENOUGH_CHARACTER_LEVEL_MESSAGE
+    if not await character.skills.filter(
+        name=book.required_skill.name, level=book.required_skill.level
+    ).aexists():
+        return False, NOT_CORRECT_CHARACTER_SKILL_MESSAGE
+    if await character.skills.filter(
+        name=book.skill.name, level=book.skill.level
+    ).aexists():
+        return False, ALREADY_KNOWN_SKILL_MESSAGE
+    await character.skills.aadd(book.skill)
+    await CharacterSkill.objects.filter(
+        skill__name=book.required_skill.name,
+        skill__level=book.required_skill.level,
+    ).adelete()
+    await remove_item(item=item, character=character, amount=1)
+    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type)
 
 
 async def open_bag(character: Character, item: Item, amount: int = 1):

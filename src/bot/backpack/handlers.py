@@ -27,6 +27,7 @@ from bot.backpack.utils import (
     get_diamond_amount,
     get_gold_amount,
     open_bag,
+    use_book,
     use_potion,
     use_recipe,
     use_scroll,
@@ -155,6 +156,7 @@ async def backpack_use_handler(
     usable_item_data = {
         ItemType.POTION: use_potion,
         ItemType.RECIPE: use_recipe,
+        ItemType.BOOK: use_book,
     }
     if character_item.item.type == ItemType.SCROLL:
         scroll = await Scroll.objects.aget(pk=character_item.item.pk)

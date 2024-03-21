@@ -94,7 +94,12 @@ async def item_get_keyboard(callback_data: BackpackData):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
     equipped_data = [ItemType.WEAPON, ItemType.ARMOR, ItemType.TALISMAN]
-    usable_data = [ItemType.SCROLL, ItemType.RECIPE, ItemType.POTION]
+    usable_data = [
+        ItemType.SCROLL,
+        ItemType.RECIPE,
+        ItemType.POTION,
+        ItemType.BOOK,
+    ]
     if callback_data.type in equipped_data:
         keyboard.button(
             text=EQUIP_BUTTON,
