@@ -4,8 +4,8 @@ from character.models import Character, CharacterItem
 from django.conf import settings
 from item.models import Item
 
-from bot.backpack.utils import add_item, remove_item
-from bot.shop.messages import (
+from bot.character.backpack.utils import add_item, remove_item
+from bot.character.shop.messages import (
     CHARACTER_IN_LOCATION_MESSAGE,
     EQUIPPED_ITEM_MESSAGE,
     ITEM_GET_MESSAGE,

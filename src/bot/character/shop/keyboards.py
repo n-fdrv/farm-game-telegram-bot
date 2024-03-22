@@ -3,6 +3,13 @@ from character.models import Character, CharacterItem
 from django.db.models import Count
 from item.models import Item, ItemType
 
+from bot.character.shop.buttons import (
+    BUY_BUTTON,
+    IN_SHOP_BUTTON,
+    SELL_ALL_BUTTON,
+    SELL_AMOUNT_BUTTON,
+    SELL_BUTTON,
+)
 from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
 from bot.constants.actions import (
     character_action,
@@ -13,13 +20,6 @@ from bot.constants.callback_data import (
     ShopData,
 )
 from bot.models import User
-from bot.shop.buttons import (
-    BUY_BUTTON,
-    IN_SHOP_BUTTON,
-    SELL_ALL_BUTTON,
-    SELL_AMOUNT_BUTTON,
-    SELL_BUTTON,
-)
 from bot.utils.paginator import Paginator
 
 

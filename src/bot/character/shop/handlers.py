@@ -3,13 +3,10 @@ from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem
 from item.models import Item
 
-from bot.backpack.utils import (
+from bot.character.backpack.utils import (
     get_character_item_info_text,
 )
-from bot.constants.actions import shop_action
-from bot.constants.callback_data import ShopData
-from bot.constants.states import ShopState
-from bot.shop.keyboards import (
+from bot.character.shop.keyboards import (
     buy_get_keyboard,
     buy_keyboard,
     buy_list_keyboard,
@@ -23,7 +20,7 @@ from bot.shop.keyboards import (
     sell_preview_keyboard,
     shop_get_keyboard,
 )
-from bot.shop.messages import (
+from bot.character.shop.messages import (
     CONFIRM_AMOUNT_MESSAGE,
     LIST_MESSAGE,
     NOT_CORRECT_AMOUNT_MESSAGE,
@@ -31,12 +28,15 @@ from bot.shop.messages import (
     SELL_AMOUNT_MESSAGE,
     SHOP_GET_MESSAGE,
 )
-from bot.shop.utils import (
+from bot.character.shop.utils import (
     buy_item,
     check_correct_amount,
     get_item_info_text,
     sell_item,
 )
+from bot.constants.actions import shop_action
+from bot.constants.callback_data import ShopData
+from bot.constants.states import ShopState
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 

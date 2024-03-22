@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem
 from item.models import ItemType, Scroll
 
-from bot.backpack.keyboards import (
+from bot.character.backpack.keyboards import (
     backpack_list_keyboard,
     backpack_preview_keyboard,
     enhance_get_keyboard,
@@ -13,13 +13,13 @@ from bot.backpack.keyboards import (
     open_more_keyboard,
     use_scroll_keyboards,
 )
-from bot.backpack.messages import (
+from bot.character.backpack.messages import (
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
     SCROLL_LIST_MESSAGE,
     SUCCESS_OPEN_BAG_MESSAGE,
 )
-from bot.backpack.utils import (
+from bot.character.backpack.utils import (
     equip_item,
     equip_talisman,
     get_character_item_enhance_text,

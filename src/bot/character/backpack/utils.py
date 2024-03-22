@@ -22,7 +22,7 @@ from item.models import (
     Talisman,
 )
 
-from bot.backpack.messages import (
+from bot.character.backpack.messages import (
     ALREADY_KNOWN_RECIPE,
     ALREADY_KNOWN_SKILL_MESSAGE,
     BOOK_INFO_MESSAGE,

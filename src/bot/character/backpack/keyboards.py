@@ -3,7 +3,7 @@ from character.models import Character, CharacterItem
 from django.db.models import Count
 from item.models import ItemType, Scroll
 
-from bot.backpack.buttons import (
+from bot.character.backpack.buttons import (
     ENHANCE_BUTTON,
     EQUIP_BUTTON,
     OPEN_ALL_BUTTON,

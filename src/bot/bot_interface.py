@@ -14,15 +14,15 @@ from django.conf import settings
 from loguru import logger
 from redis.asyncio.client import Redis
 
-from bot.backpack.handlers import backpack_router
+from bot.character.backpack.handlers import backpack_router
+from bot.character.craft.handlers import craft_router
 from bot.character.handlers import character_router
+from bot.character.shop.handlers import shop_router
 from bot.command.handlers import command_router
 from bot.constants import commands
-from bot.craft.handlers import craft_router
 from bot.location.handlers import location_router
 from bot.marketplace.handlers import marketplace_router
 from bot.premium_shop.handlers import premium_router
-from bot.shop.handlers import shop_router
 
 
 async def on_startup(bot: Bot):

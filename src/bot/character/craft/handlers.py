@@ -2,24 +2,24 @@ from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from item.models import Recipe
 
-from bot.constants.actions import craft_action
-from bot.constants.callback_data import CraftData
-from bot.craft.keyboards import (
+from bot.character.craft.keyboards import (
     craft_create_keyboard,
     craft_get_keyboard,
     craft_list_keyboard,
 )
-from bot.craft.messages import (
+from bot.character.craft.messages import (
     CRAFTING_LIST_MESSAGE,
     NOT_ENOUGH_ITEMS_MESSAGE,
     NOT_SUCCESS_CRAFT_MESSAGE,
     SUCCESS_CRAFT_MESSAGE,
 )
-from bot.craft.utils import (
+from bot.character.craft.utils import (
     check_crafting_items,
     craft_item,
     get_crafting_item_text,
 )
+from bot.constants.actions import craft_action
+from bot.constants.callback_data import CraftData
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 

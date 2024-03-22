@@ -1,12 +1,13 @@
 from character.models import Character, CharacterItem, MarketplaceItem
 from item.models import Etc, ItemType
 
-from bot.backpack.utils import (
+from bot.character.backpack.utils import (
     add_item,
     get_bag_loot,
     get_character_item_effects,
     remove_item,
 )
+from bot.character.shop.utils import check_item_amount
 from bot.marketplace.messages import (
     BUY_GET_MESSAGE,
     MAX_LOT_AMOUNT_MESSAGE,
@@ -16,7 +17,6 @@ from bot.marketplace.messages import (
     SUCCESS_ADD_LOT_MESSAGE,
     SUCCESS_BUY_MESSAGE,
 )
-from bot.shop.utils import check_item_amount
 from core.config import game_config
 
 

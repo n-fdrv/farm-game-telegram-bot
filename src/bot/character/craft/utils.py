@@ -4,8 +4,8 @@ from character.models import Character, CharacterItem
 from item.models import Item, Recipe
 from loguru import logger
 
-from bot.backpack.utils import add_item, remove_item
-from bot.craft.messages import CRAFTING_GET_MESSAGE
+from bot.character.backpack.utils import add_item, remove_item
+from bot.character.craft.messages import CRAFTING_GET_MESSAGE
 
 
 async def get_item_effects_text(item: Item):

@@ -11,6 +11,7 @@ class LocationDropInline(admin.TabularInline):
 
     model = Location.drop.through
     extra = 1
+    ordering = ("item__type",)
 
 
 @admin.register(Location)

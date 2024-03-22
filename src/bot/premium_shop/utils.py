@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils import timezone
 from item.models import Armor, Bag, Etc, Weapon
 
-from bot.backpack.utils import add_item, remove_item
+from bot.character.backpack.utils import add_item, remove_item
 from bot.premium_shop.buttons import (
     MONTH_PREMIUM_BUTTON,
     START_PACK_BUTTON,
