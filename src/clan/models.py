@@ -45,7 +45,9 @@ class Clan(models.Model):
     @property
     def name_with_emoji(self):
         """Имя с эмоджи."""
-        return f"{self.emoji}{self.name}"
+        if self.emoji:
+            return f"{self.emoji}{self.name}"
+        return f"{self.name}"
 
 
 class ClanRequest(models.Model):

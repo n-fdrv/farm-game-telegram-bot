@@ -19,3 +19,9 @@ class MarketplaceState(StatesGroup):
     item_price = State()
     item_amount = State()
     item_search = State()
+
+
+class ClanState(StatesGroup):
+    """Состояния для хендлеров клана."""
+
+    enter_name = State()

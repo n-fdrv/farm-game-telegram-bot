@@ -123,6 +123,13 @@ class ClanAction(Action):
     """Действия для хендлеров клана."""
 
     preview = f"{callback_data.ClanData.__prefix__}-pr"
+    create_preview = f"{callback_data.ClanData.__prefix__}-crpr"
+
+    members = f"{callback_data.ClanData.__prefix__}-me"
+    wars = f"{callback_data.ClanData.__prefix__}-wa"
+    settings = f"{callback_data.ClanData.__prefix__}-se"
+    exit_confirm = f"{callback_data.ClanData.__prefix__}-exco"
+    exit = f"{callback_data.ClanData.__prefix__}-ex"
 
 
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
