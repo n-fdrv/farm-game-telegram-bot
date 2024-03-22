@@ -119,6 +119,12 @@ class MarketplaceAction(Action):
     buy = f"{callback_data.MarketplaceData.__prefix__}-buy"
 
 
+class ClanAction(Action):
+    """Действия для хендлеров клана."""
+
+    preview = f"{callback_data.ClanData.__prefix__}-pr"
+
+
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
 location_action = LocationAction(callback_data.LocationData.__prefix__)
 backpack_action = BackpackAction(callback_data.BackpackData.__prefix__)
@@ -128,3 +134,4 @@ marketplace_action = MarketplaceAction(
     callback_data.MarketplaceData.__prefix__
 )
 premium_action = PremiumAction(callback_data.PremiumData.__prefix__)
+clan_action = ClanAction(callback_data.ClanData.__prefix__)

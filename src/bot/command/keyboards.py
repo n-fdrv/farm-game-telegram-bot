@@ -3,8 +3,8 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder, ReplyKeyboardBuilder
 
 from bot.command.buttons import (
     CHARACTER_BUTTON,
+    CLAN_BUTTON,
     CREATE_CHARACTER_BUTTON,
-    INFORMATION_BUTTON,
     MARKET_BUTTON,
     PREMIUM_SHOP_BUTTON,
     TOP_BUTTON,
@@ -18,14 +18,14 @@ async def start_keyboard():
     keyboard = ReplyKeyboardBuilder()
     keyboard.row(
         KeyboardButton(text=CHARACTER_BUTTON),
-        KeyboardButton(text=TOP_BUTTON),
+        KeyboardButton(text=CLAN_BUTTON),
     )
     keyboard.row(
         KeyboardButton(text=PREMIUM_SHOP_BUTTON),
         KeyboardButton(text=MARKET_BUTTON),
     )
     keyboard.row(
-        KeyboardButton(text=INFORMATION_BUTTON),
+        KeyboardButton(text=TOP_BUTTON),
     )
     return keyboard
 

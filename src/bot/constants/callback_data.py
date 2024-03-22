@@ -62,6 +62,12 @@ class MarketplaceData(BaseCallbackData, prefix="mp"):
     back_action: Optional[str] = None
 
 
+class ClanData(BaseCallbackData, prefix="cl"):
+    """Данные для хендлеров клана."""
+
+    pass
+
+
 CALLBACK_DATA_PREFIX = {
     CharacterData.__prefix__: CharacterData,
     LocationData.__prefix__: LocationData,
@@ -70,4 +76,5 @@ CALLBACK_DATA_PREFIX = {
     MarketplaceData.__prefix__: MarketplaceData,
     CraftData.__prefix__: CraftData,
     PremiumData.__prefix__: PremiumData,
+    ClanData.__prefix__: ClanData,
 }

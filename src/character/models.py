@@ -1,5 +1,6 @@
 import datetime
 
+from clan.models import Clan
 from django.db import models
 from django.utils import timezone
 from item.models import (
@@ -138,6 +139,13 @@ class Character(BaseCharacterModel):
     )
     level = models.IntegerField(default=1, verbose_name="Уровень")
     exp = models.IntegerField(default=0, verbose_name="Опыт")
+    clan = models.ForeignKey(
+        Clan,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Клан",
+    )
     exp_for_level_up = models.IntegerField(
         default=500, verbose_name="Опыт для достижения уровня"
     )

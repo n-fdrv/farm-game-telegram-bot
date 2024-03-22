@@ -178,11 +178,14 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                 hunting_begin = None
                 hunting_end = None
                 job_id = None
+                clan = None
                 if row.current_location:
                     location = row.current_location.name
                     hunting_begin = row.hunting_begin
                     hunting_end = row.hunting_end
                     job_id = row.job_id
+                if row.clan:
+                    clan = row.clan.name
                 spamwriter.writerow(
                     [
                         row.name,
@@ -197,6 +200,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                         hunting_end,
                         row.max_hunting_time,
                         job_id,
+                        clan,
                     ]
                 )
         with open(
@@ -252,6 +256,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     list_display = (
         "name",
         "level",
+        "clan",
         "attack",
         "defence",
         "exp_percent",
