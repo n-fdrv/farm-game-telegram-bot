@@ -13,15 +13,6 @@ from item.models import (
 from location.models import Location
 
 
-class BaseCharacterModel(models.Model):
-    """Базовая модель для моделей игры."""
-
-    name = models.CharField(max_length=16, verbose_name="Имя")
-    created = models.DateTimeField(
-        auto_now_add=True, verbose_name="Дата создания"
-    )
-
-
 class Skill(models.Model):
     """Модель для хранения умений персонажей."""
 
@@ -63,9 +54,13 @@ class SkillEffect(models.Model):
         return f"{self.skill} {self.effect}"
 
 
-class CharacterClass(BaseCharacterModel):
+class CharacterClass(models.Model):
     """модель хранения классов персонаже."""
 
+    name = models.CharField(max_length=16, verbose_name="Имя")
+    created = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания"
+    )
     emoji = models.CharField(max_length=8, null=True, verbose_name="Эмоджи")
     description = models.TextField(verbose_name="Описание")
     attack = models.IntegerField(default=0, verbose_name="Атака")
@@ -129,9 +124,13 @@ class CharacterClassSkill(models.Model):
         return f"{self.skill} {self.character_class}"
 
 
-class Character(BaseCharacterModel):
+class Character(models.Model):
     """Модель для хранения персонажей."""
 
+    name = models.CharField(max_length=16, verbose_name="Имя")
+    created = models.DateTimeField(
+        auto_now_add=True, verbose_name="Дата создания"
+    )
     character_class = models.ForeignKey(
         CharacterClass,
         on_delete=models.CASCADE,

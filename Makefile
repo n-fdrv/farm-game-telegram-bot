@@ -44,29 +44,12 @@ collectstatic: # Собрать статику Django
 createsuperuser: # Создать супер пользователя
 	poetry run python src/manage.py createsuperuser --noinput
 
-upload-items: # Загрузить данные
-	cd src && poetry run python manage.py upload_items && \
-	poetry run python manage.py upload_equipment && \
-	poetry run python manage.py upload_recipes && \
-	poetry run python manage.py upload_scrolls && \
-	poetry run python manage.py upload_potions && \
-	poetry run python manage.py upload_talismans && \
-	poetry run python manage.py upload_loot && \
-	poetry run python manage.py upload_effects && cd ..
-
-upload-locations: # Загрузить данные
-	cd src && poetry run python manage.py upload_locations && cd ..
-
-upload-characters: # Загрузить данные
-	cd src && poetry run python manage.py upload_skills && \
-	poetry run python manage.py upload_classes && \
-	poetry run python manage.py upload_characters && \
-	poetry run python manage.py upload_users && \
-	poetry run python manage.py upload_marketplace && \
+download-data: # Выгрузить данные
+	cd src && poetry run python -Xutf8 manage.py dumpdata --exclude=auth.permission --indent=1 -o data/db.json && \
 	cd ..
 
 upload-data: # Загрузить данные
-	cd src && poetry run python -Xutf8 manage.py loaddata db.json && \
+	cd src && poetry run python -Xutf8 manage.py loaddata data/db.json && \
 	cd ..
 
 

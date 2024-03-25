@@ -3,10 +3,6 @@ import datetime
 from django.db import models
 
 
-class BaseItemModel(models.Model):
-    """Базовая модель для моделей предметов."""
-
-
 class ItemType(models.TextChoices):
     """Типы информационных карт."""
 

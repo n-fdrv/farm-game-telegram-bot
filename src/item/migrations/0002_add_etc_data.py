@@ -38,7 +38,7 @@ def remove_diamond(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("item", "0002_bag_equipment_potion_remove_armor_armor_type_and_more"),
+        ("item", "0001_initial"),
     ]
 
     operations = [

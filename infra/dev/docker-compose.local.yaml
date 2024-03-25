@@ -5,13 +5,13 @@ services:
     env_file:
       - ../../.env
     expose:
-      - "5432" # Publishes 5433 to other containers but NOT to host machine
+      - "5433" # Publishes 5433 to other containers but NOT to host machine
     ports:
-      - "5432:5432"
+      - "5433:5433"
     container_name: postgres-dev-game
     volumes:
       - dev-game-data:/var/lib/postgresql/data
-    command: -p 5432
+    command: -p 5433
 
 volumes:
   dev-game-data:

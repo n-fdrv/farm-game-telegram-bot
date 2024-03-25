@@ -1,0 +1,3877 @@
+[
+{
+ "model": "admin.logentry",
+ "pk": 1,
+ "fields": {
+  "action_time": "2024-03-25T12:05:45.807Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "1",
+  "object_repr": "waca | Level: 1 | Attack : 10 | Defence: 10",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 1,
+ "fields": {
+  "app_label": "admin",
+  "model": "logentry"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 2,
+ "fields": {
+  "app_label": "auth",
+  "model": "permission"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 3,
+ "fields": {
+  "app_label": "auth",
+  "model": "group"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 4,
+ "fields": {
+  "app_label": "contenttypes",
+  "model": "contenttype"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 5,
+ "fields": {
+  "app_label": "sessions",
+  "model": "session"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 6,
+ "fields": {
+  "app_label": "bot",
+  "model": "user"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 7,
+ "fields": {
+  "app_label": "admin_user",
+  "model": "adminuser"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 8,
+ "fields": {
+  "app_label": "item",
+  "model": "effect"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 9,
+ "fields": {
+  "app_label": "item",
+  "model": "item"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 10,
+ "fields": {
+  "app_label": "item",
+  "model": "bag"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 11,
+ "fields": {
+  "app_label": "item",
+  "model": "equipment"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 12,
+ "fields": {
+  "app_label": "item",
+  "model": "etc"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 13,
+ "fields": {
+  "app_label": "item",
+  "model": "material"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 14,
+ "fields": {
+  "app_label": "item",
+  "model": "potion"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 15,
+ "fields": {
+  "app_label": "item",
+  "model": "scroll"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 16,
+ "fields": {
+  "app_label": "item",
+  "model": "talisman"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 17,
+ "fields": {
+  "app_label": "item",
+  "model": "itemeffect"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 18,
+ "fields": {
+  "app_label": "item",
+  "model": "armor"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 19,
+ "fields": {
+  "app_label": "item",
+  "model": "weapon"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 20,
+ "fields": {
+  "app_label": "item",
+  "model": "recipe"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 21,
+ "fields": {
+  "app_label": "item",
+  "model": "craftingitem"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 22,
+ "fields": {
+  "app_label": "item",
+  "model": "book"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 23,
+ "fields": {
+  "app_label": "item",
+  "model": "bagitem"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 24,
+ "fields": {
+  "app_label": "character",
+  "model": "character"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 25,
+ "fields": {
+  "app_label": "character",
+  "model": "characterclass"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 26,
+ "fields": {
+  "app_label": "character",
+  "model": "characterclassskill"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 27,
+ "fields": {
+  "app_label": "character",
+  "model": "charactereffect"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 28,
+ "fields": {
+  "app_label": "character",
+  "model": "characteritem"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 29,
+ "fields": {
+  "app_label": "character",
+  "model": "characterrecipe"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 30,
+ "fields": {
+  "app_label": "character",
+  "model": "characterskill"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 31,
+ "fields": {
+  "app_label": "character",
+  "model": "classequipment"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 32,
+ "fields": {
+  "app_label": "character",
+  "model": "marketplaceitem"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 33,
+ "fields": {
+  "app_label": "character",
+  "model": "skill"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 34,
+ "fields": {
+  "app_label": "character",
+  "model": "skilleffect"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 35,
+ "fields": {
+  "app_label": "location",
+  "model": "baselocationmodel"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 36,
+ "fields": {
+  "app_label": "location",
+  "model": "location"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 37,
+ "fields": {
+  "app_label": "location",
+  "model": "locationdrop"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 38,
+ "fields": {
+  "app_label": "clan",
+  "model": "clan"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 39,
+ "fields": {
+  "app_label": "clan",
+  "model": "clanwar"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 40,
+ "fields": {
+  "app_label": "clan",
+  "model": "clanrequest"
+ }
+},
+{
+ "model": "sessions.session",
+ "pk": "nal3z840tqo6wfnp9hd5t0xijx6jbv84",
+ "fields": {
+  "session_data": ".eJxVjLEOwjAMRP8lM4qw0gTDyM43RI7tkAJKpaadEP9OKnWAm0737u5tIq1LiWvTOY5iLgbM4TdLxE-tG5AH1ftkearLPCa7VexOm71Noq_r3v07KNRKX_MAEqgLcQAEheyOkl3yPhAIk4YTcPYEdGZETeTZCSZFl4W7MZ8vCD85dQ:1roj52:uLjgGPAzAlP__IY1axN3tjd_TuARASLsYLPHagK336s",
+  "expire_date": "2024-04-08T12:05:32.720Z"
+ }
+},
+{
+ "model": "bot.user",
+ "pk": 1,
+ "fields": {
+  "telegram_id": 406798546,
+  "first_name": "Диана",
+  "last_name": "",
+  "telegram_username": "diiiifedorova",
+  "registration_date": "2024-03-25",
+  "is_admin": false,
+  "character": 3,
+  "is_active": true
+ }
+},
+{
+ "model": "bot.user",
+ "pk": 2,
+ "fields": {
+  "telegram_id": 746696354,
+  "first_name": "Nikita",
+  "last_name": "Fedorov",
+  "telegram_username": "nikitafedorov",
+  "registration_date": "2024-03-25",
+  "is_admin": false,
+  "character": 5,
+  "is_active": true
+ }
+},
+{
+ "model": "bot.user",
+ "pk": 3,
+ "fields": {
+  "telegram_id": 386749612,
+  "first_name": "Лаврентий",
+  "last_name": "",
+  "telegram_username": "dxdxdxdxdxdxda",
+  "registration_date": "2024-03-25",
+  "is_admin": false,
+  "character": 4,
+  "is_active": true
+ }
+},
+{
+ "model": "bot.user",
+ "pk": 4,
+ "fields": {
+  "telegram_id": 1274743236,
+  "first_name": "Илья",
+  "last_name": "",
+  "telegram_username": "iliazik",
+  "registration_date": "2024-03-25",
+  "is_admin": false,
+  "character": 2,
+  "is_active": true
+ }
+},
+{
+ "model": "admin_user.adminuser",
+ "pk": 1,
+ "fields": {
+  "password": "pbkdf2_sha256$600000$wv3le6hempJOplF8950IIx$+WejB2CVh6x1bCO7AJxJiA0Vq762rxYiMMk5UVFtzYw=",
+  "last_login": "2024-03-25T12:05:32.717Z",
+  "is_superuser": true,
+  "username": "oupsfed",
+  "first_name": "",
+  "last_name": "",
+  "email": "n.fdrv@list.ru",
+  "is_staff": true,
+  "is_active": true,
+  "date_joined": "2024-03-25T11:59:28.039Z",
+  "groups": [],
+  "user_permissions": []
+ }
+},
+{
+ "model": "item.item",
+ "pk": 1,
+ "fields": {
+  "name": "🟡Золото",
+  "description": "Золото можно тратить в магазине и торговой площадке на различные полезные предметы",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T11:59:21.593Z",
+  "type": "etc"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 2,
+ "fields": {
+  "name": "💎Алмаз",
+  "description": "Алмазы можно тратить в премиум магазине и на торговой площадке",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T11:59:21.610Z",
+  "type": "etc"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 3,
+ "fields": {
+  "name": "Мешок с Ресурсами (Обычный)",
+  "description": "В данном мешке лежит неизвестный ресурс",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:21.964Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 4,
+ "fields": {
+  "name": "Мешок с Оружием (Обычный)",
+  "description": "Внутри находится случайное Оружие",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.076Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 5,
+ "fields": {
+  "name": "Мешок с Эликсирами (Обычный)",
+  "description": "Внутри находится случайный Эликсир",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.081Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 6,
+ "fields": {
+  "name": "Мешок с Рецептами (Обычный)",
+  "description": "Внутри находится случайный Рецепт",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.084Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 7,
+ "fields": {
+  "name": "Мешок с Броней (Обычный)",
+  "description": "Внутри находится случайная Броня",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.088Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 8,
+ "fields": {
+  "name": "Мешок со Свитком (Обычный)",
+  "description": "В данном мешке лежит неизвестный Свиток",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.092Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 9,
+ "fields": {
+  "name": "Мешок с Талисманом (Обычный)",
+  "description": "В данном мешке лежит случайный Талисман",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.096Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 10,
+ "fields": {
+  "name": "Мешок с Талисманом (Редкий)",
+  "description": "В данном мешке лежит случайный Талисман",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.100Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 11,
+ "fields": {
+  "name": "Мешок со Свитком (Редкий)",
+  "description": "В данном мешке лежит случайный Свиток",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.104Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 12,
+ "fields": {
+  "name": "Мешок с Книгой (Обычный)",
+  "description": "В данном мешке лежит случайная Книга",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.108Z",
+  "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 13,
+ "fields": {
+  "name": "🎟Премиум на 7 Дней",
+  "description": "Оформляет Премиум Подписку на 7 дней",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.115Z",
+  "type": "etc"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 14,
+ "fields": {
+  "name": "🎟Премиум на 30 Дней",
+  "description": "Оформляет Премиум Подписку на 30 дней",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:22.118Z",
+  "type": "etc"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 15,
+ "fields": {
+  "name": "Железо",
+  "description": "Ресурс используемый для изготовление различных предметов. Можно продать в магазин.",
+  "buy_price": 0,
+  "sell_price": 5,
+  "created": "2024-03-25T12:01:22.122Z",
+  "type": "material"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 16,
+ "fields": {
+  "name": "Кожа",
+  "description": "Ресурс используемый для изготовление различных предметов. Можно продать в магазин.",
+  "buy_price": 0,
+  "sell_price": 5,
+  "created": "2024-03-25T12:01:22.126Z",
+  "type": "material"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 17,
+ "fields": {
+  "name": "Древесина",
+  "description": "Ресурс используемый для изготовление различных предметов. Можно продать в магазин.",
+  "buy_price": 0,
+  "sell_price": 5,
+  "created": "2024-03-25T12:01:22.130Z",
+  "type": "material"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 18,
+ "fields": {
+  "name": "Ткань",
+  "description": "Ресурс используемый для изготовление различных предметов. Можно продать в магазин.",
+  "buy_price": 0,
+  "sell_price": 5,
+  "created": "2024-03-25T12:01:22.134Z",
+  "type": "material"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 19,
+ "fields": {
+  "name": "Осколок Талисмана",
+  "description": "С помощью данного Ресурса можно изготовить Талисман",
+  "buy_price": 0,
+  "sell_price": 100,
+  "created": "2024-03-25T12:01:22.137Z",
+  "type": "material"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 20,
+ "fields": {
+  "name": "Оторванная часть Свитка",
+  "description": "С помощью данного Ресурса можно изготовить Свиток",
+  "buy_price": 0,
+  "sell_price": 100,
+  "created": "2024-03-25T12:01:22.141Z",
+  "type": "material"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 21,
+ "fields": {
+  "name": "Потрепанная Мантия",
+  "description": "Данная броня подходит Магу",
+  "buy_price": 500,
+  "sell_price": 250,
+  "created": "2024-03-25T12:01:25.276Z",
+  "type": "armor"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 22,
+ "fields": {
+  "name": "Потрепанный Кожанный Доспех",
+  "description": "Данная броня подходит Охотнику",
+  "buy_price": 500,
+  "sell_price": 250,
+  "created": "2024-03-25T12:01:25.410Z",
+  "type": "armor"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 23,
+ "fields": {
+  "name": "Потрепанный Тяжелый Доспех",
+  "description": "Данная броня подходит Рыцарю и Мастеру",
+  "buy_price": 500,
+  "sell_price": 250,
+  "created": "2024-03-25T12:01:25.416Z",
+  "type": "armor"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 24,
+ "fields": {
+  "name": "Мантия Ученика",
+  "description": "Данная броня подходит Магу",
+  "buy_price": 3000,
+  "sell_price": 1500,
+  "created": "2024-03-25T12:01:25.421Z",
+  "type": "armor"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 25,
+ "fields": {
+  "name": "Легкая Броня Ученика",
+  "description": "Данная броня подходит Охотнику",
+  "buy_price": 3000,
+  "sell_price": 1500,
+  "created": "2024-03-25T12:01:25.425Z",
+  "type": "armor"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 26,
+ "fields": {
+  "name": "Тяжелая Броня Ученика",
+  "description": "Данная броня подходит Рыцарю и Мастеру",
+  "buy_price": 3000,
+  "sell_price": 1500,
+  "created": "2024-03-25T12:01:25.430Z",
+  "type": "armor"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 27,
+ "fields": {
+  "name": "Браслет",
+  "description": "Позволяет надевать Талисманы. Чем выше уровень улучшения тем больше Талисманов можно надеть",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:25.434Z",
+  "type": "armor"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 28,
+ "fields": {
+  "name": "Потрепанный Посох",
+  "description": "Данное оружие подходит Магу",
+  "buy_price": 500,
+  "sell_price": 250,
+  "created": "2024-03-25T12:01:25.439Z",
+  "type": "weapon"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 29,
+ "fields": {
+  "name": "Деревянный Меч",
+  "description": "Данное оружие подходит Рыцарю",
+  "buy_price": 500,
+  "sell_price": 250,
+  "created": "2024-03-25T12:01:25.444Z",
+  "type": "weapon"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 30,
+ "fields": {
+  "name": "Деревянный Кинжал",
+  "description": "Данное оружие подходит Охотнику",
+  "buy_price": 500,
+  "sell_price": 250,
+  "created": "2024-03-25T12:01:25.449Z",
+  "type": "weapon"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 31,
+ "fields": {
+  "name": "Надломанная Дубина",
+  "description": "Данное оружие подходит Мастеру",
+  "buy_price": 500,
+  "sell_price": 250,
+  "created": "2024-03-25T12:01:25.452Z",
+  "type": "weapon"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 32,
+ "fields": {
+  "name": "Посох Ученика",
+  "description": "Данное оружие подходит Магу",
+  "buy_price": 3000,
+  "sell_price": 1500,
+  "created": "2024-03-25T12:01:25.457Z",
+  "type": "weapon"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 33,
+ "fields": {
+  "name": "Меч Ученика",
+  "description": "Данное оружие подходит Рыцарю",
+  "buy_price": 3000,
+  "sell_price": 1500,
+  "created": "2024-03-25T12:01:25.461Z",
+  "type": "weapon"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 34,
+ "fields": {
+  "name": "Кинжал Ученика",
+  "description": "Данное оружие подходит Охотнику",
+  "buy_price": 3000,
+  "sell_price": 1500,
+  "created": "2024-03-25T12:01:25.465Z",
+  "type": "weapon"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 35,
+ "fields": {
+  "name": "Дубина Ученика",
+  "description": "Данное оружие подходит Мастеру",
+  "buy_price": 3000,
+  "sell_price": 1500,
+  "created": "2024-03-25T12:01:25.470Z",
+  "type": "weapon"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 36,
+ "fields": {
+  "name": "Рецепт: Посох Ученика",
+  "description": "Изготавливает предмет",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:31.838Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 37,
+ "fields": {
+  "name": "Рецепт: Дубина Ученика",
+  "description": "С помощью данного рецепта Мастер может изготовить предмет",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:31.958Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 38,
+ "fields": {
+  "name": "Рецепт: Меч Ученика",
+  "description": "С помощью данного рецепта Мастер может изготовить предмет",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:32.194Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 39,
+ "fields": {
+  "name": "Рецепт: Легкая Броня Ученика",
+  "description": "С помощью данного рецепта Мастер может изготовить предмет",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:32.445Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 40,
+ "fields": {
+  "name": "Рецепт: Кинжал Ученика",
+  "description": "С помощью данного рецепта Мастер может изготовить предмет",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:32.697Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 41,
+ "fields": {
+  "name": "Рецепт: Тяжелая Броня Ученика",
+  "description": "С помощью данного рецепта Мастер может изготовить предмет",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:32.729Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 42,
+ "fields": {
+  "name": "Рецепт: Мантия Ученика",
+  "description": "С помощью данного рецепта Мастер может изготовить предмет",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:32.735Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 43,
+ "fields": {
+  "name": "Рецепт: Талисман",
+  "description": "С помощью данного рецепта Мастер может изготовить предмет",
+  "buy_price": 0,
+  "sell_price": 100,
+  "created": "2024-03-25T12:01:32.740Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 44,
+ "fields": {
+  "name": "Рецепт: Свиток",
+  "description": "С помощью данного рецепта Мастер может изготовить предмет",
+  "buy_price": 0,
+  "sell_price": 100,
+  "created": "2024-03-25T12:01:32.745Z",
+  "type": "recipe"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 45,
+ "fields": {
+  "name": "Свиток Улучшения Оружия",
+  "description": "С помощью данного свитка можно улучшить свое Оружие",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:36.026Z",
+  "type": "scroll"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 46,
+ "fields": {
+  "name": "Свиток Улучшения Талисмана",
+  "description": "С помощью данного свитка можно улучшить свой Талисман",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:36.032Z",
+  "type": "scroll"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 47,
+ "fields": {
+  "name": "Свиток Улучшения Брони",
+  "description": "С помощью данного свитка можно улучшить свою Броню",
+  "buy_price": 0,
+  "sell_price": 300,
+  "created": "2024-03-25T12:01:36.036Z",
+  "type": "scroll"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 48,
+ "fields": {
+  "name": "Эликсир Выносливости",
+  "description": "Увеличивает характеристики персонажа на 12 часов.",
+  "buy_price": 100,
+  "sell_price": 50,
+  "created": "2024-03-25T12:01:39.215Z",
+  "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 49,
+ "fields": {
+  "name": "Эликсир Силы",
+  "description": "Увеличивает характеристики персонажа на 12 часов.",
+  "buy_price": 100,
+  "sell_price": 50,
+  "created": "2024-03-25T12:01:39.333Z",
+  "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 50,
+ "fields": {
+  "name": "Эликсир Защиты",
+  "description": "Увеличивает характеристики персонажа на 12 часов.",
+  "buy_price": 100,
+  "sell_price": 50,
+  "created": "2024-03-25T12:01:39.568Z",
+  "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 51,
+ "fields": {
+  "name": "Эликсир Мудрости",
+  "description": "Увеличивает характеристики персонажа",
+  "buy_price": 100,
+  "sell_price": 50,
+  "created": "2024-03-25T12:01:39.813Z",
+  "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 52,
+ "fields": {
+  "name": "Талисман Защиты",
+  "description": "Увеличивает Защиту персонажа. Для экипировки требуется Браслет",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:43.010Z",
+  "type": "talisman"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 53,
+ "fields": {
+  "name": "Талисман Мудрости",
+  "description": "Увеличивает получаемы Опыт. Для экипировки требуется Браслет",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:43.131Z",
+  "type": "talisman"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 54,
+ "fields": {
+  "name": "Талисман Удачи",
+  "description": "Увеличивает Шанс выпадения предметов. Для экипировки требуется Браслет",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:43.136Z",
+  "type": "talisman"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 55,
+ "fields": {
+  "name": "Талисман Выносливости",
+  "description": "Увеличивает Время Охоты персонажа. Для экипировки требуется Браслет",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:43.140Z",
+  "type": "talisman"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 56,
+ "fields": {
+  "name": "Талисман Атаки",
+  "description": "Увеличивает Атаку персонажа. Для экипировки требуется Браслет",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-25T12:01:43.145Z",
+  "type": "talisman"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 57,
+ "fields": {
+  "name": "Книга: Улучшенная Защита Ур. 2",
+  "description": "С помощью книги можно выучить или улучшить способность",
+  "buy_price": 0,
+  "sell_price": 100,
+  "created": "2024-03-25T12:02:19.214Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 58,
+ "fields": {
+  "name": "Книга: Улучшенная Атака Ур. 2",
+  "description": "С помощью книги можно выучить или улучшить способность",
+  "buy_price": 0,
+  "sell_price": 100,
+  "created": "2024-03-25T12:02:19.221Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 59,
+ "fields": {
+  "name": "Книга: Улучшенное Чутье Ур. 2",
+  "description": "С помощью книги можно выучить или улучшить способность",
+  "buy_price": 0,
+  "sell_price": 100,
+  "created": "2024-03-25T12:02:19.228Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 60,
+ "fields": {
+  "name": "Книга: Мастер Создания Ур. 2",
+  "description": "С помощью книги можно выучить или улучшить способность",
+  "buy_price": 0,
+  "sell_price": 100,
+  "created": "2024-03-25T12:02:19.235Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 21,
+ "fields": {
+  "equipment_type": "robe"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 22,
+ "fields": {
+  "equipment_type": "light_armor"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 23,
+ "fields": {
+  "equipment_type": "heavy_armor"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 24,
+ "fields": {
+  "equipment_type": "robe"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 25,
+ "fields": {
+  "equipment_type": "light_armor"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 26,
+ "fields": {
+  "equipment_type": "heavy_armor"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 27,
+ "fields": {
+  "equipment_type": "bracelet"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 28,
+ "fields": {
+  "equipment_type": "staff"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 29,
+ "fields": {
+  "equipment_type": "sword"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 30,
+ "fields": {
+  "equipment_type": "dagger"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 31,
+ "fields": {
+  "equipment_type": "blunt"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 32,
+ "fields": {
+  "equipment_type": "staff"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 33,
+ "fields": {
+  "equipment_type": "sword"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 34,
+ "fields": {
+  "equipment_type": "dagger"
+ }
+},
+{
+ "model": "item.equipment",
+ "pk": 35,
+ "fields": {
+  "equipment_type": "blunt"
+ }
+},
+{
+ "model": "item.armor",
+ "pk": 21,
+ "fields": {}
+},
+{
+ "model": "item.armor",
+ "pk": 22,
+ "fields": {}
+},
+{
+ "model": "item.armor",
+ "pk": 23,
+ "fields": {}
+},
+{
+ "model": "item.armor",
+ "pk": 24,
+ "fields": {}
+},
+{
+ "model": "item.armor",
+ "pk": 25,
+ "fields": {}
+},
+{
+ "model": "item.armor",
+ "pk": 26,
+ "fields": {}
+},
+{
+ "model": "item.armor",
+ "pk": 27,
+ "fields": {}
+},
+{
+ "model": "item.weapon",
+ "pk": 28,
+ "fields": {}
+},
+{
+ "model": "item.weapon",
+ "pk": 29,
+ "fields": {}
+},
+{
+ "model": "item.weapon",
+ "pk": 30,
+ "fields": {}
+},
+{
+ "model": "item.weapon",
+ "pk": 31,
+ "fields": {}
+},
+{
+ "model": "item.weapon",
+ "pk": 32,
+ "fields": {}
+},
+{
+ "model": "item.weapon",
+ "pk": 33,
+ "fields": {}
+},
+{
+ "model": "item.weapon",
+ "pk": 34,
+ "fields": {}
+},
+{
+ "model": "item.weapon",
+ "pk": 35,
+ "fields": {}
+},
+{
+ "model": "item.talisman",
+ "pk": 52,
+ "fields": {
+  "talisman_type": "defence"
+ }
+},
+{
+ "model": "item.talisman",
+ "pk": 53,
+ "fields": {
+  "talisman_type": "exp"
+ }
+},
+{
+ "model": "item.talisman",
+ "pk": 54,
+ "fields": {
+  "talisman_type": "drop"
+ }
+},
+{
+ "model": "item.talisman",
+ "pk": 55,
+ "fields": {
+  "talisman_type": "hunting_time"
+ }
+},
+{
+ "model": "item.talisman",
+ "pk": 56,
+ "fields": {
+  "talisman_type": "attack"
+ }
+},
+{
+ "model": "item.potion",
+ "pk": 48,
+ "fields": {
+  "effect_time": "12:00:00"
+ }
+},
+{
+ "model": "item.potion",
+ "pk": 49,
+ "fields": {
+  "effect_time": "12:00:00"
+ }
+},
+{
+ "model": "item.potion",
+ "pk": 50,
+ "fields": {
+  "effect_time": "12:00:00"
+ }
+},
+{
+ "model": "item.potion",
+ "pk": 51,
+ "fields": {
+  "effect_time": "12:00:00"
+ }
+},
+{
+ "model": "item.scroll",
+ "pk": 45,
+ "fields": {
+  "enhance_type": "weapon"
+ }
+},
+{
+ "model": "item.scroll",
+ "pk": 46,
+ "fields": {
+  "enhance_type": "talisman"
+ }
+},
+{
+ "model": "item.scroll",
+ "pk": 47,
+ "fields": {
+  "enhance_type": "armor"
+ }
+},
+{
+ "model": "item.material",
+ "pk": 15,
+ "fields": {}
+},
+{
+ "model": "item.material",
+ "pk": 16,
+ "fields": {}
+},
+{
+ "model": "item.material",
+ "pk": 17,
+ "fields": {}
+},
+{
+ "model": "item.material",
+ "pk": 18,
+ "fields": {}
+},
+{
+ "model": "item.material",
+ "pk": 19,
+ "fields": {}
+},
+{
+ "model": "item.material",
+ "pk": 20,
+ "fields": {}
+},
+{
+ "model": "item.book",
+ "pk": 57,
+ "fields": {
+  "character_class": 1,
+  "required_level": 5,
+  "required_skill": 7,
+  "skill": 8
+ }
+},
+{
+ "model": "item.book",
+ "pk": 58,
+ "fields": {
+  "character_class": 4,
+  "required_level": 5,
+  "required_skill": 3,
+  "skill": 4
+ }
+},
+{
+ "model": "item.book",
+ "pk": 59,
+ "fields": {
+  "character_class": 3,
+  "required_level": 5,
+  "required_skill": 6,
+  "skill": 5
+ }
+},
+{
+ "model": "item.book",
+ "pk": 60,
+ "fields": {
+  "character_class": 2,
+  "required_level": 5,
+  "required_skill": 1,
+  "skill": 2
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 36,
+ "fields": {
+  "level": 1,
+  "chance": 100,
+  "create": 32
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 37,
+ "fields": {
+  "level": 1,
+  "chance": 100,
+  "create": 35
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 38,
+ "fields": {
+  "level": 1,
+  "chance": 100,
+  "create": 33
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 39,
+ "fields": {
+  "level": 1,
+  "chance": 100,
+  "create": 25
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 40,
+ "fields": {
+  "level": 1,
+  "chance": 100,
+  "create": 34
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 41,
+ "fields": {
+  "level": 1,
+  "chance": 100,
+  "create": 26
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 42,
+ "fields": {
+  "level": 1,
+  "chance": 100,
+  "create": 24
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 43,
+ "fields": {
+  "level": 2,
+  "chance": 100,
+  "create": 10
+ }
+},
+{
+ "model": "item.recipe",
+ "pk": 44,
+ "fields": {
+  "level": 2,
+  "chance": 100,
+  "create": 11
+ }
+},
+{
+ "model": "item.etc",
+ "pk": 1,
+ "fields": {}
+},
+{
+ "model": "item.etc",
+ "pk": 2,
+ "fields": {}
+},
+{
+ "model": "item.etc",
+ "pk": 13,
+ "fields": {}
+},
+{
+ "model": "item.etc",
+ "pk": 14,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 3,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 4,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 5,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 6,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 7,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 8,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 9,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 10,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 11,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 12,
+ "fields": {}
+},
+{
+ "model": "item.bagitem",
+ "pk": 1,
+ "fields": {
+  "item": 15,
+  "bag": 3,
+  "chance": 20
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 2,
+ "fields": {
+  "item": 16,
+  "bag": 3,
+  "chance": 20
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 3,
+ "fields": {
+  "item": 17,
+  "bag": 3,
+  "chance": 20
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 4,
+ "fields": {
+  "item": 18,
+  "bag": 3,
+  "chance": 20
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 5,
+ "fields": {
+  "item": 48,
+  "bag": 5,
+  "chance": 25
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 6,
+ "fields": {
+  "item": 49,
+  "bag": 5,
+  "chance": 25
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 7,
+ "fields": {
+  "item": 50,
+  "bag": 5,
+  "chance": 25
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 8,
+ "fields": {
+  "item": 51,
+  "bag": 5,
+  "chance": 25
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 9,
+ "fields": {
+  "item": 36,
+  "bag": 6,
+  "chance": 15
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 10,
+ "fields": {
+  "item": 37,
+  "bag": 6,
+  "chance": 15
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 11,
+ "fields": {
+  "item": 40,
+  "bag": 6,
+  "chance": 15
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 12,
+ "fields": {
+  "item": 38,
+  "bag": 6,
+  "chance": 15
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 13,
+ "fields": {
+  "item": 41,
+  "bag": 6,
+  "chance": 15
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 14,
+ "fields": {
+  "item": 42,
+  "bag": 6,
+  "chance": 15
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 15,
+ "fields": {
+  "item": 39,
+  "bag": 6,
+  "chance": 15
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 16,
+ "fields": {
+  "item": 21,
+  "bag": 7,
+  "chance": 25
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 17,
+ "fields": {
+  "item": 22,
+  "bag": 7,
+  "chance": 25
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 18,
+ "fields": {
+  "item": 23,
+  "bag": 7,
+  "chance": 25
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 19,
+ "fields": {
+  "item": 24,
+  "bag": 7,
+  "chance": 5
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 20,
+ "fields": {
+  "item": 25,
+  "bag": 7,
+  "chance": 5
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 21,
+ "fields": {
+  "item": 26,
+  "bag": 7,
+  "chance": 5
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 22,
+ "fields": {
+  "item": 28,
+  "bag": 4,
+  "chance": 23
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 23,
+ "fields": {
+  "item": 30,
+  "bag": 4,
+  "chance": 23
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 24,
+ "fields": {
+  "item": 29,
+  "bag": 4,
+  "chance": 23
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 25,
+ "fields": {
+  "item": 31,
+  "bag": 4,
+  "chance": 23
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 26,
+ "fields": {
+  "item": 32,
+  "bag": 4,
+  "chance": 2
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 27,
+ "fields": {
+  "item": 33,
+  "bag": 4,
+  "chance": 2
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 28,
+ "fields": {
+  "item": 34,
+  "bag": 4,
+  "chance": 2
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 29,
+ "fields": {
+  "item": 35,
+  "bag": 4,
+  "chance": 2
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 30,
+ "fields": {
+  "item": 45,
+  "bag": 8,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 31,
+ "fields": {
+  "item": 47,
+  "bag": 8,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 32,
+ "fields": {
+  "item": 46,
+  "bag": 8,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 33,
+ "fields": {
+  "item": 52,
+  "bag": 9,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 34,
+ "fields": {
+  "item": 53,
+  "bag": 9,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 35,
+ "fields": {
+  "item": 54,
+  "bag": 9,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 36,
+ "fields": {
+  "item": 56,
+  "bag": 9,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 37,
+ "fields": {
+  "item": 55,
+  "bag": 9,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 38,
+ "fields": {
+  "item": 19,
+  "bag": 9,
+  "chance": 40
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 39,
+ "fields": {
+  "item": 20,
+  "bag": 8,
+  "chance": 60
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 40,
+ "fields": {
+  "item": 52,
+  "bag": 10,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 41,
+ "fields": {
+  "item": 53,
+  "bag": 10,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 42,
+ "fields": {
+  "item": 54,
+  "bag": 10,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 43,
+ "fields": {
+  "item": 55,
+  "bag": 10,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 44,
+ "fields": {
+  "item": 56,
+  "bag": 10,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 45,
+ "fields": {
+  "item": 45,
+  "bag": 11,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 46,
+ "fields": {
+  "item": 46,
+  "bag": 11,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 47,
+ "fields": {
+  "item": 47,
+  "bag": 11,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 48,
+ "fields": {
+  "item": 57,
+  "bag": 12,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 49,
+ "fields": {
+  "item": 58,
+  "bag": 12,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 50,
+ "fields": {
+  "item": 59,
+  "bag": 12,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 51,
+ "fields": {
+  "item": 60,
+  "bag": 12,
+  "chance": 1
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 1,
+ "fields": {
+  "property": "defence",
+  "amount": 12,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 2,
+ "fields": {
+  "property": "defence",
+  "amount": 4,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 3,
+ "fields": {
+  "property": "defence",
+  "amount": 5,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 4,
+ "fields": {
+  "property": "defence",
+  "amount": 6,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 5,
+ "fields": {
+  "property": "defence",
+  "amount": 11,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 6,
+ "fields": {
+  "property": "defence",
+  "amount": 9,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 7,
+ "fields": {
+  "property": "attack",
+  "amount": 10,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 8,
+ "fields": {
+  "property": "attack",
+  "amount": 11,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 9,
+ "fields": {
+  "property": "attack",
+  "amount": 12,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 10,
+ "fields": {
+  "property": "attack",
+  "amount": 5,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 11,
+ "fields": {
+  "property": "attack",
+  "amount": 6,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 12,
+ "fields": {
+  "property": "attack",
+  "amount": 4,
+  "in_percent": false,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 13,
+ "fields": {
+  "property": "defence",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 14,
+ "fields": {
+  "property": "attack",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 15,
+ "fields": {
+  "property": "drop",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 16,
+ "fields": {
+  "property": "exp",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 17,
+ "fields": {
+  "property": "hunting_time",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 18,
+ "fields": {
+  "property": "defence",
+  "amount": -10,
+  "in_percent": true,
+  "slug": "fatigue"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 19,
+ "fields": {
+  "property": "attack",
+  "amount": -10,
+  "in_percent": true,
+  "slug": "fatigue"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 20,
+ "fields": {
+  "property": "attack",
+  "amount": 20,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 21,
+ "fields": {
+  "property": "defence",
+  "amount": 20,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 22,
+ "fields": {
+  "property": "drop",
+  "amount": 20,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 1,
+ "fields": {
+  "item": 27,
+  "effect": 1
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 2,
+ "fields": {
+  "item": 21,
+  "effect": 2
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 3,
+ "fields": {
+  "item": 22,
+  "effect": 3
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 4,
+ "fields": {
+  "item": 23,
+  "effect": 4
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 5,
+ "fields": {
+  "item": 26,
+  "effect": 1
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 6,
+ "fields": {
+  "item": 25,
+  "effect": 5
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 7,
+ "fields": {
+  "item": 24,
+  "effect": 6
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 8,
+ "fields": {
+  "item": 33,
+  "effect": 7
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 9,
+ "fields": {
+  "item": 35,
+  "effect": 8
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 10,
+ "fields": {
+  "item": 34,
+  "effect": 9
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 11,
+ "fields": {
+  "item": 32,
+  "effect": 9
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 12,
+ "fields": {
+  "item": 31,
+  "effect": 10
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 13,
+ "fields": {
+  "item": 30,
+  "effect": 11
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 14,
+ "fields": {
+  "item": 29,
+  "effect": 12
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 15,
+ "fields": {
+  "item": 28,
+  "effect": 11
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 16,
+ "fields": {
+  "item": 49,
+  "effect": 14
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 17,
+ "fields": {
+  "item": 50,
+  "effect": 13
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 18,
+ "fields": {
+  "item": 51,
+  "effect": 16
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 19,
+ "fields": {
+  "item": 48,
+  "effect": 17
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 20,
+ "fields": {
+  "item": 56,
+  "effect": 14
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 1,
+ "fields": {
+  "material": 15,
+  "recipe": 36,
+  "amount": 20
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 2,
+ "fields": {
+  "material": 17,
+  "recipe": 36,
+  "amount": 80
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 3,
+ "fields": {
+  "material": 17,
+  "recipe": 37,
+  "amount": 60
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 4,
+ "fields": {
+  "material": 15,
+  "recipe": 37,
+  "amount": 20
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 5,
+ "fields": {
+  "material": 17,
+  "recipe": 40,
+  "amount": 20
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 6,
+ "fields": {
+  "material": 15,
+  "recipe": 40,
+  "amount": 60
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 7,
+ "fields": {
+  "material": 17,
+  "recipe": 38,
+  "amount": 60
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 8,
+ "fields": {
+  "material": 15,
+  "recipe": 38,
+  "amount": 20
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 9,
+ "fields": {
+  "material": 15,
+  "recipe": 41,
+  "amount": 60
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 10,
+ "fields": {
+  "material": 16,
+  "recipe": 41,
+  "amount": 20
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 11,
+ "fields": {
+  "material": 16,
+  "recipe": 39,
+  "amount": 60
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 12,
+ "fields": {
+  "material": 18,
+  "recipe": 39,
+  "amount": 20
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 13,
+ "fields": {
+  "material": 18,
+  "recipe": 42,
+  "amount": 60
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 14,
+ "fields": {
+  "material": 16,
+  "recipe": 42,
+  "amount": 20
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 15,
+ "fields": {
+  "material": 19,
+  "recipe": 43,
+  "amount": 100
+ }
+},
+{
+ "model": "item.craftingitem",
+ "pk": 16,
+ "fields": {
+  "material": 20,
+  "recipe": 44,
+  "amount": 100
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 1,
+ "fields": {
+  "name": "Мастер Создания",
+  "description": "Умеет создавать предметы из ресурсов",
+  "level": 1
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 2,
+ "fields": {
+  "name": "Мастер Создания",
+  "description": "Умеет создавать предметы из ресурсов",
+  "level": 2
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 3,
+ "fields": {
+  "name": "Улучшенная Атака",
+  "description": "Увеличивает атаку персонажа",
+  "level": 1
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 4,
+ "fields": {
+  "name": "Улучшенная Атака",
+  "description": "Увеличивает атаку персонажа",
+  "level": 2
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 5,
+ "fields": {
+  "name": "Улучшенное Чутье",
+  "description": "Благодаря повышенному чутью Охотник добывает больше предметов за охоту",
+  "level": 2
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 6,
+ "fields": {
+  "name": "Улучшенное Чутье",
+  "description": "Благодаря повышенному чутью Охотник добывает больше предметов за охоту",
+  "level": 1
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 7,
+ "fields": {
+  "name": "Улучшенная Защита",
+  "description": "Увеличивает защиту персонажа",
+  "level": 1
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 8,
+ "fields": {
+  "name": "Улучшенная Защита",
+  "description": "Увеличивает защиту персонажа",
+  "level": 2
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 1,
+ "fields": {
+  "skill": 7,
+  "effect": 13
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 2,
+ "fields": {
+  "skill": 3,
+  "effect": 14
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 3,
+ "fields": {
+  "skill": 6,
+  "effect": 15
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 4,
+ "fields": {
+  "skill": 5,
+  "effect": 22
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 5,
+ "fields": {
+  "skill": 4,
+  "effect": 20
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 6,
+ "fields": {
+  "skill": 8,
+  "effect": 21
+ }
+},
+{
+ "model": "character.characterclass",
+ "pk": 1,
+ "fields": {
+  "name": "Рыцарь",
+  "created": "2024-03-25T12:02:02.622Z",
+  "emoji": "🗡",
+  "description": "Рыцарь обладает хорошей защитой, но небольшой атакой. Носит тяжелую броню и меч",
+  "attack": 9,
+  "defence": 10
+ }
+},
+{
+ "model": "character.characterclass",
+ "pk": 2,
+ "fields": {
+  "name": "Мастер",
+  "created": "2024-03-25T12:02:02.777Z",
+  "emoji": "🔨",
+  "description": "Мастер умеет создавать полезные вещи из материалов, обладает нормальной защитой. Носит тяжелую броню и дубинки",
+  "attack": 9,
+  "defence": 10
+ }
+},
+{
+ "model": "character.characterclass",
+ "pk": 3,
+ "fields": {
+  "name": "Охотник",
+  "created": "2024-03-25T12:02:03.026Z",
+  "emoji": "🏹",
+  "description": "Охотник добывает больше предметов во время охоты. Носит легкую броню и кинжал",
+  "attack": 10,
+  "defence": 9
+ }
+},
+{
+ "model": "character.characterclass",
+ "pk": 4,
+ "fields": {
+  "name": "Маг",
+  "created": "2024-03-25T12:02:03.276Z",
+  "emoji": "🪄",
+  "description": "Маг обладает высокой атакой, но небольшой защитой. Носит ткань и посох",
+  "attack": 10,
+  "defence": 9
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 1,
+ "fields": {
+  "type": "light_armor",
+  "character_class": 3
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 2,
+ "fields": {
+  "type": "dagger",
+  "character_class": 3
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 3,
+ "fields": {
+  "type": "blunt",
+  "character_class": 2
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 4,
+ "fields": {
+  "type": "sword",
+  "character_class": 1
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 5,
+ "fields": {
+  "type": "robe",
+  "character_class": 4
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 6,
+ "fields": {
+  "type": "staff",
+  "character_class": 4
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 7,
+ "fields": {
+  "type": "heavy_armor",
+  "character_class": 2
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 8,
+ "fields": {
+  "type": "heavy_armor",
+  "character_class": 1
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 9,
+ "fields": {
+  "type": "bracelet",
+  "character_class": 1
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 10,
+ "fields": {
+  "type": "bracelet",
+  "character_class": 2
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 11,
+ "fields": {
+  "type": "bracelet",
+  "character_class": 3
+ }
+},
+{
+ "model": "character.classequipment",
+ "pk": 12,
+ "fields": {
+  "type": "bracelet",
+  "character_class": 4
+ }
+},
+{
+ "model": "character.characterclassskill",
+ "pk": 1,
+ "fields": {
+  "skill": 6,
+  "character_class": 3
+ }
+},
+{
+ "model": "character.characterclassskill",
+ "pk": 2,
+ "fields": {
+  "skill": 1,
+  "character_class": 2
+ }
+},
+{
+ "model": "character.characterclassskill",
+ "pk": 3,
+ "fields": {
+  "skill": 7,
+  "character_class": 1
+ }
+},
+{
+ "model": "character.characterclassskill",
+ "pk": 4,
+ "fields": {
+  "skill": 3,
+  "character_class": 4
+ }
+},
+{
+ "model": "character.character",
+ "pk": 2,
+ "fields": {
+  "name": "Ильяз",
+  "created": "2024-03-25T12:02:07.371Z",
+  "character_class": 4,
+  "level": 6,
+  "exp": 2280,
+  "clan": null,
+  "exp_for_level_up": 3795,
+  "attack": 25,
+  "defence": 24,
+  "exp_modifier": 1,
+  "drop_modifier": 1,
+  "premium_expired": "2024-03-25T12:02:07.371Z",
+  "current_location": 3,
+  "hunting_begin": "2024-03-25T10:45:00.593Z",
+  "hunting_end": "2024-03-25T15:09:00.608Z",
+  "max_hunting_time": "04:00:00",
+  "job_id": "d5538aceef2846caa248db5454b36a88"
+ }
+},
+{
+ "model": "character.character",
+ "pk": 3,
+ "fields": {
+  "name": "Чак",
+  "created": "2024-03-25T12:03:01.773Z",
+  "character_class": 4,
+  "level": 5,
+  "exp": 37,
+  "clan": null,
+  "exp_for_level_up": 2530,
+  "attack": 22,
+  "defence": 21,
+  "exp_modifier": 1,
+  "drop_modifier": 1,
+  "premium_expired": "2024-03-25T12:03:01.773Z",
+  "current_location": 3,
+  "hunting_begin": "2024-03-25T07:36:19.021Z",
+  "hunting_end": "2024-03-25T12:00:19.034Z",
+  "max_hunting_time": "04:00:00",
+  "job_id": "93cb3669ace44de8a8fbbd34880954ab"
+ }
+},
+{
+ "model": "character.character",
+ "pk": 4,
+ "fields": {
+  "name": "Erlon",
+  "created": "2024-03-25T12:03:01.781Z",
+  "character_class": 3,
+  "level": 5,
+  "exp": 1684,
+  "clan": null,
+  "exp_for_level_up": 2530,
+  "attack": 22,
+  "defence": 21,
+  "exp_modifier": 1,
+  "drop_modifier": 1,
+  "premium_expired": "2024-03-25T12:03:01.780Z",
+  "current_location": 3,
+  "hunting_begin": "2024-03-25T10:11:59.564Z",
+  "hunting_end": "2024-03-25T14:11:59.573Z",
+  "max_hunting_time": "04:00:00",
+  "job_id": "52bb3ab38e9843beb24320f52444a165"
+ }
+},
+{
+ "model": "character.character",
+ "pk": 5,
+ "fields": {
+  "name": "Орех",
+  "created": "2024-03-25T12:03:01.788Z",
+  "character_class": 2,
+  "level": 5,
+  "exp": 1667,
+  "clan": null,
+  "exp_for_level_up": 3795,
+  "attack": 21,
+  "defence": 22,
+  "exp_modifier": 1,
+  "drop_modifier": 1,
+  "premium_expired": "2024-03-25T12:03:01.788Z",
+  "current_location": 2,
+  "hunting_begin": "2024-03-25T09:39:10.499Z",
+  "hunting_end": "2024-03-25T12:11:10.512Z",
+  "max_hunting_time": "04:00:00",
+  "job_id": ""
+ }
+},
+{
+ "model": "character.characterskill",
+ "pk": 1,
+ "fields": {
+  "skill": 3,
+  "character": 3
+ }
+},
+{
+ "model": "character.characterskill",
+ "pk": 2,
+ "fields": {
+  "skill": 6,
+  "character": 4
+ }
+},
+{
+ "model": "character.characterskill",
+ "pk": 3,
+ "fields": {
+  "skill": 3,
+  "character": 2
+ }
+},
+{
+ "model": "character.characterskill",
+ "pk": 4,
+ "fields": {
+  "skill": 1,
+  "character": 5
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 1,
+ "fields": {
+  "character": 4,
+  "item": 7,
+  "amount": 2,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 2,
+ "fields": {
+  "character": 5,
+  "item": 1,
+  "amount": 2550,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 3,
+ "fields": {
+  "character": 2,
+  "item": 32,
+  "amount": 1,
+  "equipped": true,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 4,
+ "fields": {
+  "character": 2,
+  "item": 49,
+  "amount": 6,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 5,
+ "fields": {
+  "character": 2,
+  "item": 51,
+  "amount": 5,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 6,
+ "fields": {
+  "character": 3,
+  "item": 49,
+  "amount": 2,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 7,
+ "fields": {
+  "character": 3,
+  "item": 50,
+  "amount": 1,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 8,
+ "fields": {
+  "character": 5,
+  "item": 2,
+  "amount": 681,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 9,
+ "fields": {
+  "character": 2,
+  "item": 48,
+  "amount": 5,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 10,
+ "fields": {
+  "character": 2,
+  "item": 2,
+  "amount": 561,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 11,
+ "fields": {
+  "character": 2,
+  "item": 24,
+  "amount": 1,
+  "equipped": true,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 12,
+ "fields": {
+  "character": 4,
+  "item": 2,
+  "amount": 561,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 13,
+ "fields": {
+  "character": 4,
+  "item": 30,
+  "amount": 1,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 14,
+ "fields": {
+  "character": 4,
+  "item": 22,
+  "amount": 1,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 15,
+ "fields": {
+  "character": 3,
+  "item": 1,
+  "amount": 836,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 16,
+ "fields": {
+  "character": 3,
+  "item": 51,
+  "amount": 10,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 17,
+ "fields": {
+  "character": 3,
+  "item": 48,
+  "amount": 7,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 18,
+ "fields": {
+  "character": 3,
+  "item": 7,
+  "amount": 2,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 19,
+ "fields": {
+  "character": 5,
+  "item": 48,
+  "amount": 5,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 20,
+ "fields": {
+  "character": 5,
+  "item": 50,
+  "amount": 8,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 21,
+ "fields": {
+  "character": 4,
+  "item": 1,
+  "amount": 2313,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 22,
+ "fields": {
+  "character": 5,
+  "item": 49,
+  "amount": 1,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 23,
+ "fields": {
+  "character": 5,
+  "item": 18,
+  "amount": 12,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 24,
+ "fields": {
+  "character": 5,
+  "item": 17,
+  "amount": 8,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 25,
+ "fields": {
+  "character": 5,
+  "item": 16,
+  "amount": 9,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 26,
+ "fields": {
+  "character": 3,
+  "item": 3,
+  "amount": 3,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 27,
+ "fields": {
+  "character": 5,
+  "item": 15,
+  "amount": 9,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 28,
+ "fields": {
+  "character": 3,
+  "item": 28,
+  "amount": 1,
+  "equipped": true,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 29,
+ "fields": {
+  "character": 3,
+  "item": 21,
+  "amount": 1,
+  "equipped": true,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 30,
+ "fields": {
+  "character": 4,
+  "item": 4,
+  "amount": 3,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 31,
+ "fields": {
+  "character": 4,
+  "item": 49,
+  "amount": 3,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 32,
+ "fields": {
+  "character": 4,
+  "item": 3,
+  "amount": 166,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 33,
+ "fields": {
+  "character": 2,
+  "item": 1,
+  "amount": 2111,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 34,
+ "fields": {
+  "character": 3,
+  "item": 2,
+  "amount": 110561,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 35,
+ "fields": {
+  "character": 4,
+  "item": 6,
+  "amount": 2,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 36,
+ "fields": {
+  "character": 5,
+  "item": 35,
+  "amount": 1,
+  "equipped": true,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 37,
+ "fields": {
+  "character": 4,
+  "item": 50,
+  "amount": 12,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 38,
+ "fields": {
+  "character": 4,
+  "item": 51,
+  "amount": 8,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 39,
+ "fields": {
+  "character": 4,
+  "item": 48,
+  "amount": 12,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 40,
+ "fields": {
+  "character": 5,
+  "item": 26,
+  "amount": 1,
+  "equipped": true,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.characteritem",
+ "pk": 41,
+ "fields": {
+  "character": 5,
+  "item": 51,
+  "amount": 5,
+  "equipped": false,
+  "enhancement_level": 0
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 1,
+ "fields": {
+  "character": 2,
+  "effect": 14,
+  "expired": "2024-03-27T16:18:48.582Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 2,
+ "fields": {
+  "character": 2,
+  "effect": 16,
+  "expired": "2024-03-26T04:20:54.697Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 3,
+ "fields": {
+  "character": 2,
+  "effect": 17,
+  "expired": "2024-03-27T04:20:35.825Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 4,
+ "fields": {
+  "character": 4,
+  "effect": 18,
+  "expired": "2024-03-25T10:39:28.742Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 5,
+ "fields": {
+  "character": 4,
+  "effect": 19,
+  "expired": "2024-03-25T10:39:28.748Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 6,
+ "fields": {
+  "character": 3,
+  "effect": 14,
+  "expired": "2024-03-26T16:20:48.148Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 7,
+ "fields": {
+  "character": 3,
+  "effect": 13,
+  "expired": "2024-03-27T04:20:53.782Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 8,
+ "fields": {
+  "character": 3,
+  "effect": 16,
+  "expired": "2024-03-25T04:20:59.960Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 9,
+ "fields": {
+  "character": 3,
+  "effect": 17,
+  "expired": "2024-03-25T16:21:04.927Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 10,
+ "fields": {
+  "character": 4,
+  "effect": 18,
+  "expired": "2024-03-25T10:41:34.581Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 11,
+ "fields": {
+  "character": 4,
+  "effect": 19,
+  "expired": "2024-03-25T10:41:34.714Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 12,
+ "fields": {
+  "character": 2,
+  "effect": 13,
+  "expired": "2024-03-25T16:33:23.140Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 13,
+ "fields": {
+  "character": 5,
+  "effect": 16,
+  "expired": "2024-03-25T20:36:19.570Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 14,
+ "fields": {
+  "character": 5,
+  "effect": 17,
+  "expired": "2024-03-25T19:46:04.862Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 15,
+ "fields": {
+  "character": 5,
+  "effect": 13,
+  "expired": "2024-03-26T08:36:15.166Z"
+ }
+},
+{
+ "model": "character.charactereffect",
+ "pk": 16,
+ "fields": {
+  "character": 5,
+  "effect": 14,
+  "expired": "2024-03-25T19:46:26.142Z"
+ }
+},
+{
+ "model": "character.marketplaceitem",
+ "pk": 1,
+ "fields": {
+  "seller": 3,
+  "item": 17,
+  "amount": 2,
+  "enhancement_level": 0,
+  "sell_currency": 2,
+  "price": 4
+ }
+},
+{
+ "model": "character.marketplaceitem",
+ "pk": 2,
+ "fields": {
+  "seller": 5,
+  "item": 25,
+  "amount": 1,
+  "enhancement_level": 0,
+  "sell_currency": 1,
+  "price": 2500
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 1,
+ "fields": {
+  "name": "Заброшенная Шахта",
+  "created": "2024-03-25T12:02:47.244Z"
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 2,
+ "fields": {
+  "name": "Лагерь Орков",
+  "created": "2024-03-25T12:02:47.250Z"
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 3,
+ "fields": {
+  "name": "Эльфийский лес",
+  "created": "2024-03-25T12:02:47.254Z"
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 4,
+ "fields": {
+  "name": "Лагерь гоблинов",
+  "created": "2024-03-25T12:02:47.258Z"
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 5,
+ "fields": {
+  "name": "Мертвая Деревня",
+  "created": "2024-03-25T12:02:47.262Z"
+ }
+},
+{
+ "model": "location.location",
+ "pk": 1,
+ "fields": {
+  "attack": 9,
+  "defence": 9,
+  "exp": 1,
+  "place": 10
+ }
+},
+{
+ "model": "location.location",
+ "pk": 2,
+ "fields": {
+  "attack": 38,
+  "defence": 38,
+  "exp": 3,
+  "place": 10
+ }
+},
+{
+ "model": "location.location",
+ "pk": 3,
+ "fields": {
+  "attack": 17,
+  "defence": 17,
+  "exp": 2,
+  "place": 10
+ }
+},
+{
+ "model": "location.location",
+ "pk": 4,
+ "fields": {
+  "attack": 10,
+  "defence": 10,
+  "exp": 1,
+  "place": 10
+ }
+},
+{
+ "model": "location.location",
+ "pk": 5,
+ "fields": {
+  "attack": 50,
+  "defence": 50,
+  "exp": 4,
+  "place": 10
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 1,
+ "fields": {
+  "location": 4,
+  "item": 1,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 30.0
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 2,
+ "fields": {
+  "location": 3,
+  "item": 1,
+  "min_amount": 1,
+  "max_amount": 2,
+  "chance": 40.0
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 3,
+ "fields": {
+  "location": 1,
+  "item": 1,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 20.0
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 4,
+ "fields": {
+  "location": 1,
+  "item": 3,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 5,
+ "fields": {
+  "location": 2,
+  "item": 1,
+  "min_amount": 2,
+  "max_amount": 3,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 6,
+ "fields": {
+  "location": 2,
+  "item": 12,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.05
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 7,
+ "fields": {
+  "location": 3,
+  "item": 4,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.1
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 8,
+ "fields": {
+  "location": 3,
+  "item": 7,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.1
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 9,
+ "fields": {
+  "location": 4,
+  "item": 5,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.2
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 10,
+ "fields": {
+  "location": 4,
+  "item": 6,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.1
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 11,
+ "fields": {
+  "location": 5,
+  "item": 1,
+  "min_amount": 3,
+  "max_amount": 4,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 12,
+ "fields": {
+  "location": 5,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.1
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 13,
+ "fields": {
+  "location": 5,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.1
+ }
+}
+]
