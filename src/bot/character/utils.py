@@ -389,7 +389,7 @@ async def end_hunting(character: Character, bot):
     keyboard = await character_get_keyboard(character)
     await bot.send_message(
         user.telegram_id,
-        HUNTING_END_MESSAGE.format(exp_gained, drop_text),
+        HUNTING_END_MESSAGE.format(round(exp_gained, 2), drop_text),
         reply_markup=keyboard.as_markup(),
     )
 

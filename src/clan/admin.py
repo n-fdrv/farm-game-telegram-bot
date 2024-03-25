@@ -1,5 +1,3 @@
-import csv
-
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
 
@@ -37,27 +35,6 @@ class ClanDefenceInline(admin.TabularInline):
 class UserAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью пользователя."""
 
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/clan/clan.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.leader.name,
-                        row.level,
-                        row.reputation,
-                        row.place,
-                        row.by_request,
-                    ]
-                )
-
-    download_data.short_description = "Download selected as csv"
-    changelist_actions = ("download_data",)
     list_display = (
         "name",
         "level",

@@ -1,5 +1,3 @@
-import csv
-
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
 
@@ -47,43 +45,6 @@ class BagItemInline(admin.TabularInline):
 class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Базовая админ-панель для предметов."""
 
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        file_name = str(modeladmin.model._meta).split(".")[1]
-        with open(
-            f"data/items/base/{file_name}.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.sell_price,
-                        row.buy_price,
-                        row.type,
-                    ]
-                )
-        with open(
-            "data/items/effects.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in ItemEffect.objects.all():
-                spamwriter.writerow(
-                    [
-                        row.effect.property,
-                        row.effect.amount,
-                        row.effect.in_percent,
-                        row.item.name,
-                        row.effect.slug,
-                    ]
-                )
-
-    download_data.short_description = "Загрузить данные"
-    changelist_actions = ("download_data",)
     list_display = (
         "name",
         "buy_price",
@@ -96,42 +57,6 @@ class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
 
 class BaseEquipmentAdmin(BaseItemAdmin):
     """Базовая админ-панель для предметов."""
-
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        file_name = str(modeladmin.model._meta).split(".")[1]
-        with open(
-            f"data/items/equipment/{file_name}.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.sell_price,
-                        row.buy_price,
-                        row.type,
-                        row.equipment_type,
-                    ]
-                )
-        with open(
-            "data/items/effects.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in ItemEffect.objects.all():
-                spamwriter.writerow(
-                    [
-                        row.effect.property,
-                        row.effect.amount,
-                        row.effect.in_percent,
-                        row.item.name,
-                        row.effect.slug,
-                    ]
-                )
 
     list_display = (
         "name",
@@ -160,26 +85,7 @@ class WeaponAdmin(BaseEquipmentAdmin):
 class TalismanAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
 
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/items/talismans.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.sell_price,
-                        row.buy_price,
-                        row.type,
-                        row.talisman_type,
-                    ]
-                )
+    pass
 
 
 @admin.register(Etc)
@@ -200,89 +106,19 @@ class MaterialAdmin(BaseItemAdmin):
 class PotionAdmin(BaseItemAdmin):
     """Управление моделью эликсиров."""
 
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/items/potions.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.sell_price,
-                        row.buy_price,
-                        row.type,
-                        row.effect_time,
-                    ]
-                )
+    pass
 
 
 @admin.register(Scroll)
 class ScrollAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
 
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/items/scrolls.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.sell_price,
-                        row.buy_price,
-                        row.type,
-                        row.enhance_type,
-                    ]
-                )
+    pass
 
 
 @admin.register(Recipe)
 class RecipeAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
-
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/items/recipes.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.sell_price,
-                        row.buy_price,
-                        row.type,
-                        row.level,
-                        row.chance,
-                        row.create.name,
-                    ]
-                )
-        with open(
-            "data/items/recipes_items.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in CraftingItem.objects.all():
-                spamwriter.writerow(
-                    [
-                        row.material.name,
-                        row.recipe.name,
-                        row.amount,
-                    ]
-                )
 
     list_display = (
         "name",
@@ -300,29 +136,6 @@ class RecipeAdmin(BaseItemAdmin):
 class BookAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
 
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/items/books.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.sell_price,
-                        row.buy_price,
-                        row.type,
-                        row.character_class.name,
-                        row.required_level,
-                        row.required_skill.name,
-                        row.required_skill.level,
-                        row.skill.name,
-                        row.skill.level,
-                    ]
-                )
-
     list_display = (
         "name",
         "character_class",
@@ -339,22 +152,6 @@ class BookAdmin(BaseItemAdmin):
 class BagAdmin(BaseItemAdmin):
     """Управление моделью мешков."""
 
-    def download_loot(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/items/bag_items.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in BagItem.objects.all():
-                spamwriter.writerow(
-                    [
-                        row.bag.name,
-                        row.item.name,
-                        row.chance,
-                    ]
-                )
-
-    changelist_actions = ("download_data", "download_loot")
     inlines = (BagItemInline,)
 
 
@@ -362,23 +159,6 @@ class BagAdmin(BaseItemAdmin):
 class EffectAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью мешков."""
 
-    def download_data(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        file_name = str(modeladmin.model._meta).split(".")[1]
-        with open(
-            f"data/items/{file_name}.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [row.property, row.amount, row.in_percent, row.slug]
-                )
-
-    download_data.short_description = "Download selected as csv"
-    changelist_actions = ("download_data",)
     list_display = (
         "property",
         "amount",

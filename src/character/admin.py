@@ -7,9 +7,6 @@ from character.models import (
     Character,
     CharacterClass,
     CharacterClassSkill,
-    CharacterEffect,
-    CharacterItem,
-    CharacterSkill,
     ClassEquipment,
     MarketplaceItem,
     Skill,
@@ -167,97 +164,11 @@ class CharacterEffectInline(admin.TabularInline):
 class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью персонажей."""
 
-    def download_csv(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/characters/characters.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                location = None
-                hunting_begin = None
-                hunting_end = None
-                job_id = None
-                clan = None
-                if row.current_location:
-                    location = row.current_location.name
-                    hunting_begin = row.hunting_begin
-                    hunting_end = row.hunting_end
-                    job_id = row.job_id
-                if row.clan:
-                    clan = row.clan.name
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.level,
-                        row.exp,
-                        row.exp_for_level_up,
-                        row.attack,
-                        row.defence,
-                        row.character_class.name,
-                        location,
-                        hunting_begin,
-                        hunting_end,
-                        row.max_hunting_time,
-                        job_id,
-                        clan,
-                    ]
-                )
-        with open(
-            "data/characters/character_items.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for character_item in CharacterItem.objects.all():
-                spamwriter.writerow(
-                    [
-                        character_item.item.name,
-                        character_item.character.name,
-                        character_item.amount,
-                        character_item.equipped,
-                    ]
-                )
-        with open(
-            "data/characters/character_skills.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in CharacterSkill.objects.all():
-                spamwriter.writerow(
-                    [
-                        row.character.name,
-                        row.skill.name,
-                        row.skill.level,
-                    ]
-                )
-        with open(
-            "data/characters/character_effects.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in CharacterEffect.objects.all():
-                spamwriter.writerow(
-                    [
-                        row.character.name,
-                        row.effect.property,
-                        row.effect.amount,
-                        row.effect.in_percent,
-                        row.expired,
-                    ]
-                )
-
-    download_csv.short_description = "Download selected as csv"
-    changelist_actions = ("download_csv",)
     list_display = (
         "name",
         "level",
         "clan",
+        "kills",
         "attack",
         "defence",
         "exp_percent",
@@ -283,27 +194,4 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
 class MarketplaceItemAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление торговой площадкой."""
 
-    def download_csv(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/characters/marketplace.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.seller.name,
-                        row.item.name,
-                        row.amount,
-                        row.enhancement_level,
-                        row.sell_currency.name,
-                        row.price,
-                    ]
-                )
-
-    download_csv.short_description = "Download selected as csv"
-    changelist_actions = ("download_csv",)
     list_display = ("seller", "item", "sell_currency", "price")

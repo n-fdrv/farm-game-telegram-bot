@@ -68,6 +68,12 @@ class ClanData(BaseCallbackData, prefix="cl"):
     pass
 
 
+class TopData(BaseCallbackData, prefix="top"):
+    """Данные для хендлеров топа персонажей."""
+
+    pass
+
+
 CALLBACK_DATA_PREFIX = {
     CharacterData.__prefix__: CharacterData,
     LocationData.__prefix__: LocationData,
@@ -77,4 +83,5 @@ CALLBACK_DATA_PREFIX = {
     CraftData.__prefix__: CraftData,
     PremiumData.__prefix__: PremiumData,
     ClanData.__prefix__: ClanData,
+    TopData.__prefix__: TopData,
 }

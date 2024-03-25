@@ -207,6 +207,8 @@ async def attack_character(attacker: Character, target: Character):
                 expired=timezone.now() + datetime.timedelta(hours=12),
             )
         logger.info(text)
+        attacker.kills += 1
+        await attacker.asave(update_fields=("kills",))
         return True, SUCCESS_KILL_MESSAGE.format(target.name_with_class)
     lost_exp = int(
         attacker.exp_for_level_up / 100 * game_config.EXP_DECREASE_PERCENT

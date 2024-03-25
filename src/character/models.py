@@ -193,6 +193,7 @@ class Character(models.Model):
         blank=True,
         verbose_name="ID шедулера напоминания об окончании охоты",
     )
+    kills = models.IntegerField(default=0, verbose_name="Убийств")
 
     class Meta:
         verbose_name = "Персонаж"
@@ -212,6 +213,16 @@ class Character(models.Model):
         if self.premium_expired > timezone.now():
             return f"🔸{self.name}{self.character_class.emoji}"
         return f"{self.name}{self.character_class.emoji}"
+
+    @property
+    def name_with_level(self):
+        """Метод получения имени персонажа с уровнем."""
+        return f"{self.name}{self.character_class.emoji} Ур. {self.level}"
+
+    @property
+    def name_with_kills(self):
+        """Метод получения имени персонажа с убийствами."""
+        return f"{self.name}{self.character_class.emoji} {self.kills}⚔️"
 
 
 class CharacterSkill(models.Model):

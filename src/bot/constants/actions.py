@@ -132,6 +132,14 @@ class ClanAction(Action):
     exit = f"{callback_data.ClanData.__prefix__}-ex"
 
 
+class TopAction(Action):
+    """Действия для хендлеров клана."""
+
+    preview = f"{callback_data.TopData.__prefix__}-pr"
+    by_exp = f"{callback_data.TopData.__prefix__}-byex"
+    by_kills = f"{callback_data.TopData.__prefix__}-byki"
+
+
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
 location_action = LocationAction(callback_data.LocationData.__prefix__)
 backpack_action = BackpackAction(callback_data.BackpackData.__prefix__)
@@ -142,3 +150,4 @@ marketplace_action = MarketplaceAction(
 )
 premium_action = PremiumAction(callback_data.PremiumData.__prefix__)
 clan_action = ClanAction(callback_data.ClanData.__prefix__)
+top_action = TopAction(callback_data.TopData.__prefix__)

@@ -24,6 +24,7 @@ from bot.constants import commands
 from bot.location.handlers import location_router
 from bot.marketplace.handlers import marketplace_router
 from bot.premium_shop.handlers import premium_router
+from bot.top.handlers import top_router
 
 
 async def on_startup(bot: Bot):
@@ -64,6 +65,7 @@ class AiogramApp:
             marketplace_router,
             premium_router,
             clan_router,
+            top_router,
         ]
         self._download_routes(routes)
         asyncio.ensure_future(
