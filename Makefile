@@ -65,13 +65,18 @@ upload-characters: # Загрузить данные
 	poetry run python manage.py upload_marketplace && \
 	cd ..
 
+upload-data: # Загрузить данные
+	cd src && poetry run python -Xutf8 manage.py loaddata db.json && \
+	cd ..
+
+
 run-app: # Запуск Django и Telegram бота
 	@echo -e "$(COLOR_YELLOW)Starting bot...$(COLOR_RESET)"
 	@cd src && poetry run uvicorn core.asgi:application --reload && cd .. && \
 	echo -e "$(COLOR_GREEN)Bot stopped$(COLOR_RESET)"
 
 bot-init: # Базовая команда для запуска БД, миграций, бота и джанго
-	make clear-db start-db migrate collectstatic createsuperuser upload-items upload-locations upload-characters run-app
+	make clear-db start-db migrate collectstatic createsuperuser upload-data run-app
 
 bot-existing-bd: # запуск бота и контейнера PostgreSQL с существующими данными в БД:
 	make start-db run-app

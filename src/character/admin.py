@@ -245,9 +245,10 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
                 spamwriter.writerow(
                     [
                         row.character.name,
-                        row.effect.name,
-                        row.permanent,
-                        row.hunting_amount,
+                        row.effect.property,
+                        row.effect.amount,
+                        row.effect.in_percent,
+                        row.expired,
                     ]
                 )
 
@@ -275,7 +276,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     def exp_percent(self, obj):
         """Получения опыта в процентах."""
-        return f"{obj.exp / obj.exp_for_level_up * 100}%"
+        return f"{round(obj.exp / obj.exp_for_level_up * 100, 2)}%"
 
 
 @admin.register(MarketplaceItem)

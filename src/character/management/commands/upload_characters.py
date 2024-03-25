@@ -1,13 +1,14 @@
 import csv
 
 from django.core.management.base import BaseCommand
-from item.models import Item
+from item.models import Effect, Item
 from location.models import Location
 from loguru import logger
 
 from character.models import (
     Character,
     CharacterClass,
+    CharacterEffect,
     CharacterItem,
     CharacterSkill,
     Skill,
@@ -92,5 +93,26 @@ class Command(BaseCommand):
                     logger.error(
                         "error in uploading: "
                         f"Character Skills  - {row[0]}: {e}"
+                    )
+                    raise e
+
+        with open(
+            "data/characters/character_effects.csv", encoding="utf-8"
+        ) as f:
+            logger.info("Character Effects upload started")
+            reader = csv.reader(f)
+            for row in reader:
+                try:
+                    effect, created = Effect.objects.get_or_create(
+                        property=row[1], amount=row[2], in_percent=row[3]
+                    )
+                    character = Character.objects.get(name=row[0])
+                    CharacterEffect.objects.get_or_create(
+                        character=character, effect=effect, expired=row[4]
+                    )
+                except Exception as e:
+                    logger.error(
+                        "error in uploading: "
+                        f"Character Effect  - {row[0]}: {e}"
                     )
                     raise e
