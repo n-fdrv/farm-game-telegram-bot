@@ -4,17 +4,24 @@ from clan.models import Clan
 
 from bot.clan.keyboards import (
     clan_get_keyboard,
+    clan_list_keyboard,
+    clan_search_keyboard,
     confirm_clan_name_keyboard,
     no_clan_preview_keyboard,
+    search_clan_list_keyboard,
     to_preview_keyboard,
 )
 from bot.clan.messages import (
+    CLAN_LIST_MESSAGE,
     CLAN_NAME_CONFIRM_MESSAGE,
     CLAN_NAME_NOT_CORRECT_MESSAGE,
+    CLAN_SEARCH_AMOUNT_MESSAGE,
+    CLAN_SEARCH_MESSAGE,
     CLAN_TAKEN_MESSAGE,
     CREATE_PREVIEW_MESSAGE,
     ERROR_CREATING_CLAN_MESSAGE,
     NO_CLAN_MESSAGE,
+    SEARCH_CLAN_LIST_MESSAGE,
     SUCCESS_CREATING_CLAN_MESSAGE,
 )
 from bot.clan.utils import (
@@ -160,4 +167,67 @@ async def create_clan_callback(
     await callback.message.edit_text(
         text=await get_clan_info(clan),
         reply_markup=keyboard.as_markup(),
+    )
+
+
+@clan_router.callback_query(ClanData.filter(F.action == clan_action.list))
+@log_in_dev
+async def clan_list_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Хендлер списка Кланов."""
+    paginator = await clan_list_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=CLAN_LIST_MESSAGE, reply_markup=paginator
+    )
+
+
+@clan_router.callback_query(
+    ClanData.filter(F.action == clan_action.search_clan)
+)
+@log_in_dev
+async def clan_search_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Хендлер поиска Кланов."""
+    keyboard = await to_preview_keyboard()
+    await callback.message.edit_text(
+        text=CLAN_SEARCH_MESSAGE, reply_markup=keyboard.as_markup()
+    )
+    await state.set_state(ClanState.clan_search)
+
+
+@clan_router.message(ClanState.clan_search)
+@log_in_dev
+async def clan_search_state(message: types.Message, state: FSMContext):
+    """Хендлер обработки поиска клана."""
+    name_contains = message.text
+    items_amount = await Clan.objects.filter(
+        name__contains=name_contains,
+    ).acount()
+    keyboard = await clan_search_keyboard(name_contains)
+    await message.answer(
+        text=CLAN_SEARCH_AMOUNT_MESSAGE.format(items_amount, name_contains),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@clan_router.callback_query(
+    ClanData.filter(F.action == clan_action.search_list)
+)
+@log_in_dev
+async def search_clan_list_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    await state.clear()
+    paginator = await search_clan_list_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=SEARCH_CLAN_LIST_MESSAGE, reply_markup=paginator
     )

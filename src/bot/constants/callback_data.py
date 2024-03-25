@@ -65,7 +65,7 @@ class MarketplaceData(BaseCallbackData, prefix="mp"):
 class ClanData(BaseCallbackData, prefix="cl"):
     """Данные для хендлеров клана."""
 
-    pass
+    name_contains: Optional[str] = None
 
 
 class TopData(BaseCallbackData, prefix="top"):

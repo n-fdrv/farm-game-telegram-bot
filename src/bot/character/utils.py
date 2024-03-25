@@ -229,8 +229,8 @@ async def get_elixir_with_effects_and_expired(character: Character):
     )
     return "\n".join(
         [
-            f"<i>{x.effect.get_property_with_amount()}</i> - "
-            f"<b>{str(x.expired - timezone.now()).split('.')[0]}</b>"
+            f"<i>{x.effect.get_property_with_amount()} до:</i> "
+            f"<b>{x.expired.strftime('%d.%m %H:%M')}</b>"
             async for x in effects
         ]
     )

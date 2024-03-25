@@ -1,5 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from character.models import Character
+from clan.models import Clan
 
 from bot.clan.buttons import (
     CLAN_MEMBERS_BUTTON,
@@ -7,11 +8,19 @@ from bot.clan.buttons import (
     CREATE_CLAN_BUTTON,
     ENTER_CLAN_BUTTON,
     EXIT_CLAN_BUTTON,
+    SEARCH_CLAN_BUTTON,
+    SEARCH_CLAN_LIST_BUTTON,
     SETTINGS_BUTTON,
 )
-from bot.command.buttons import CANCEL_BUTTON, NO_BUTTON, YES_BUTTON
+from bot.command.buttons import (
+    BACK_BUTTON,
+    CANCEL_BUTTON,
+    NO_BUTTON,
+    YES_BUTTON,
+)
 from bot.constants.actions import clan_action
 from bot.constants.callback_data import ClanData
+from bot.utils.paginator import Paginator
 
 
 async def no_clan_preview_keyboard():
@@ -80,3 +89,91 @@ async def clan_get_keyboard(character: Character):
         )
     keyboard.adjust(1)
     return keyboard
+
+
+async def clan_list_keyboard(callback_data: ClanData):
+    """Клавиатура списка Кланов."""
+    keyboard = InlineKeyboardBuilder()
+    async for clan in Clan.objects.order_by("-level").all():
+        access = "Открытый"
+        if clan.by_request:
+            access = "По заявке"
+        keyboard.button(
+            text=f"{clan.name_with_emoji} Ур. {clan.level} ({access})",
+            callback_data=ClanData(action=clan_action.get, id=clan.id),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=clan_action.list,
+        size=6,
+        page=callback_data.page,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            [
+                SEARCH_CLAN_BUTTON,
+                ClanData(
+                    action=clan_action.search_clan,
+                ),
+            ],
+            [
+                BACK_BUTTON,
+                ClanData(
+                    action=clan_action.preview,
+                ),
+            ],
+        ]
+    )
+
+
+async def clan_search_keyboard(item_name_contains: str):
+    """Клавиатура получения предмета для продажи."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=SEARCH_CLAN_LIST_BUTTON,
+        callback_data=ClanData(
+            action=clan_action.search_list,
+            name_contains=item_name_contains,
+        ),
+    )
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=ClanData(action=clan_action.list),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def search_clan_list_keyboard(callback_data: ClanData):
+    """Клавиатура списка Кланов."""
+    keyboard = InlineKeyboardBuilder()
+    async for clan in (
+        Clan.objects.filter(name__contains=callback_data.name_contains)
+        .order_by("-level")
+        .all()
+    ):
+        access = "Открытый"
+        if clan.by_request:
+            access = "По заявке"
+        keyboard.button(
+            text=f"{clan.name_with_emoji} Ур. {clan.level} ({access})",
+            callback_data=ClanData(action=clan_action.get, id=clan.id),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=clan_action.list,
+        size=6,
+        page=callback_data.page,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            [
+                BACK_BUTTON,
+                ClanData(
+                    action=clan_action.preview,
+                ),
+            ]
+        ]
+    )

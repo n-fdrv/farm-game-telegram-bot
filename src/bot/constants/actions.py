@@ -125,6 +125,9 @@ class ClanAction(Action):
     preview = f"{callback_data.ClanData.__prefix__}-pr"
     create_preview = f"{callback_data.ClanData.__prefix__}-crpr"
 
+    search_clan = f"{callback_data.ClanData.__prefix__}-secl"
+    search_list = f"{callback_data.ClanData.__prefix__}-seli"
+
     members = f"{callback_data.ClanData.__prefix__}-me"
     wars = f"{callback_data.ClanData.__prefix__}-wa"
     settings = f"{callback_data.ClanData.__prefix__}-se"

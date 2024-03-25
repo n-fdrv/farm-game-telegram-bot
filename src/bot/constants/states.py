@@ -25,3 +25,4 @@ class ClanState(StatesGroup):
     """Состояния для хендлеров клана."""
 
     enter_name = State()
+    clan_search = State()

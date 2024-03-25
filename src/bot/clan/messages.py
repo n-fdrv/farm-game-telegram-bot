@@ -51,3 +51,13 @@ GET_CLAN_MESSAGE = (
     "<i>👥Количество Членов Клана:</i> <b>{}/{}</b>\n"
     "<i>🚩Репутация:</i> <b>{}</b>\n\n"
 )
+
+CLAN_LIST_MESSAGE = "<b>🏰 Список Кланов</b>\n\n"
+
+CLAN_SEARCH_MESSAGE = "🔎 Поиск\n\n" "Введите название Клана в сообщении"
+
+CLAN_SEARCH_AMOUNT_MESSAGE = (
+    "🔎 Поиск\n\n" "Найдено <b>{}</b> клан(ов) по запросу: <b>{}</b>"
+)
+
+SEARCH_CLAN_LIST_MESSAGE = "🔎 Поиск\n\n" "Список найденных Кланов:"
