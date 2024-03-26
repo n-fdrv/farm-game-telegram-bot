@@ -139,6 +139,11 @@ class ClanAction(Action):
     enter_clan_confirm = f"{callback_data.ClanData.__prefix__}-enclco"
     enter_clan = f"{callback_data.ClanData.__prefix__}-encl"
 
+    request_list = f"{callback_data.ClanData.__prefix__}-reli"
+    request_get = f"{callback_data.ClanData.__prefix__}-rege"
+    request_accept = f"{callback_data.ClanData.__prefix__}-reac"
+    request_decline = f"{callback_data.ClanData.__prefix__}-rede"
+
 
 class TopAction(Action):
     """Действия для хендлеров клана."""

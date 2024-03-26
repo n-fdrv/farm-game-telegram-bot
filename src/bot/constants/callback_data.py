@@ -66,6 +66,7 @@ class ClanData(BaseCallbackData, prefix="cl"):
     """Данные для хендлеров клана."""
 
     name_contains: Optional[str] = None
+    character_id: Optional[int] = 0
 
 
 class TopData(BaseCallbackData, prefix="top"):
