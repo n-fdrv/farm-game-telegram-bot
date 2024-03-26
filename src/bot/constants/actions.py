@@ -144,6 +144,9 @@ class ClanAction(Action):
     request_accept = f"{callback_data.ClanData.__prefix__}-reac"
     request_decline = f"{callback_data.ClanData.__prefix__}-rede"
 
+    members_get = f"{callback_data.ClanData.__prefix__}-mege"
+    member_kick = f"{callback_data.ClanData.__prefix__}-meki"
+
 
 class TopAction(Action):
     """Действия для хендлеров клана."""

@@ -183,10 +183,14 @@ async def get_character_info(character: Character) -> str:
         location = (
             f"<b>{character.current_location.name}</b>\n" f"⏳{time_left_text}"
         )
+    clan = "Нет"
+    if character.clan:
+        clan = character.clan.name_with_emoji
     return CHARACTER_INFO_MESSAGE.format(
         character.name_with_class,
         character.level,
         exp_in_percent,
+        clan,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         location,
@@ -245,10 +249,14 @@ async def get_character_about(character: Character) -> str:
     premium_expired = "Нет"
     if character.premium_expired > timezone.now():
         premium_expired = character.premium_expired.strftime("%d.%m.%Y %H:%M")
+    clan = "Нет"
+    if character.clan:
+        clan = character.clan.name_with_emoji
     return CHARACTER_ABOUT_MESSAGE.format(
         character.name_with_class,
         character.level,
         exp_in_percent,
+        clan,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         premium_expired,

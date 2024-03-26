@@ -11,6 +11,7 @@ from bot.clan.buttons import (
     DECLINE_REQUEST_BUTTON,
     ENTER_CLAN_BUTTON,
     EXIT_CLAN_BUTTON,
+    KICK_CHARACTER_BUTTON,
     REQUEST_LIST_BUTTON,
     SEARCH_CLAN_BUTTON,
     SEARCH_CLAN_LIST_BUTTON,
@@ -351,7 +352,7 @@ async def members_list_keyboard(callback_data: ClanData):
         keyboard.button(
             text=(f"{character.name_with_class} " f"Ур. {character.level}"),
             callback_data=ClanData(
-                action=clan_action.request_get,
+                action=clan_action.members_get,
                 id=callback_data.id,
                 character_id=character.id,
                 page=callback_data.page,
@@ -374,3 +375,27 @@ async def members_list_keyboard(callback_data: ClanData):
             ]
         ]
     )
+
+
+async def members_get_keyboard(callback_data: ClanData):
+    """Клавиатура подтверждения входа в клан."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=KICK_CHARACTER_BUTTON,
+        callback_data=ClanData(
+            action=clan_action.member_kick,
+            id=callback_data.id,
+            character_id=callback_data.character_id,
+            page=callback_data.page,
+        ),
+    )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=ClanData(
+            action=clan_action.members,
+            id=callback_data.id,
+            page=callback_data.page,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard

@@ -88,9 +88,9 @@ async def top_get_callback(
     callback_data: TopData,
 ):
     """Коллбек меню Топа персонажей."""
-    character = await Character.objects.select_related("character_class").aget(
-        pk=callback_data.id
-    )
+    character = await Character.objects.select_related(
+        "character_class", "clan"
+    ).aget(pk=callback_data.id)
     keyboard = await to_top_preview_keyboard()
     await callback.message.edit_text(
         text=await get_character_about(character),

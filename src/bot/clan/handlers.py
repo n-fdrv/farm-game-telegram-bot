@@ -16,6 +16,7 @@ from bot.clan.keyboards import (
     clan_request_list_keyboard,
     clan_search_keyboard,
     confirm_clan_name_keyboard,
+    members_get_keyboard,
     members_list_keyboard,
     no_clan_preview_keyboard,
     search_clan_list_keyboard,
@@ -333,9 +334,9 @@ async def clan_request_get_callback(
     callback_data: ClanData,
 ):
     """Коллбек получения предмета в инвентаре."""
-    character = await Character.objects.select_related("character_class").aget(
-        pk=callback_data.character_id
-    )
+    character = await Character.objects.select_related(
+        "character_class", "clan"
+    ).aget(pk=callback_data.character_id)
     keyboard = await clan_request_get_keyboard(callback_data)
     await callback.message.edit_text(
         text=await get_character_about(character),
@@ -460,4 +461,24 @@ async def members_list_callback(
     paginator = await members_list_keyboard(callback_data)
     await callback.message.edit_text(
         text=MEMBERS_LIST_MESSAGE, reply_markup=paginator
+    )
+
+
+@clan_router.callback_query(
+    ClanData.filter(F.action == clan_action.members_get)
+)
+@log_in_dev
+async def members_get_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    keyboard = await members_get_keyboard(callback_data)
+    character = await Character.objects.select_related(
+        "character_class", "clan"
+    ).aget(pk=callback_data.character_id)
+    await callback.message.edit_text(
+        text=await get_character_about(character),
+        reply_markup=keyboard.as_markup(),
     )
