@@ -6,6 +6,7 @@ from bot.clan.buttons import (
     CLAN_MEMBERS_BUTTON,
     CLAN_WARS_BUTTON,
     CREATE_CLAN_BUTTON,
+    CREATE_REQUEST_BUTTON,
     ENTER_CLAN_BUTTON,
     EXIT_CLAN_BUTTON,
     SEARCH_CLAN_BUTTON,
@@ -177,3 +178,63 @@ async def search_clan_list_keyboard(callback_data: ClanData):
             ]
         ]
     )
+
+
+async def clan_guest_get_keyboard(clan: Clan):
+    """Клавиатура подтверждения названия Клана."""
+    keyboard = InlineKeyboardBuilder()
+    if clan.by_request:
+        keyboard.button(
+            text=CREATE_REQUEST_BUTTON,
+            callback_data=ClanData(
+                action=clan_action.create_request_confirm, id=clan.pk
+            ),
+        )
+    else:
+        keyboard.button(
+            text=ENTER_CLAN_BUTTON,
+            callback_data=ClanData(
+                action=clan_action.enter_clan_confirm, id=clan.pk
+            ),
+        )
+    keyboard.button(
+        text=CLAN_MEMBERS_BUTTON,
+        callback_data=ClanData(action=clan_action.members, id=clan.pk),
+    )
+    keyboard.button(
+        text=CLAN_WARS_BUTTON,
+        callback_data=ClanData(action=clan_action.wars, id=clan.pk),
+    )
+    keyboard.button(
+        text=BACK_BUTTON, callback_data=ClanData(action=clan_action.list)
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def clan_create_request_confirm_keyboard(callback_data: ClanData):
+    """Клавиатура подтверждения названия Клана."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=ClanData(
+            action=clan_action.create_request, id=callback_data.id
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=ClanData(action=clan_action.get, id=callback_data.id),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def clan_create_request_keyboard(callback_data: ClanData):
+    """Клавиатура подтверждения названия Клана."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=ClanData(action=clan_action.get, id=callback_data.id),
+    )
+    keyboard.adjust(1)
+    return keyboard

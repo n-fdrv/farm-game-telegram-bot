@@ -171,7 +171,7 @@ async def backpack_use_handler(
     success, text = await usable_item_data[character_item.item.type](
         character_item.character, character_item.item
     )
-    keyboard = await in_backpack_keyboard()
+    keyboard = await in_backpack_keyboard(callback_data)
     await callback.message.edit_text(
         text=text,
         reply_markup=keyboard.as_markup(),
@@ -249,7 +249,7 @@ async def enhance_handler(
     ).aget(id=callback_data.id)
     scroll = await Scroll.objects.aget(pk=callback_data.item_id)
     success, text = await use_scroll(scroll, character_item)
-    keyboard = await in_backpack_keyboard()
+    keyboard = await in_backpack_keyboard(callback_data)
     await callback.message.edit_text(
         text=text,
         reply_markup=keyboard.as_markup(),

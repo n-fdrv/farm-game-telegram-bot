@@ -134,6 +134,11 @@ class ClanAction(Action):
     exit_confirm = f"{callback_data.ClanData.__prefix__}-exco"
     exit = f"{callback_data.ClanData.__prefix__}-ex"
 
+    create_request_confirm = f"{callback_data.ClanData.__prefix__}-crreco"
+    create_request = f"{callback_data.ClanData.__prefix__}-crre"
+    enter_clan_confirm = f"{callback_data.ClanData.__prefix__}-enclco"
+    enter_clan = f"{callback_data.ClanData.__prefix__}-encl"
+
 
 class TopAction(Action):
     """Действия для хендлеров клана."""

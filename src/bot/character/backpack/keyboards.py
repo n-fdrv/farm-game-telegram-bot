@@ -65,8 +65,10 @@ async def backpack_preview_keyboard(character: Character):
 async def backpack_list_keyboard(user: User, callback_data: BackpackData):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
-    async for item in CharacterItem.objects.select_related("item").filter(
-        character=user.character, item__type=callback_data.type
+    async for item in (
+        CharacterItem.objects.select_related("item")
+        .filter(character=user.character, item__type=callback_data.type)
+        .order_by("item__name")
     ):
         keyboard.button(
             text=f"{item.name_with_enhance} - {item.amount} шт.",
@@ -113,7 +115,9 @@ async def item_get_keyboard(callback_data: BackpackData):
         keyboard.button(
             text=USE_BUTTON,
             callback_data=BackpackData(
-                action=backpack_action.use, id=callback_data.id
+                action=backpack_action.use,
+                id=callback_data.id,
+                type=callback_data.type,
             ),
         )
     elif callback_data.type == ItemType.BAG:
@@ -209,13 +213,14 @@ async def enhance_get_keyboard(callback_data: BackpackData):
     return keyboard
 
 
-async def in_backpack_keyboard():
+async def in_backpack_keyboard(callback_data: BackpackData):
     """Клавиатура возвращения в инвентарь."""
     keyboard = InlineKeyboardBuilder()
+    print(callback_data)
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=BackpackData(
-            action=backpack_action.preview,
+            action=backpack_action.list, type=callback_data.type
         ),
     )
     keyboard.adjust(1)

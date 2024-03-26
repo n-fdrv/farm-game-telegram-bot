@@ -166,7 +166,7 @@ async def get_character_property(
         return chosen_property
     chosen_property += await get_property_amount(character, effect_property)
     chosen_property *= await get_property_modifier(character, effect_property)
-    return chosen_property
+    return round(chosen_property, 2)
 
 
 async def get_character_info(character: Character) -> str:
@@ -420,7 +420,7 @@ async def kill_character(
     await bot.send_message(
         user.telegram_id,
         CHARACTER_KILL_MESSAGE.format(
-            attacker_text, exp_gained - lost_exp, drop_text
+            attacker_text, round(exp_gained - lost_exp, 2), drop_text
         ),
     )
 

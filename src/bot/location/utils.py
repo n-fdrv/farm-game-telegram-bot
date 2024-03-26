@@ -136,7 +136,6 @@ async def enter_location(character: Character, location: Location):
         character, EffectProperty.DEFENCE
     )
     dead_chance = 100 - character_defence / location.defence * 100
-    print(dead_chance)
     hunting_time = await get_character_property(
         character, EffectProperty.HUNTING_TIME
     )

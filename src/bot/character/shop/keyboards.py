@@ -197,7 +197,9 @@ async def sell_list_keyboard(user: User, callback_data: ShopData):
         page=callback_data.page,
         type=callback_data.type,
     )
-    return paginator.get_paginator_with_button(BACK_BUTTON, shop_action.get)
+    return paginator.get_paginator_with_button(
+        BACK_BUTTON, shop_action.sell_preview
+    )
 
 
 async def sell_get_keyboard(callback_data: ShopData):
