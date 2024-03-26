@@ -132,12 +132,16 @@ async def enter_location(character: Character, location: Location):
     """Вход в локацию."""
     character.current_location = location
     character.hunting_begin = timezone.now()
-    dead_chance = 100 - character.defence / location.defence * 100
+    character_defence = await get_character_property(
+        character, EffectProperty.DEFENCE
+    )
+    dead_chance = 100 - character_defence / location.defence * 100
+    print(dead_chance)
     hunting_time = await get_character_property(
         character, EffectProperty.HUNTING_TIME
     )
     if character.defence < location.defence:
-        hunting_time *= character.defence / location.defence
+        hunting_time *= character_defence / location.defence
     character.hunting_end = timezone.now() + datetime.timedelta(
         minutes=int(hunting_time),
     )
