@@ -7,6 +7,7 @@ from bot.character.utils import get_character_about
 from bot.clan.keyboards import (
     clan_create_request_confirm_keyboard,
     clan_create_request_keyboard,
+    clan_enter_confirm_keyboard,
     clan_get_keyboard,
     clan_guest_get_keyboard,
     clan_list_keyboard,
@@ -19,6 +20,7 @@ from bot.clan.keyboards import (
     to_preview_keyboard,
 )
 from bot.clan.messages import (
+    CLAN_ENTER_CONFIRM_MESSAGE,
     CLAN_LIST_MESSAGE,
     CLAN_NAME_CONFIRM_MESSAGE,
     CLAN_NAME_NOT_CORRECT_MESSAGE,
@@ -39,6 +41,7 @@ from bot.clan.utils import (
     check_clan_name_exist,
     create_request,
     decline_request,
+    enter_clan,
     get_clan_info,
 )
 from bot.command.buttons import CLAN_BUTTON
@@ -377,3 +380,35 @@ async def clan_request_decline_callback(
     await callback.message.answer(
         text=REQUEST_LIST_MESSAGE, reply_markup=paginator
     )
+
+
+@clan_router.callback_query(
+    ClanData.filter(F.action == clan_action.enter_clan_confirm)
+)
+@log_in_dev
+async def clan_enter_confirm_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    keyboard = await clan_enter_confirm_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=CLAN_ENTER_CONFIRM_MESSAGE, reply_markup=keyboard.as_markup()
+    )
+
+
+@clan_router.callback_query(
+    ClanData.filter(F.action == clan_action.enter_clan)
+)
+@log_in_dev
+async def clan_enter_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    user = await get_user(callback.from_user.id)
+    clan = await Clan.objects.aget(id=callback_data.id)
+    success, text = await enter_clan(user.character, clan)
+    await callback.message.edit_text(text=text)

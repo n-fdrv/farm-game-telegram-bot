@@ -308,3 +308,20 @@ async def clan_request_get_keyboard(callback_data: ClanData):
     )
     keyboard.adjust(2)
     return keyboard
+
+
+async def clan_enter_confirm_keyboard(callback_data: ClanData):
+    """Клавиатура подтверждения входа в клан."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=ClanData(
+            action=clan_action.enter_clan, id=callback_data.id
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=ClanData(action=clan_action.get, id=callback_data.id),
+    )
+    keyboard.adjust(2)
+    return keyboard

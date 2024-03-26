@@ -102,3 +102,17 @@ SUCCESS_ACCEPTING_REQUEST_MESSAGE_TO_USER = (
 SUCCESS_DECLINE_REQUEST_MESSAGE_TO_USER = (
     "<b>✅Ваша Заявка была рассмотрена!</b>\n\n" "Вас не приняли в Клан {}!"
 )
+
+CLAN_ENTER_CONFIRM_MESSAGE = (
+    "<b>⚠️ Подтверждение</b>\n\n"
+    "Вы уверены, что хотите войти в этот Клан?\n"
+    "❗️ Все Ваши другие Заявки будут удалены!"
+)
+
+ERROR_IN_ENTER_CLAN_MESSAGE = (
+    "❌ Ошибка!\n\n" "Произошла ошибка при входе в Клан!"
+)
+
+SUCCESS_ENTER_CLAN_MESSAGE = "<b>✅Успешно!</b>\n\n" "Вы приняты в Клан {}!"
+
+NO_PLACE_IN_CLAN_MESSAGE = "❌ Неудачно!\n\n" "В клане нет места!"
