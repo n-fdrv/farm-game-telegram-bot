@@ -8,6 +8,7 @@ from bot.clan.keyboards import (
     clan_create_request_confirm_keyboard,
     clan_create_request_keyboard,
     clan_enter_confirm_keyboard,
+    clan_exit_confirm_keyboard,
     clan_get_keyboard,
     clan_guest_get_keyboard,
     clan_list_keyboard,
@@ -15,12 +16,15 @@ from bot.clan.keyboards import (
     clan_request_list_keyboard,
     clan_search_keyboard,
     confirm_clan_name_keyboard,
+    members_list_keyboard,
     no_clan_preview_keyboard,
     search_clan_list_keyboard,
     to_preview_keyboard,
 )
 from bot.clan.messages import (
     CLAN_ENTER_CONFIRM_MESSAGE,
+    CLAN_EXIT_CONFIRM_MESSAGE,
+    CLAN_EXIT_MESSAGE,
     CLAN_LIST_MESSAGE,
     CLAN_NAME_CONFIRM_MESSAGE,
     CLAN_NAME_NOT_CORRECT_MESSAGE,
@@ -30,6 +34,7 @@ from bot.clan.messages import (
     CREATE_PREVIEW_MESSAGE,
     CREATE_REQUEST_CONFIRM_MESSAGE,
     ERROR_CREATING_CLAN_MESSAGE,
+    MEMBERS_LIST_MESSAGE,
     NO_CLAN_MESSAGE,
     REQUEST_LIST_MESSAGE,
     SEARCH_CLAN_LIST_MESSAGE,
@@ -412,3 +417,47 @@ async def clan_enter_callback(
     clan = await Clan.objects.aget(id=callback_data.id)
     success, text = await enter_clan(user.character, clan)
     await callback.message.edit_text(text=text)
+
+
+@clan_router.callback_query(
+    ClanData.filter(F.action == clan_action.exit_confirm)
+)
+@log_in_dev
+async def clan_exit_confirm_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    keyboard = await clan_exit_confirm_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=CLAN_EXIT_CONFIRM_MESSAGE, reply_markup=keyboard.as_markup()
+    )
+
+
+@clan_router.callback_query(ClanData.filter(F.action == clan_action.exit))
+@log_in_dev
+async def clan_exit_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    user = await get_user(callback.from_user.id)
+    user.character.clan = None
+    await user.character.asave(update_fields=("clan",))
+    await callback.message.edit_text(text=CLAN_EXIT_MESSAGE)
+
+
+@clan_router.callback_query(ClanData.filter(F.action == clan_action.members))
+@log_in_dev
+async def members_list_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    paginator = await members_list_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=MEMBERS_LIST_MESSAGE, reply_markup=paginator
+    )

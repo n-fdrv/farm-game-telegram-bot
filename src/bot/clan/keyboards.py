@@ -325,3 +325,52 @@ async def clan_enter_confirm_keyboard(callback_data: ClanData):
     )
     keyboard.adjust(2)
     return keyboard
+
+
+async def clan_exit_confirm_keyboard(callback_data: ClanData):
+    """Клавиатура подтверждения входа в клан."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=ClanData(action=clan_action.exit, id=callback_data.id),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=ClanData(action=clan_action.preview),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def members_list_keyboard(callback_data: ClanData):
+    """Клавиатура подтверждения входа в клан."""
+    keyboard = InlineKeyboardBuilder()
+    async for character in Character.objects.select_related(
+        "character_class"
+    ).filter(clan__id=callback_data.id):
+        keyboard.button(
+            text=(f"{character.name_with_class} " f"Ур. {character.level}"),
+            callback_data=ClanData(
+                action=clan_action.request_get,
+                id=callback_data.id,
+                character_id=character.id,
+                page=callback_data.page,
+            ),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=clan_action.request_list,
+        size=6,
+        page=callback_data.page,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            [
+                BACK_BUTTON,
+                ClanData(
+                    action=clan_action.preview,
+                ),
+            ]
+        ]
+    )
