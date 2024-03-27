@@ -50,7 +50,7 @@ async def get_clan_info(clan: Clan) -> str:
     return GET_CLAN_MESSAGE.format(
         clan.name_with_emoji,
         clan.level,
-        await get_clan_power(clan),
+        int(await get_clan_power(clan)),
         clan.leader.name_with_level,
         clan.description,
         clan_members_amount,

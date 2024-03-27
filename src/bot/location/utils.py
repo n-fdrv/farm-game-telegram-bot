@@ -158,10 +158,13 @@ async def enter_location(character: Character, location: Location):
 
 async def location_get_character_about(character: Character) -> str:
     """Возвращает сообщение с данными о персонаже."""
+    clan = "Нет"
+    if character.clan:
+        clan = character.clan.name_with_emoji
     return LOCATION_CHARACTER_GET_MESSAGE.format(
         character.name_with_class,
         character.level,
-        character.clan.name_with_emoji,
+        clan,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         "\n".join(
