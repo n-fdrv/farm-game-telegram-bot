@@ -5,15 +5,11 @@ from clan.models import Clan
 
 from bot.character.utils import get_character_about
 from bot.clan.keyboards import (
-    clan_create_request_confirm_keyboard,
-    clan_create_request_keyboard,
     clan_enter_confirm_keyboard,
     clan_exit_confirm_keyboard,
     clan_get_keyboard,
     clan_guest_get_keyboard,
     clan_list_keyboard,
-    clan_request_get_keyboard,
-    clan_request_list_keyboard,
     clan_search_keyboard,
     confirm_clan_name_keyboard,
     member_kick_confirm_keyboard,
@@ -35,21 +31,16 @@ from bot.clan.messages import (
     CLAN_SEARCH_MESSAGE,
     CLAN_TAKEN_MESSAGE,
     CREATE_PREVIEW_MESSAGE,
-    CREATE_REQUEST_CONFIRM_MESSAGE,
     ERROR_CREATING_CLAN_MESSAGE,
     MEMBER_KICK_CONFIRM_MESSAGE,
     MEMBERS_LIST_MESSAGE,
     NO_CLAN_MESSAGE,
-    REQUEST_LIST_MESSAGE,
     SEARCH_CLAN_LIST_MESSAGE,
     SUCCESS_CREATING_CLAN_MESSAGE,
 )
 from bot.clan.utils import (
-    accept_request,
     check_clan_name_correct,
     check_clan_name_exist,
-    create_request,
-    decline_request,
     enter_clan,
     get_clan_info,
     kick_member,
@@ -272,123 +263,6 @@ async def clan_guest_get_callback(
     keyboard = await clan_guest_get_keyboard(clan)
     await callback.message.edit_text(
         text=await get_clan_info(clan), reply_markup=keyboard.as_markup()
-    )
-
-
-@clan_router.callback_query(
-    ClanData.filter(F.action == clan_action.create_request_confirm)
-)
-@log_in_dev
-async def clan_create_request_confirm_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: ClanData,
-):
-    """Коллбек получения предмета в инвентаре."""
-    keyboard = await clan_create_request_confirm_keyboard(callback_data)
-    await callback.message.edit_text(
-        text=CREATE_REQUEST_CONFIRM_MESSAGE, reply_markup=keyboard.as_markup()
-    )
-
-
-@clan_router.callback_query(
-    ClanData.filter(F.action == clan_action.create_request)
-)
-@log_in_dev
-async def clan_create_request_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: ClanData,
-):
-    """Коллбек получения предмета в инвентаре."""
-    user = await get_user(callback.from_user.id)
-    clan = await Clan.objects.select_related("leader").aget(
-        pk=callback_data.id
-    )
-    success, text = await create_request(user.character, clan)
-    keyboard = await clan_create_request_keyboard(callback_data)
-    await callback.message.edit_text(
-        text=text, reply_markup=keyboard.as_markup()
-    )
-
-
-@clan_router.callback_query(
-    ClanData.filter(F.action == clan_action.request_list)
-)
-@log_in_dev
-async def clan_request_list_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: ClanData,
-):
-    """Коллбек получения предмета в инвентаре."""
-    paginator = await clan_request_list_keyboard(callback_data)
-    await callback.message.edit_text(
-        text=REQUEST_LIST_MESSAGE, reply_markup=paginator
-    )
-
-
-@clan_router.callback_query(
-    ClanData.filter(F.action == clan_action.request_get)
-)
-@log_in_dev
-async def clan_request_get_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: ClanData,
-):
-    """Коллбек получения предмета в инвентаре."""
-    character = await Character.objects.select_related(
-        "character_class", "clan"
-    ).aget(pk=callback_data.character_id)
-    keyboard = await clan_request_get_keyboard(callback_data)
-    await callback.message.edit_text(
-        text=await get_character_about(character),
-        reply_markup=keyboard.as_markup(),
-    )
-
-
-@clan_router.callback_query(
-    ClanData.filter(F.action == clan_action.request_accept)
-)
-@log_in_dev
-async def clan_request_accept_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: ClanData,
-):
-    """Коллбек получения предмета в инвентаре."""
-    user = await get_user(callback.from_user.id)
-    character = await Character.objects.select_related(
-        "character_class", "clan"
-    ).aget(pk=callback_data.character_id)
-    success, text = await accept_request(character, user.character.clan)
-    await callback.message.edit_text(text=text)
-    paginator = await clan_request_list_keyboard(callback_data)
-    await callback.message.answer(
-        text=REQUEST_LIST_MESSAGE, reply_markup=paginator
-    )
-
-
-@clan_router.callback_query(
-    ClanData.filter(F.action == clan_action.request_decline)
-)
-@log_in_dev
-async def clan_request_decline_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: ClanData,
-):
-    """Коллбек получения предмета в инвентаре."""
-    user = await get_user(callback.from_user.id)
-    character = await Character.objects.select_related(
-        "character_class", "clan"
-    ).aget(pk=callback_data.character_id)
-    success, text = await decline_request(character, user.character.clan)
-    await callback.message.edit_text(text=text)
-    paginator = await clan_request_list_keyboard(callback_data)
-    await callback.message.answer(
-        text=REQUEST_LIST_MESSAGE, reply_markup=paginator
     )
 
 

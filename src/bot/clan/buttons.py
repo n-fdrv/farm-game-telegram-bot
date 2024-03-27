@@ -12,7 +12,4 @@ SEARCH_CLAN_LIST_BUTTON = "🔎Перейти к списку"
 
 CREATE_REQUEST_BUTTON = "🖋Заявка на Вступление"
 
-ACCEPT_REQUEST_BUTTON = "✅Принять"
-DECLINE_REQUEST_BUTTON = "❌Отклонить"
-
 KICK_CHARACTER_BUTTON = "🚫Выгнать из Клана"

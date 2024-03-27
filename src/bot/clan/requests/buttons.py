@@ -1,0 +1,2 @@
+ACCEPT_REQUEST_BUTTON = "✅Принять"
+DECLINE_REQUEST_BUTTON = "❌Отклонить"
