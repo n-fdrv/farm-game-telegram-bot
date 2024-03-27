@@ -6,6 +6,11 @@ from bot.clan.members.messages import (
     SUCCESS_KICKING_MEMBER_MESSAGE,
     SUCCESS_KICKING_MEMBER_MESSAGE_TO_USER,
 )
+from bot.clan.settings.messages import (
+    NOT_EMPTY_REMOVING_CLAN_MESSAGE,
+    NOT_LEADER_REMOVING_CLAN_MESSAGE,
+    SUCCESS_REMOVE_CLAN_MESSAGE,
+)
 from bot.models import User
 from bot.utils.schedulers import send_message_to_user
 
@@ -46,3 +51,18 @@ async def kick_member(character: Character, clan: Clan):
     return True, SUCCESS_KICKING_MEMBER_MESSAGE.format(
         character.name_with_class
     )
+
+
+async def remove_clan(character: Character, clan: Clan):
+    """Удаление клана."""
+    if character != clan.leader:
+        return False, NOT_LEADER_REMOVING_CLAN_MESSAGE
+    characters_in_clan = await Character.objects.filter(
+        clan=clan
+    ).exclude(pk=character.pk).acount()
+    if characters_in_clan:
+        return False, NOT_EMPTY_REMOVING_CLAN_MESSAGE
+    character.clan = None
+    await character.asave(update_fields=('clan',))
+    await clan.adelete()
+    return True, SUCCESS_REMOVE_CLAN_MESSAGE

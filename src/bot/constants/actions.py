@@ -153,6 +153,7 @@ class ClanAction(Action):
     settings_access = f"{callback_data.ClanData.__prefix__}-seac"
     settings_remove = f"{callback_data.ClanData.__prefix__}-sere"
 
+    settings_access_confirm = f"{callback_data.ClanData.__prefix__}-seacco"
     settings_emoji_set = f"{callback_data.ClanData.__prefix__}-seemse"
 
 

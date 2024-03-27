@@ -7,7 +7,7 @@ from bot.clan.settings.buttons import (
     REMOVE_CLAN_BUTTON,
 )
 from bot.clan.settings.utils import EMOJI_DATA
-from bot.command.buttons import BACK_BUTTON
+from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
 from bot.constants.actions import clan_action
 from bot.constants.callback_data import ClanData
 from bot.utils.paginator import Paginator
@@ -33,7 +33,7 @@ async def settings_list_keyboard(callback_data: ClanData):
     keyboard.button(
         text=CHANGE_ACCESS_BUTTON,
         callback_data=ClanData(
-            action=clan_action.settings_access,
+            action=clan_action.settings_access_confirm,
             id=callback_data.id
         )
     )
@@ -106,3 +106,37 @@ async def settings_emoji_keyboard(callback_data: ClanData):
             ]
         ]
     )
+
+
+async def settings_access_confirm_keyboard(callback_data: ClanData):
+    """Клавиатура возвращения к настройкам."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=ClanData(action=clan_action.settings_access,
+                               id=callback_data.id)
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=ClanData(action=clan_action.settings,
+                               id=callback_data.id)
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def settings_remove_confirm_keyboard(callback_data: ClanData):
+    """Клавиатура возвращения к настройкам."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=ClanData(action=clan_action.remove,
+                               id=callback_data.id)
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=ClanData(action=clan_action.settings,
+                               id=callback_data.id)
+    )
+    keyboard.adjust(2)
+    return keyboard
