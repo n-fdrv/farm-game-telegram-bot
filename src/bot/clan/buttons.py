@@ -11,5 +11,3 @@ SEARCH_CLAN_BUTTON = "🔎Поиск Клана"
 SEARCH_CLAN_LIST_BUTTON = "🔎Перейти к списку"
 
 CREATE_REQUEST_BUTTON = "🖋Заявка на Вступление"
-
-KICK_CHARACTER_BUTTON = "🚫Выгнать из Клана"
