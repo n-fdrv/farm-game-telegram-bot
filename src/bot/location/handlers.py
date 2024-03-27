@@ -150,10 +150,9 @@ async def exit_location(
         return
     await remove_scheduler(user.character.job_id)
     exp, drop_text = await get_hunting_loot(user.character)
-    drop_text = ""
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
-        text=HUNTING_END_MESSAGE.format(exp, drop_text),
+        text=HUNTING_END_MESSAGE.format(int(exp), drop_text),
         reply_markup=keyboard.as_markup(),
     )
 
