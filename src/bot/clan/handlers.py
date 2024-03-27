@@ -249,7 +249,7 @@ async def clan_guest_get_callback(
 ):
     """Коллбек получения предмета в инвентаре."""
     clan = await Clan.objects.select_related(
-        "leader", "leader__character_class"
+        "leader", "leader__character_class", "leader__clan"
     ).aget(pk=callback_data.id)
     keyboard = await clan_guest_get_keyboard(clan)
     await callback.message.edit_text(

@@ -186,7 +186,7 @@ async def location_character_get_handler(
 ):
     """Хендлер подтверждения выхода из локации."""
     character = await Character.objects.select_related(
-        "current_location", "character_class"
+        "current_location", "character_class", "clan"
     ).aget(id=callback_data.character_id)
     keyboard = await location_character_get_keyboard(callback_data)
     await callback.message.edit_text(
@@ -205,9 +205,9 @@ async def location_character_kill_confirm_handler(
     callback_data: LocationData,
 ):
     """Хендлер подтверждения выхода из локации."""
-    character = await Character.objects.select_related("character_class").aget(
-        id=callback_data.character_id
-    )
+    character = await Character.objects.select_related(
+        "character_class", "clan"
+    ).aget(id=callback_data.character_id)
     keyboard = await kill_character_confirm_keyboard(callback_data)
     await callback.message.edit_text(
         text=CHARACTER_KILL_CONFIRM_MESSAGE.format(
@@ -228,8 +228,7 @@ async def location_character_kill_handler(
 ):
     """Хендлер подтверждения выхода из локации."""
     character = await Character.objects.select_related(
-        "current_location",
-        "character_class",
+        "current_location", "character_class", "clan"
     ).aget(id=callback_data.character_id)
     if not character.current_location:
         await callback.message.edit_text(

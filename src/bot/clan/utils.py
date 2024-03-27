@@ -43,15 +43,19 @@ async def get_clan_power(clan: Clan) -> int:
 async def get_clan_info(clan: Clan) -> str:
     """Получение информации о клане."""
     clan_members_amount = await Character.objects.filter(clan=clan).acount()
+    access = "🔓Открытый"
+    if clan.by_request:
+        access = "🔒По заявкам"
     await get_clan_power(clan)
     return GET_CLAN_MESSAGE.format(
         clan.name_with_emoji,
         clan.level,
         await get_clan_power(clan),
-        clan.leader.name_with_class,
+        clan.leader.name_with_level,
         clan.description,
         clan_members_amount,
         clan.place,
+        access,
         clan.reputation,
     )
 

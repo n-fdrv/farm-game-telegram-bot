@@ -10,6 +10,7 @@ async def get_user(user_id: int) -> User:
         "character__clan",
         "character__clan__leader",
         "character__clan__leader__character_class",
+        "character__clan__leader__clan",
     ).aget(telegram_id=user_id)
 
 

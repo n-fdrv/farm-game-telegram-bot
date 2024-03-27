@@ -148,6 +148,13 @@ class ClanAction(Action):
     member_kick_confirm = f"{callback_data.ClanData.__prefix__}-mekico"
     member_kick = f"{callback_data.ClanData.__prefix__}-meki"
 
+    settings_emoji = f"{callback_data.ClanData.__prefix__}-seem"
+    settings_description = f"{callback_data.ClanData.__prefix__}-sede"
+    settings_access = f"{callback_data.ClanData.__prefix__}-seac"
+    settings_remove = f"{callback_data.ClanData.__prefix__}-sere"
+
+    settings_emoji_set = f"{callback_data.ClanData.__prefix__}-seemse"
+
 
 class TopAction(Action):
     """Действия для хендлеров клана."""

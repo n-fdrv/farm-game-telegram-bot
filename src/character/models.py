@@ -208,21 +208,43 @@ class Character(models.Model):
         )
 
     @property
+    def name_with_clan(self):
+        """Метод получения имени персонажа с кланом."""
+        text = ""
+        if self.clan:
+            if self.clan.emoji:
+                text += f"{self.clan.emoji}"
+        text += f"{self.name}"
+        return text
+
+    @property
     def name_with_class(self):
         """Метод получения имени персонажа с классом и премиумом."""
+        text = ""
         if self.premium_expired > timezone.now():
-            return f"🔸{self.name}{self.character_class.emoji}"
-        return f"{self.name}{self.character_class.emoji}"
+            text += "🔸"
+        text += f"{self.name}{self.character_class.emoji}"
+        return text
 
     @property
     def name_with_level(self):
         """Метод получения имени персонажа с уровнем."""
-        return f"{self.name}{self.character_class.emoji} Ур. {self.level}"
+        text = ""
+        if self.clan:
+            if self.clan.emoji:
+                text += f"{self.clan.emoji}"
+        text += f"{self.name} Ур. {self.level}"
+        return text
 
     @property
     def name_with_kills(self):
         """Метод получения имени персонажа с убийствами."""
-        return f"{self.name}{self.character_class.emoji} {self.kills}⚔️"
+        text = ""
+        if self.clan:
+            if self.clan.emoji:
+                text += f"{self.clan.emoji}"
+        text += f"{self.name} 🩸{self.kills}"
+        return text
 
 
 class CharacterSkill(models.Model):

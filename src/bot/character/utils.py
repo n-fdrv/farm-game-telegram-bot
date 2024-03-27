@@ -424,7 +424,7 @@ async def kill_character(
         await character_effect.adelete()
     attacker_text = "Монстры в Локации"
     if attacker:
-        attacker_text = attacker.name_with_class
+        attacker_text = attacker.name_with_clan
     user = await User.objects.aget(character=character)
     await bot.send_message(
         user.telegram_id,

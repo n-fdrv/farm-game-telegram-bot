@@ -24,7 +24,7 @@ async def members_list_keyboard(callback_data: ClanData):
         .filter(clan__id=callback_data.id)
     ):
         keyboard.button(
-            text=(f"{character.name_with_class} " f"Ур. {character.level}"),
+            text=f"{character.name_with_class} " f"Ур. {character.level}",
             callback_data=ClanData(
                 action=clan_action.members_get,
                 id=callback_data.id,

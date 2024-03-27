@@ -161,6 +161,7 @@ async def location_get_character_about(character: Character) -> str:
     return LOCATION_CHARACTER_GET_MESSAGE.format(
         character.name_with_class,
         character.level,
+        character.clan.name_with_emoji,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         "\n".join(

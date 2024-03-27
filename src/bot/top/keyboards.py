@@ -40,15 +40,13 @@ async def top_list_keyboard(callback_data: TopData):
     if callback_data.page > 1:
         i = (callback_data.page - 1) * size + 1
     async for character in (
-        Character.objects.select_related("character_class")
+        Character.objects.select_related("character_class", "clan")
         .order_by(*order_by)
         .all()[:20]
     ):
         button_text = f"{i}. {character.name_with_level}"
         if callback_data.filter_by == top_action.by_kills:
-            button_text = (
-                f"{i} {character.name_with_class} {character.kills}🩸"
-            )
+            button_text = f"{i}. {character.name_with_kills}"
         keyboard.button(
             text=button_text,
             callback_data=TopData(

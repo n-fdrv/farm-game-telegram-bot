@@ -77,6 +77,8 @@ class Paginator:
         """Метод получения кнопок пагинации."""
         pagination_keyboard = InlineKeyboardBuilder()
         callback = get_callback_by_action(self.action)
+        if "id" in self.kwargs:
+            callback.id = self.kwargs["id"]
         if "user_id" in self.kwargs:
             callback.user_id = self.kwargs["user_id"]
         if "type" in self.kwargs:

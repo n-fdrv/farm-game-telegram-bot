@@ -67,6 +67,7 @@ class ClanData(BaseCallbackData, prefix="cl"):
 
     name_contains: Optional[str] = None
     character_id: Optional[int] = 0
+    settings_value: Optional[str] = None
 
 
 class TopData(BaseCallbackData, prefix="top"):

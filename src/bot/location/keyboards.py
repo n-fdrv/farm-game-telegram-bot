@@ -96,12 +96,12 @@ async def character_list_keyboard(callback_data: LocationData):
     """Клавиатура списка локаций."""
     keyboard = InlineKeyboardBuilder()
     async for character in (
-        Character.objects.select_related("character_class")
+        Character.objects.select_related("character_class", "clan")
         .filter(current_location__id=callback_data.id)
         .all()
     ):
         keyboard.button(
-            text=character.name_with_class,
+            text=character.name_with_clan,
             callback_data=LocationData(
                 action=location_action.characters_get,
                 id=callback_data.id,
