@@ -1,17 +1,19 @@
-import csv
+import datetime
 
+from django.apps import apps
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
 
 from character.models import (
     Character,
     CharacterClass,
-    CharacterClassSkill,
     ClassEquipment,
     MarketplaceItem,
     Skill,
-    SkillEffect,
 )
+
+from bot.character.utils import end_hunting
+from bot.models import User
 
 
 class CharacterSkillInline(admin.TabularInline):
@@ -46,37 +48,6 @@ class SkillEffectInline(admin.TabularInline):
 class SkillAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление классами персонажа."""
 
-    def download_csv(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/characters/skills.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.level,
-                    ]
-                )
-        with open(
-            "data/characters/effects.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in SkillEffect.objects.all():
-                spamwriter.writerow(
-                    [
-                        row.effect.property,
-                        row.effect.amount,
-                        row.effect.in_percent,
-                        row.skill.name,
-                        row.effect.slug,
-                    ]
-                )
-
-    download_csv.short_description = "Download selected as csv"
-    changelist_actions = ("download_csv",)
     inlines = (SkillEffectInline,)
     list_display = (
         "name",
@@ -88,49 +59,6 @@ class SkillAdmin(DjangoObjectActions, admin.ModelAdmin):
 class CharacterClassAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление классами персонажа."""
 
-    def download_csv(modeladmin, request, queryset):
-        """Сформировать файл с данными базы."""
-        with open(
-            "data/characters/classes.csv", "w", newline="", encoding="utf-8"
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in queryset:
-                spamwriter.writerow(
-                    [
-                        row.name,
-                        row.description,
-                        row.attack,
-                        row.defence,
-                        row.emoji,
-                    ]
-                )
-        with open(
-            "data/characters/class_skills.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in CharacterClassSkill.objects.all():
-                spamwriter.writerow(
-                    [
-                        row.character_class.name,
-                        row.skill.name,
-                        row.skill.level,
-                    ]
-                )
-        with open(
-            "data/characters/class_equipment.csv",
-            "w",
-            newline="",
-            encoding="utf-8",
-        ) as csvfile:
-            spamwriter = csv.writer(csvfile, delimiter=",")
-            for row in ClassEquipment.objects.all():
-                spamwriter.writerow([row.character_class.name, row.type])
-
-    download_csv.short_description = "Download selected as csv"
-    changelist_actions = ("download_csv",)
     inlines = (ClassSkillInline, ClassEquipmentInline)
     list_display = (
         "name",
@@ -163,6 +91,31 @@ class CharacterEffectInline(admin.TabularInline):
 @admin.register(Character)
 class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью персонажей."""
+
+    def end_hunting(modeladmin, request, queryset):
+        """Окончить охоту персонажей."""
+        app_config = apps.get_app_config("bot")
+        app = app_config.bot
+        scheduler = app.get_scheduler()
+        bot = app.get_bot()
+        for character in queryset:
+            user = User.objects.get(character=character)
+            if character.current_location:
+                scheduler.add_job(
+                    end_hunting,
+                    "date",
+                    run_date=datetime.datetime.now(),
+                    args=[character, bot],
+                )
+            scheduler.add_job(
+                bot.send_message,
+                "date",
+                run_date=datetime.datetime.now(),
+                args=[user.telegram_id, "Сервер отключается на профилактику"],
+            )
+
+    end_hunting.short_description = "Окончить охоту всех персонажей"
+    changelist_actions = ("end_hunting",)
 
     list_display = (
         "name",
