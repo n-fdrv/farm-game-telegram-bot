@@ -259,6 +259,7 @@ async def get_character_about(character: Character) -> str:
         clan,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
+        character.kills,
         premium_expired,
         round(
             await get_character_property(character, EffectProperty.EXP) * 100
