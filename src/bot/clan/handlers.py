@@ -16,6 +16,8 @@ from bot.clan.keyboards import (
     clan_request_list_keyboard,
     clan_search_keyboard,
     confirm_clan_name_keyboard,
+    member_kick_confirm_keyboard,
+    member_kick_keyboard,
     members_get_keyboard,
     members_list_keyboard,
     no_clan_preview_keyboard,
@@ -35,6 +37,7 @@ from bot.clan.messages import (
     CREATE_PREVIEW_MESSAGE,
     CREATE_REQUEST_CONFIRM_MESSAGE,
     ERROR_CREATING_CLAN_MESSAGE,
+    MEMBER_KICK_CONFIRM_MESSAGE,
     MEMBERS_LIST_MESSAGE,
     NO_CLAN_MESSAGE,
     REQUEST_LIST_MESSAGE,
@@ -49,6 +52,7 @@ from bot.clan.utils import (
     decline_request,
     enter_clan,
     get_clan_info,
+    kick_member,
 )
 from bot.command.buttons import CLAN_BUTTON
 from bot.command.keyboards import start_keyboard, user_created_keyboard
@@ -474,11 +478,51 @@ async def members_get_callback(
     callback_data: ClanData,
 ):
     """Коллбек получения предмета в инвентаре."""
-    keyboard = await members_get_keyboard(callback_data)
     character = await Character.objects.select_related(
         "character_class", "clan"
     ).aget(pk=callback_data.character_id)
+    user = await get_user(callback.from_user.id)
+    keyboard = await members_get_keyboard(callback_data, user.character)
     await callback.message.edit_text(
         text=await get_character_about(character),
         reply_markup=keyboard.as_markup(),
+    )
+
+
+@clan_router.callback_query(
+    ClanData.filter(F.action == clan_action.member_kick_confirm)
+)
+@log_in_dev
+async def clan_member_kick_confirm_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    keyboard = await member_kick_confirm_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=MEMBER_KICK_CONFIRM_MESSAGE, reply_markup=keyboard.as_markup()
+    )
+
+
+@clan_router.callback_query(
+    ClanData.filter(F.action == clan_action.member_kick)
+)
+@log_in_dev
+async def clan_member_kick_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: ClanData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    character = await Character.objects.select_related(
+        "character_class", "clan"
+    ).aget(pk=callback_data.character_id)
+    clan = await Clan.objects.select_related("leader").aget(
+        id=callback_data.id
+    )
+    success, text = await kick_member(character, clan)
+    keyboard = await member_kick_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=text, reply_markup=keyboard.as_markup()
     )

@@ -145,6 +145,7 @@ class ClanAction(Action):
     request_decline = f"{callback_data.ClanData.__prefix__}-rede"
 
     members_get = f"{callback_data.ClanData.__prefix__}-mege"
+    member_kick_confirm = f"{callback_data.ClanData.__prefix__}-mekico"
     member_kick = f"{callback_data.ClanData.__prefix__}-meki"
 
 

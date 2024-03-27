@@ -72,7 +72,7 @@ class ClanData(BaseCallbackData, prefix="cl"):
 class TopData(BaseCallbackData, prefix="top"):
     """Данные для хендлеров топа персонажей."""
 
-    filter: Optional[str] = None
+    filter_by: Optional[str] = None
 
 
 CALLBACK_DATA_PREFIX = {
