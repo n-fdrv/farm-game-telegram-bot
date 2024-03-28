@@ -49,6 +49,13 @@ class Clan(models.Model):
             return f"{self.emoji}{self.name}"
         return f"{self.name}"
 
+    @property
+    def clan_leader(self):
+        """Метод получения имени персонажа с уровнем."""
+        if self.emoji:
+            return f"{self.emoji}{self.leader.name} Ур. {self.level}"
+        return f"{self.leader.name} Ур. {self.level}"
+
 
 class ClanRequest(models.Model):
     """Модель хранения заявок в клан."""

@@ -51,7 +51,7 @@ async def get_clan_info(clan: Clan) -> str:
         clan.name_with_emoji,
         clan.level,
         int(await get_clan_power(clan)),
-        clan.leader.name_with_level,
+        clan.clan_leader,
         clan.description,
         clan_members_amount,
         clan.place,

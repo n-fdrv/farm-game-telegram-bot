@@ -22,6 +22,7 @@ from bot.clan.handlers import clan_router
 from bot.clan.members.handlers import clan_members_router
 from bot.clan.requests.handlers import clan_request_router
 from bot.clan.settings.handlers import clan_settings_router
+from bot.clan.wars.handlers import clan_wars_router
 from bot.command.handlers import command_router
 from bot.constants import commands
 from bot.location.handlers import location_router
@@ -71,6 +72,7 @@ class AiogramApp:
             clan_request_router,
             clan_members_router,
             clan_settings_router,
+            clan_wars_router,
             top_router,
         ]
         self._download_routes(routes)

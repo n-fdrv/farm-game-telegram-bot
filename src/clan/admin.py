@@ -15,7 +15,7 @@ class ClanAttackInline(admin.TabularInline):
     """Инлайн модель предметов крафта."""
 
     model = Clan.wars.through
-    fk_name = "enemy"
+    fk_name = "clan"
     extra = 1
     verbose_name = "Заявка на войну"
     verbose_name_plural = "Заявки на войну"
@@ -25,7 +25,7 @@ class ClanDefenceInline(admin.TabularInline):
     """Инлайн модель предметов крафта."""
 
     model = Clan.wars.through
-    fk_name = "clan"
+    fk_name = "enemy"
     extra = 1
     verbose_name = "Атакующий клан"
     verbose_name_plural = "Атакующие кланы"

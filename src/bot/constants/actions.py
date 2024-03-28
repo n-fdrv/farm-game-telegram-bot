@@ -156,6 +156,12 @@ class ClanAction(Action):
     settings_access_confirm = f"{callback_data.ClanData.__prefix__}-seacco"
     settings_emoji_set = f"{callback_data.ClanData.__prefix__}-seemse"
 
+    wars_get = f"{callback_data.ClanData.__prefix__}-wage"
+    wars_accept_confirm = f"{callback_data.ClanData.__prefix__}-waacco"
+    wars_accept = f"{callback_data.ClanData.__prefix__}-waac"
+    wars_end_confirm = f"{callback_data.ClanData.__prefix__}-waenco"
+    wars_end = f"{callback_data.ClanData.__prefix__}-waen"
+
 
 class TopAction(Action):
     """Действия для хендлеров клана."""
