@@ -57,10 +57,6 @@ CHARACTER_KILL_MESSAGE = (
     "🪦 Вы погибли!\n\n" "⚔️Убийца: {}\n" "Потеряно: <b>{} 🔮Опыта</b>:"
 )
 
-SKILL_LIST_MESSAGE = "<b>✨Умения</b>"
-
-SKILL_GET_MESSAGE = "<b>{}</b>\n\n" "{}\n\n" "<i>Эффекты:</i>\n{}"
-
 CHARACTER_ABOUT_MESSAGE = (
     "<b>{}</b> Ур. {} 🔮{}%\n"
     "<i>Клан:</i> <b>{}</b>\n"

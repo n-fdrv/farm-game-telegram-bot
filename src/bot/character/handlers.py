@@ -1,6 +1,6 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
-from character.models import CharacterClass, Skill
+from character.models import CharacterClass
 
 from bot.character.keyboards import (
     about_keyboard,
@@ -8,8 +8,6 @@ from bot.character.keyboards import (
     choose_class_keyboard,
     class_get_keyboard,
     confirm_nickname_keyboard,
-    skill_get_keyboard,
-    skill_list_keyboard,
 )
 from bot.character.messages import (
     CHOOSE_CLASS_MESSAGE,
@@ -19,8 +17,6 @@ from bot.character.messages import (
     NICKNAME_CONFIRM_MESSAGE,
     NICKNAME_NOT_CORRECT_MESSAGE,
     NICKNAME_TAKEN_MESSAGE,
-    SKILL_GET_MESSAGE,
-    SKILL_LIST_MESSAGE,
     SUCCESS_CREATING_CHARACTER,
 )
 from bot.character.utils import (
@@ -29,7 +25,6 @@ from bot.character.utils import (
     create_character,
     get_character_about,
     get_character_info,
-    get_skill_effects_info,
 )
 from bot.command.buttons import CHARACTER_BUTTON
 from bot.command.keyboards import start_keyboard, user_created_keyboard
@@ -197,45 +192,6 @@ async def create_character_callback(
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=await get_character_info(character),
-        reply_markup=keyboard.as_markup(),
-    )
-
-
-@character_router.callback_query(
-    CharacterData.filter(F.action == character_action.skill_list)
-)
-@log_in_dev
-async def skill_list_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: CharacterData,
-):
-    """Хендлер получения умений персонажа."""
-    user = await get_user(callback.from_user.id)
-    paginator = await skill_list_keyboard(user.character, callback_data)
-    await callback.message.edit_text(
-        text=SKILL_LIST_MESSAGE, reply_markup=paginator
-    )
-
-
-@character_router.callback_query(
-    CharacterData.filter(F.action == character_action.skill_get)
-)
-@log_in_dev
-async def skill_get_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: CharacterData,
-):
-    """Хендлер получения умения персонажа."""
-    skill = await Skill.objects.aget(id=callback_data.id)
-    keyboard = await skill_get_keyboard(skill)
-    await callback.message.edit_text(
-        text=SKILL_GET_MESSAGE.format(
-            skill.name_with_level,
-            skill.description,
-            await get_skill_effects_info(skill),
-        ),
         reply_markup=keyboard.as_markup(),
     )
 

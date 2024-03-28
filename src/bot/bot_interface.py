@@ -18,6 +18,7 @@ from bot.character.backpack.handlers import backpack_router
 from bot.character.craft.handlers import craft_router
 from bot.character.handlers import character_router
 from bot.character.shop.handlers import shop_router
+from bot.character.skills.handlers import character_skills_router
 from bot.clan.handlers import clan_router
 from bot.clan.members.handlers import clan_members_router
 from bot.clan.requests.handlers import clan_request_router
@@ -62,6 +63,7 @@ class AiogramApp:
         routes = [
             command_router,
             character_router,
+            character_skills_router,
             location_router,
             backpack_router,
             shop_router,

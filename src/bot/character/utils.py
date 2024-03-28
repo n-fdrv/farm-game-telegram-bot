@@ -7,7 +7,6 @@ from character.models import (
     CharacterClass,
     CharacterEffect,
     CharacterItem,
-    Skill,
     SkillEffect,
 )
 from clan.models import ClanWar
@@ -502,14 +501,3 @@ async def kill_character(
         character_telegram_id,
         CHARACTER_KILL_MESSAGE.format(attacker_name, round(lost_exp, 2)),
     )
-
-
-async def get_skill_effects_info(skill: Skill):
-    """Метод получения текста эффектов умения."""
-    text = ""
-    async for effect in skill.effects.all():
-        text += f"- {effect.get_property_display()}: <b>{effect.amount}</b>"
-        if effect.in_percent:
-            text += "<b>%</b>"
-        text += "\n"
-    return text
