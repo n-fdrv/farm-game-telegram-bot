@@ -274,7 +274,7 @@ class CharacterItem(models.Model):
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, verbose_name="Предмет"
     )
-    amount = models.IntegerField(default=1, verbose_name="Количество")
+    amount = models.IntegerField(default=0, verbose_name="Количество")
     equipped = models.BooleanField(default=False, verbose_name="Надето")
     enhancement_level = models.IntegerField(
         default=0, verbose_name="Уровень улучшения"

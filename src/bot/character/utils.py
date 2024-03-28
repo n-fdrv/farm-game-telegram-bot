@@ -348,8 +348,8 @@ async def get_hunting_loot(character: Character):
     async for drop in LocationDrop.objects.select_related(
         "item", "location"
     ).filter(location=character.current_location):
+        chance = drop.chance * drop_modifier
         for _minute in range(hunting_minutes):
-            chance = drop.chance * drop_modifier
             success = random.uniform(0.01, 100) <= chance
             if success:
                 amount = random.randint(drop.min_amount, drop.max_amount)
