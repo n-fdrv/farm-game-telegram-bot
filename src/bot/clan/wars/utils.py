@@ -3,9 +3,12 @@ from clan.models import Clan, ClanWar
 from django.db.models import Q
 
 from bot.clan.wars.messages import (
+    ALERT_DECLARE_WAR_MESSAGE,
     ALERT_END_WAR_MESSAGE,
     ALERT_NEW_WAR_MESSAGE,
+    CLAN_WAR_EXIST_MESSAGE,
     NOT_ENOUGH_REPUTATION_MESSAGE,
+    SUCCESS_DECLARE_WAR_MESSAGE,
     SUCCESS_ENDING_WAR_MESSAGE,
 )
 from bot.models import User
@@ -56,3 +59,26 @@ async def end_war(surrender_clan: Clan, clan_war: ClanWar):
         )
     await clan_war.adelete()
     return True, SUCCESS_ENDING_WAR_MESSAGE.format(winner)
+
+
+async def declare_war(clan: Clan, enemy: Clan):
+    """Объявление войны клану."""
+    clan_war_exist = await ClanWar.objects.filter(
+        Q(clan=clan, enemy=enemy) | Q(enemy=clan, clan=enemy)
+    ).aexists()
+    if clan_war_exist:
+        return False, CLAN_WAR_EXIST_MESSAGE.format(clan, enemy)
+    await ClanWar.objects.acreate(clan=clan, enemy=enemy)
+    async for character in Character.objects.filter(
+        Q(clan=clan) | Q(clan=enemy)
+    ):
+        telegram_id = await User.objects.values_list(
+            "telegram_id", flat=True
+        ).aget(character=character)
+        await send_message_to_user(
+            telegram_id,
+            ALERT_DECLARE_WAR_MESSAGE.format(
+                clan.name_with_emoji, enemy.name_with_emoji
+            ),
+        )
+    return True, SUCCESS_DECLARE_WAR_MESSAGE.format(enemy)

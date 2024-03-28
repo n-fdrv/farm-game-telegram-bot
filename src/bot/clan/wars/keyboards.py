@@ -2,9 +2,14 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from clan.models import ClanWar
 from django.db.models import Q
 
-from bot.clan.wars.buttons import ACCEPT_WAR_BUTTON, END_WAR_BUTTON
+from bot.clan.wars.buttons import (
+    ACCEPT_WAR_BUTTON,
+    DECLARE_WAR_BUTTON,
+    END_WAR_BUTTON,
+)
 from bot.command.buttons import (
     BACK_BUTTON,
+    CANCEL_BUTTON,
     NO_BUTTON,
     YES_BUTTON,
 )
@@ -48,11 +53,15 @@ async def wars_list_keyboard(callback_data: ClanData):
     return paginator.get_paginator_with_buttons_list(
         [
             [
+                DECLARE_WAR_BUTTON,
+                ClanData(action=clan_action.wars_declare, id=callback_data.id),
+            ],
+            [
                 BACK_BUTTON,
                 ClanData(
                     action=clan_action.preview,
                 ),
-            ]
+            ],
         ]
     )
 
@@ -136,6 +145,37 @@ async def wars_end_confirm_keyboard(callback_data: ClanData):
             id=callback_data.id,
             war_id=callback_data.war_id,
             page=callback_data.page,
+        ),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def wars_declare_keyboard(callback_data: ClanData):
+    """Клавиатура подтверждения входа в клан."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=ClanData(action=clan_action.wars, id=callback_data.id),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def wars_declare_confirm_keyboard(clan_id: int):
+    """Клавиатура подтверждения входа в клан."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=ClanData(
+            action=clan_action.wars_declare_set, id=clan_id
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=ClanData(
+            action=clan_action.wars,
+            id=clan_id,
         ),
     )
     keyboard.adjust(2)

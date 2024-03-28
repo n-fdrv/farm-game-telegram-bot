@@ -161,6 +161,8 @@ class ClanAction(Action):
     wars_accept = f"{callback_data.ClanData.__prefix__}-waac"
     wars_end_confirm = f"{callback_data.ClanData.__prefix__}-waenco"
     wars_end = f"{callback_data.ClanData.__prefix__}-waen"
+    wars_declare = f"{callback_data.ClanData.__prefix__}-wade"
+    wars_declare_set = f"{callback_data.ClanData.__prefix__}-wadese"
 
 
 class TopAction(Action):
