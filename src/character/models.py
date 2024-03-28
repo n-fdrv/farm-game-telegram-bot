@@ -13,14 +13,38 @@ from item.models import (
 from location.models import Location
 
 
+class SkillType(models.TextChoices):
+    """Типы способностей."""
+
+    PASSIVE = "passive", "Пассивная"
+    TOGGLE = "toggle", "Переключаемая"
+    ACTIVE = "active", "Активная"
+
+
 class Skill(models.Model):
     """Модель для хранения умений персонажей."""
 
     name = models.CharField(max_length=32, verbose_name="Название")
+    emoji = models.CharField(
+        max_length=16, null=True, blank=True, verbose_name="Эмоджи"
+    )
     description = models.TextField(verbose_name="Описание")
     level = models.IntegerField(default=1, verbose_name="Уровень")
     effects = models.ManyToManyField(
         Effect, through="SkillEffect", verbose_name="Эффекты способностей"
+    )
+    mana_cost = models.IntegerField(default=0, verbose_name="Мана кост")
+    effect_time = models.TimeField(
+        null=True, blank=True, verbose_name="Время действия"
+    )
+    cooldown = models.TimeField(
+        null=True, blank=True, verbose_name="Перезарядка"
+    )
+    type = models.CharField(
+        max_length=16,
+        choices=SkillType.choices,
+        default=SkillType.PASSIVE,
+        verbose_name="Тип",
     )
 
     class Meta:
@@ -33,6 +57,8 @@ class Skill(models.Model):
     @property
     def name_with_level(self):
         """Возвращает имя умения с уровнем."""
+        if self.emoji:
+            return f"{self.emoji}{self.name} Ур. {self.level}"
         return f"{self.name} Ур. {self.level}"
 
 

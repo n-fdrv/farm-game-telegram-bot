@@ -50,8 +50,13 @@ class SkillAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     inlines = (SkillEffectInline,)
     list_display = (
-        "name",
+        "name_with_level",
+        "type",
+    )
+    list_filter = (
+        "type",
         "level",
+        "name",
     )
 
 

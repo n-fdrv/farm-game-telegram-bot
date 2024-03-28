@@ -13,6 +13,1046 @@
  }
 },
 {
+ "model": "admin.logentry",
+ "pk": 2,
+ "fields": {
+  "action_time": "2024-03-25T12:31:47.714Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 21 | Defence: 22",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"Character: \\u041e\\u0440\\u0435\\u0445 | Level: 5 | Attack : 21 | Defence: 22 | Effect: \\ufe0f\\u2694\\ufe0f\\u0410\\u0442\\u0430\\u043a\\u0430: -10%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 3,
+ "fields": {
+  "action_time": "2024-03-25T12:33:26.774Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 21 | Defence: 22",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0423\\u043c\\u0435\\u043d\\u0438\\u0435 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"\\u0423\\u043b\\u0443\\u0447\\u0448\\u0435\\u043d\\u043d\\u043e\\u0435 \\u0427\\u0443\\u0442\\u044c\\u0435 \\u0423\\u0440. 2 \\u041e\\u0440\\u0435\\u0445 | Level: 5 | Attack : 21 | Defence: 22\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 4,
+ "fields": {
+  "action_time": "2024-03-25T13:10:08.557Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 21 | Defence: 22",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u044b\\u0442 \\u0434\\u043b\\u044f \\u0434\\u043e\\u0441\\u0442\\u0438\\u0436\\u0435\\u043d\\u0438\\u044f \\u0443\\u0440\\u043e\\u0432\\u043d\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 5,
+ "fields": {
+  "action_time": "2024-03-25T13:41:12.222Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041b\\u0438\\u0434\\u0435\\u0440\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 6,
+ "fields": {
+  "action_time": "2024-03-25T13:41:45.146Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 7,
+ "fields": {
+  "action_time": "2024-03-25T13:42:22.718Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 21 | Defence: 22",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 8,
+ "fields": {
+  "action_time": "2024-03-26T05:09:32.843Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 21 | Defence: 26",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 9,
+ "fields": {
+  "action_time": "2024-03-26T09:31:58.697Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "3",
+  "object_repr": "Чак | Level: 5 | Attack : 22 | Defence: 21",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 10,
+ "fields": {
+  "action_time": "2024-03-26T10:04:32.036Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"deleted\": {\"name\": \"\\u0417\\u0430\\u044f\\u0432\\u043a\\u0430\", \"object\": \"\\u041e\\u0440\\u0435\\u0445 | Level: 5 | Attack : 21 | Defence: 26 | \\u0411\\u0430\\u0440\\u0431\\u0430\\u0440\\u0438\\u043a\\u0438 \\u0423\\u0440. 1\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 11,
+ "fields": {
+  "action_time": "2024-03-26T10:07:41.656Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041b\\u0438\\u0434\\u0435\\u0440\"]}}, {\"changed\": {\"name\": \"\\u0417\\u0430\\u044f\\u0432\\u043a\\u0430\", \"object\": \"\\u0418\\u043b\\u044c\\u044f\\u0437 | Level: 6 | Attack : 25 | Defence: 24 | \\u0411\\u0430\\u0440\\u0431\\u0430\\u0440\\u0438\\u043a\\u0438 \\u0423\\u0440. 1\", \"fields\": [\"\\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 12,
+ "fields": {
+  "action_time": "2024-03-26T10:08:21.646Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 21 | Defence: 26",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 13,
+ "fields": {
+  "action_time": "2024-03-26T10:08:32.728Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 14,
+ "fields": {
+  "action_time": "2024-03-26T10:57:19.641Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 15,
+ "fields": {
+  "action_time": "2024-03-26T10:57:34.568Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0417\\u0430\\u044f\\u0432\\u043a\\u0430\", \"object\": \"\\u0418\\u043b\\u044c\\u044f\\u0437 | Level: 6 | Attack : 25 | Defence: 24 | \\u0411\\u0430\\u0440\\u0431\\u0430\\u0440\\u0438\\u043a\\u0438 \\u0423\\u0440. 1\"}}, {\"added\": {\"name\": \"\\u0417\\u0430\\u044f\\u0432\\u043a\\u0430\", \"object\": \"Erlon | Level: 5 | Attack : 22 | Defence: 21 | \\u0411\\u0430\\u0440\\u0431\\u0430\\u0440\\u0438\\u043a\\u0438 \\u0423\\u0440. 1\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 16,
+ "fields": {
+  "action_time": "2024-03-26T11:01:15.246Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041b\\u0438\\u0434\\u0435\\u0440\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 17,
+ "fields": {
+  "action_time": "2024-03-26T11:01:31.182Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 21 | Defence: 26",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 18,
+ "fields": {
+  "action_time": "2024-03-26T11:02:05.711Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0412\\u0445\\u043e\\u0434 \\u043f\\u043e \\u0437\\u0430\\u044f\\u0432\\u043a\\u0430\\u043c\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 19,
+ "fields": {
+  "action_time": "2024-03-26T11:15:25.800Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0435\\u0441\\u0442 \\u0432 \\u043a\\u043b\\u0430\\u043d\\u0435\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 20,
+ "fields": {
+  "action_time": "2024-03-26T11:15:38.884Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 21 | Defence: 26",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 21,
+ "fields": {
+  "action_time": "2024-03-26T11:16:12.776Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0435\\u0441\\u0442 \\u0432 \\u043a\\u043b\\u0430\\u043d\\u0435\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 22,
+ "fields": {
+  "action_time": "2024-03-26T11:16:32.053Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 23,
+ "fields": {
+  "action_time": "2024-03-27T08:34:26.633Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041b\\u0438\\u0434\\u0435\\u0440\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 24,
+ "fields": {
+  "action_time": "2024-03-27T09:16:17.250Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0412\\u0445\\u043e\\u0434 \\u043f\\u043e \\u0437\\u0430\\u044f\\u0432\\u043a\\u0430\\u043c\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 25,
+ "fields": {
+  "action_time": "2024-03-27T09:16:31.298Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "1",
+  "object_repr": "Барбарики Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0417\\u0430\\u044f\\u0432\\u043a\\u0430\", \"object\": \"Erlon | Level: 5 | Attack : 22 | Defence: 21 | \\u0411\\u0430\\u0440\\u0431\\u0430\\u0440\\u0438\\u043a\\u0438 \\u0423\\u0440. 1\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 26,
+ "fields": {
+  "action_time": "2024-03-27T12:22:46.106Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 46 | Defence: 46",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0442\\u0430\\u043a\\u0430\", \"\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 27,
+ "fields": {
+  "action_time": "2024-03-27T12:23:15.747Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 46 | Defence: 46",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 28,
+ "fields": {
+  "action_time": "2024-03-27T12:24:01.198Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 46 | Defence: 46",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 29,
+ "fields": {
+  "action_time": "2024-03-27T12:24:51.576Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 5 | Attack : 46 | Defence: 46",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c\", \"\\u041e\\u043f\\u044b\\u0442\", \"\\u041e\\u043f\\u044b\\u0442 \\u0434\\u043b\\u044f \\u0434\\u043e\\u0441\\u0442\\u0438\\u0436\\u0435\\u043d\\u0438\\u044f \\u0443\\u0440\\u043e\\u0432\\u043d\\u044f\", \"\\u0410\\u0442\\u0430\\u043a\\u0430\", \"\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430\", \"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"Character: \\u041e\\u0440\\u0435\\u0445 | Level: 5 | Attack : 46 | Defence: 46 | Item: \\ud83d\\udfe1\\u0417\\u043e\\u043b\\u043e\\u0442\\u043e | Amount: 2709\", \"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 30,
+ "fields": {
+  "action_time": "2024-03-27T12:27:37.175Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 6 | Attack : 49 | Defence: 49",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 31,
+ "fields": {
+  "action_time": "2024-03-27T14:30:00.927Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "4",
+  "object_repr": "Erlon | Level: 5 | Attack : 22 | Defence: 21",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 32,
+ "fields": {
+  "action_time": "2024-03-28T05:23:21.992Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 6 | Attack : 49 | Defence: 49",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 33,
+ "fields": {
+  "action_time": "2024-03-28T05:23:55.386Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 52 | Defence: 52",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 34,
+ "fields": {
+  "action_time": "2024-03-28T05:24:05.913Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 52 | Defence: 52",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u044b\\u0442\", \"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"Character: \\u041e\\u0440\\u0435\\u0445 | Level: 7 | Attack : 52 | Defence: 52 | Item: \\ud83d\\udfe1\\u0417\\u043e\\u043b\\u043e\\u0442\\u043e | Amount: 5244\", \"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 35,
+ "fields": {
+  "action_time": "2024-03-28T05:24:15.206Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 52 | Defence: 52",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u044b\\u0442\", \"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"Character: \\u041e\\u0440\\u0435\\u0445 | Level: 7 | Attack : 52 | Defence: 52 | Item: \\ud83d\\udfe1\\u0417\\u043e\\u043b\\u043e\\u0442\\u043e | Amount: 5244\", \"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 36,
+ "fields": {
+  "action_time": "2024-03-28T06:37:39.854Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "3",
+  "object_repr": "Чак | Level: 5 | Attack : 22 | Defence: 21",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 37,
+ "fields": {
+  "action_time": "2024-03-28T06:38:14.582Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 1 | Defence: 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0442\\u0430\\u043a\\u0430\", \"\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 38,
+ "fields": {
+  "action_time": "2024-03-28T08:08:23.639Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "3",
+  "object_repr": "получаемый вар Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 39,
+ "fields": {
+  "action_time": "2024-03-28T08:08:36.905Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "4",
+  "object_repr": "отправленный вар Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 40,
+ "fields": {
+  "action_time": "2024-03-28T08:08:54.107Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "4",
+  "object_repr": "Erlon | Level: 5 | Attack : 22 | Defence: 21",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 41,
+ "fields": {
+  "action_time": "2024-03-28T08:09:02.026Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u043d\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 42,
+ "fields": {
+  "action_time": "2024-03-28T08:09:27.823Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "2",
+  "object_repr": "тест Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u041a\\u043b\\u0430\\u043d\\u043e\\u0432\\u0430\\u044f \\u0432\\u043e\\u0439\\u043d\\u0430\", \"object\": \"\\u043e\\u0442\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0432\\u0430\\u0440 \\u043f\\u0440\\u043e\\u0442\\u0438\\u0432 \\u0442\\u0435\\u0441\\u0442\"}}, {\"added\": {\"name\": \"\\u041a\\u043b\\u0430\\u043d\\u043e\\u0432\\u0430\\u044f \\u0432\\u043e\\u0439\\u043d\\u0430\", \"object\": \"\\u0442\\u0435\\u0441\\u0442 \\u043f\\u0440\\u043e\\u0442\\u0438\\u0432 \\u043f\\u043e\\u043b\\u0443\\u0447\\u0430\\u0435\\u043c\\u044b\\u0439 \\u0432\\u0430\\u0440\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 43,
+ "fields": {
+  "action_time": "2024-03-28T08:12:49.122Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "2",
+  "object_repr": "тест Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u041a\\u043b\\u0430\\u043d\\u043e\\u0432\\u0430\\u044f \\u0432\\u043e\\u0439\\u043d\\u0430\", \"object\": \"\\u043e\\u0442\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0432\\u0430\\u0440 \\u043f\\u0440\\u043e\\u0442\\u0438\\u0432 \\u0442\\u0435\\u0441\\u0442\", \"fields\": [\"\\u0412\\u043e\\u0439\\u043d\\u0430 \\u043f\\u0440\\u0438\\u043d\\u044f\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 44,
+ "fields": {
+  "action_time": "2024-03-28T08:42:28.465Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "2",
+  "object_repr": "тест Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u041a\\u043b\\u0430\\u043d\\u043e\\u0432\\u0430\\u044f \\u0432\\u043e\\u0439\\u043d\\u0430\", \"object\": \"\\u043e\\u0442\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0432\\u0430\\u0440 \\u043f\\u0440\\u043e\\u0442\\u0438\\u0432 \\u0442\\u0435\\u0441\\u0442\", \"fields\": [\"\\u0412\\u043e\\u0439\\u043d\\u0430 \\u043f\\u0440\\u0438\\u043d\\u044f\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 45,
+ "fields": {
+  "action_time": "2024-03-28T09:41:54.608Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "2",
+  "object_repr": "тест Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0420\\u0435\\u043f\\u0443\\u0442\\u0430\\u0446\\u0438\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 46,
+ "fields": {
+  "action_time": "2024-03-28T09:42:34.888Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "2",
+  "object_repr": "тест Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0420\\u0435\\u043f\\u0443\\u0442\\u0430\\u0446\\u0438\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 47,
+ "fields": {
+  "action_time": "2024-03-28T10:30:58.693Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "2",
+  "object_repr": "тест Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"deleted\": {\"name\": \"\\u041a\\u043b\\u0430\\u043d\\u043e\\u0432\\u0430\\u044f \\u0432\\u043e\\u0439\\u043d\\u0430\", \"object\": \"\\u0442\\u0435\\u0441\\u0442 \\u043f\\u0440\\u043e\\u0442\\u0438\\u0432 \\u043f\\u043e\\u043b\\u0443\\u0447\\u0430\\u0435\\u043c\\u044b\\u0439 \\u0432\\u0430\\u0440\"}}, {\"deleted\": {\"name\": \"\\u041a\\u043b\\u0430\\u043d\\u043e\\u0432\\u0430\\u044f \\u0432\\u043e\\u0439\\u043d\\u0430\", \"object\": \"\\u0442\\u0435\\u0441\\u0442 \\u043f\\u0440\\u043e\\u0442\\u0438\\u0432 \\u043e\\u0442\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0432\\u0430\\u0440\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 48,
+ "fields": {
+  "action_time": "2024-03-28T10:52:13.158Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 1 | Defence: 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u044b\\u0442\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 49,
+ "fields": {
+  "action_time": "2024-03-28T10:52:53.009Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 44 | Defence: 44",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0442\\u0430\\u043a\\u0430\", \"\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 50,
+ "fields": {
+  "action_time": "2024-03-28T10:57:24.811Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 8 | Attack : 35 | Defence: 35",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u044b\\u0442\", \"\\u0410\\u0442\\u0430\\u043a\\u0430\", \"\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430\", \"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\", \"ID \\u0448\\u0435\\u0434\\u0443\\u043b\\u0435\\u0440\\u0430 \\u043d\\u0430\\u043f\\u043e\\u043c\\u0438\\u043d\\u0430\\u043d\\u0438\\u044f \\u043e\\u0431 \\u043e\\u043a\\u043e\\u043d\\u0447\\u0430\\u043d\\u0438\\u0438 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}, {\"changed\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"Character: \\u041e\\u0440\\u0435\\u0445 | Level: 8 | Attack : 35 | Defence: 35 | Item: \\ud83d\\udfe1\\u0417\\u043e\\u043b\\u043e\\u0442\\u043e | Amount: 6261\", \"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 51,
+ "fields": {
+  "action_time": "2024-03-28T11:10:02.860Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "4",
+  "object_repr": "отправленный вар Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u041a\\u043b\\u0430\\u043d\\u043e\\u0432\\u0430\\u044f \\u0432\\u043e\\u0439\\u043d\\u0430\", \"object\": \"\\u0442\\u0435\\u0441\\u0442 \\u043f\\u0440\\u043e\\u0442\\u0438\\u0432 \\u043e\\u0442\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0432\\u0430\\u0440\", \"fields\": [\"\\u0412\\u043e\\u0439\\u043d\\u0430 \\u043f\\u0440\\u0438\\u043d\\u044f\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 52,
+ "fields": {
+  "action_time": "2024-03-28T11:10:21.764Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 53,
+ "fields": {
+  "action_time": "2024-03-28T11:16:43.638Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 54,
+ "fields": {
+  "action_time": "2024-03-28T11:17:57.465Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 55,
+ "fields": {
+  "action_time": "2024-03-28T11:29:37.723Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 56,
+ "fields": {
+  "action_time": "2024-03-28T11:30:18.479Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 57,
+ "fields": {
+  "action_time": "2024-03-28T11:51:11.264Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 58,
+ "fields": {
+  "action_time": "2024-03-28T12:04:05.621Z",
+  "user": 1,
+  "content_type": 38,
+  "object_id": "2",
+  "object_repr": "тест Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0420\\u0435\\u043f\\u0443\\u0442\\u0430\\u0446\\u0438\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 59,
+ "fields": {
+  "action_time": "2024-03-28T12:04:54.352Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 60,
+ "fields": {
+  "action_time": "2024-03-28T12:05:31.659Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 323 | Defence: 323",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0442\\u0430\\u043a\\u0430\", \"\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 61,
+ "fields": {
+  "action_time": "2024-03-28T12:08:43.953Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "2",
+  "object_repr": "Ильяз | Level: 6 | Attack : 25 | Defence: 24",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0435\\u043a\\u0443\\u0449\\u0430\\u044f \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u044f\", \"\\u041d\\u0430\\u0447\\u0430\\u043b\\u043e \\u043e\\u0445\\u043e\\u0442\\u044b\", \"\\u041a\\u043e\\u043d\\u0435\\u0446 \\u043e\\u0445\\u043e\\u0442\\u044b\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 62,
+ "fields": {
+  "action_time": "2024-03-28T12:15:31.264Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 323 | Defence: 323",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"Character: \\u041e\\u0440\\u0435\\u0445 | Level: 7 | Attack : 323 | Defence: 323 | Effect: \\ud83d\\udee1\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430: -10%\", \"fields\": [\"\\u041e\\u043a\\u043e\\u043d\\u0447\\u0430\\u043d\\u0438\\u0435 \\u042d\\u0444\\u0444\\u0435\\u043a\\u0442\\u0430\"]}}, {\"changed\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"Character: \\u041e\\u0440\\u0435\\u0445 | Level: 7 | Attack : 323 | Defence: 323 | Effect: \\ufe0f\\u2694\\ufe0f\\u0410\\u0442\\u0430\\u043a\\u0430: -10%\", \"fields\": [\"\\u041e\\u043a\\u043e\\u043d\\u0447\\u0430\\u043d\\u0438\\u0435 \\u042d\\u0444\\u0444\\u0435\\u043a\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 63,
+ "fields": {
+  "action_time": "2024-03-28T12:16:32.860Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "Орех | Level: 7 | Attack : 323 | Defence: 323",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\", \"object\": \"Character: \\u041e\\u0440\\u0435\\u0445 | Level: 7 | Attack : 323 | Defence: 323 | Effect: \\ud83d\\udee1\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430: -10%\", \"fields\": [\"\\u041e\\u043a\\u043e\\u043d\\u0447\\u0430\\u043d\\u0438\\u0435 \\u042d\\u0444\\u0444\\u0435\\u043a\\u0442\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 64,
+ "fields": {
+  "action_time": "2024-03-28T12:53:13.144Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "1",
+  "object_repr": "Мастер Создания Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 65,
+ "fields": {
+  "action_time": "2024-03-28T12:53:19.020Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "2",
+  "object_repr": "Мастер Создания Ур. 2",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 66,
+ "fields": {
+  "action_time": "2024-03-28T12:53:39.316Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "4",
+  "object_repr": "Улучшенная Атака Ур. 2",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 67,
+ "fields": {
+  "action_time": "2024-03-28T12:53:43.985Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "3",
+  "object_repr": "Улучшенная Атака Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 68,
+ "fields": {
+  "action_time": "2024-03-28T12:53:52.680Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "8",
+  "object_repr": "Улучшенная Защита Ур. 2",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 69,
+ "fields": {
+  "action_time": "2024-03-28T12:53:58.273Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "7",
+  "object_repr": "Улучшенная Защита Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 70,
+ "fields": {
+  "action_time": "2024-03-28T12:54:07.792Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "6",
+  "object_repr": "Улучшенное Чутье Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 71,
+ "fields": {
+  "action_time": "2024-03-28T12:54:30.526Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "5",
+  "object_repr": "Улучшенное Чутье Ур. 2",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 72,
+ "fields": {
+  "action_time": "2024-03-28T12:54:33.919Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "6",
+  "object_repr": "Улучшенное Чутье Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 73,
+ "fields": {
+  "action_time": "2024-03-28T12:54:47.641Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "8",
+  "object_repr": "Улучшенная Защита Ур. 2",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 74,
+ "fields": {
+  "action_time": "2024-03-28T12:54:51.451Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "7",
+  "object_repr": "Улучшенная Защита Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 75,
+ "fields": {
+  "action_time": "2024-03-28T12:56:07.285Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "23",
+  "object_repr": "️⚔️Атака: 12",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 76,
+ "fields": {
+  "action_time": "2024-03-28T12:57:04.429Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "9",
+  "object_repr": "Огненный Шар Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043f\\u043e\\u0441\\u043e\\u0431\\u043d\\u043e\\u0441\\u0442\\u0438\", \"object\": \"\\u041e\\u0433\\u043d\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0428\\u0430\\u0440 \\u0423\\u0440. 1 \\ufe0f\\u2694\\ufe0f\\u0410\\u0442\\u0430\\u043a\\u0430: 12\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 77,
+ "fields": {
+  "action_time": "2024-03-28T12:58:42.748Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "9",
+  "object_repr": "Огненный Шар Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0430\\u043d\\u0430 \\u043a\\u043e\\u0441\\u0442\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 78,
+ "fields": {
+  "action_time": "2024-03-28T12:59:46.351Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "9",
+  "object_repr": "Огненный Шар Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 79,
+ "fields": {
+  "action_time": "2024-03-28T12:59:55.046Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "9",
+  "object_repr": "Огненный Шар Ур. 1",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 80,
+ "fields": {
+  "action_time": "2024-03-28T13:02:01.792Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "10",
+  "object_repr": "Невидимость Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 81,
+ "fields": {
+  "action_time": "2024-03-28T13:12:14.354Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "10",
+  "object_repr": "Невидимость Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\", \"\\u0412\\u0440\\u0435\\u043c\\u044f \\u0434\\u0435\\u0439\\u0441\\u0442\\u0432\\u0438\\u044f\", \"\\u041f\\u0435\\u0440\\u0435\\u0437\\u0430\\u0440\\u044f\\u0434\\u043a\\u0430\"]}}]"
+ }
+},
+{
  "model": "contenttypes.contenttype",
  "pk": 1,
  "fields": {
@@ -338,62 +1378,6 @@
  "fields": {
   "session_data": ".eJxVjLEOwjAMRP8lM4qw0gTDyM43RI7tkAJKpaadEP9OKnWAm0737u5tIq1LiWvTOY5iLgbM4TdLxE-tG5AH1ftkearLPCa7VexOm71Noq_r3v07KNRKX_MAEqgLcQAEheyOkl3yPhAIk4YTcPYEdGZETeTZCSZFl4W7MZ8vCD85dQ:1roj52:uLjgGPAzAlP__IY1axN3tjd_TuARASLsYLPHagK336s",
   "expire_date": "2024-04-08T12:05:32.720Z"
- }
-},
-{
- "model": "bot.user",
- "pk": 1,
- "fields": {
-  "telegram_id": 406798546,
-  "first_name": "Диана",
-  "last_name": "",
-  "telegram_username": "diiiifedorova",
-  "registration_date": "2024-03-25",
-  "is_admin": false,
-  "character": 3,
-  "is_active": true
- }
-},
-{
- "model": "bot.user",
- "pk": 2,
- "fields": {
-  "telegram_id": 746696354,
-  "first_name": "Nikita",
-  "last_name": "Fedorov",
-  "telegram_username": "nikitafedorov",
-  "registration_date": "2024-03-25",
-  "is_admin": false,
-  "character": 5,
-  "is_active": true
- }
-},
-{
- "model": "bot.user",
- "pk": 3,
- "fields": {
-  "telegram_id": 386749612,
-  "first_name": "Лаврентий",
-  "last_name": "",
-  "telegram_username": "dxdxdxdxdxdxda",
-  "registration_date": "2024-03-25",
-  "is_admin": false,
-  "character": 4,
-  "is_active": true
- }
-},
-{
- "model": "bot.user",
- "pk": 4,
- "fields": {
-  "telegram_id": 1274743236,
-  "first_name": "Илья",
-  "last_name": "",
-  "telegram_username": "iliazik",
-  "registration_date": "2024-03-25",
-  "is_admin": false,
-  "character": 2,
-  "is_active": true
  }
 },
 {
@@ -2299,6 +3283,16 @@
  }
 },
 {
+ "model": "item.effect",
+ "pk": 23,
+ "fields": {
+  "property": "attack",
+  "amount": 12,
+  "in_percent": false,
+  "slug": "skill"
+ }
+},
+{
  "model": "item.itemeffect",
  "pk": 1,
  "fields": {
@@ -2607,8 +3601,13 @@
  "pk": 1,
  "fields": {
   "name": "Мастер Создания",
+  "emoji": "🔨",
   "description": "Умеет создавать предметы из ресурсов",
-  "level": 1
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
  }
 },
 {
@@ -2616,8 +3615,13 @@
  "pk": 2,
  "fields": {
   "name": "Мастер Создания",
+  "emoji": "🔨",
   "description": "Умеет создавать предметы из ресурсов",
-  "level": 2
+  "level": 2,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
  }
 },
 {
@@ -2625,8 +3629,13 @@
  "pk": 3,
  "fields": {
   "name": "Улучшенная Атака",
+  "emoji": "🗡",
   "description": "Увеличивает атаку персонажа",
-  "level": 1
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
  }
 },
 {
@@ -2634,8 +3643,13 @@
  "pk": 4,
  "fields": {
   "name": "Улучшенная Атака",
+  "emoji": "🗡",
   "description": "Увеличивает атаку персонажа",
-  "level": 2
+  "level": 2,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
  }
 },
 {
@@ -2643,8 +3657,13 @@
  "pk": 5,
  "fields": {
   "name": "Улучшенное Чутье",
+  "emoji": "🦻🏻",
   "description": "Благодаря повышенному чутью Охотник добывает больше предметов за охоту",
-  "level": 2
+  "level": 2,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
  }
 },
 {
@@ -2652,8 +3671,13 @@
  "pk": 6,
  "fields": {
   "name": "Улучшенное Чутье",
+  "emoji": "🦻🏻",
   "description": "Благодаря повышенному чутью Охотник добывает больше предметов за охоту",
-  "level": 1
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
  }
 },
 {
@@ -2661,8 +3685,13 @@
  "pk": 7,
  "fields": {
   "name": "Улучшенная Защита",
+  "emoji": "🛡",
   "description": "Увеличивает защиту персонажа",
-  "level": 1
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
  }
 },
 {
@@ -2670,8 +3699,41 @@
  "pk": 8,
  "fields": {
   "name": "Улучшенная Защита",
+  "emoji": "🛡",
   "description": "Увеличивает защиту персонажа",
-  "level": 2
+  "level": 2,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 9,
+ "fields": {
+  "name": "Огненный Шар",
+  "emoji": "🔥",
+  "description": "При активации данной способности. Маг наносит дополнительный урон при Охоте и PvP. \r\nРасход маны:\r\nОхота: 1 в минуту\r\nPvP: 5",
+  "level": 1,
+  "mana_cost": 1,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "toggle"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 10,
+ "fields": {
+  "name": "Невидимость",
+  "emoji": "💨",
+  "description": "При использовании данной способности Охотника нельзя найти в Локации.",
+  "level": 1,
+  "mana_cost": 25,
+  "effect_time": "06:00:00",
+  "cooldown": "12:00:00",
+  "type": "active"
  }
 },
 {
@@ -2720,6 +3782,14 @@
  "fields": {
   "skill": 8,
   "effect": 21
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 7,
+ "fields": {
+  "skill": 9,
+  "effect": 23
  }
 },
 {
@@ -2896,749 +3966,6 @@
  "fields": {
   "skill": 3,
   "character_class": 4
- }
-},
-{
- "model": "character.character",
- "pk": 2,
- "fields": {
-  "name": "Ильяз",
-  "created": "2024-03-25T12:02:07.371Z",
-  "character_class": 4,
-  "level": 6,
-  "exp": 2280,
-  "clan": null,
-  "exp_for_level_up": 3795,
-  "attack": 25,
-  "defence": 24,
-  "exp_modifier": 1,
-  "drop_modifier": 1,
-  "premium_expired": "2024-03-25T12:02:07.371Z",
-  "current_location": 3,
-  "hunting_begin": "2024-03-25T10:45:00.593Z",
-  "hunting_end": "2024-03-25T15:09:00.608Z",
-  "max_hunting_time": "04:00:00",
-  "job_id": "d5538aceef2846caa248db5454b36a88"
- }
-},
-{
- "model": "character.character",
- "pk": 3,
- "fields": {
-  "name": "Чак",
-  "created": "2024-03-25T12:03:01.773Z",
-  "character_class": 4,
-  "level": 5,
-  "exp": 37,
-  "clan": null,
-  "exp_for_level_up": 2530,
-  "attack": 22,
-  "defence": 21,
-  "exp_modifier": 1,
-  "drop_modifier": 1,
-  "premium_expired": "2024-03-25T12:03:01.773Z",
-  "current_location": 3,
-  "hunting_begin": "2024-03-25T07:36:19.021Z",
-  "hunting_end": "2024-03-25T12:00:19.034Z",
-  "max_hunting_time": "04:00:00",
-  "job_id": "93cb3669ace44de8a8fbbd34880954ab"
- }
-},
-{
- "model": "character.character",
- "pk": 4,
- "fields": {
-  "name": "Erlon",
-  "created": "2024-03-25T12:03:01.781Z",
-  "character_class": 3,
-  "level": 5,
-  "exp": 1684,
-  "clan": null,
-  "exp_for_level_up": 2530,
-  "attack": 22,
-  "defence": 21,
-  "exp_modifier": 1,
-  "drop_modifier": 1,
-  "premium_expired": "2024-03-25T12:03:01.780Z",
-  "current_location": 3,
-  "hunting_begin": "2024-03-25T10:11:59.564Z",
-  "hunting_end": "2024-03-25T14:11:59.573Z",
-  "max_hunting_time": "04:00:00",
-  "job_id": "52bb3ab38e9843beb24320f52444a165"
- }
-},
-{
- "model": "character.character",
- "pk": 5,
- "fields": {
-  "name": "Орех",
-  "created": "2024-03-25T12:03:01.788Z",
-  "character_class": 2,
-  "level": 5,
-  "exp": 1667,
-  "clan": null,
-  "exp_for_level_up": 3795,
-  "attack": 21,
-  "defence": 22,
-  "exp_modifier": 1,
-  "drop_modifier": 1,
-  "premium_expired": "2024-03-25T12:03:01.788Z",
-  "current_location": 2,
-  "hunting_begin": "2024-03-25T09:39:10.499Z",
-  "hunting_end": "2024-03-25T12:11:10.512Z",
-  "max_hunting_time": "04:00:00",
-  "job_id": ""
- }
-},
-{
- "model": "character.characterskill",
- "pk": 1,
- "fields": {
-  "skill": 3,
-  "character": 3
- }
-},
-{
- "model": "character.characterskill",
- "pk": 2,
- "fields": {
-  "skill": 6,
-  "character": 4
- }
-},
-{
- "model": "character.characterskill",
- "pk": 3,
- "fields": {
-  "skill": 3,
-  "character": 2
- }
-},
-{
- "model": "character.characterskill",
- "pk": 4,
- "fields": {
-  "skill": 1,
-  "character": 5
- }
-},
-{
- "model": "character.characteritem",
- "pk": 1,
- "fields": {
-  "character": 4,
-  "item": 7,
-  "amount": 2,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 2,
- "fields": {
-  "character": 5,
-  "item": 1,
-  "amount": 2550,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 3,
- "fields": {
-  "character": 2,
-  "item": 32,
-  "amount": 1,
-  "equipped": true,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 4,
- "fields": {
-  "character": 2,
-  "item": 49,
-  "amount": 6,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 5,
- "fields": {
-  "character": 2,
-  "item": 51,
-  "amount": 5,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 6,
- "fields": {
-  "character": 3,
-  "item": 49,
-  "amount": 2,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 7,
- "fields": {
-  "character": 3,
-  "item": 50,
-  "amount": 1,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 8,
- "fields": {
-  "character": 5,
-  "item": 2,
-  "amount": 681,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 9,
- "fields": {
-  "character": 2,
-  "item": 48,
-  "amount": 5,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 10,
- "fields": {
-  "character": 2,
-  "item": 2,
-  "amount": 561,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 11,
- "fields": {
-  "character": 2,
-  "item": 24,
-  "amount": 1,
-  "equipped": true,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 12,
- "fields": {
-  "character": 4,
-  "item": 2,
-  "amount": 561,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 13,
- "fields": {
-  "character": 4,
-  "item": 30,
-  "amount": 1,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 14,
- "fields": {
-  "character": 4,
-  "item": 22,
-  "amount": 1,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 15,
- "fields": {
-  "character": 3,
-  "item": 1,
-  "amount": 836,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 16,
- "fields": {
-  "character": 3,
-  "item": 51,
-  "amount": 10,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 17,
- "fields": {
-  "character": 3,
-  "item": 48,
-  "amount": 7,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 18,
- "fields": {
-  "character": 3,
-  "item": 7,
-  "amount": 2,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 19,
- "fields": {
-  "character": 5,
-  "item": 48,
-  "amount": 5,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 20,
- "fields": {
-  "character": 5,
-  "item": 50,
-  "amount": 8,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 21,
- "fields": {
-  "character": 4,
-  "item": 1,
-  "amount": 2313,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 22,
- "fields": {
-  "character": 5,
-  "item": 49,
-  "amount": 1,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 23,
- "fields": {
-  "character": 5,
-  "item": 18,
-  "amount": 12,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 24,
- "fields": {
-  "character": 5,
-  "item": 17,
-  "amount": 8,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 25,
- "fields": {
-  "character": 5,
-  "item": 16,
-  "amount": 9,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 26,
- "fields": {
-  "character": 3,
-  "item": 3,
-  "amount": 3,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 27,
- "fields": {
-  "character": 5,
-  "item": 15,
-  "amount": 9,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 28,
- "fields": {
-  "character": 3,
-  "item": 28,
-  "amount": 1,
-  "equipped": true,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 29,
- "fields": {
-  "character": 3,
-  "item": 21,
-  "amount": 1,
-  "equipped": true,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 30,
- "fields": {
-  "character": 4,
-  "item": 4,
-  "amount": 3,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 31,
- "fields": {
-  "character": 4,
-  "item": 49,
-  "amount": 3,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 32,
- "fields": {
-  "character": 4,
-  "item": 3,
-  "amount": 166,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 33,
- "fields": {
-  "character": 2,
-  "item": 1,
-  "amount": 2111,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 34,
- "fields": {
-  "character": 3,
-  "item": 2,
-  "amount": 110561,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 35,
- "fields": {
-  "character": 4,
-  "item": 6,
-  "amount": 2,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 36,
- "fields": {
-  "character": 5,
-  "item": 35,
-  "amount": 1,
-  "equipped": true,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 37,
- "fields": {
-  "character": 4,
-  "item": 50,
-  "amount": 12,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 38,
- "fields": {
-  "character": 4,
-  "item": 51,
-  "amount": 8,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 39,
- "fields": {
-  "character": 4,
-  "item": 48,
-  "amount": 12,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 40,
- "fields": {
-  "character": 5,
-  "item": 26,
-  "amount": 1,
-  "equipped": true,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.characteritem",
- "pk": 41,
- "fields": {
-  "character": 5,
-  "item": 51,
-  "amount": 5,
-  "equipped": false,
-  "enhancement_level": 0
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 1,
- "fields": {
-  "character": 2,
-  "effect": 14,
-  "expired": "2024-03-27T16:18:48.582Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 2,
- "fields": {
-  "character": 2,
-  "effect": 16,
-  "expired": "2024-03-26T04:20:54.697Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 3,
- "fields": {
-  "character": 2,
-  "effect": 17,
-  "expired": "2024-03-27T04:20:35.825Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 4,
- "fields": {
-  "character": 4,
-  "effect": 18,
-  "expired": "2024-03-25T10:39:28.742Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 5,
- "fields": {
-  "character": 4,
-  "effect": 19,
-  "expired": "2024-03-25T10:39:28.748Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 6,
- "fields": {
-  "character": 3,
-  "effect": 14,
-  "expired": "2024-03-26T16:20:48.148Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 7,
- "fields": {
-  "character": 3,
-  "effect": 13,
-  "expired": "2024-03-27T04:20:53.782Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 8,
- "fields": {
-  "character": 3,
-  "effect": 16,
-  "expired": "2024-03-25T04:20:59.960Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 9,
- "fields": {
-  "character": 3,
-  "effect": 17,
-  "expired": "2024-03-25T16:21:04.927Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 10,
- "fields": {
-  "character": 4,
-  "effect": 18,
-  "expired": "2024-03-25T10:41:34.581Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 11,
- "fields": {
-  "character": 4,
-  "effect": 19,
-  "expired": "2024-03-25T10:41:34.714Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 12,
- "fields": {
-  "character": 2,
-  "effect": 13,
-  "expired": "2024-03-25T16:33:23.140Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 13,
- "fields": {
-  "character": 5,
-  "effect": 16,
-  "expired": "2024-03-25T20:36:19.570Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 14,
- "fields": {
-  "character": 5,
-  "effect": 17,
-  "expired": "2024-03-25T19:46:04.862Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 15,
- "fields": {
-  "character": 5,
-  "effect": 13,
-  "expired": "2024-03-26T08:36:15.166Z"
- }
-},
-{
- "model": "character.charactereffect",
- "pk": 16,
- "fields": {
-  "character": 5,
-  "effect": 14,
-  "expired": "2024-03-25T19:46:26.142Z"
- }
-},
-{
- "model": "character.marketplaceitem",
- "pk": 1,
- "fields": {
-  "seller": 3,
-  "item": 17,
-  "amount": 2,
-  "enhancement_level": 0,
-  "sell_currency": 2,
-  "price": 4
- }
-},
-{
- "model": "character.marketplaceitem",
- "pk": 2,
- "fields": {
-  "seller": 5,
-  "item": 25,
-  "amount": 1,
-  "enhancement_level": 0,
-  "sell_currency": 1,
-  "price": 2500
  }
 },
 {

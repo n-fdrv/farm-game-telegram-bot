@@ -45,7 +45,17 @@ createsuperuser: # Создать супер пользователя
 	poetry run python src/manage.py createsuperuser --noinput
 
 download-data: # Выгрузить данные
-	cd src && poetry run python -Xutf8 manage.py dumpdata --exclude=auth.permission --indent=1 -o data/db.json && \
+	cd src && poetry run python -Xutf8 manage.py dumpdata \
+	--exclude=auth.permission \
+	--exclude=bot \
+	--exclude=character.Character \
+	--exclude=character.CharacterItem \
+	--exclude=character.CharacterSKill \
+	--exclude=character.CharacterRecipe \
+	--exclude=character.CharacterEffect \
+	--exclude=character.MarketplaceItem \
+	--exclude=clan \
+	--indent=1 -o data/db.json && \
 	cd ..
 
 upload-data: # Загрузить данные
