@@ -238,6 +238,13 @@ async def get_character_item_with_effects(character_item: CharacterItem):
     return f"{character_item.name_with_enhance}{effects}"
 
 
+async def get_elixir_expired_text(time_left: datetime.timedelta):
+    """Получения остатка времени действия эликсира."""
+    if time_left > datetime.timedelta(days=1):
+        return f"более {time_left.days} суток"
+    return str(time_left).split(".")[0]
+
+
 async def get_elixir_with_effects_and_expired(character: Character):
     """Получение эффектов от эликсиров."""
     effects = (
@@ -248,10 +255,11 @@ async def get_elixir_with_effects_and_expired(character: Character):
         )
         .all()
     )
+    time = timezone.now()
     return "\n".join(
         [
-            f"<i>{x.effect.get_property_with_amount()} до:</i> "
-            f"<b>{x.expired.strftime('%d.%m %H:%M')}</b>"
+            f"<i>{x.effect.get_property_with_amount()} Осталось: </i> "
+            f"<b>{await get_elixir_expired_text(x.expired - time)}</b>"
             async for x in effects
         ]
     )
@@ -453,12 +461,15 @@ async def kill_character(
                 attacker_text += INCREASE_CLAN_REPUTATION_MESSAGE.format("1")
         else:
             async for effect in Effect.objects.filter(slug=EffectSlug.FATIGUE):
-                await CharacterEffect.objects.acreate(
-                    character=attacker,
-                    effect=effect,
-                    expired=timezone.now() + datetime.timedelta(hours=1),
+                fatigue, created = (
+                    await CharacterEffect.objects.aget_or_create(
+                        character=attacker,
+                        effect=effect,
+                    )
                 )
-                attacker_text += NO_WAR_KILL_MESSAGE_TO_ATTACKER
+                fatigue.expired += datetime.timedelta(hours=1)
+                await fatigue.asave(update_fields=("expired",))
+            attacker_text += NO_WAR_KILL_MESSAGE_TO_ATTACKER
         attacker_telegram_id = await User.objects.values_list(
             "telegram_id", flat=True
         ).aget(character=attacker)
@@ -487,7 +498,6 @@ async def kill_character(
         character=character,
     ):
         await character_effect.adelete()
-
     await bot.send_message(
         character_telegram_id,
         CHARACTER_KILL_MESSAGE.format(attacker_name, round(lost_exp, 2)),
