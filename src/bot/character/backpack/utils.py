@@ -27,6 +27,7 @@ from bot.character.backpack.messages import (
     ALREADY_KNOWN_SKILL_MESSAGE,
     BOOK_INFO_MESSAGE,
     ENHANCE_GET_MESSAGE,
+    EQUIP_IN_LOCATION_MESSAGE,
     EQUIP_MESSAGE,
     FAILURE_ENCHANT,
     ITEM_GET_MESSAGE,
@@ -217,6 +218,8 @@ async def get_character_item_enhance_text(character_item: CharacterItem):
 
 async def equip_item(item: CharacterItem):
     """Метод надевания, снятия предмета."""
+    if item.character.current_location:
+        return False, EQUIP_IN_LOCATION_MESSAGE
     equipment = await Equipment.objects.aget(pk=item.item.pk)
     if equipment.equipment_type not in [
         x.type async for x in item.character.character_class.equip.all()

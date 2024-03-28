@@ -15,17 +15,22 @@ from bot.character.utils import (
     remove_exp,
 )
 from bot.location.messages import (
+    ALERT_ABOUT_KILL_MESSAGE,
     FAIL_KILL_MESSAGE,
     LOCATION_CHARACTER_GET_MESSAGE,
     LOCATION_FULL_MESSAGE,
     LOCATION_GET_MESSAGE,
     LOCATION_NOT_AVAILABLE,
     LOCATION_WEEK_STRONG_MESSAGE,
+    NO_CHARACTER_CURRENT_LOCATION,
     SUCCESS_KILL_MESSAGE,
+    TRY_TO_KILL_CHARACTER_WHILE_HUNTING_MESSAGE,
 )
+from bot.models import User
 from bot.utils.schedulers import (
     hunting_end_scheduler,
     kill_character_scheduler,
+    send_message_to_user,
 )
 from core.config import game_config
 
@@ -181,6 +186,13 @@ async def location_get_character_about(character: Character) -> str:
 
 async def attack_character(attacker: Character, target: Character):
     """Обработка атаки на персонажа."""
+    if attacker.current_location:
+        return False, TRY_TO_KILL_CHARACTER_WHILE_HUNTING_MESSAGE
+    if not target.current_location:
+        return (
+            False,
+            NO_CHARACTER_CURRENT_LOCATION.format(target.name_with_class),
+        )
     attacker_attack = (
         int(await get_character_property(attacker, EffectProperty.ATTACK)),
     )
@@ -216,7 +228,7 @@ async def attack_character(attacker: Character, target: Character):
         logger.info(text)
         attacker.kills += 1
         await attacker.asave(update_fields=("kills",))
-        return True, SUCCESS_KILL_MESSAGE.format(target.name_with_class)
+        return True, SUCCESS_KILL_MESSAGE.format(target.name_with_clan)
     lost_exp = int(
         attacker.exp_for_level_up / 100 * game_config.EXP_DECREASE_PERCENT
     )
@@ -230,4 +242,9 @@ async def attack_character(attacker: Character, target: Character):
     ):
         await character_effect.adelete()
     logger.info(text)
-    return False, FAIL_KILL_MESSAGE.format(target.name_with_class)
+    target_user = await User.objects.aget(character=target)
+    await send_message_to_user(
+        target_user.telegram_id,
+        ALERT_ABOUT_KILL_MESSAGE.format(attacker.name_with_clan),
+    )
+    return False, FAIL_KILL_MESSAGE.format(target.name_with_clan)

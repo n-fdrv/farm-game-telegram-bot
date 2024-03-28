@@ -25,7 +25,6 @@ from bot.location.messages import (
     HUNTING_END_MESSAGE,
     LOCATION_ENTER_MESSAGE,
     LOCATION_LIST_MESSAGE,
-    NO_CHARACTER_CURRENT_LOCATION,
 )
 from bot.location.utils import (
     attack_character,
@@ -167,6 +166,10 @@ async def character_list_handler(
     callback_data: LocationData,
 ):
     """Хендлер подтверждения выхода из локации."""
+    user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     paginator = await character_list_keyboard(callback_data)
     await callback.message.edit_text(
         text=CHARACTER_LIST_MESSAGE,
@@ -184,6 +187,10 @@ async def location_character_get_handler(
     callback_data: LocationData,
 ):
     """Хендлер подтверждения выхода из локации."""
+    user = await get_user(callback.from_user.id)
+    if user.character.current_location:
+        await callback.message.delete()
+        return
     character = await Character.objects.select_related(
         "current_location", "character_class", "clan"
     ).aget(id=callback_data.character_id)
@@ -229,11 +236,6 @@ async def location_character_kill_handler(
     character = await Character.objects.select_related(
         "current_location", "character_class", "clan"
     ).aget(id=callback_data.character_id)
-    if not character.current_location:
-        await callback.message.edit_text(
-            NO_CHARACTER_CURRENT_LOCATION.format(character.name_with_class),
-        )
-        return
     user = await get_user(callback.from_user.id)
     success, text = await attack_character(user.character, character)
     keyboard = await character_get_keyboard(user.character)

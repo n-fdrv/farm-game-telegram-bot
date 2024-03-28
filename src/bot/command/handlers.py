@@ -7,6 +7,7 @@ from bot.character.keyboards import character_get_keyboard
 from bot.character.utils import get_character_info
 from bot.command.keyboards import start_keyboard, user_created_keyboard
 from bot.command.messages import (
+    BOT_IN_GROUP_MESSAGE,
     NOT_CREATED_CHARACTER_MESSAGE,
     START_MESSAGE,
 )
@@ -23,8 +24,12 @@ command_router = Router()
 async def start_handler(message: types.Message, state: FSMContext):
     """Хендлер при нажатии кнопки start."""
     await state.clear()
+    if message.chat.type != "private":
+        await message.answer(text=BOT_IN_GROUP_MESSAGE)
+        await message.bot.leave_chat(chat_id=message.chat.id)
+        return
     user, created = await User.objects.select_related(
-        "character"
+        "character", "character__character_class", "character__clan"
     ).aget_or_create(
         telegram_id=message.from_user.id,
     )
