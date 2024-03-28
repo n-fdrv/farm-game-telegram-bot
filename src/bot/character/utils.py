@@ -1,3 +1,4 @@
+import datetime
 import random
 import re
 
@@ -9,8 +10,10 @@ from character.models import (
     Skill,
     SkillEffect,
 )
+from clan.models import ClanWar
+from django.db.models import Q
 from django.utils import timezone
-from item.models import EffectProperty, EffectSlug
+from item.models import Effect, EffectProperty, EffectSlug
 from location.models import LocationDrop
 from loguru import logger
 
@@ -19,6 +22,10 @@ from bot.character.messages import (
     CHARACTER_ABOUT_MESSAGE,
     CHARACTER_INFO_MESSAGE,
     CHARACTER_KILL_MESSAGE,
+    INCREASE_CLAN_REPUTATION_MESSAGE,
+    LEVEL_UP_MESSAGE,
+    NO_WAR_KILL_MESSAGE_TO_ATTACKER,
+    SUCCESS_KILL_MESSAGE_TO_ATTACKER,
 )
 from bot.location.messages import HUNTING_END_MESSAGE
 from bot.models import User
@@ -35,6 +42,16 @@ def check_nickname_correct(nickname: str) -> bool:
     if not re.search("^[А-Яа-яA-Za-z0-9]{1,16}$", nickname):
         return False
     return True
+
+
+async def check_clan_war_exists(attacker: Character, enemy: Character):
+    """Проверка есть ли война между персонажами."""
+    if attacker.clan and enemy.clan:
+        return await ClanWar.objects.filter(
+            Q(clan=attacker.clan, enemy=enemy.clan, accepted=True)
+            | Q(enemy=attacker.clan, clan=enemy.clan, accepted=True)
+        ).aexists()
+    return False
 
 
 async def create_character(
@@ -298,7 +315,7 @@ async def get_hunting_minutes(character: Character):
     return int(minutes)
 
 
-async def get_exp(character: Character, exp_amount: int):
+async def get_exp(character: Character, exp_amount: int, bot):
     """Метод получения опыта."""
     character.exp += exp_amount
     while character.exp >= character.exp_for_level_up:
@@ -307,6 +324,18 @@ async def get_exp(character: Character, exp_amount: int):
         character.attack += game_config.ATTACK_INCREASE_LEVEL_UP
         character.defence += game_config.DEFENCE_INCREASE_LEVEL_UP
         character.level += 1
+        text = LEVEL_UP_MESSAGE.format(character.level)
+        if character.clan:
+            gained_reputation = (
+                character.level * game_config.REPUTATION_AMOUNT_BY_LEVEL
+            )
+            character.clan.reputation += gained_reputation
+            await character.clan.asave(update_fields=("reputation",))
+            text += INCREASE_CLAN_REPUTATION_MESSAGE.format(gained_reputation)
+        telegram_id = await User.objects.values_list(
+            "telegram_id", flat=True
+        ).aget(character=character)
+        await bot.send_message(telegram_id, text)
     await character.asave(
         update_fields=("level", "exp", "exp_for_level_up", "attack", "defence")
     )
@@ -331,7 +360,7 @@ async def remove_exp(character: Character, exp_amount: int):
     return character
 
 
-async def get_hunting_loot(character: Character):
+async def get_hunting_loot(character: Character, bot):
     """Метод получения трофеев с охоты."""
     hunting_minutes = await get_hunting_minutes(character)
     exp_gained = int(character.current_location.exp * hunting_minutes)
@@ -344,7 +373,7 @@ async def get_hunting_loot(character: Character):
         await get_character_property(character, EffectProperty.DROP)
         * location_drop_modifier
     )
-    await get_exp(character, exp_gained)
+    await get_exp(character, exp_gained, bot)
     async for drop in LocationDrop.objects.select_related(
         "item", "location"
     ).filter(location=character.current_location):
@@ -393,7 +422,7 @@ async def get_hunting_loot(character: Character):
 async def end_hunting(character: Character, bot):
     """Конец охоты по времени."""
     await character.asave(update_fields=("hunting_end",))
-    exp_gained, drop_text = await get_hunting_loot(character)
+    exp_gained, drop_text = await get_hunting_loot(character, bot)
     user = await User.objects.aget(character=character)
     keyboard = await character_get_keyboard(character)
     await bot.send_message(
@@ -407,30 +436,61 @@ async def kill_character(
     character: Character, bot, attacker: Character = None
 ):
     """Убийство персонажа."""
-    character.hunting_end = timezone.now()
-    await character.asave(update_fields=("hunting_end",))
-    exp_gained, drop_text = await get_hunting_loot(character)
-    lost_exp = int(
-        character.exp_for_level_up / 100 * game_config.EXP_DECREASE_PERCENT
-    )
+    decrease_exp = game_config.EXP_DECREASE_PERCENT
+    if attacker:
+        attacker_text = SUCCESS_KILL_MESSAGE_TO_ATTACKER.format(
+            character.name_with_clan
+        )
+        attacker.kills += 1
+        await attacker.asave(update_fields=("kills",))
+        if await check_clan_war_exists(attacker, character):
+            decrease_exp = game_config.WAR_EXP_DECREASE_PERCENT
+            if character.clan.reputation:
+                character.clan.reputation -= 1
+                attacker.clan.reputation += 1
+                await character.clan.asave(update_fields=("reputation",))
+                await attacker.clan.asave(update_fields=("reputation",))
+                attacker_text += INCREASE_CLAN_REPUTATION_MESSAGE.format("1")
+        else:
+            async for effect in Effect.objects.filter(slug=EffectSlug.FATIGUE):
+                await CharacterEffect.objects.acreate(
+                    character=attacker,
+                    effect=effect,
+                    expired=timezone.now() + datetime.timedelta(hours=1),
+                )
+                attacker_text += NO_WAR_KILL_MESSAGE_TO_ATTACKER
+        attacker_telegram_id = await User.objects.values_list(
+            "telegram_id", flat=True
+        ).aget(character=attacker)
+        await bot.send_message(attacker_telegram_id, attacker_text)
+    character_telegram_id = await User.objects.values_list(
+        "telegram_id", flat=True
+    ).aget(character=character)
+    attacker_name = "Монстры в Локации"
+    if attacker:
+        attacker_name = attacker.name_with_clan
+    if character.current_location:
+        character.hunting_end = timezone.now()
+        await character.asave(update_fields=("hunting_end",))
+        exp_gained, drop_text = await get_hunting_loot(character, bot)
+        await bot.send_message(
+            character_telegram_id,
+            HUNTING_END_MESSAGE.format(round(exp_gained, 2), drop_text),
+        ),
+    lost_exp = int(character.exp_for_level_up / 100 * decrease_exp)
     if character.premium_expired > timezone.now():
         lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
     await remove_exp(character, lost_exp)
     async for character_effect in CharacterEffect.objects.exclude(
         effect__slug=EffectSlug.FATIGUE
     ).filter(
-        character=attacker,
+        character=character,
     ):
         await character_effect.adelete()
-    attacker_text = "Монстры в Локации"
-    if attacker:
-        attacker_text = attacker.name_with_clan
-    user = await User.objects.aget(character=character)
+
     await bot.send_message(
-        user.telegram_id,
-        CHARACTER_KILL_MESSAGE.format(
-            attacker_text, round(exp_gained - lost_exp, 2), drop_text
-        ),
+        character_telegram_id,
+        CHARACTER_KILL_MESSAGE.format(attacker_name, round(lost_exp, 2)),
     )
 
 

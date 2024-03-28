@@ -2,9 +2,9 @@ import datetime
 import random
 from random import randint
 
-from character.models import Character, CharacterEffect, CharacterItem
+from character.models import Character, CharacterItem
 from django.utils import timezone
-from item.models import Effect, EffectProperty, EffectSlug
+from item.models import EffectProperty
 from location.models import Location, LocationDrop
 from loguru import logger
 
@@ -12,10 +12,8 @@ from bot.character.utils import (
     get_character_item_with_effects,
     get_character_property,
     get_elixir_with_effects_and_expired,
-    remove_exp,
 )
 from bot.location.messages import (
-    ALERT_ABOUT_KILL_MESSAGE,
     FAIL_KILL_MESSAGE,
     LOCATION_CHARACTER_GET_MESSAGE,
     LOCATION_FULL_MESSAGE,
@@ -26,11 +24,9 @@ from bot.location.messages import (
     SUCCESS_KILL_MESSAGE,
     TRY_TO_KILL_CHARACTER_WHILE_HUNTING_MESSAGE,
 )
-from bot.models import User
 from bot.utils.schedulers import (
     hunting_end_scheduler,
     kill_character_scheduler,
-    send_message_to_user,
 )
 from core.config import game_config
 
@@ -144,8 +140,7 @@ async def enter_location(character: Character, location: Location):
     hunting_time = await get_character_property(
         character, EffectProperty.HUNTING_TIME
     )
-    if character.defence < location.defence:
-        hunting_time *= character_defence / location.defence
+    hunting_time *= character_defence / location.defence
     character.hunting_end = timezone.now() + datetime.timedelta(
         minutes=int(hunting_time),
     )
@@ -219,32 +214,7 @@ async def attack_character(attacker: Character, target: Character):
     if random.uniform(0.01, 100) <= chance:
         text += "\nУспешно"
         await kill_character_scheduler(target, timezone.now(), attacker)
-        async for effect in Effect.objects.filter(slug=EffectSlug.FATIGUE):
-            await CharacterEffect.objects.acreate(
-                character=attacker,
-                effect=effect,
-                expired=timezone.now() + datetime.timedelta(hours=12),
-            )
         logger.info(text)
-        attacker.kills += 1
-        await attacker.asave(update_fields=("kills",))
         return True, SUCCESS_KILL_MESSAGE.format(target.name_with_clan)
-    lost_exp = int(
-        attacker.exp_for_level_up / 100 * game_config.EXP_DECREASE_PERCENT
-    )
-    if attacker.premium_expired > timezone.now():
-        lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
-    await remove_exp(attacker, lost_exp)
-    async for character_effect in CharacterEffect.objects.exclude(
-        effect__slug=EffectSlug.FATIGUE
-    ).filter(
-        character=attacker,
-    ):
-        await character_effect.adelete()
-    logger.info(text)
-    target_user = await User.objects.aget(character=target)
-    await send_message_to_user(
-        target_user.telegram_id,
-        ALERT_ABOUT_KILL_MESSAGE.format(attacker.name_with_clan),
-    )
+    await kill_character_scheduler(attacker, timezone.now(), target)
     return False, FAIL_KILL_MESSAGE.format(target.name_with_clan)

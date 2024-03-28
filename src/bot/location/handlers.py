@@ -5,6 +5,7 @@ from location.models import Location
 
 from bot.character.keyboards import character_get_keyboard
 from bot.character.utils import (
+    check_clan_war_exists,
     get_character_info,
     get_hunting_loot,
 )
@@ -25,6 +26,8 @@ from bot.location.messages import (
     HUNTING_END_MESSAGE,
     LOCATION_ENTER_MESSAGE,
     LOCATION_LIST_MESSAGE,
+    NO_WAR_KILL_CONFIRM_MESSAGE,
+    WAR_KILL_CONFIRM_MESSAGE,
 )
 from bot.location.utils import (
     attack_character,
@@ -148,7 +151,7 @@ async def exit_location(
         await callback.message.delete()
         return
     await remove_scheduler(user.character.job_id)
-    exp, drop_text = await get_hunting_loot(user.character)
+    exp, drop_text = await get_hunting_loot(user.character, callback.bot)
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=HUNTING_END_MESSAGE.format(int(exp), drop_text),
@@ -211,13 +214,17 @@ async def location_character_kill_confirm_handler(
     callback_data: LocationData,
 ):
     """Хендлер подтверждения выхода из локации."""
-    character = await Character.objects.select_related(
+    user = await get_user(callback.from_user.id)
+    enemy = await Character.objects.select_related(
         "character_class", "clan"
     ).aget(id=callback_data.character_id)
     keyboard = await kill_character_confirm_keyboard(callback_data)
+    war_text = NO_WAR_KILL_CONFIRM_MESSAGE
+    if await check_clan_war_exists(user.character, enemy):
+        war_text = WAR_KILL_CONFIRM_MESSAGE
     await callback.message.edit_text(
         text=CHARACTER_KILL_CONFIRM_MESSAGE.format(
-            character.name_with_class, character.name_with_class
+            enemy.name_with_class, enemy.name_with_class, war_text
         ),
         reply_markup=keyboard.as_markup(),
     )
@@ -237,11 +244,9 @@ async def location_character_kill_handler(
         "current_location", "character_class", "clan"
     ).aget(id=callback_data.character_id)
     user = await get_user(callback.from_user.id)
-    success, text = await attack_character(user.character, character)
+    await attack_character(user.character, character)
     keyboard = await character_get_keyboard(user.character)
-    await callback.message.edit_text(
-        text=text,
-    )
+    await callback.message.delete()
     await callback.message.answer(
         text=await get_character_info(user.character),
         reply_markup=keyboard.as_markup(),
