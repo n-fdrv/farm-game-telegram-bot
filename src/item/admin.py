@@ -138,14 +138,14 @@ class BookAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
 
     list_display = (
-        "name",
+        "name_with_type",
         "character_class",
         "required_level",
         "required_skill",
         "skill",
     )
-    list_filter = ("type",)
-    list_display_links = ("name",)
+    list_filter = ("required_level", "character_class")
+    list_display_links = ("name_with_type",)
     search_fields = ("name",)
 
 

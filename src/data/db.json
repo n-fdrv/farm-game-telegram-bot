@@ -2093,6 +2093,500 @@
  }
 },
 {
+ "model": "admin.logentry",
+ "pk": 162,
+ "fields": {
+  "action_time": "2024-03-29T09:25:29.924Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "7",
+  "object_repr": "Угольная Шахта | Attack: 65 | Defence: 65",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 163,
+ "fields": {
+  "action_time": "2024-03-29T09:26:04.412Z",
+  "user": 1,
+  "content_type": 10,
+  "object_id": "6",
+  "object_repr": "Мешок с Рецептами (J,sxysq)",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u043c\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 164,
+ "fields": {
+  "action_time": "2024-03-29T09:30:16.242Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "1",
+  "object_repr": "waca | Level: 1 | Attack : 10 | Defence: 9",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 165,
+ "fields": {
+  "action_time": "2024-03-29T09:56:21.382Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "30",
+  "object_repr": "🩸Победа в PvP: 5%",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 166,
+ "fields": {
+  "action_time": "2024-03-29T09:56:27.073Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "11",
+  "object_repr": "Крепкая Броня Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043f\\u043e\\u0441\\u043e\\u0431\\u043d\\u043e\\u0441\\u0442\\u0438\", \"object\": \"\\u041a\\u0440\\u0435\\u043f\\u043a\\u0430\\u044f \\u0411\\u0440\\u043e\\u043d\\u044f \\u0423\\u0440. 1 \\ud83e\\ude78\\u041f\\u043e\\u0431\\u0435\\u0434\\u0430 \\u0432 PvP: 5%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 167,
+ "fields": {
+  "action_time": "2024-03-29T09:57:42.562Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "31",
+  "object_repr": "⚡️Массовая Атака: 5%",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 168,
+ "fields": {
+  "action_time": "2024-03-29T09:57:46.843Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "12",
+  "object_repr": "Массовые Заклинания Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043f\\u043e\\u0441\\u043e\\u0431\\u043d\\u043e\\u0441\\u0442\\u0438\", \"object\": \"\\u041c\\u0430\\u0441\\u0441\\u043e\\u0432\\u044b\\u0435 \\u0417\\u0430\\u043a\\u043b\\u0438\\u043d\\u0430\\u043d\\u0438\\u044f \\u0423\\u0440. 1 \\u26a1\\ufe0f\\u041c\\u0430\\u0441\\u0441\\u043e\\u0432\\u0430\\u044f \\u0410\\u0442\\u0430\\u043a\\u0430: 5%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 169,
+ "fields": {
+  "action_time": "2024-03-29T10:02:55.208Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "32",
+  "object_repr": "🪦Без потери опыта при смерти: 5%",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 170,
+ "fields": {
+  "action_time": "2024-03-29T10:03:16.896Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "13",
+  "object_repr": "Выжываемость Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043f\\u043e\\u0441\\u043e\\u0431\\u043d\\u043e\\u0441\\u0442\\u0438\", \"object\": \"\\u0412\\u044b\\u0436\\u044b\\u0432\\u0430\\u0435\\u043c\\u043e\\u0441\\u0442\\u044c \\u0423\\u0440. 1 \\ud83e\\udea6\\u0411\\u0435\\u0437 \\u043f\\u043e\\u0442\\u0435\\u0440\\u0438 \\u043e\\u043f\\u044b\\u0442\\u0430 \\u043f\\u0440\\u0438 \\u0441\\u043c\\u0435\\u0440\\u0442\\u0438: 5%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 171,
+ "fields": {
+  "action_time": "2024-03-29T10:03:27.749Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "13",
+  "object_repr": "Выживаемость Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 172,
+ "fields": {
+  "action_time": "2024-03-29T10:05:05.576Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "14",
+  "object_repr": "Создание Эликсира Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 173,
+ "fields": {
+  "action_time": "2024-03-29T10:08:50.910Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "33",
+  "object_repr": "🥾Шанс избежать PvP: 5%",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 174,
+ "fields": {
+  "action_time": "2024-03-29T10:08:55.069Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "15",
+  "object_repr": "Уклонение Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043f\\u043e\\u0441\\u043e\\u0431\\u043d\\u043e\\u0441\\u0442\\u0438\", \"object\": \"\\u0423\\u043a\\u043b\\u043e\\u043d\\u0435\\u043d\\u0438\\u0435 \\u0423\\u0440. 1 \\ud83e\\udd7e\\u0428\\u0430\\u043d\\u0441 \\u0438\\u0437\\u0431\\u0435\\u0436\\u0430\\u0442\\u044c PvP: 5%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 175,
+ "fields": {
+  "action_time": "2024-03-29T10:09:40.383Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "96",
+  "object_repr": "Книга: Уклонение Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 176,
+ "fields": {
+  "action_time": "2024-03-29T10:10:19.087Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "97",
+  "object_repr": "Книга: Создание Эликсира",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 177,
+ "fields": {
+  "action_time": "2024-03-29T10:10:24.940Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "96",
+  "object_repr": "Книга: Уклонение Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u044b\\u0439 \\u0443\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 178,
+ "fields": {
+  "action_time": "2024-03-29T10:10:53.724Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "97",
+  "object_repr": "Книга: Создание Эликсира Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u043c\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 179,
+ "fields": {
+  "action_time": "2024-03-29T10:11:04.525Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "96",
+  "object_repr": "Книга: Уклонение Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u044b\\u0439 \\u0443\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 180,
+ "fields": {
+  "action_time": "2024-03-29T10:11:16.330Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "96",
+  "object_repr": "Книга: Уклонение Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u044b\\u0439 \\u0443\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 181,
+ "fields": {
+  "action_time": "2024-03-29T10:11:55.314Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "98",
+  "object_repr": "Книга: Выживаемость Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 182,
+ "fields": {
+  "action_time": "2024-03-29T10:13:36.021Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "99",
+  "object_repr": "Книга: Массовые Заклинания Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 183,
+ "fields": {
+  "action_time": "2024-03-29T10:14:34.357Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "99",
+  "object_repr": "Книга: Массовые Заклинания Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0438\\u043f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 184,
+ "fields": {
+  "action_time": "2024-03-29T10:15:24.566Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "100",
+  "object_repr": "Книга: Крепкая Броня Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 185,
+ "fields": {
+  "action_time": "2024-03-29T10:15:31.143Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "100",
+  "object_repr": "Книга: Крепкая Броня Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0438\\u043f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 186,
+ "fields": {
+  "action_time": "2024-03-29T10:15:58.704Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "101",
+  "object_repr": "Книга: Невидимость Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 187,
+ "fields": {
+  "action_time": "2024-03-29T10:16:31.428Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "102",
+  "object_repr": "Книга: Огненный Шар Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 188,
+ "fields": {
+  "action_time": "2024-03-29T10:33:15.661Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "23",
+  "object_repr": " - ️⚔️Атака: 5",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 189,
+ "fields": {
+  "action_time": "2024-03-29T10:33:23.695Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "9",
+  "object_repr": "Огненный Шар Ур. 1",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 190,
+ "fields": {
+  "action_time": "2024-03-29T10:33:32.920Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "9",
+  "object_repr": "Огненный Шар Ур. 1",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 191,
+ "fields": {
+  "action_time": "2024-03-29T10:34:10.638Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "34",
+  "object_repr": " - ️⚔️Атака: 10",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 192,
+ "fields": {
+  "action_time": "2024-03-29T10:34:12.468Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "16",
+  "object_repr": "Огненный Шар Ур. 2",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043f\\u043e\\u0441\\u043e\\u0431\\u043d\\u043e\\u0441\\u0442\\u0438\", \"object\": \"\\u041e\\u0433\\u043d\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0428\\u0430\\u0440 \\u0423\\u0440. 2  - \\ufe0f\\u2694\\ufe0f\\u0410\\u0442\\u0430\\u043a\\u0430: 10\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 193,
+ "fields": {
+  "action_time": "2024-03-29T10:34:21.765Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "9",
+  "object_repr": "Огненный Шар Ур. 1",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 194,
+ "fields": {
+  "action_time": "2024-03-29T10:34:27.019Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "16",
+  "object_repr": "Огненный Шар Ур. 2",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u042d\\u043c\\u043e\\u0434\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 195,
+ "fields": {
+  "action_time": "2024-03-29T10:34:42.587Z",
+  "user": 1,
+  "content_type": 22,
+  "object_id": "102",
+  "object_repr": "Книга: Огненный Шар Ур. 2",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u043c\\u044f\", \"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u043e\\u0435 \\u0443\\u043c\\u0435\\u043d\\u0438\\u0435\", \"\\u041f\\u043e\\u043b\\u0443\\u0447\\u0430\\u0435\\u043c\\u043e\\u0435 \\u0443\\u043c\\u0435\\u043d\\u0438\\u0435\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 196,
+ "fields": {
+  "action_time": "2024-03-29T10:35:33.724Z",
+  "user": 1,
+  "content_type": 25,
+  "object_id": "4",
+  "object_repr": "🪄 Маг",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0423\\u043c\\u0435\\u043d\\u0438\\u0435 \\u043a\\u043b\\u0430\\u0441\\u0441\\u0430\", \"object\": \"\\u041e\\u0433\\u043d\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0428\\u0430\\u0440 \\u0423\\u0440. 1 \\ud83e\\ude84 \\u041c\\u0430\\u0433\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 197,
+ "fields": {
+  "action_time": "2024-03-29T10:37:51.600Z",
+  "user": 1,
+  "content_type": 10,
+  "object_id": "103",
+  "object_repr": "Мешок с Книгой (Уровень 2)",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Item: \\u041a\\u043d\\u0438\\u0433\\u0430: \\u041d\\u0435\\u0432\\u0438\\u0434\\u0438\\u043c\\u043e\\u0441\\u0442\\u044c \\u0423\\u0440. 1 | Chance: 1%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Item: \\u041a\\u043d\\u0438\\u0433\\u0430: \\u041e\\u0433\\u043d\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0428\\u0430\\u0440 \\u0423\\u0440. 2 | Chance: 1%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Item: \\u041a\\u043d\\u0438\\u0433\\u0430: \\u0423\\u043a\\u043b\\u043e\\u043d\\u0435\\u043d\\u0438\\u0435 \\u0423\\u0440. 1 | Chance: 1%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Item: \\u041a\\u043d\\u0438\\u0433\\u0430: \\u0421\\u043e\\u0437\\u0434\\u0430\\u043d\\u0438\\u0435 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u0430 \\u0423\\u0440. 1 | Chance: 1%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Item: \\u041a\\u043d\\u0438\\u0433\\u0430: \\u0412\\u044b\\u0436\\u0438\\u0432\\u0430\\u0435\\u043c\\u043e\\u0441\\u0442\\u044c \\u0423\\u0440. 1 | Chance: 1%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Item: \\u041a\\u043d\\u0438\\u0433\\u0430: \\u041c\\u0430\\u0441\\u0441\\u043e\\u0432\\u044b\\u0435 \\u0417\\u0430\\u043a\\u043b\\u0438\\u043d\\u0430\\u043d\\u0438\\u044f \\u0423\\u0440. 1 | Chance: 1%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Item: \\u041a\\u043d\\u0438\\u0433\\u0430: \\u041a\\u0440\\u0435\\u043f\\u043a\\u0430\\u044f \\u0411\\u0440\\u043e\\u043d\\u044f \\u0423\\u0440. 1 | Chance: 1%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 198,
+ "fields": {
+  "action_time": "2024-03-29T10:38:21.794Z",
+  "user": 1,
+  "content_type": 10,
+  "object_id": "103",
+  "object_repr": "Мешок с Книгой (Уровень 2)",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 199,
+ "fields": {
+  "action_time": "2024-03-29T10:39:00.705Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "6",
+  "object_repr": "Призрачный Лес | Attack: 59 | Defence: 59",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u041f\\u0440\\u0438\\u0437\\u0440\\u0430\\u0447\\u043d\\u044b\\u0439 \\u041b\\u0435\\u0441 | Attack: 59 | Defence: 59 | Amount: 1 - 1 | Chance: 0.05\", \"fields\": [\"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\", \"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
  "model": "contenttypes.contenttype",
  "pk": 1,
  "fields": {
@@ -3579,6 +4073,102 @@
  }
 },
 {
+ "model": "item.item",
+ "pk": 96,
+ "fields": {
+  "name": "Книга: Уклонение Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-03-29T10:09:40.381Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 97,
+ "fields": {
+  "name": "Книга: Создание Эликсира Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-03-29T10:10:19.085Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 98,
+ "fields": {
+  "name": "Книга: Выживаемость Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-29T10:11:55.312Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 99,
+ "fields": {
+  "name": "Книга: Массовые Заклинания Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-03-29T10:13:36.018Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 100,
+ "fields": {
+  "name": "Книга: Крепкая Броня Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-03-29T10:15:24.564Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 101,
+ "fields": {
+  "name": "Книга: Невидимость Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-03-29T10:15:58.702Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 102,
+ "fields": {
+  "name": "Книга: Огненный Шар Ур. 2",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-03-29T10:16:31.426Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 103,
+ "fields": {
+  "name": "Мешок с Книгой (Уровень 2)",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-03-29T10:37:51.594Z",
+  "type": "bag"
+ }
+},
+{
  "model": "item.equipment",
  "pk": 21,
  "fields": {
@@ -4057,6 +4647,76 @@
  }
 },
 {
+ "model": "item.book",
+ "pk": 96,
+ "fields": {
+  "character_class": 3,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 15
+ }
+},
+{
+ "model": "item.book",
+ "pk": 97,
+ "fields": {
+  "character_class": 2,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 14
+ }
+},
+{
+ "model": "item.book",
+ "pk": 98,
+ "fields": {
+  "character_class": 1,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 13
+ }
+},
+{
+ "model": "item.book",
+ "pk": 99,
+ "fields": {
+  "character_class": 4,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 12
+ }
+},
+{
+ "model": "item.book",
+ "pk": 100,
+ "fields": {
+  "character_class": 1,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 11
+ }
+},
+{
+ "model": "item.book",
+ "pk": 101,
+ "fields": {
+  "character_class": 3,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 10
+ }
+},
+{
+ "model": "item.book",
+ "pk": 102,
+ "fields": {
+  "character_class": 4,
+  "required_level": 10,
+  "required_skill": 9,
+  "skill": 16
+ }
+},
+{
  "model": "item.recipe",
  "pk": 36,
  "fields": {
@@ -4333,6 +4993,11 @@
 {
  "model": "item.bag",
  "pk": 95,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 103,
  "fields": {}
 },
 {
@@ -5137,6 +5802,69 @@
  }
 },
 {
+ "model": "item.bagitem",
+ "pk": 90,
+ "fields": {
+  "item": 101,
+  "bag": 103,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 91,
+ "fields": {
+  "item": 102,
+  "bag": 103,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 92,
+ "fields": {
+  "item": 96,
+  "bag": 103,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 93,
+ "fields": {
+  "item": 97,
+  "bag": 103,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 94,
+ "fields": {
+  "item": 98,
+  "bag": 103,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 95,
+ "fields": {
+  "item": 99,
+  "bag": 103,
+  "chance": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 96,
+ "fields": {
+  "item": 100,
+  "bag": 103,
+  "chance": 1
+ }
+},
+{
  "model": "item.effect",
  "pk": 1,
  "fields": {
@@ -5361,7 +6089,7 @@
  "pk": 23,
  "fields": {
   "property": "attack",
-  "amount": 12,
+  "amount": 5,
   "in_percent": false,
   "slug": "skill"
  }
@@ -5424,6 +6152,56 @@
   "amount": 17,
   "in_percent": false,
   "slug": "item"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 30,
+ "fields": {
+  "property": "pvp",
+  "amount": 5,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 31,
+ "fields": {
+  "property": "mass_attack",
+  "amount": 5,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 32,
+ "fields": {
+  "property": "no_death_exp",
+  "amount": 5,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 33,
+ "fields": {
+  "property": "evasion",
+  "amount": 5,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 34,
+ "fields": {
+  "property": "attack",
+  "amount": 10,
+  "in_percent": false,
+  "slug": "skill"
  }
 },
 {
@@ -6197,6 +6975,90 @@
  }
 },
 {
+ "model": "character.skill",
+ "pk": 11,
+ "fields": {
+  "name": "Крепкая Броня",
+  "emoji": "🛡",
+  "description": "Нападая на Вас Персонаж может убить себя.",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 12,
+ "fields": {
+  "name": "Массовые Заклинания",
+  "emoji": "🌪",
+  "description": "При охоте есть шанс убить сразу несколько Монстров за раз",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 13,
+ "fields": {
+  "name": "Выживаемость",
+  "emoji": "❤️",
+  "description": "При смерти есть шанс не потерять Опыт",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 14,
+ "fields": {
+  "name": "Создание Эликсира",
+  "emoji": "🌡",
+  "description": "Можно создать случайный Эликсир",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": "12:00:00",
+  "type": "active"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 15,
+ "fields": {
+  "name": "Уклонение",
+  "emoji": "🥾",
+  "description": "При проигрыше в PvP есть шанс скрыться в Городе",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 16,
+ "fields": {
+  "name": "Огненный Шар",
+  "emoji": "🔥",
+  "description": "При активации данной способности. Маг наносит дополнительный урон при Охоте и PvP. \r\nРасход маны:",
+  "level": 2,
+  "mana_cost": 1,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "toggle"
+ }
+},
+{
  "model": "character.skilleffect",
  "pk": 1,
  "fields": {
@@ -6250,6 +7112,46 @@
  "fields": {
   "skill": 9,
   "effect": 23
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 8,
+ "fields": {
+  "skill": 11,
+  "effect": 30
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 9,
+ "fields": {
+  "skill": 12,
+  "effect": 31
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 10,
+ "fields": {
+  "skill": 13,
+  "effect": 32
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 11,
+ "fields": {
+  "skill": 15,
+  "effect": 33
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 12,
+ "fields": {
+  "skill": 16,
+  "effect": 34
  }
 },
 {
@@ -6425,6 +7327,14 @@
  "pk": 4,
  "fields": {
   "skill": 3,
+  "character_class": 4
+ }
+},
+{
+ "model": "character.characterclassskill",
+ "pk": 5,
+ "fields": {
+  "skill": 9,
   "character_class": 4
  }
 },
@@ -6823,10 +7733,10 @@
  "pk": 25,
  "fields": {
   "location": 6,
-  "item": 12,
+  "item": 103,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.1
+  "chance": 0.05
  }
 }
 ]

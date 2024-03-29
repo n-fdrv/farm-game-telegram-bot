@@ -38,9 +38,15 @@ class EffectProperty(models.TextChoices):
 
     ATTACK = "attack", "️⚔️Атака"
     DEFENCE = "defence", "🛡Защита"
+    MANA = "mana", "🔷Пополнение Маны"
+    MAX_MANA = "max_mana", "🔷Увеличение Маны"
     EXP = "exp", "🔮Опыт"
     DROP = "drop", "🍀Выпадение предметов"
     HUNTING_TIME = "hunting_time", "⏳Время охоты"
+    PVP = "pvp", "🩸Победа в PvP"
+    MASS_ATTACK = "mass_attack", "⚡️Массовая Атака"
+    NO_DEATH_EXP = "no_death_exp", "🪦Без потери опыта при смерти"
+    EVASION = "evasion", "🥾Шанс избежать PvP"
 
 
 class EffectSlug(models.TextChoices):
@@ -317,7 +323,15 @@ class Effect(models.Model):
         verbose_name_plural = "Эффекты"
 
     def __str__(self):
-        text = f"{self.get_property_display()}: {self.amount}"
+        item = (
+            Item.objects.values_list("name", flat=True)
+            .filter(effects=self)
+            .all()
+        )
+        text = (
+            f"{' | '.join(item)} -"
+            f" {self.get_property_display()}: {self.amount}"
+        )
         if self.in_percent:
             text += "%"
         return text

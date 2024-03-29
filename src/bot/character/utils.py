@@ -164,6 +164,7 @@ async def get_character_property(
         EffectProperty.ATTACK: character.attack,
         EffectProperty.DEFENCE: character.defence,
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
+        EffectProperty.MAX_MANA: character.max_mana,
     }
     chosen_property = property_data[effect_property]
     if effect_property == EffectProperty.HUNTING_TIME:
@@ -207,6 +208,7 @@ async def get_character_info(character: Character) -> str:
         character.level,
         exp_in_percent,
         clan,
+        f"{character.mana}/{character.max_mana}",
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         location,
@@ -281,6 +283,7 @@ async def get_character_about(character: Character) -> str:
         character.level,
         exp_in_percent,
         clan,
+        f"{character.mana}/{character.max_mana}",
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         character.kills,

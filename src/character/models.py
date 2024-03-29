@@ -176,6 +176,8 @@ class Character(models.Model):
     )
     attack = models.IntegerField(default=0, verbose_name="Атака")
     defence = models.IntegerField(default=0, verbose_name="Защита")
+    mana = models.IntegerField(default=20, verbose_name="Мана")
+    max_mana = models.IntegerField(default=20, verbose_name="Макс Мана")
     exp_modifier = models.IntegerField(
         default=1, verbose_name="Модмфикатор опыта"
     )
