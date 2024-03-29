@@ -163,3 +163,4 @@ cython_debug/
 /src/static/
 /src/persistance_data/persistance_file
 /src/bot/server.py
+/src/data/characters.json

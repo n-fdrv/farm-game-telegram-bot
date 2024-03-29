@@ -13,7 +13,7 @@ async def craft_list_keyboard(character: Character):
     keyboard = InlineKeyboardBuilder()
     async for recipe in character.recipes.all():
         keyboard.button(
-            text=recipe.get_name(),
+            text=recipe.name_with_chance,
             callback_data=CraftData(action=craft_action.get, id=recipe.id),
         )
     keyboard.button(

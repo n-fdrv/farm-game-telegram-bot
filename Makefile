@@ -62,6 +62,18 @@ upload-data: # Загрузить данные
 	cd src && poetry run python -Xutf8 manage.py loaddata data/db.json && \
 	cd ..
 
+download-characters: # Выгрузить персонажей
+	cd src && poetry run python -Xutf8 manage.py dumpdata \
+	--exclude=auth.permission \
+	--exclude=item \
+	--exclude=location \
+	--indent=1 -o data/characters.json && \
+	cd ..
+
+upload-characters: # Загрузить персонажей
+	cd src && poetry run python -Xutf8 manage.py loaddata data/characters.json && \
+	cd ..
+
 
 run-app: # Запуск Django и Telegram бота
 	@echo -e "$(COLOR_YELLOW)Starting bot...$(COLOR_RESET)"

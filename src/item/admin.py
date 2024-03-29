@@ -121,14 +121,15 @@ class RecipeAdmin(BaseItemAdmin):
     """Управление моделью предметов."""
 
     list_display = (
-        "name",
+        "name_with_chance",
+        "level",
         "sell_price",
         "buy_price",
         "type",
     )
     inlines = (CraftingItemInline,)
-    list_filter = ("type",)
-    list_display_links = ("name",)
+    list_filter = ("level", "chance")
+    list_display_links = ("name_with_chance",)
     search_fields = ("name",)
 
 
