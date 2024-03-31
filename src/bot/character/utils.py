@@ -502,7 +502,6 @@ async def get_hunting_loot(character: Character, bot):
             hunting_stats["relax_minutes"] += 1
             continue
         hunting_stats["skill_uses"] += await use_toggle(character)
-        hunting_stats["exp_gained"] += hunting_stats["location_exp"]
         drop_chance = (
             drop_modifier
             * await get_character_property(character, EffectProperty.ATTACK)
