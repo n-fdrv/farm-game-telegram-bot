@@ -47,6 +47,7 @@ class EffectProperty(models.TextChoices):
     MASS_ATTACK = "mass_attack", "⚡️Массовая Атака"
     NO_DEATH_EXP = "no_death_exp", "🪦Без потери опыта при смерти"
     EVASION = "evasion", "🥾Шанс избежать PvP"
+    INVISIBLE = "invisible", "💨Невидимость"
 
 
 class EffectSlug(models.TextChoices):
@@ -338,8 +339,11 @@ class Effect(models.Model):
 
     def get_property_with_amount(self):
         """Получение свойства с количеством."""
-        text = f"{self.get_property_display()}: {self.amount}"
-        if self.in_percent:
+        amount = f": <b>{self.amount}</b>"
+        if not self.amount and self.in_percent:
+            amount = ""
+        text = f"{self.get_property_display()} {amount}"
+        if self.in_percent and amount:
             text += "%"
         return text
 

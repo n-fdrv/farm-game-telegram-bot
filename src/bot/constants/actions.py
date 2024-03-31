@@ -32,6 +32,8 @@ class CharacterAction(Action):
 
     skill_list = f"{callback_data.CharacterData.__prefix__}-skli"
     skill_get = f"{callback_data.CharacterData.__prefix__}-skge"
+    skill_toggle = f"{callback_data.CharacterData.__prefix__}-skto"
+    skill_use = f"{callback_data.CharacterData.__prefix__}-skus"
 
     about = f"{callback_data.CharacterData.__prefix__}-ab"
 

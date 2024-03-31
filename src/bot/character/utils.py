@@ -8,6 +8,7 @@ from character.models import (
     CharacterEffect,
     CharacterItem,
     SkillEffect,
+    SkillType,
 )
 from clan.models import ClanWar
 from django.db.models import Q
@@ -91,7 +92,9 @@ async def get_property_modifier(
     ).filter(
         effect__property=effect_property,
         effect__in_percent=True,
-        skill__in=character.skills.all(),
+        skill__in=character.skills.filter(
+            Q(type=SkillType.PASSIVE) | Q(characterskill__turn_on=True)
+        ),
     ):
         modifier += skill_effect.effect.amount / 100
     async for character_effect in CharacterEffect.objects.select_related(
@@ -130,7 +133,9 @@ async def get_property_amount(
     ).filter(
         effect__property=effect_property,
         effect__in_percent=False,
-        skill__in=character.skills.all(),
+        skill__in=character.skills.filter(
+            Q(type=SkillType.PASSIVE) | Q(characterskill__turn_on=True)
+        ),
     ):
         amount += skill_effect.effect.amount
     async for character_effect in CharacterEffect.objects.filter(
@@ -169,10 +174,10 @@ async def get_character_property(
     chosen_property = property_data[effect_property]
     if effect_property == EffectProperty.HUNTING_TIME:
         chosen_property = (
-            character.max_hunting_time.hour * 3600
-            + character.max_hunting_time.minute * 60
-            + character.max_hunting_time.second
-        ) / 60
+            character.max_hunting_time.hour * 60
+            + character.max_hunting_time.minute
+            + character.max_hunting_time.second // 60
+        )
     if game_config.IN_PERCENT_MODIFIER_FIRST:
         chosen_property *= await get_property_modifier(
             character, effect_property
@@ -239,7 +244,7 @@ async def get_character_item_with_effects(character_item: CharacterItem):
     return f"{character_item.name_with_enhance}{effects}"
 
 
-async def get_elixir_expired_text(time_left: datetime.timedelta):
+async def get_expired_text(time_left: datetime.timedelta):
     """Получения остатка времени действия эликсира."""
     if time_left > datetime.timedelta(days=1):
         return f"более {time_left.days} суток"
@@ -260,7 +265,7 @@ async def get_elixir_with_effects_and_expired(character: Character):
     return "\n".join(
         [
             f"<i>{x.effect.get_property_with_amount()} Осталось: </i> "
-            f"<b>{await get_elixir_expired_text(x.expired - time)}</b>"
+            f"<b>{await get_expired_text(x.expired - time)}</b>"
             async for x in effects
         ]
     )
@@ -309,7 +314,10 @@ async def get_character_about(character: Character) -> str:
         "\n".join(
             [
                 x.effect.get_property_with_amount()
-                async for x in skill_effect.all()
+                async for x in skill_effect.filter(
+                    Q(skill__type=SkillType.PASSIVE)
+                    | Q(skill__characterskill__turn_on=True)
+                )
             ]
         ),
         await get_elixir_with_effects_and_expired(character),

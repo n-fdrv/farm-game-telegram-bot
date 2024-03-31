@@ -1,8 +1,11 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from character.models import Character, Skill
+from character.models import Character, CharacterSkill, SkillType
 
 from bot.character.skills.buttons import (
+    ACTIVE_BUTTON,
     RECIPE_BUTTON,
+    TOGGLE_OFF_BUTTON,
+    TOGGLE_ON_BUTTON,
 )
 from bot.command.buttons import BACK_BUTTON
 from bot.constants.actions import (
@@ -21,12 +24,14 @@ async def skill_list_keyboard(
 ):
     """Клавиатура выбора класса персонажа."""
     keyboard = InlineKeyboardBuilder()
-    async for skill in character.skills.all():
+    async for character_skill in CharacterSkill.objects.select_related(
+        "skill"
+    ).all():
         keyboard.button(
-            text=skill.name_with_level,
+            text=character_skill.skill.name_with_level,
             callback_data=CharacterData(
                 action=character_action.skill_get,
-                id=skill.id,
+                id=character_skill.id,
                 page=callback_data.page,
             ),
         )
@@ -42,15 +47,42 @@ async def skill_list_keyboard(
     )
 
 
-async def skill_get_keyboard(skill: Skill):
+async def skill_get_keyboard(character_skill: CharacterSkill):
     """Клавиатура выбора класса персонажа."""
     keyboard = InlineKeyboardBuilder()
-    # TODO Улучшение способностей
-    if skill.name == "Мастер Создания":
+    if character_skill.skill.name == "Мастер Создания":
         keyboard.button(
             text=RECIPE_BUTTON,
             callback_data=CraftData(action=craft_action.list),
         )
+    if character_skill.skill.type == SkillType.TOGGLE:
+        button_text = TOGGLE_ON_BUTTON
+        if character_skill.turn_on:
+            button_text = TOGGLE_OFF_BUTTON
+        keyboard.button(
+            text=button_text,
+            callback_data=CharacterData(
+                action=character_action.skill_toggle, id=character_skill.pk
+            ),
+        )
+    elif character_skill.skill.type == SkillType.ACTIVE:
+        keyboard.button(
+            text=ACTIVE_BUTTON,
+            callback_data=CharacterData(
+                action=character_action.skill_use, id=character_skill.pk
+            ),
+        )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=CharacterData(action=character_action.skill_list),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def skill_use_keyboard():
+    """Клавиатура выбора класса персонажа."""
+    keyboard = InlineKeyboardBuilder()
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=CharacterData(action=character_action.skill_list),

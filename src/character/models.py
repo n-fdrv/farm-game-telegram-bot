@@ -284,6 +284,12 @@ class CharacterSkill(models.Model):
     character = models.ForeignKey(
         Character, on_delete=models.CASCADE, verbose_name="Класс"
     )
+    turn_on = models.BooleanField(
+        default=False, verbose_name="Активирован (Для переключаемых)"
+    )
+    cooldown = models.DateTimeField(
+        default=timezone.now, verbose_name="Перезарядкаа"
+    )
 
     class Meta:
         verbose_name = "Умение персонажа"
