@@ -1,17 +1,18 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem
-from item.models import ItemType, Scroll
+from item.models import ItemType
 
 from bot.character.backpack.keyboards import (
+    after_use_scroll_keyboard,
     backpack_list_keyboard,
     backpack_preview_keyboard,
     enhance_get_keyboard,
-    in_backpack_keyboard,
     item_get_keyboard,
     not_success_equip_keyboard,
     open_more_keyboard,
-    use_scroll_keyboards,
+    use_item_keyboard,
+    use_scroll_keyboard,
 )
 from bot.character.backpack.messages import (
     ITEM_LIST_MESSAGE,
@@ -87,8 +88,10 @@ async def backpack_get(
     callback_data: BackpackData,
 ):
     """Коллбек получения предмета в инвентаре."""
-    # TODO Изображение всех предметов ???
     keyboard = await item_get_keyboard(callback_data)
+    if not await CharacterItem.objects.filter(id=callback_data.id).aexists():
+        await callback.message.delete()
+        return
     character_item = await CharacterItem.objects.select_related("item").aget(
         id=callback_data.id
     )
@@ -160,8 +163,7 @@ async def backpack_use_handler(
         ItemType.BOOK: use_book,
     }
     if character_item.item.type == ItemType.SCROLL:
-        scroll = await Scroll.objects.aget(pk=character_item.item.pk)
-        keyboard = await use_scroll_keyboards(character_item.character, scroll)
+        keyboard = await use_scroll_keyboard(character_item)
         await callback.message.edit_text(
             text=SCROLL_LIST_MESSAGE.format(
                 character_item.item.name_with_type
@@ -172,7 +174,8 @@ async def backpack_use_handler(
     success, text = await usable_item_data[character_item.item.type](
         character_item.character, character_item.item
     )
-    keyboard = await in_backpack_keyboard(callback_data)
+    callback_data.amount = character_item.amount - 1
+    keyboard = await use_item_keyboard(callback_data)
     await callback.message.edit_text(
         text=text,
         reply_markup=keyboard.as_markup(),
@@ -225,10 +228,13 @@ async def enhance_get_handler(
     callback_data: BackpackData,
 ):
     """Коллбек получения предмета для улучшения."""
-    keyboard = await enhance_get_keyboard(callback_data)
+    if not await CharacterItem.objects.filter(id=callback_data.id).aexists():
+        await callback.message.delete()
+        return
     character_item = await CharacterItem.objects.select_related("item").aget(
         id=callback_data.id
     )
+    keyboard = await enhance_get_keyboard(callback_data)
     await callback.message.edit_text(
         text=await get_character_item_enhance_text(character_item),
         reply_markup=keyboard.as_markup(),
@@ -245,12 +251,23 @@ async def enhance_handler(
     callback_data: BackpackData,
 ):
     """Коллбек получения предмета для улучшения."""
-    character_item = await CharacterItem.objects.select_related(
+    exists = (
+        await CharacterItem.objects.filter(id=callback_data.id).aexists(),
+        await CharacterItem.objects.filter(id=callback_data.item_id).aexists(),
+    )
+    if False in exists:
+        await callback.message.delete()
+        return
+    enhance_item = await CharacterItem.objects.select_related(
         "item", "character"
     ).aget(id=callback_data.id)
-    scroll = await Scroll.objects.aget(pk=callback_data.item_id)
-    success, text = await use_scroll(scroll, character_item)
-    keyboard = await in_backpack_keyboard(callback_data)
+    scroll_item = await CharacterItem.objects.select_related(
+        "item", "character"
+    ).aget(id=callback_data.item_id)
+    new_item, text = await use_scroll(scroll_item, enhance_item)
+    callback_data.id = new_item.id
+    callback_data.amount = scroll_item.amount - 1
+    keyboard = await after_use_scroll_keyboard(callback_data)
     await callback.message.edit_text(
         text=text,
         reply_markup=keyboard.as_markup(),

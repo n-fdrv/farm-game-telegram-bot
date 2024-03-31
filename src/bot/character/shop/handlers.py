@@ -129,7 +129,7 @@ async def shop_buy_handler(
         await callback.message.delete()
         return
     item = await Item.objects.aget(pk=callback_data.id)
-    keyboard = await buy_keyboard()
+    keyboard = await buy_keyboard(callback_data)
     success, text = await buy_item(user.character, item)
     await callback.message.edit_text(
         text=text,

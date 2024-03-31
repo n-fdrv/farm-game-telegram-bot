@@ -1,5 +1,6 @@
 SELL_BUTTON = "💰Продать"
 BUY_BUTTON = "💰Купить"
+BUY_MORE_BUTTON = "💰Купить Еще"
 SELL_ALL_BUTTON = "💰Продать все"
 SELL_AMOUNT_BUTTON = "💵Продать несколько"
 IN_SHOP_BUTTON = "💰В магазин"

@@ -55,18 +55,18 @@ async def remove_item(
         character=character, item=item, enhancement_level=enhancement_level
     ).aexists()
     if not exists:
-        return False
+        return False, 0
     character_item = await CharacterItem.objects.aget(
         character=character, item=item, enhancement_level=enhancement_level
     )
     if character_item.amount < amount:
-        return False
+        return False, character_item.amount
     character_item.amount -= amount
     if character_item.amount == 0:
         await character_item.adelete()
-        return True
+        return True, 0
     await character_item.asave(update_fields=("amount",))
-    return True
+    return True, character_item.amount
 
 
 async def add_item(
@@ -81,20 +81,22 @@ async def add_item(
         character=character, item=item, enhancement_level=enhancement_level
     ).aexists()
     if not exists:
-        await CharacterItem.objects.acreate(
+        character_item = await CharacterItem.objects.select_related(
+            "item", "character"
+        ).acreate(
             character=character,
             item=item,
             amount=amount,
             enhancement_level=enhancement_level,
             equipped=equipped,
         )
-        return True
-    character_items = await CharacterItem.objects.aget(
-        character=character, item=item, enhancement_level=enhancement_level
-    )
-    character_items.amount += amount
-    await character_items.asave(update_fields=("amount",))
-    return True
+        return character_item
+    character_item = await CharacterItem.objects.select_related(
+        "item", "character"
+    ).aget(character=character, item=item, enhancement_level=enhancement_level)
+    character_item.amount += amount
+    await character_item.asave(update_fields=("amount",))
+    return character_item
 
 
 async def get_gold_amount(character: Character):
@@ -300,8 +302,10 @@ async def use_potion(character: Character, item: Item):
             seconds=potion.effect_time.second,
         )
         await character_effect.asave(update_fields=("expired",))
-    await remove_item(item=item, character=character, amount=1)
-    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type)
+    success, amount = await remove_item(
+        item=item, character=character, amount=1
+    )
+    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type, amount)
 
 
 async def use_recipe(character: Character, item: Item):
@@ -317,35 +321,49 @@ async def use_recipe(character: Character, item: Item):
     if await character.recipes.filter(name=recipe.name).aexists():
         return False, ALREADY_KNOWN_RECIPE
     await character.recipes.aadd(recipe)
-    await remove_item(item=item, character=character, amount=1)
-    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type)
+    success, amount = await remove_item(
+        item=item, character=character, amount=1
+    )
+    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type, amount)
 
 
-async def use_scroll(scroll: Scroll, character_item: CharacterItem):
+async def use_scroll(
+    scroll_item: CharacterItem, character_item: CharacterItem
+):
     """Метод использования свитка."""
+    scroll = await Scroll.objects.aget(pk=scroll_item.item.pk)
     if scroll.enhance_type != character_item.item.type:
         return False, NOT_CORRECT_SCROLL_TYPE_MESSAGE
     enhance_chance = game_config.ENHANCE_CHANCE[
         character_item.enhancement_level
     ]
     success = random.randint(1, 100) <= enhance_chance
-    await remove_item(character_item.character, scroll, 1)
+    remove, scroll_amount = await remove_item(
+        character_item.character, scroll, 1
+    )
     if not success:
-        return False, FAILURE_ENCHANT
+        return character_item, FAILURE_ENCHANT.format(
+            game_config.ENHANCE_CHANCE[character_item.enhancement_level],
+            f"{scroll_amount} {scroll.name_with_type}",
+        )
     await remove_item(
         character_item.character,
         character_item.item,
         amount=1,
         enhancement_level=character_item.enhancement_level,
     )
-    await add_item(
+    new_item = await add_item(
         character_item.character,
         character_item.item,
         amount=1,
         enhancement_level=character_item.enhancement_level + 1,
         equipped=character_item.equipped,
     )
-    return True, SUCCESS_ENCHANT
+    return new_item, SUCCESS_ENCHANT.format(
+        new_item.name_with_enhance,
+        game_config.ENHANCE_CHANCE[new_item.enhancement_level],
+        f"{scroll_amount} {scroll.name_with_type}",
+    )
 
 
 async def use_book(character: Character, item: Item):
@@ -370,8 +388,10 @@ async def use_book(character: Character, item: Item):
         skill__name=book.required_skill.name,
         skill__level=book.required_skill.level,
     ).adelete()
-    await remove_item(item=item, character=character, amount=1)
-    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type)
+    success, amount = await remove_item(
+        item=item, character=character, amount=1
+    )
+    return True, SUCCESS_USE_MESSAGE.format(item.name_with_type, amount)
 
 
 async def open_bag(character: Character, item: Item, amount: int = 1):

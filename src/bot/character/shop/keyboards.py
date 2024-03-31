@@ -5,6 +5,7 @@ from item.models import Item, ItemType
 
 from bot.character.shop.buttons import (
     BUY_BUTTON,
+    BUY_MORE_BUTTON,
     IN_SHOP_BUTTON,
     SELL_ALL_BUTTON,
     SELL_AMOUNT_BUTTON,
@@ -112,7 +113,11 @@ async def buy_get_keyboard(callback_data: ShopData):
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
         text=BUY_BUTTON,
-        callback_data=ShopData(action=shop_action.buy, id=callback_data.id),
+        callback_data=ShopData(
+            action=shop_action.buy,
+            id=callback_data.id,
+            type=callback_data.type,
+        ),
     )
     keyboard.button(
         text=BACK_BUTTON,
@@ -124,12 +129,24 @@ async def buy_get_keyboard(callback_data: ShopData):
     return keyboard
 
 
-async def buy_keyboard():
+async def buy_keyboard(callback_data: ShopData):
     """Клавиатура для покупки товара."""
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
+        text=BUY_MORE_BUTTON,
+        callback_data=ShopData(
+            action=shop_action.buy,
+            id=callback_data.id,
+            type=callback_data.type,
+        ),
+    )
+    keyboard.button(
         text=BACK_BUTTON,
-        callback_data=ShopData(action=shop_action.buy_preview),
+        callback_data=ShopData(
+            action=shop_action.buy_get,
+            id=callback_data.id,
+            type=callback_data.type,
+        ),
     )
     keyboard.adjust(1)
     return keyboard

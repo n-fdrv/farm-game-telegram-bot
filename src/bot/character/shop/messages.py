@@ -15,7 +15,12 @@ NOT_ENOUGH_GOLD_MESSAGE = (
     "<b>❌ Неудача</b>\n\n" f"Недостаточно <b>{settings.GOLD_NAME}</b>!"
 )
 
-SUCCESS_BUY_MESSAGE = "<b>✅ Успех</b>\n\n" "Вы купили <b>{}</b>!"
+SUCCESS_BUY_MESSAGE = (
+    "<b>✅ Успех</b>\n\n"
+    "<i>Приобретено:</i> <b>{}</b>\n"
+    "<i>Осталось:</i> <b>{} "
+    f"{settings.GOLD_NAME}</b>"
+)
 
 SELL_AMOUNT_MESSAGE = "⚠️ Укажите количество товара в сообщении"
 

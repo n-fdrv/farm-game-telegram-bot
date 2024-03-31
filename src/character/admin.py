@@ -123,18 +123,20 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     changelist_actions = ("end_hunting",)
 
     list_display = (
-        "name",
-        "level",
+        "name_with_level",
+        "exp_percent",
         "clan",
         "kills",
         "attack",
         "defence",
-        "exp_percent",
         "current_location",
         "premium_expired",
     )
-    list_display_links = ("name",)
-    list_filter = ("level",)
+    list_display_links = ("name_with_level",)
+    list_filter = (
+        "level",
+        "character_class",
+    )
     search_fields = ("name",)
     inlines = (
         CharacterSkillInline,

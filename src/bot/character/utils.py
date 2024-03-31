@@ -375,6 +375,7 @@ async def get_hunting_loot(character: Character, bot):
     hunting_minutes = await get_hunting_minutes(character)
     exp_gained = int(character.current_location.exp * hunting_minutes)
     exp_gained *= await get_character_property(character, EffectProperty.EXP)
+    exp_in_percent = exp_gained / character.exp_for_level_up * 100
     drop_data = {}
     location_drop_modifier = (
         character.attack / character.current_location.attack
@@ -426,7 +427,7 @@ async def get_hunting_loot(character: Character, bot):
             "job_id",
         )
     )
-    return exp_gained, drop_text
+    return exp_in_percent, drop_text
 
 
 async def end_hunting(character: Character, bot):

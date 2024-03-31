@@ -5,13 +5,15 @@ from item.models import ItemType, Scroll
 
 from bot.character.backpack.buttons import (
     ENHANCE_BUTTON,
+    ENHANCE_MORE_BUTTON,
     EQUIP_BUTTON,
     OPEN_ALL_BUTTON,
     OPEN_BUTTON,
     OPEN_MORE_BUTTON,
     USE_BUTTON,
+    USE_MORE_BUTTON,
 )
-from bot.command.buttons import BACK_BUTTON, CANCEL_BUTTON
+from bot.command.buttons import BACK_BUTTON
 from bot.constants.actions import (
     backpack_action,
     character_action,
@@ -163,29 +165,57 @@ async def not_success_equip_keyboard(callback_data: BackpackData):
     return keyboard
 
 
-async def use_scroll_keyboards(character: Character, scroll: Scroll):
+async def use_scroll_keyboard(character_item: CharacterItem):
     """Клавиатура возвращения в инвентарь."""
     keyboard = InlineKeyboardBuilder()
-    async for character_item in CharacterItem.objects.select_related(
+    enhance_type = await Scroll.objects.values_list(
+        "enhance_type", flat=True
+    ).aget(pk=character_item.item.pk)
+    async for enhance_item in CharacterItem.objects.select_related(
         "item"
     ).filter(
-        character=character,
-        item__type=scroll.enhance_type,
+        character=character_item.character,
+        item__type=enhance_type,
         enhancement_level__lt=len(game_config.ENHANCE_CHANCE),
     ):
         keyboard.button(
-            text=character_item.name_with_enhance,
+            text=enhance_item.name_with_enhance,
             callback_data=BackpackData(
                 action=backpack_action.enhance_get,
-                id=character_item.id,
-                item_id=scroll.pk,
+                id=enhance_item.id,
+                item_id=character_item.pk,
+                type=character_item.item.type,
             ),
         )
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=BackpackData(
-            action=backpack_action.list,
-            type=scroll.type,
+            action=backpack_action.get,
+            id=character_item.pk,
+            type=character_item.item.type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def after_use_scroll_keyboard(callback_data: BackpackData):
+    """Клавиатура после использования предмета."""
+    keyboard = InlineKeyboardBuilder()
+    if callback_data.amount > 0:
+        keyboard.button(
+            text=ENHANCE_MORE_BUTTON,
+            callback_data=BackpackData(
+                action=backpack_action.enhance,
+                id=callback_data.id,
+                item_id=callback_data.item_id,
+                type=ItemType.SCROLL,
+            ),
+        )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.list, type=ItemType.SCROLL
         ),
     )
     keyboard.adjust(1)
@@ -201,22 +231,33 @@ async def enhance_get_keyboard(callback_data: BackpackData):
             action=backpack_action.enhance,
             id=callback_data.id,
             item_id=callback_data.item_id,
+            type=ItemType.SCROLL,
         ),
     )
     keyboard.button(
-        text=CANCEL_BUTTON,
+        text=BACK_BUTTON,
         callback_data=BackpackData(
-            action=backpack_action.preview,
+            action=backpack_action.use,
+            id=callback_data.item_id,
+            type=ItemType.SCROLL,
         ),
     )
     keyboard.adjust(1)
     return keyboard
 
 
-async def in_backpack_keyboard(callback_data: BackpackData):
-    """Клавиатура возвращения в инвентарь."""
+async def use_item_keyboard(callback_data: BackpackData):
+    """Клавиатура после использования предмета."""
     keyboard = InlineKeyboardBuilder()
-    print(callback_data)
+    if callback_data.amount > 0:
+        keyboard.button(
+            text=USE_MORE_BUTTON,
+            callback_data=BackpackData(
+                action=backpack_action.use,
+                id=callback_data.id,
+                type=callback_data.type,
+            ),
+        )
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=BackpackData(

@@ -68,9 +68,11 @@ async def get_location_drop(character: Character, location: Location) -> str:
     )
     drop_buff = drop_modifier * attack_buff
     drop_data = ""
-    async for location_drop in LocationDrop.objects.select_related(
-        "item"
-    ).filter(location=location):
+    async for location_drop in (
+        LocationDrop.objects.select_related("item")
+        .filter(location=location)
+        .order_by("-chance")
+    ):
         chance = round(location_drop.chance * drop_buff, 2)
         chance_limit = 100
         if chance > chance_limit:
@@ -97,11 +99,17 @@ async def get_location_info(character: Character, location: Location) -> str:
     characters_in_location = await Character.objects.filter(
         current_location=location
     ).acount()
+    location_exp = (
+        await get_character_property(character, EffectProperty.EXP)
+        * location.exp
+    )
+    exp_in_minute = location_exp / character.exp_for_level_up * 100
     return LOCATION_GET_MESSAGE.format(
         location.name,
         location.attack,
         location.defence,
         f"{characters_in_location}/{location.place}",
+        exp_in_minute,
         await get_location_attack_effect(character, location),
         await get_location_defence_effect(character, location),
         int(hunting_time),

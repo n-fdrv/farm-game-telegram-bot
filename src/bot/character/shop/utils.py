@@ -105,6 +105,6 @@ async def buy_item(character: Character, item: Item):
     enough_amount = await check_item_amount(character, gold, item.buy_price)
     if not enough_amount:
         return False, NOT_ENOUGH_GOLD_MESSAGE
-    await remove_item(character, gold, item.buy_price)
+    success, amount = await remove_item(character, gold, item.buy_price)
     await add_item(character, item)
-    return True, SUCCESS_BUY_MESSAGE.format(item.name_with_type)
+    return True, SUCCESS_BUY_MESSAGE.format(item.name_with_type, amount)
