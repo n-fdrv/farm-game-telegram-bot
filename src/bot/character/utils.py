@@ -477,19 +477,14 @@ async def get_hunting_loot(character: Character, bot):
     }
     hunting_minutes = await get_hunting_minutes(character)
     health_reducing = await get_health_reducing(character)
-    drop_modifier = (
-        await get_character_property(character, EffectProperty.DROP),
+    drop_modifier = await get_character_property(
+        character, EffectProperty.DROP
     )
-    max_mana = (
-        await get_character_property(character, EffectProperty.MAX_MANA),
-    )
+    max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
     location_exp = (
-        (
-            character.current_location.exp
-            * await get_character_property(character, EffectProperty.EXP)
-        ),
+        character.current_location.exp
+        * await get_character_property(character, EffectProperty.EXP)
     )
-
     exp_gained = 0
     drop_data = {}
     for _minute in range(hunting_minutes):
