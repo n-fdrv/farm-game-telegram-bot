@@ -46,7 +46,7 @@ from bot.character.backpack.messages import (
     SUCCESS_USE_MESSAGE,
     UNEQUIP_MESSAGE,
 )
-from bot.character.utils import get_character_property
+from bot.character.utils import get_character_property, regen_health_or_mana
 from core.config import game_config
 
 
@@ -286,31 +286,6 @@ async def equip_talisman(item: CharacterItem):
     item.equipped = True
     await item.asave(update_fields=("equipped",))
     return True, EQUIP_MESSAGE
-
-
-async def regen_health_or_mana(
-    character: Character, health_or_mana: EffectProperty, amount: float
-):
-    """Регенерация здоровья или маны."""
-    if health_or_mana == EffectProperty.HEALTH:
-        character.health += amount
-        if character.health > await get_character_property(
-            character, EffectProperty.MAX_HEALTH
-        ):
-            character.health = await get_character_property(
-                character, EffectProperty.MAX_HEALTH
-            )
-        await character.asave(update_fields=("health",))
-        return character.health
-    character.mana += amount
-    if character.mana > await get_character_property(
-        character, EffectProperty.MAX_MANA
-    ):
-        character.mana = await get_character_property(
-            character, EffectProperty.MAX_MANA
-        )
-    await character.asave(update_fields=("mana",))
-    return character.mana
 
 
 async def use_potion(character: Character, item: Item):

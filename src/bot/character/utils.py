@@ -16,7 +16,6 @@ from django.db.models import Q
 from django.utils import timezone
 from item.models import Effect, EffectProperty, EffectSlug
 from location.models import LocationDrop
-from loguru import logger
 
 from bot.character.keyboards import character_get_keyboard
 from bot.character.messages import (
@@ -211,13 +210,17 @@ async def get_character_info(character: Character) -> str:
     clan = "Нет"
     if character.clan:
         clan = character.clan.name_with_emoji
+    max_health = await get_character_property(
+        character, EffectProperty.MAX_HEALTH
+    )
+    max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
     return CHARACTER_INFO_MESSAGE.format(
         character.name_with_class,
         character.level,
         exp_in_percent,
         clan,
-        character.hp,
-        character.mp,
+        f"{character.health}/{max_health}",
+        f"{character.mana}/{max_mana}",
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         location,
@@ -287,13 +290,17 @@ async def get_character_about(character: Character) -> str:
     clan = "Нет"
     if character.clan:
         clan = character.clan.name_with_emoji
+    max_health = await get_character_property(
+        character, EffectProperty.MAX_HEALTH
+    )
+    max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
     return CHARACTER_ABOUT_MESSAGE.format(
         character.name_with_class,
         character.level,
         exp_in_percent,
         clan,
-        character.hp,
-        character.mp,
+        f"{character.health}/{max_health}",
+        f"{character.mana}/{max_mana}",
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         character.kills,
@@ -425,39 +432,83 @@ async def use_toggle(character: Character):
     return counter
 
 
-async def get_hunting_loot(character: Character, bot):
-    """Метод получения трофеев с охоты."""
-    hunting_minutes = await get_hunting_minutes(character)
+async def get_health_reducing(character: Character):
+    """Получение снятия хп за минуту в локации."""
     health_reducing = (
         character.current_location.attack
         - await get_character_property(character, EffectProperty.DEFENCE)
     )
-    drop_modifier = await get_character_property(
-        character, EffectProperty.DROP
-    )
-    exp_modifier = await get_character_property(character, EffectProperty.EXP)
-    location_exp = character.current_location.exp * exp_modifier
     if health_reducing < 0:
         health_reducing = 0
-    drop_data = {}
+    return health_reducing
+
+
+async def regen_health_or_mana(
+    character: Character, health_or_mana: EffectProperty, amount: float
+):
+    """Регенерация здоровья или маны."""
+    if health_or_mana == EffectProperty.HEALTH:
+        character.health += amount
+        if character.health > await get_character_property(
+            character, EffectProperty.MAX_HEALTH
+        ):
+            character.health = await get_character_property(
+                character, EffectProperty.MAX_HEALTH
+            )
+        await character.asave(update_fields=("health",))
+        return character.health
+    character.mana += amount
+    if character.mana > await get_character_property(
+        character, EffectProperty.MAX_MANA
+    ):
+        character.mana = await get_character_property(
+            character, EffectProperty.MAX_MANA
+        )
+    await character.asave(update_fields=("mana",))
+    return character.mana
+
+
+async def get_hunting_loot(character: Character, bot):
+    """Метод получения трофеев с охоты."""
+    hunting_stats = {
+        "farm_minutes": 0,
+        "relax_minutes": 0,
+        "skill_uses": 0,
+    }
+    hunting_minutes = await get_hunting_minutes(character)
+    health_reducing = await get_health_reducing(character)
+    drop_modifier = (
+        await get_character_property(character, EffectProperty.DROP),
+    )
+    max_mana = (
+        await get_character_property(character, EffectProperty.MAX_MANA),
+    )
+    location_exp = (
+        (
+            character.current_location.exp
+            * await get_character_property(character, EffectProperty.EXP)
+        ),
+    )
+
     exp_gained = 0
-    farm_minutes = 0
-    relax_minutes = 0
-    skill_uses = 0
+    drop_data = {}
     for _minute in range(hunting_minutes):
         if character.health < health_reducing:
-            character.health += game_config.HEALTH_REGENERATION_IN_MINUTE
-            if character.health > character.max_health:
-                character.health = character.max_health
-            relax_minutes += 1
+            await regen_health_or_mana(
+                character,
+                EffectProperty.HEALTH,
+                game_config.HEALTH_REGENERATION_IN_MINUTE,
+            )
+            hunting_stats["relax_minutes"] += 1
             continue
-        skill_uses += await use_toggle(character)
-        exp_gained += location_exp
+        hunting_stats["skill_uses"] += await use_toggle(character)
+        hunting_stats["exp_gained"] += hunting_stats["location_exp"]
         drop_chance = (
             drop_modifier
             * await get_character_property(character, EffectProperty.ATTACK)
             / character.current_location.defence
         )
+        exp_gained += location_exp
         async for drop in LocationDrop.objects.select_related(
             "item", "location"
         ).filter(location=character.current_location):
@@ -472,19 +523,11 @@ async def get_hunting_loot(character: Character, bot):
                 item.amount += amount
                 await item.asave(update_fields=("amount",))
         character.health -= health_reducing
-        character.health += game_config.HEALTH_REGENERATION_IN_MINUTE
-        if character.health > character.max_health:
-            character.health = character.max_health
         character.mana += game_config.MANA_REGENERATION_IN_MINUTE
-        if character.mana > character.max_mana:
-            character.mana = character.max_mana
-        farm_minutes += 1
+        if character.mana > max_mana:
+            character.mana = max_mana
+        hunting_stats["farm_minutes"] += 1
     await get_exp(character, exp_gained, bot)
-    logger.info(
-        f"{character} - Вышел из {character.current_location} "
-        f"и получил {exp_gained} опыта и "
-        f"{drop_data} за {hunting_minutes} минут"
-    )
     character.current_location = None
     character.hunting_begin = None
     character.hunting_end = None
@@ -510,9 +553,9 @@ async def get_hunting_loot(character: Character, bot):
     )
     return HUNTING_END_MESSAGE.format(
         round(exp_gained / character.exp_for_level_up * 100, 2),
-        farm_minutes,
-        skill_uses,
-        relax_minutes,
+        hunting_stats["farm_minutes"],
+        hunting_stats["skill_uses"],
+        hunting_stats["relax_minutes"],
         drop_text,
     )
 
