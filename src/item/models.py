@@ -38,6 +38,8 @@ class EffectProperty(models.TextChoices):
 
     ATTACK = "attack", "️⚔️Атака"
     DEFENCE = "defence", "🛡Защита"
+    HEALTH = "health", "❤️Пополнение Здоровья"
+    MAX_HEALTH = "max_health", "❤️Увеличение Здоровья"
     MANA = "mana", "🔷Пополнение Маны"
     MAX_MANA = "max_mana", "🔷Увеличение Маны"
     EXP = "exp", "🔮Опыт"

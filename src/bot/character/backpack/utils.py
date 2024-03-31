@@ -8,11 +8,13 @@ from character.models import (
     CharacterSkill,
 )
 from django.conf import settings
+from django.db.models import Q
 from django.utils import timezone
 from item.models import (
     Bag,
     BagItem,
     Book,
+    EffectProperty,
     Equipment,
     Item,
     ItemType,
@@ -44,6 +46,7 @@ from bot.character.backpack.messages import (
     SUCCESS_USE_MESSAGE,
     UNEQUIP_MESSAGE,
 )
+from bot.character.utils import get_character_property
 from core.config import game_config
 
 
@@ -285,9 +288,57 @@ async def equip_talisman(item: CharacterItem):
     return True, EQUIP_MESSAGE
 
 
+async def regen_health_or_mana(
+    character: Character, health_or_mana: EffectProperty, amount: float
+):
+    """Регенерация здоровья или маны."""
+    if health_or_mana == EffectProperty.HEALTH:
+        character.health += amount
+        if character.health > await get_character_property(
+            character, EffectProperty.MAX_HEALTH
+        ):
+            character.health = await get_character_property(
+                character, EffectProperty.MAX_HEALTH
+            )
+        await character.asave(update_fields=("health",))
+        return character.health
+    character.mana += amount
+    if character.mana > await get_character_property(
+        character, EffectProperty.MAX_MANA
+    ):
+        character.mana = await get_character_property(
+            character, EffectProperty.MAX_MANA
+        )
+    await character.asave(update_fields=("mana",))
+    return character.mana
+
+
 async def use_potion(character: Character, item: Item):
     """Метод использования предмета."""
     potion = await Potion.objects.aget(pk=item.pk)
+
+    if await potion.effects.filter(
+        Q(property=EffectProperty.HEALTH) | Q(property=EffectProperty.MANA)
+    ).aexists():
+        property_max_data = {
+            EffectProperty.HEALTH: await get_character_property(
+                character, EffectProperty.MAX_HEALTH
+            ),
+            EffectProperty.MANA: await get_character_property(
+                character, EffectProperty.MAX_MANA
+            ),
+        }
+        async for effect in potion.effects.all():
+            amount = effect.amount
+            if effect.in_percent:
+                amount = (
+                    property_max_data[effect.property] / 100 * effect.amount
+                )
+            await regen_health_or_mana(character, effect.property, amount)
+        success, amount = await remove_item(
+            item=item, character=character, amount=1
+        )
+        return True, SUCCESS_USE_MESSAGE.format(item.name_with_type, amount)
     async for effect in potion.effects.all():
         character_effect, created = (
             await CharacterEffect.objects.aget_or_create(

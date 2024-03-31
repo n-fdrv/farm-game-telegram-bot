@@ -1,6 +1,5 @@
 import datetime
 import random
-from random import randint
 
 from character.models import Character, CharacterItem
 from django.utils import timezone
@@ -29,17 +28,6 @@ from bot.utils.schedulers import (
     kill_character_scheduler,
 )
 from core.config import game_config
-
-
-async def get_location_defence_effect(
-    character: Character, location: Location
-) -> str:
-    """Получение информации об эффектах защиты локации."""
-    defence = await get_character_property(character, EffectProperty.DEFENCE)
-    defence_buff = defence / location.defence * 100 - 100
-    if defence_buff < 0:
-        return "<i>☠️ Ваша защита меньше. Вы можете умереть!</i>"
-    return "<i>✅ Ваша защита больше. Время охоты увеличено!</i>"
 
 
 async def get_location_attack_effect(
@@ -92,10 +80,14 @@ async def get_location_drop(character: Character, location: Location) -> str:
 async def get_location_info(character: Character, location: Location) -> str:
     """Возвращает сообщение с данными о персонаже."""
     defence = await get_character_property(character, EffectProperty.DEFENCE)
-    hunting_time = await get_character_property(
-        character, EffectProperty.HUNTING_TIME
+    health_reducing = location.attack - defence
+    if health_reducing < 0:
+        health_reducing = 0
+    hunting_time = (
+        await get_character_property(character, EffectProperty.HUNTING_TIME)
+        * defence
+        / location.defence
     )
-    hunting_time *= defence / location.defence
     characters_in_location = await Character.objects.filter(
         current_location=location
     ).acount()
@@ -110,8 +102,8 @@ async def get_location_info(character: Character, location: Location) -> str:
         location.defence,
         f"{characters_in_location}/{location.place}",
         round(exp_in_minute, 2),
+        health_reducing,
         await get_location_attack_effect(character, location),
-        await get_location_defence_effect(character, location),
         int(hunting_time),
         await get_location_drop(character, location),
     )
@@ -144,7 +136,6 @@ async def enter_location(character: Character, location: Location):
     character_defence = await get_character_property(
         character, EffectProperty.DEFENCE
     )
-    dead_chance = 100 - character_defence / location.defence * 100
     hunting_time = await get_character_property(
         character, EffectProperty.HUNTING_TIME
     )
@@ -155,12 +146,6 @@ async def enter_location(character: Character, location: Location):
     await character.asave(
         update_fields=("current_location", "hunting_begin", "hunting_end")
     )
-    if randint(1, 100) <= dead_chance:
-        end_of_hunting = timezone.now() + datetime.timedelta(
-            minutes=randint(1, int(hunting_time)),
-        )
-        await kill_character_scheduler(character, end_of_hunting)
-        return
     await hunting_end_scheduler(character)
 
 

@@ -171,6 +171,7 @@ async def get_character_property(
         EffectProperty.ATTACK: character.attack,
         EffectProperty.DEFENCE: character.defence,
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
+        EffectProperty.MAX_HEALTH: character.max_health,
         EffectProperty.MAX_MANA: character.max_mana,
     }
     chosen_property = property_data[effect_property]
@@ -215,7 +216,8 @@ async def get_character_info(character: Character) -> str:
         character.level,
         exp_in_percent,
         clan,
-        f"{character.mana}/{character.max_mana}",
+        character.hp,
+        character.mp,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         location,
@@ -290,7 +292,8 @@ async def get_character_about(character: Character) -> str:
         character.level,
         exp_in_percent,
         clan,
-        f"{character.mana}/{character.max_mana}",
+        character.hp,
+        character.mp,
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         character.kills,
@@ -429,6 +432,11 @@ async def get_hunting_loot(character: Character, bot):
         character.current_location.attack
         - await get_character_property(character, EffectProperty.DEFENCE)
     )
+    drop_modifier = await get_character_property(
+        character, EffectProperty.DROP
+    )
+    exp_modifier = await get_character_property(character, EffectProperty.EXP)
+    location_exp = character.current_location.exp * exp_modifier
     if health_reducing < 0:
         health_reducing = 0
     drop_data = {}
@@ -443,22 +451,17 @@ async def get_hunting_loot(character: Character, bot):
                 character.health = character.max_health
             relax_minutes += 1
             continue
-        drop_modifier = (
-            await get_character_property(character, EffectProperty.DROP)
+        skill_uses += await use_toggle(character)
+        exp_gained += location_exp
+        drop_chance = (
+            drop_modifier
             * await get_character_property(character, EffectProperty.ATTACK)
             / character.current_location.defence
-        )
-        skill_uses += await use_toggle(character)
-        exp_gained += (
-            character.current_location.exp
-            * await get_character_property(character, EffectProperty.EXP)
         )
         async for drop in LocationDrop.objects.select_related(
             "item", "location"
         ).filter(location=character.current_location):
-            chance = drop.chance * drop_modifier
-            success = random.uniform(0.01, 100) <= chance
-            if success:
+            if random.uniform(0.01, 100) <= drop.chance * drop_chance:
                 amount = random.randint(drop.min_amount, drop.max_amount)
                 item, created = await CharacterItem.objects.aget_or_create(
                     character=character, item=drop.item
@@ -477,7 +480,6 @@ async def get_hunting_loot(character: Character, bot):
             character.mana = character.max_mana
         farm_minutes += 1
     await get_exp(character, exp_gained, bot)
-    exp_in_percent = exp_gained / character.exp_for_level_up * 100
     logger.info(
         f"{character} - Вышел из {character.current_location} "
         f"и получил {exp_gained} опыта и "
@@ -507,7 +509,11 @@ async def get_hunting_loot(character: Character, bot):
         )
     )
     return HUNTING_END_MESSAGE.format(
-        exp_in_percent, farm_minutes, skill_uses, relax_minutes, drop_text
+        round(exp_gained / character.exp_for_level_up * 100, 2),
+        farm_minutes,
+        skill_uses,
+        relax_minutes,
+        drop_text,
     )
 
 
