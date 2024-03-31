@@ -109,7 +109,7 @@ async def get_location_info(character: Character, location: Location) -> str:
         location.attack,
         location.defence,
         f"{characters_in_location}/{location.place}",
-        exp_in_minute,
+        round(exp_in_minute, 2),
         await get_location_attack_effect(character, location),
         await get_location_defence_effect(character, location),
         int(hunting_time),

@@ -125,6 +125,8 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     list_display = (
         "name_with_level",
         "exp_percent",
+        "hp",
+        "mp",
         "clan",
         "kills",
         "attack",

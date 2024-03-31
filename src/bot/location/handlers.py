@@ -23,7 +23,6 @@ from bot.location.messages import (
     CHARACTER_KILL_CONFIRM_MESSAGE,
     CHARACTER_LIST_MESSAGE,
     EXIT_LOCATION_CONFIRMATION_MESSAGE,
-    HUNTING_END_MESSAGE,
     LOCATION_ENTER_MESSAGE,
     LOCATION_LIST_MESSAGE,
     NO_WAR_KILL_CONFIRM_MESSAGE,
@@ -151,10 +150,10 @@ async def exit_location(
         await callback.message.delete()
         return
     await remove_scheduler(user.character.job_id)
-    exp, drop_text = await get_hunting_loot(user.character, callback.bot)
+    text = await get_hunting_loot(user.character, callback.bot)
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
-        text=HUNTING_END_MESSAGE.format(int(exp), drop_text),
+        text=text,
         reply_markup=keyboard.as_markup(),
     )
 

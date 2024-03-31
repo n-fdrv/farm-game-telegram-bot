@@ -26,7 +26,7 @@ async def skill_list_keyboard(
     keyboard = InlineKeyboardBuilder()
     async for character_skill in CharacterSkill.objects.select_related(
         "skill"
-    ).all():
+    ).filter(character=character):
         keyboard.button(
             text=character_skill.skill.name_with_level,
             callback_data=CharacterData(

@@ -176,14 +176,10 @@ class Character(models.Model):
     )
     attack = models.IntegerField(default=0, verbose_name="Атака")
     defence = models.IntegerField(default=0, verbose_name="Защита")
+    health = models.IntegerField(default=20, verbose_name="Здоровье")
+    max_health = models.IntegerField(default=20, verbose_name="Макс здоровье")
     mana = models.IntegerField(default=20, verbose_name="Мана")
-    max_mana = models.IntegerField(default=20, verbose_name="Макс Мана")
-    exp_modifier = models.IntegerField(
-        default=1, verbose_name="Модмфикатор опыта"
-    )
-    drop_modifier = models.IntegerField(
-        default=1, verbose_name="Модификатор дропа"
-    )
+    max_mana = models.IntegerField(default=20, verbose_name="Макс мана")
     premium_expired = models.DateTimeField(
         default=timezone.now, verbose_name="Окончание Премиума"
     )
@@ -273,6 +269,16 @@ class Character(models.Model):
                 text += f"{self.clan.emoji}"
         text += f"{self.name} 🩸{self.kills}"
         return text
+
+    @property
+    def hp(self):
+        """Получения здоровье/максимальное здоровье."""
+        return f"{self.health}/{self.max_health}"
+
+    @property
+    def mp(self):
+        """Получения здоровье/максимальное здоровье."""
+        return f"{self.mana}/{self.max_mana}"
 
 
 class CharacterSkill(models.Model):

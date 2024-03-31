@@ -1,5 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from character.models import Character
+from django.utils import timezone
+from item.models import EffectProperty
 from location.models import Location
 
 from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
@@ -100,6 +102,11 @@ async def character_list_keyboard(callback_data: LocationData):
         .filter(current_location__id=callback_data.id)
         .all()
     ):
+        if await character.effects.filter(
+            charactereffect__effect__property=EffectProperty.INVISIBLE,
+            charactereffect__expired__gt=timezone.now(),
+        ).aexists():
+            continue
         keyboard.button(
             text=character.name_with_clan,
             callback_data=LocationData(

@@ -7,6 +7,7 @@ from character.models import (
     CharacterClass,
     CharacterEffect,
     CharacterItem,
+    CharacterSkill,
     SkillEffect,
     SkillType,
 )
@@ -77,7 +78,6 @@ async def get_property_modifier(
 ):
     """Получение прибавки характеристики от процентных эффектов."""
     modifier = 1
-
     premium_data = {
         EffectProperty.DROP: game_config.PREMIUM_DROP_MODIFIER,
         EffectProperty.EXP: game_config.PREMIUM_EXP_MODIFIER,
@@ -92,6 +92,7 @@ async def get_property_modifier(
     ).filter(
         effect__property=effect_property,
         effect__in_percent=True,
+        skill__mana_cost__lte=character.mana,
         skill__in=character.skills.filter(
             Q(type=SkillType.PASSIVE) | Q(characterskill__turn_on=True)
         ),
@@ -133,6 +134,7 @@ async def get_property_amount(
     ).filter(
         effect__property=effect_property,
         effect__in_percent=False,
+        skill__mana_cost__lte=character.mana,
         skill__in=character.skills.filter(
             Q(type=SkillType.PASSIVE) | Q(characterskill__turn_on=True)
         ),
@@ -164,8 +166,8 @@ async def get_character_property(
 ):
     """Метод получения характеристики персонажа."""
     property_data = {
-        EffectProperty.DROP: character.drop_modifier,
-        EffectProperty.EXP: character.exp_modifier,
+        EffectProperty.DROP: game_config.DROP_RATE,
+        EffectProperty.EXP: game_config.EXP_RATE,
         EffectProperty.ATTACK: character.attack,
         EffectProperty.DEFENCE: character.defence,
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
@@ -316,7 +318,8 @@ async def get_character_about(character: Character) -> str:
                 x.effect.get_property_with_amount()
                 async for x in skill_effect.filter(
                     Q(skill__type=SkillType.PASSIVE)
-                    | Q(skill__characterskill__turn_on=True)
+                    | Q(skill__characterskill__turn_on=True),
+                    skill__characterskill__character=character,
                 )
             ]
         ),
@@ -342,6 +345,10 @@ async def get_exp(character: Character, exp_amount: int, bot):
         character.attack += game_config.ATTACK_INCREASE_LEVEL_UP
         character.defence += game_config.DEFENCE_INCREASE_LEVEL_UP
         character.level += 1
+        character.max_health += game_config.HEALTH_INCREASE_LEVEL_UP
+        character.max_mana += game_config.MANA_INCREASE_LEVEL_UP
+        character.health = character.max_health
+        character.mana = character.max_mana
         text = LEVEL_UP_MESSAGE.format(character.level)
         if character.clan:
             gained_reputation = (
@@ -355,7 +362,17 @@ async def get_exp(character: Character, exp_amount: int, bot):
         ).aget(character=character)
         await bot.send_message(telegram_id, text)
     await character.asave(
-        update_fields=("level", "exp", "exp_for_level_up", "attack", "defence")
+        update_fields=(
+            "level",
+            "exp",
+            "exp_for_level_up",
+            "attack",
+            "defence",
+            "health",
+            "mana",
+            "max_health",
+            "max_mana",
+        )
     )
     return character
 
@@ -371,33 +388,75 @@ async def remove_exp(character: Character, exp_amount: int):
         character.exp += character.exp_for_level_up
         character.attack -= game_config.ATTACK_INCREASE_LEVEL_UP
         character.defence -= game_config.DEFENCE_INCREASE_LEVEL_UP
+        character.max_health -= game_config.HEALTH_INCREASE_LEVEL_UP
+        character.max_mana -= game_config.MANA_INCREASE_LEVEL_UP
+        character.health = character.max_health
+        character.mana = character.max_mana
 
     await character.asave(
-        update_fields=("level", "exp", "exp_for_level_up", "attack", "defence")
+        update_fields=(
+            "level",
+            "exp",
+            "exp_for_level_up",
+            "attack",
+            "defence",
+            "health",
+            "mana",
+            "max_health",
+            "max_mana",
+        )
     )
     return character
+
+
+async def use_toggle(character: Character):
+    """Проверка на атакующей способности."""
+    counter = 0
+    async for character_toggle in CharacterSkill.objects.select_related(
+        "skill"
+    ).filter(character=character, turn_on=True):
+        if character.mana < character_toggle.skill.mana_cost:
+            continue
+        character.mana -= character_toggle.skill.mana_cost
+        counter += 1
+    return counter
 
 
 async def get_hunting_loot(character: Character, bot):
     """Метод получения трофеев с охоты."""
     hunting_minutes = await get_hunting_minutes(character)
-    exp_gained = int(character.current_location.exp * hunting_minutes)
-    exp_gained *= await get_character_property(character, EffectProperty.EXP)
-    exp_in_percent = exp_gained / character.exp_for_level_up * 100
+    health_reducing = (
+        character.current_location.attack
+        - await get_character_property(character, EffectProperty.DEFENCE)
+    )
+    if health_reducing < 0:
+        health_reducing = 0
     drop_data = {}
-    location_drop_modifier = (
-        character.attack / character.current_location.attack
-    )
-    drop_modifier = (
-        await get_character_property(character, EffectProperty.DROP)
-        * location_drop_modifier
-    )
-    await get_exp(character, exp_gained, bot)
-    async for drop in LocationDrop.objects.select_related(
-        "item", "location"
-    ).filter(location=character.current_location):
-        chance = drop.chance * drop_modifier
-        for _minute in range(hunting_minutes):
+    exp_gained = 0
+    farm_minutes = 0
+    relax_minutes = 0
+    skill_uses = 0
+    for _minute in range(hunting_minutes):
+        if character.health < health_reducing:
+            character.health += game_config.HEALTH_REGENERATION_IN_MINUTE
+            if character.health > character.max_health:
+                character.health = character.max_health
+            relax_minutes += 1
+            continue
+        drop_modifier = (
+            await get_character_property(character, EffectProperty.DROP)
+            * await get_character_property(character, EffectProperty.ATTACK)
+            / character.current_location.defence
+        )
+        skill_uses += await use_toggle(character)
+        exp_gained += (
+            character.current_location.exp
+            * await get_character_property(character, EffectProperty.EXP)
+        )
+        async for drop in LocationDrop.objects.select_related(
+            "item", "location"
+        ).filter(location=character.current_location):
+            chance = drop.chance * drop_modifier
             success = random.uniform(0.01, 100) <= chance
             if success:
                 amount = random.randint(drop.min_amount, drop.max_amount)
@@ -409,6 +468,16 @@ async def get_hunting_loot(character: Character, bot):
                 drop_data[drop.item.name_with_type] += amount
                 item.amount += amount
                 await item.asave(update_fields=("amount",))
+        character.health -= health_reducing
+        character.health += game_config.HEALTH_REGENERATION_IN_MINUTE
+        if character.health > character.max_health:
+            character.health = character.max_health
+        character.mana += game_config.MANA_REGENERATION_IN_MINUTE
+        if character.mana > character.max_mana:
+            character.mana = character.max_mana
+        farm_minutes += 1
+    await get_exp(character, exp_gained, bot)
+    exp_in_percent = exp_gained / character.exp_for_level_up * 100
     logger.info(
         f"{character} - Вышел из {character.current_location} "
         f"и получил {exp_gained} опыта и "
@@ -433,20 +502,24 @@ async def get_hunting_loot(character: Character, bot):
             "hunting_begin",
             "hunting_end",
             "job_id",
+            "health",
+            "mana",
         )
     )
-    return exp_in_percent, drop_text
+    return HUNTING_END_MESSAGE.format(
+        exp_in_percent, farm_minutes, skill_uses, relax_minutes, drop_text
+    )
 
 
 async def end_hunting(character: Character, bot):
     """Конец охоты по времени."""
     await character.asave(update_fields=("hunting_end",))
-    exp_gained, drop_text = await get_hunting_loot(character, bot)
+    text = await get_hunting_loot(character, bot)
     user = await User.objects.aget(character=character)
     keyboard = await character_get_keyboard(character)
     await bot.send_message(
         user.telegram_id,
-        HUNTING_END_MESSAGE.format(round(exp_gained, 2), drop_text),
+        text,
         reply_markup=keyboard.as_markup(),
     )
 
@@ -494,10 +567,10 @@ async def kill_character(
     if character.current_location:
         character.hunting_end = timezone.now()
         await character.asave(update_fields=("hunting_end",))
-        exp_gained, drop_text = await get_hunting_loot(character, bot)
+        text = await get_hunting_loot(character, bot)
         await bot.send_message(
             character_telegram_id,
-            HUNTING_END_MESSAGE.format(round(exp_gained, 2), drop_text),
+            text,
         ),
     lost_exp = int(character.exp_for_level_up / 100 * decrease_exp)
     if character.premium_expired > timezone.now():
