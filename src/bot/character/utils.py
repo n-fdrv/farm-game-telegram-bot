@@ -26,6 +26,8 @@ from bot.character.messages import (
     LEVEL_UP_MESSAGE,
     NO_WAR_KILL_MESSAGE_TO_ATTACKER,
     SUCCESS_KILL_MESSAGE_TO_ATTACKER,
+    TURN_OFF_TEXT,
+    TURN_ON_TEXT,
 )
 from bot.location.messages import HUNTING_END_MESSAGE
 from bot.models import User
@@ -203,7 +205,7 @@ async def get_character_info(character: Character) -> str:
             time_left = str(character.hunting_end - timezone.now()).split(".")[
                 0
             ]
-            time_left_text = f"Осталось: <b>{time_left}</b>"
+            time_left_text = f"<i>Осталось:</i> <b>{time_left}</b>"
         location = (
             f"<b>{character.current_location.name}</b>\n" f"⏳{time_left_text}"
         )
@@ -214,6 +216,12 @@ async def get_character_info(character: Character) -> str:
         character, EffectProperty.MAX_HEALTH
     )
     max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
+    hp_text = TURN_OFF_TEXT
+    mp_text = TURN_OFF_TEXT
+    if character.auto_use_hp_potion:
+        hp_text = TURN_ON_TEXT
+    if character.auto_use_mp_potion:
+        mp_text = TURN_ON_TEXT
     return CHARACTER_INFO_MESSAGE.format(
         character.name_with_class,
         character.level,
@@ -224,6 +232,8 @@ async def get_character_info(character: Character) -> str:
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         location,
+        hp_text,
+        mp_text,
     )
 
 

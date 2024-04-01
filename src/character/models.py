@@ -218,6 +218,12 @@ class Character(models.Model):
         verbose_name="ID шедулера напоминания об окончании охоты",
     )
     kills = models.IntegerField(default=0, verbose_name="Убийств")
+    auto_use_hp_potion = models.BooleanField(
+        default=False, verbose_name="Автоиспользование эликсиров здоровья"
+    )
+    auto_use_mp_potion = models.BooleanField(
+        default=False, verbose_name="Автоиспользование эликсиров маны"
+    )
 
     class Meta:
         verbose_name = "Персонаж"

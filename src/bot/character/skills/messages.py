@@ -1,4 +1,4 @@
-SKILL_LIST_MESSAGE = "<b>✨Умения</b>"
+SKILL_LIST_MESSAGE = "<b>✨Способности</b>"
 
 SKILL_GET_MESSAGE = (
     "<b>{}</b>\n"
@@ -10,8 +10,7 @@ SKILL_GET_MESSAGE = (
 
 TOGGLE_SKILL_INFO_MESSAGE = (
     "<i>Расход:</i>\n"
-    "<i>🎯Охота (в минуту):</i> <b>{}</b> 🔷Маны\n"
-    "<i>⚔️PvP:</i> <b>{}</b> 🔷Маны\n\n"
+    "<i>🎯Охота (в минуту), PvP (за удар):</i> <b>{}</b> 🔷Маны\n"
 )
 ACTIVE_SKILL_INFO_MESSAGE = (
     "<i>Стоимость:</i> <b>{}</b> 🔷Маны\n"

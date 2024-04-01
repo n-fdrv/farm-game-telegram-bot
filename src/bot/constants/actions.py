@@ -37,6 +37,8 @@ class CharacterAction(Action):
 
     about = f"{callback_data.CharacterData.__prefix__}-ab"
 
+    auto_use = f"{callback_data.CharacterData.__prefix__}-auus"
+
 
 class LocationAction(Action):
     """Действия для хендлеров локаций."""

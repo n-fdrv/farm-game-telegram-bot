@@ -16,7 +16,6 @@ from bot.character.skills.messages import (
     TOGGLE_SKILL_INFO_MESSAGE,
 )
 from bot.character.utils import get_expired_text
-from core.config import game_config
 
 
 async def get_skill_info(character_skill: CharacterSkill):
@@ -26,8 +25,6 @@ async def get_skill_info(character_skill: CharacterSkill):
     if character_skill.skill.type == SkillType.TOGGLE:
         add_info = TOGGLE_SKILL_INFO_MESSAGE.format(
             character_skill.skill.mana_cost,
-            game_config.TOGGLE_SKILL_COST_IN_PVP_MODIFIER
-            * character_skill.skill.mana_cost,
         )
         active = "❌Выключена"
         if character_skill.turn_on:

@@ -14,7 +14,7 @@ class BaseCallbackData(CallbackData, prefix="pac"):
 class CharacterData(BaseCallbackData, prefix="ch"):
     """Данные для хенжлеров персонажа."""
 
-    pass
+    type: Optional[str] = None
 
 
 class PremiumData(BaseCallbackData, prefix="pr"):

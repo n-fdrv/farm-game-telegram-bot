@@ -211,3 +211,8 @@ async def attack_character(attacker: Character, target: Character):
         return True, SUCCESS_KILL_MESSAGE.format(target.name_with_clan)
     await kill_character_scheduler(attacker, timezone.now(), target)
     return False, FAIL_KILL_MESSAGE.format(target.name_with_clan)
+
+
+async def attack_character_v2(attacker: Character, target: Character):
+    """Обработка атаки на персонажа."""
+    pass
