@@ -12,7 +12,7 @@ from character.models import (
     Skill,
 )
 
-from bot.character.utils import end_hunting
+from bot.location.utils import end_hunting
 from bot.models import User
 
 

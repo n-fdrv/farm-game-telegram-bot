@@ -7,7 +7,6 @@ from bot.character.keyboards import character_get_keyboard
 from bot.character.utils import (
     check_clan_war_exists,
     get_character_info,
-    get_hunting_loot,
 )
 from bot.constants.actions import location_action
 from bot.constants.callback_data import LocationData
@@ -23,19 +22,19 @@ from bot.location.messages import (
     CHARACTER_KILL_CONFIRM_MESSAGE,
     CHARACTER_LIST_MESSAGE,
     EXIT_LOCATION_CONFIRMATION_MESSAGE,
-    LOCATION_ENTER_MESSAGE,
     LOCATION_LIST_MESSAGE,
     NO_WAR_KILL_CONFIRM_MESSAGE,
+    PREPARING_HUNTING_END_MESSAGE,
     WAR_KILL_CONFIRM_MESSAGE,
 )
 from bot.location.utils import (
     attack_character,
-    check_location_access,
     enter_location,
+    get_hunting_loot,
     get_location_info,
     location_get_character_about,
 )
-from bot.utils.schedulers import remove_scheduler
+from bot.utils.schedulers import hunting_end_scheduler, remove_scheduler
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -88,28 +87,13 @@ async def location_enter(
 ):
     """Коллбек входа в локацию."""
     user = await get_user(callback.from_user.id)
-    if user.character.current_location:
-        await callback.message.delete()
-        return
     location = await Location.objects.aget(pk=callback_data.id)
-    success, text = await check_location_access(user.character, location)
-    if not success:
-        paginator = await location_list_keyboard(callback_data)
-        await callback.message.edit_text(
-            text=text,
-            reply_markup=paginator,
-        )
-        return
-    await enter_location(user.character, location)
-    time_left = str(
-        user.character.hunting_end - user.character.hunting_begin
-    ).split(".")[0]
+    success, text = await enter_location(user.character, location)
+    if success:
+        await hunting_end_scheduler(user.character)
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
-        text=LOCATION_ENTER_MESSAGE.format(
-            location.name,
-            time_left,
-        ),
+        text=text,
         reply_markup=keyboard.as_markup(),
     )
 
@@ -149,11 +133,15 @@ async def exit_location(
     if not user.character.current_location:
         await callback.message.delete()
         return
+    await callback.message.edit_text(text=PREPARING_HUNTING_END_MESSAGE)
     await remove_scheduler(user.character.job_id)
     text = await get_hunting_loot(user.character, callback.bot)
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=text,
+    )
+    await callback.message.answer(
+        text=await get_character_info(user.character),
         reply_markup=keyboard.as_markup(),
     )
 

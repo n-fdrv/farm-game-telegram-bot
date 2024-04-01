@@ -1,32 +1,49 @@
 import datetime
 import random
 
-from character.models import Character, CharacterItem
+from character.models import (
+    Character,
+    CharacterEffect,
+    CharacterItem,
+    CharacterSkill,
+)
 from django.utils import timezone
-from item.models import EffectProperty
+from item.models import Effect, EffectProperty, EffectSlug
 from location.models import Location, LocationDrop
 from loguru import logger
 
+from bot.character.backpack.utils import use_potion
+from bot.character.keyboards import character_get_keyboard
 from bot.character.utils import (
+    check_clan_war_exists,
     get_character_item_with_effects,
     get_character_property,
     get_elixir_with_effects_and_expired,
+    get_exp,
+    regen_health_or_mana,
+    remove_exp,
 )
 from bot.location.messages import (
+    ALREADY_IN_LOCATION_MESSAGE,
+    AUTO_USE_HP_TEXT,
+    AUTO_USE_MP_TEXT,
+    CHARACTER_KILL_MESSAGE,
     FAIL_KILL_MESSAGE,
+    HUNTING_END_MESSAGE,
+    INCREASE_CLAN_REPUTATION_MESSAGE,
     LOCATION_CHARACTER_GET_MESSAGE,
+    LOCATION_ENTER_MESSAGE,
     LOCATION_FULL_MESSAGE,
     LOCATION_GET_MESSAGE,
     LOCATION_NOT_AVAILABLE,
     LOCATION_WEEK_STRONG_MESSAGE,
     NO_CHARACTER_CURRENT_LOCATION,
+    NO_WAR_KILL_MESSAGE_TO_ATTACKER,
     SUCCESS_KILL_MESSAGE,
+    SUCCESS_KILL_MESSAGE_TO_ATTACKER,
     TRY_TO_KILL_CHARACTER_WHILE_HUNTING_MESSAGE,
 )
-from bot.utils.schedulers import (
-    hunting_end_scheduler,
-    kill_character_scheduler,
-)
+from bot.models import User
 from core.config import game_config
 
 
@@ -131,6 +148,13 @@ async def check_location_access(character: Character, location: Location):
 
 async def enter_location(character: Character, location: Location):
     """Вход в локацию."""
+    if character.current_location:
+        return False, ALREADY_IN_LOCATION_MESSAGE.format(
+            character.current_location.name
+        )
+    success, text = await check_location_access(character, location)
+    if not success:
+        return False, text
     character.current_location = location
     character.hunting_begin = timezone.now()
     character_defence = await get_character_property(
@@ -141,12 +165,220 @@ async def enter_location(character: Character, location: Location):
     )
     hunting_time *= character_defence / location.defence
     character.hunting_end = timezone.now() + datetime.timedelta(
-        minutes=int(hunting_time),
+        minutes=int(hunting_time)
     )
     await character.asave(
         update_fields=("current_location", "hunting_begin", "hunting_end")
     )
-    await hunting_end_scheduler(character)
+    time_left = str(character.hunting_end - character.hunting_begin).split(
+        "."
+    )[0]
+    return True, LOCATION_ENTER_MESSAGE.format(
+        location.name,
+        time_left,
+    )
+
+
+async def get_hunting_minutes(character: Character):
+    """Метод получения минут охоты."""
+    hunting_end_time = timezone.now()
+    if hunting_end_time > character.hunting_end:
+        hunting_end_time = character.hunting_end
+    minutes = (hunting_end_time - character.hunting_begin).seconds / 60
+    return int(minutes)
+
+
+async def get_health_reducing(character: Character):
+    """Получение снятия хп за минуту в локации."""
+    health_reducing = (
+        character.current_location.attack
+        - await get_character_property(character, EffectProperty.DEFENCE)
+    )
+    if health_reducing < 0:
+        health_reducing = 0
+    return health_reducing
+
+
+async def check_health(character: Character, health_reducing: int):
+    """Проверка здоровья персонажа на охоте."""
+    await regen_health_or_mana(
+        character,
+        EffectProperty.HEALTH,
+        game_config.HEALTH_REGENERATION_IN_MINUTE,
+    )
+    potion_used = 0
+    if character.auto_use_hp_potion:
+        if character.mana <= character.max_health * 0.5:
+            exists = await CharacterItem.objects.filter(
+                character=character,
+                item__effects__property=EffectProperty.HEALTH,
+            ).aexists()
+            if exists:
+                character_item = await CharacterItem.objects.select_related(
+                    "item"
+                ).aget(
+                    character=character,
+                    item__effects__property=EffectProperty.HEALTH,
+                )
+                await use_potion(character, character_item.item)
+                potion_used = 1
+            else:
+                character.auto_use_hp_potion = False
+                await character.asave(update_fields=("auto_use_hp_potion",))
+    if character.health < health_reducing:
+        return False, potion_used
+    return True, potion_used
+
+
+async def check_if_dropped(
+    character: Character, drop_buff: float, drop_data: dict
+):
+    """Проверка выпал ли предмет на охоте."""
+    async for drop in LocationDrop.objects.select_related(
+        "item", "location"
+    ).filter(location=character.current_location):
+        if random.uniform(0.01, 100) <= drop.chance * drop_buff:
+            amount = random.randint(drop.min_amount, drop.max_amount)
+            item, created = await CharacterItem.objects.aget_or_create(
+                character=character, item=drop.item
+            )
+            if drop.item.name_with_type not in drop_data:
+                drop_data[drop.item.name_with_type] = 0
+            drop_data[drop.item.name_with_type] += amount
+            item.amount += amount
+            await item.asave(update_fields=("amount",))
+    return drop_data
+
+
+async def use_toggle(character: Character):
+    """Проверка на атакующей способности."""
+    counter = 0
+    potion_used = 0
+    if character.auto_use_mp_potion:
+        if character.mana < character.max_mana * 0.5:
+            exists = await CharacterItem.objects.filter(
+                character=character,
+                item__effects__property=EffectProperty.MANA,
+            ).aexists()
+            if exists:
+                character_item = await CharacterItem.objects.select_related(
+                    "item"
+                ).aget(
+                    character=character,
+                    item__effects__property=EffectProperty.MANA,
+                )
+                await use_potion(character, character_item.item)
+                potion_used = 1
+            else:
+                character.auto_use_mp_potion = False
+                await character.asave(update_fields=("auto_use_mp_potion",))
+    async for character_toggle in CharacterSkill.objects.select_related(
+        "skill"
+    ).filter(character=character, turn_on=True):
+        if character.mana < character_toggle.skill.mana_cost:
+            continue
+        character.mana -= character_toggle.skill.mana_cost
+        counter += 1
+    return counter, potion_used
+
+
+async def get_hunting_loot(character: Character, bot):
+    """Метод получения трофеев с охоты."""
+    hunting_stats = {
+        "farm_minutes": 0,
+        "relax_minutes": 0,
+        "skill_uses": 0,
+        "hp_potion_uses": 0,
+        "mp_potion_uses": 0,
+    }
+    hunting_minutes = await get_hunting_minutes(character)
+    health_reducing = await get_health_reducing(character)
+    drop_modifier = await get_character_property(
+        character, EffectProperty.DROP
+    )
+    max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
+    location_exp = (
+        character.current_location.exp
+        * await get_character_property(character, EffectProperty.EXP)
+    )
+    exp_gained = 0
+    drop_data = {}
+    for _minute in range(hunting_minutes):
+        enough_health, used_potion = await check_health(
+            character, health_reducing
+        )
+        hunting_stats["hp_potion_uses"] += used_potion
+        if not enough_health:
+            hunting_stats["relax_minutes"] += 1
+            continue
+        skill_counter, used_potion = await use_toggle(character)
+        hunting_stats["skill_uses"] += skill_counter
+        hunting_stats["mp_potion_uses"] += used_potion
+        drop_buff = (
+            drop_modifier
+            * await get_character_property(character, EffectProperty.ATTACK)
+            / character.current_location.defence
+        )
+        exp_gained += location_exp
+        drop_data = await check_if_dropped(character, drop_buff, drop_data)
+        character.health -= health_reducing
+        character.mana += game_config.MANA_REGENERATION_IN_MINUTE
+        if character.mana > max_mana:
+            character.mana = max_mana
+        hunting_stats["farm_minutes"] += 1
+
+    await get_exp(character, exp_gained, bot)
+
+    character.current_location = None
+    character.hunting_begin = None
+    character.hunting_end = None
+    character.job_id = None
+    async for character_effect in CharacterEffect.objects.filter(
+        character=character, expired__lte=timezone.now()
+    ):
+        await character_effect.adelete()
+    drop_text = "\n"
+    for name, amount in drop_data.items():
+        drop_text += f"<b>{name}</b> - {amount} шт.\n"
+    if not drop_data:
+        drop_text = "❌"
+
+    await character.asave(
+        update_fields=(
+            "current_location",
+            "hunting_begin",
+            "hunting_end",
+            "job_id",
+            "health",
+            "mana",
+        )
+    )
+    add_info = ""
+    if hunting_stats["hp_potion_uses"]:
+        add_info += AUTO_USE_HP_TEXT.format(hunting_stats["hp_potion_uses"])
+    if hunting_stats["mp_potion_uses"]:
+        add_info += AUTO_USE_MP_TEXT.format(hunting_stats["mp_potion_uses"])
+    return HUNTING_END_MESSAGE.format(
+        round(exp_gained / character.exp_for_level_up * 100, 2),
+        hunting_stats["farm_minutes"],
+        hunting_stats["skill_uses"],
+        add_info,
+        hunting_stats["relax_minutes"],
+        drop_text,
+    )
+
+
+async def end_hunting(character: Character, bot):
+    """Конец охоты по времени."""
+    await character.asave(update_fields=("hunting_end",))
+    text = await get_hunting_loot(character, bot)
+    user = await User.objects.aget(character=character)
+    keyboard = await character_get_keyboard(character)
+    await bot.send_message(
+        user.telegram_id,
+        text,
+        reply_markup=keyboard.as_markup(),
+    )
 
 
 async def location_get_character_about(character: Character) -> str:
@@ -174,6 +406,7 @@ async def location_get_character_about(character: Character) -> str:
 
 async def attack_character(attacker: Character, target: Character):
     """Обработка атаки на персонажа."""
+    pass
     if attacker.current_location:
         return False, TRY_TO_KILL_CHARACTER_WHILE_HUNTING_MESSAGE
     if not target.current_location:
@@ -206,13 +439,77 @@ async def attack_character(attacker: Character, target: Character):
     )
     if random.uniform(0.01, 100) <= chance:
         text += "\nУспешно"
-        await kill_character_scheduler(target, timezone.now(), attacker)
+        # await kill_character_scheduler(target, timezone.now(), attacker)
         logger.info(text)
         return True, SUCCESS_KILL_MESSAGE.format(target.name_with_clan)
-    await kill_character_scheduler(attacker, timezone.now(), target)
+    # await kill_character_scheduler(attacker, timezone.now(), target)
     return False, FAIL_KILL_MESSAGE.format(target.name_with_clan)
 
 
 async def attack_character_v2(attacker: Character, target: Character):
     """Обработка атаки на персонажа."""
     pass
+
+
+async def kill_character(
+    character: Character, bot, attacker: Character = None
+):
+    """Убийство персонажа."""
+    decrease_exp = game_config.EXP_DECREASE_PERCENT
+    if attacker:
+        attacker_text = SUCCESS_KILL_MESSAGE_TO_ATTACKER.format(
+            character.name_with_clan
+        )
+        attacker.kills += 1
+        await attacker.asave(update_fields=("kills",))
+        if await check_clan_war_exists(attacker, character):
+            decrease_exp = game_config.WAR_EXP_DECREASE_PERCENT
+            if character.clan.reputation:
+                character.clan.reputation -= 1
+                attacker.clan.reputation += 1
+                await character.clan.asave(update_fields=("reputation",))
+                await attacker.clan.asave(update_fields=("reputation",))
+                attacker_text += INCREASE_CLAN_REPUTATION_MESSAGE.format("1")
+        else:
+            async for effect in Effect.objects.filter(slug=EffectSlug.FATIGUE):
+                fatigue, created = (
+                    await CharacterEffect.objects.aget_or_create(
+                        character=attacker,
+                        effect=effect,
+                    )
+                )
+                fatigue.expired += datetime.timedelta(hours=1)
+                await fatigue.asave(update_fields=("expired",))
+            attacker_text += NO_WAR_KILL_MESSAGE_TO_ATTACKER
+        attacker_telegram_id = await User.objects.values_list(
+            "telegram_id", flat=True
+        ).aget(character=attacker)
+        await bot.send_message(attacker_telegram_id, attacker_text)
+    character_telegram_id = await User.objects.values_list(
+        "telegram_id", flat=True
+    ).aget(character=character)
+    attacker_name = "Монстры в Локации"
+    if attacker:
+        attacker_name = attacker.name_with_clan
+    if character.current_location:
+        character.hunting_end = timezone.now()
+        await character.asave(update_fields=("hunting_end",))
+        text = await get_hunting_loot(character, bot)
+        await bot.send_message(
+            character_telegram_id,
+            text,
+        ),
+    lost_exp = int(character.exp_for_level_up / 100 * decrease_exp)
+    if character.premium_expired > timezone.now():
+        lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
+    await remove_exp(character, lost_exp)
+    async for character_effect in CharacterEffect.objects.exclude(
+        effect__slug=EffectSlug.FATIGUE
+    ).filter(
+        character=character,
+    ):
+        await character_effect.adelete()
+    await bot.send_message(
+        character_telegram_id,
+        CHARACTER_KILL_MESSAGE.format(attacker_name, round(lost_exp, 2)),
+    )

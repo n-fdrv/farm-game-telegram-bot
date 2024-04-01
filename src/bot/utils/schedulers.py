@@ -5,7 +5,7 @@ from character.models import Character
 from django.apps import apps
 from loguru import logger
 
-from bot.character.utils import end_hunting, kill_character
+from bot.location.utils import end_hunting, kill_character
 from bot.models import User
 from core.config.logging import log_schedulers
 
