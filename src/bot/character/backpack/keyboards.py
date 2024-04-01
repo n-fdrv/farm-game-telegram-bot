@@ -88,6 +88,7 @@ async def backpack_list_keyboard(user: User, callback_data: BackpackData):
         action=backpack_action.list,
         size=6,
         page=callback_data.page,
+        type=callback_data.type,
     )
     return paginator.get_paginator_with_button(
         BACK_BUTTON, backpack_action.preview
