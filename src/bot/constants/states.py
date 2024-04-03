@@ -28,3 +28,4 @@ class ClanState(StatesGroup):
     clan_search = State()
     settings_description = State()
     declare_war = State()
+    send_amount = State()

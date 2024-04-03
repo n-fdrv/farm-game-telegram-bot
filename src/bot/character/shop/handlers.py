@@ -20,21 +20,20 @@ from bot.character.shop.keyboards import (
 from bot.character.shop.messages import (
     CONFIRM_AMOUNT_MESSAGE,
     LIST_MESSAGE,
-    NOT_CORRECT_AMOUNT_MESSAGE,
     PREVIEW_MESSAGE,
     SELL_AMOUNT_MESSAGE,
     SHOP_GET_MESSAGE,
 )
 from bot.character.shop.utils import (
     buy_item,
-    check_correct_amount,
     get_shop_item_info_text,
     sell_item,
 )
 from bot.constants.actions import shop_action
 from bot.constants.callback_data import ShopData
 from bot.constants.states import ShopState
-from bot.utils.game_utils import get_item_info_text
+from bot.utils.game_utils import check_correct_amount, get_item_info_text
+from bot.utils.messages import NOT_CORRECT_AMOUNT_MESSAGE
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 

@@ -1,10 +1,20 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from character.models import Character
 from clan.models import Clan, ClanWarehouse
 from django.db.models import Count
 from item.models import ItemType
 
-from bot.clan.warehouse.buttons import LOOK_WAREHOUSE_BUTTON, PUT_ITEM_BUTTON
-from bot.command.buttons import BACK_BUTTON
+from bot.clan.warehouse.buttons import (
+    LOOK_WAREHOUSE_BUTTON,
+    PUT_ITEM_BUTTON,
+    SEND_ITEM_BUTTON,
+)
+from bot.command.buttons import (
+    BACK_BUTTON,
+    CANCEL_BUTTON,
+    NO_BUTTON,
+    YES_BUTTON,
+)
 from bot.constants.actions import (
     clan_action,
     clan_warehouse_action,
@@ -125,9 +135,26 @@ async def clan_warehouse_list_keyboard(callback_data: ClanWarehouseData):
     )
 
 
-async def clan_warehouse_get_keyboard(callback_data: ClanWarehouseData):
+async def clan_warehouse_get_keyboard(
+    character: Character, callback_data: ClanWarehouseData
+):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
+    clan = await Clan.objects.select_related("leader").aget(
+        pk=callback_data.id
+    )
+    if clan.leader == character:
+        keyboard.button(
+            text=SEND_ITEM_BUTTON,
+            callback_data=ClanWarehouseData(
+                action=clan_warehouse_action.send_list,
+                id=callback_data.id,
+                item_id=callback_data.item_id,
+                type=callback_data.type,
+                page=callback_data.page,
+                amount=callback_data.amount,
+            ),
+        )
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=ClanWarehouseData(
@@ -135,6 +162,130 @@ async def clan_warehouse_get_keyboard(callback_data: ClanWarehouseData):
             id=callback_data.id,
             page=callback_data.page,
             type=callback_data.type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def clan_warehouse_send_list_keyboard(callback_data: ClanWarehouseData):
+    """Клавиатура подтверждения входа в клан."""
+    keyboard = InlineKeyboardBuilder()
+    async for character in (
+        Character.objects.select_related("character_class")
+        .order_by("-level", "-exp")
+        .filter(clan__id=callback_data.id)
+    ):
+        keyboard.button(
+            text=f"{character.name_with_class} " f"Ур. {character.level}",
+            callback_data=ClanWarehouseData(
+                action=clan_warehouse_action.send_amount,
+                id=callback_data.id,
+                item_id=callback_data.item_id,
+                character_id=character.id,
+                type=callback_data.type,
+                page=callback_data.page,
+                amount=callback_data.amount,
+            ),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=clan_warehouse_action.send_list,
+        size=6,
+        page=callback_data.page,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            [
+                BACK_BUTTON,
+                ClanWarehouseData(
+                    action=clan_warehouse_action.get,
+                    id=callback_data.id,
+                    page=callback_data.page,
+                    item_id=callback_data.item_id,
+                    type=callback_data.type,
+                    amount=callback_data.amount,
+                ),
+            ]
+        ]
+    )
+
+
+async def enter_amount_keyboard(callback_data: ClanWarehouseData):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=ClanWarehouseData(
+            action=clan_warehouse_action.send_list,
+            id=callback_data.id,
+            item_id=callback_data.item_id,
+            type=callback_data.type,
+            page=callback_data.page,
+            amount=callback_data.amount,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def enter_confirm_keyboard(callback_data: ClanWarehouseData):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=ClanWarehouseData(
+            action=clan_warehouse_action.send,
+            id=callback_data.id,
+            item_id=callback_data.item_id,
+            character_id=callback_data.character_id,
+            type=callback_data.type,
+            page=callback_data.page,
+            amount=callback_data.amount,
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=ClanWarehouseData(
+            action=clan_warehouse_action.send_list,
+            id=callback_data.id,
+            item_id=callback_data.item_id,
+            type=callback_data.type,
+            page=callback_data.page,
+            amount=callback_data.amount,
+        ),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def not_correct_amount_keyboard(callback_data: ClanWarehouseData):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=ClanWarehouseData(
+            action=clan_warehouse_action.send_list,
+            id=callback_data.id,
+            item_id=callback_data.item_id,
+            type=callback_data.type,
+            page=callback_data.page,
+            amount=callback_data.amount,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def send_item_keyboard(callback_data: ClanWarehouseData):
+    """Клавиатура отправки предмета."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=LOOK_WAREHOUSE_BUTTON,
+        callback_data=ClanWarehouseData(
+            action=clan_warehouse_action.look,
+            id=callback_data.id,
         ),
     )
     keyboard.adjust(1)

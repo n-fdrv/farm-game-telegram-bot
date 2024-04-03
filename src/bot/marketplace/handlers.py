@@ -2,8 +2,6 @@ from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem, MarketplaceItem
 
-from bot.character.shop.messages import NOT_CORRECT_AMOUNT_MESSAGE
-from bot.character.shop.utils import check_correct_amount
 from bot.command.buttons import MARKET_BUTTON
 from bot.constants.actions import marketplace_action
 from bot.constants.callback_data import MarketplaceData
@@ -57,7 +55,8 @@ from bot.marketplace.utils import (
     remove_lot,
 )
 from bot.models import User
-from bot.utils.game_utils import get_item_info_text
+from bot.utils.game_utils import check_correct_amount, get_item_info_text
+from bot.utils.messages import NOT_CORRECT_AMOUNT_MESSAGE
 from bot.utils.schedulers import send_message_to_user
 from bot.utils.user_helpers import get_user
 from core.config import game_config

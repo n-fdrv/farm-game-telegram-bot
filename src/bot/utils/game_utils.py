@@ -1,3 +1,5 @@
+import re
+
 from character.models import Character, CharacterItem, MarketplaceItem
 from clan.models import ClanWarehouse
 from django.conf import settings
@@ -6,6 +8,15 @@ from item.models import BagItem, Book, Item, ItemType
 
 from bot.utils.messages import BOOK_INFO_MESSAGE, ITEM_GET_MESSAGE
 from core.config import game_config
+
+
+async def check_correct_amount(message: str):
+    """Метод проверки правильности ввода количества товаров."""
+    if not re.search("^[0-9]{1,16}$", message):
+        return False
+    if int(message) == 0:
+        return False
+    return True
 
 
 async def remove_item(
@@ -118,8 +129,11 @@ async def get_book_info(item: Item) -> str:
         "character_class",
         "required_skill",
     ).aget(pk=item.pk)
+    required_skill = "Нет"
+    if book.required_skill:
+        required_skill = book.required_skill
     return BOOK_INFO_MESSAGE.format(
-        book.character_class, book.required_level, book.required_skill
+        book.character_class, book.required_level, required_skill
     )
 
 

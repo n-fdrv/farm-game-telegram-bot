@@ -16,7 +16,7 @@ NOT_ENOUGH_GOLD_MESSAGE = (
 )
 
 SUCCESS_BUY_MESSAGE = (
-    "<b>✅ Успех</b>\n\n"
+    "<b>✅ Успешно</b>\n\n"
     "<i>Приобретено:</i> <b>{}</b>\n"
     "<i>Осталось:</i> <b>{} "
     f"{settings.GOLD_NAME}</b>"
@@ -43,10 +43,6 @@ SUCCESS_SELL_MESSAGE = (
     "Вы продали: <b>{}</b> - <b>{}</b> шт.\n"
     "Получено: <b>{}</b>"
     f"{settings.GOLD_NAME}"
-)
-
-NOT_CORRECT_AMOUNT_MESSAGE = (
-    "<b>❌ Ошибка</b>\n\n" "Количество <b>Предметов</b> указано неверно!"
 )
 
 CONFIRM_AMOUNT_MESSAGE = (

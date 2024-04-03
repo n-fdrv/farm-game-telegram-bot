@@ -1,5 +1,3 @@
-import re
-
 from character.models import Character, CharacterItem
 from django.conf import settings
 from item.models import Item
@@ -15,15 +13,6 @@ from bot.character.shop.messages import (
     SUCCESS_SELL_MESSAGE,
 )
 from bot.utils.game_utils import get_item_amount, remove_item
-
-
-async def check_correct_amount(message: str):
-    """Метод проверки правильности ввода количества товаров."""
-    if not re.search("^[0-9]{1,16}$", message):
-        return False
-    if int(message) == 0:
-        return False
-    return True
 
 
 async def get_shop_item_info_text(item: Item):

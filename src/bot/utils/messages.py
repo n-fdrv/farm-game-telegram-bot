@@ -18,3 +18,7 @@ ITEM_GET_MESSAGE = (
     f"<b>{settings.DIAMOND_NAME}</b>: "
     "<b>{}</b>"
 )
+
+NOT_CORRECT_AMOUNT_MESSAGE = (
+    "<b>❌ Ошибка</b>\n\n" "Количество <b>Предметов</b> указано неверно!"
+)

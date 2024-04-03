@@ -75,7 +75,7 @@ class ClanData(BaseCallbackData, prefix="cl"):
 class ClanWarehouseData(BaseCallbackData, prefix="wa"):
     """Данные для хендлеров клана."""
 
-    user_id: Optional[int] = None
+    character_id: Optional[int] = None
     item_id: Optional[int] = None
     type: Optional[str] = None
     amount: Optional[int] = 1

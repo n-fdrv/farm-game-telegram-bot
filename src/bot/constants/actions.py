@@ -176,6 +176,11 @@ class ClanWarehouseAction(Action):
     look = f"{callback_data.ClanWarehouseData.__prefix__}-lo"
     put = f"{callback_data.ClanWarehouseData.__prefix__}-pu"
 
+    send_list = f"{callback_data.ClanWarehouseData.__prefix__}-seli"
+    send_amount = f"{callback_data.ClanWarehouseData.__prefix__}-seam"
+    send_confirm = f"{callback_data.ClanWarehouseData.__prefix__}-seco"
+    send = f"{callback_data.ClanWarehouseData.__prefix__}-se"
+
 
 class TopAction(Action):
     """Действия для хендлеров клана."""
