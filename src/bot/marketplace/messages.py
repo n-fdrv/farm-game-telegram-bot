@@ -1,3 +1,5 @@
+from django.conf import settings
+
 NO_CHARACTER_MESSAGE = (
     "❌ Ошибка!\n\n"
     "Чтобы пользоваться <b>💱Торговой Площадкой</b> "
@@ -16,7 +18,17 @@ CHOOSE_BUY_CURRENCY_MESSAGE = "Выберите валюту покупки!"
 
 SELL_LIST_MESSAGE = "Выберите предмет:"
 
-SELL_GET_MESSAGE = "<b>{}</b> - {} шт.\n\n" "{}\n" "<b>{}</b>\n" "Лоты:\n{}"
+SELL_GET_MESSAGE = (
+    "<b>{}</b> - {} шт."
+    "\n\n"
+    "ℹ️{}\n"
+    "<b>{}</b>\n"
+    "<i>Лоты:</i>\n"
+    f"<b>{settings.GOLD_NAME}</b>: "
+    "<b>{}</b>\n"
+    f"<b>{settings.DIAMOND_NAME}</b>: "
+    "<b>{}</b>"
+)
 
 ADD_PREVIEW_MESSAGE = "Выберите валюту продажи предмета!"
 
@@ -41,7 +53,11 @@ NOT_SUCCESS_LOT_MESSAGE = (
 )
 
 BUY_GET_MESSAGE = (
-    "<b>{}</b> - {} шт.\n\n" "{}\n" "<b>{}</b>\n" "Цена: <b>{}</b>"
+    "<b>{}</b> - {} шт.\n\n"
+    "{}\n"
+    "<b>{}</b>\n"
+    "<i>Продавец:</i> <b>{}</b>\n"
+    "<i>Цена:</i> <b>{}</b>"
 )
 
 BUY_CONFIRM_MESSAGE = (

@@ -1,5 +1,7 @@
 from character.models import Character, CharacterItem, MarketplaceItem
-from item.models import Etc, ItemType
+from django.conf import settings
+from django.db.models import F
+from item.models import Etc, Item, ItemType
 
 from bot.character.backpack.utils import (
     add_item,
@@ -29,19 +31,34 @@ async def get_marketplace_item(marketplace_id: int):
     ).aget(pk=marketplace_id)
 
 
+async def get_lots_info(item: Item, currency_name: str):
+    """Получение информации о выставленных лотах."""
+    return " | ".join(
+        [
+            f"{x.price // x.amount}{x.sell_currency.emoji}"
+            async for x in MarketplaceItem.objects.select_related(
+                "sell_currency"
+            )
+            .annotate(price_per_item=F("price") / F("amount"))
+            .filter(item=item, sell_currency__name=currency_name)
+            .order_by("price_per_item")[:5]
+        ]
+    )
+
+
 async def get_character_item_marketplace_text(character_item: CharacterItem):
     """Метод получения текста информации о товаре."""
     additional_info = await get_character_item_effects(character_item)
     if character_item.item.type == ItemType.BAG:
         additional_info += await get_bag_loot(character_item.item)
     description = character_item.item.description
-
     return SELL_GET_MESSAGE.format(
         character_item.name_with_enhance,
         character_item.amount,
         description,
         additional_info,
-        "Пусто",
+        await get_lots_info(character_item.item, settings.GOLD_NAME),
+        await get_lots_info(character_item.item, settings.DIAMOND_NAME),
     )
 
 
@@ -106,6 +123,7 @@ async def get_lot_text(marketplace_item: MarketplaceItem):
         marketplace_item.amount,
         description,
         additional_info,
+        marketplace_item.seller.name_with_clan,
         f"{marketplace_item.price}{marketplace_item.sell_currency.emoji}",
     )
 
