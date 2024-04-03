@@ -112,6 +112,10 @@ async def get_location_info(character: Character, location: Location) -> str:
         await get_character_property(character, EffectProperty.EXP)
         * location.exp
     )
+    location_exp *= (
+        await get_character_property(character, EffectProperty.ATTACK)
+        / location.defence
+    )
     exp_in_minute = location_exp / character.exp_for_level_up * 100
     return LOCATION_GET_MESSAGE.format(
         location.name,
@@ -119,7 +123,7 @@ async def get_location_info(character: Character, location: Location) -> str:
         location.defence,
         f"{characters_in_location}/{location.place}",
         round(exp_in_minute, 2),
-        health_reducing,
+        int(health_reducing),
         await get_location_attack_effect(character, location),
         int(hunting_time),
         await get_location_drop(character, location),
@@ -319,7 +323,11 @@ async def get_hunting_loot(character: Character, bot):
             * await get_character_property(character, EffectProperty.ATTACK)
             / character.current_location.defence
         )
-        exp_gained += location_exp
+        exp_gained += (
+            location_exp
+            * await get_character_property(character, EffectProperty.ATTACK)
+            / character.current_location.defence
+        )
         drop_data = await check_if_dropped(character, drop_buff, drop_data)
         character.health -= health_reducing
         character.mana += game_config.MANA_REGENERATION_IN_MINUTE
@@ -434,7 +442,7 @@ async def attack_character(
     )
     logger.info(
         f"{attacker.name_with_level} ({attacker.hp} напал на "
-        f"{target.name_with_level} ({target.mp}) "
+        f"{target.name_with_level} ({target.hp}) "
         f"Нанесено: {damage} Урона"
     )
     if not target_message_id:
@@ -467,11 +475,11 @@ async def attack_character(
             message_id=target_message_id,
             chat_id=target_telegram_id,
         )
-        await kill_character(target, bot, attacker)
+        text = await kill_character(target, bot, attacker)
         logger.info(f"Персонаж {target} убит!")
         return (
             False,
-            KILL_CHARACTER_MESSAGE_TO_ATTACKER.format(target.name_with_clan),
+            text,
             damage,
             target_message_id,
         )
@@ -512,11 +520,6 @@ async def kill_character(
             await character.clan.asave(update_fields=("reputation",))
             await attacker.clan.asave(update_fields=("reputation",))
             attacker_text += WAR_KILL_MESSAGE_TO_ATTACKER
-        attacker_telegram_id = await User.objects.values_list(
-            "telegram_id", flat=True
-        ).aget(character=attacker)
-        await bot.send_message(attacker_telegram_id, attacker_text)
-
     character_telegram_id = await User.objects.values_list(
         "telegram_id", flat=True
     ).aget(character=character)
@@ -530,6 +533,8 @@ async def kill_character(
     if character.premium_expired > timezone.now():
         lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
     await remove_exp(character, lost_exp)
+    character.health = character.max_health // 2
+    await character.asave(update_fields=("health",))
     lost_exp = character.exp_for_level_up / lost_exp
     async for character_effect in CharacterEffect.objects.exclude(
         effect__slug=EffectSlug.FATIGUE
@@ -543,3 +548,4 @@ async def kill_character(
             attacker.name_with_clan, round(lost_exp, 2)
         ),
     )
+    return attacker_text
