@@ -87,18 +87,23 @@ async def get_item_amount(
 
 
 async def get_item_effects(
-    item: [CharacterItem, MarketplaceItem, ClanWarehouse]
+    item_with_enhance: [CharacterItem, MarketplaceItem, ClanWarehouse, Item]
 ) -> str:
     """Метод получения эффектов предмета."""
     effects = ""
-    if not await item.item.effects.aexists():
+    item = item_with_enhance
+    if type(item_with_enhance) is not Item:
+        item = item.item
+    if not await item.effects.aexists():
         return effects
     effects = "\n<i>Эффекты:</i>\n"
-    async for effect in item.item.effects.all():
-        enhance_type = game_config.ENHANCE_INCREASE
-        if effect.in_percent:
-            enhance_type = game_config.ENHANCE_IN_PERCENT_INCREASE
-        amount = effect.amount + (enhance_type * item.enhancement_level)
+    async for effect in item.effects.all():
+        amount = effect.amount
+        if type(item_with_enhance) is not Item:
+            enhance_type = game_config.ENHANCE_INCREASE
+            if effect.in_percent:
+                enhance_type = game_config.ENHANCE_IN_PERCENT_INCREASE
+            amount = effect.amount + (enhance_type * item.enhancement_level)
         effects += f"{effect.get_property_display()} - {amount}"
         if effect.in_percent:
             effects += "%"
