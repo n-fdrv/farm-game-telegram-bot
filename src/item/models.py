@@ -391,17 +391,3 @@ class CraftingItem(models.Model):
 
     def __str__(self):
         return f"{self.recipe} | {self.material.name}"
-
-
-ITEM_DATA = {
-    ItemType.TALISMAN: Talisman,
-    ItemType.BOOK: Book,
-    ItemType.ETC: Etc,
-    ItemType.MATERIAL: Material,
-    ItemType.SCROLL: Scroll,
-    ItemType.ARMOR: Armor,
-    ItemType.WEAPON: Weapon,
-    ItemType.RECIPE: Recipe,
-    ItemType.BAG: Bag,
-    ItemType.POTION: Potion,
-}

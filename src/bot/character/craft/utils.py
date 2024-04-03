@@ -1,22 +1,11 @@
 import random
 
 from character.models import Character, CharacterItem
-from item.models import Item, Recipe
+from item.models import Recipe
 from loguru import logger
 
-from bot.character.backpack.utils import add_item, remove_item
 from bot.character.craft.messages import CRAFTING_GET_MESSAGE
-
-
-async def get_item_effects_text(item: Item):
-    """Метод получения текста эффектов предмета."""
-    text = ""
-    async for effect in item.effect.all():
-        text += f"{effect.get_property_display()} - {effect.amount}"
-        if effect.in_percent:
-            text += "%"
-        text += "\n"
-    return text
+from bot.utils.game_utils import add_item, get_item_effects, remove_item
 
 
 async def get_crafting_item_text(recipe: Recipe):
@@ -28,7 +17,7 @@ async def get_crafting_item_text(recipe: Recipe):
         )
     return CRAFTING_GET_MESSAGE.format(
         recipe.create.name_with_type,
-        await get_item_effects_text(recipe.create),
+        await get_item_effects(recipe.create),
         text,
     )
 

@@ -3,9 +3,6 @@ from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem
 from item.models import Item
 
-from bot.character.backpack.utils import (
-    get_character_item_info_text,
-)
 from bot.character.shop.keyboards import (
     buy_get_keyboard,
     buy_keyboard,
@@ -31,12 +28,13 @@ from bot.character.shop.messages import (
 from bot.character.shop.utils import (
     buy_item,
     check_correct_amount,
-    get_item_info_text,
+    get_shop_item_info_text,
     sell_item,
 )
 from bot.constants.actions import shop_action
 from bot.constants.callback_data import ShopData
 from bot.constants.states import ShopState
+from bot.utils.game_utils import get_item_info_text
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -112,7 +110,8 @@ async def shop_buy_get_handler(
     item = await Item.objects.aget(pk=callback_data.id)
     keyboard = await buy_get_keyboard(callback_data)
     await callback.message.edit_text(
-        text=await get_item_info_text(item), reply_markup=keyboard.as_markup()
+        text=await get_shop_item_info_text(item),
+        reply_markup=keyboard.as_markup(),
     )
 
 
@@ -191,7 +190,7 @@ async def shop_sell_get_handler(
     callback_data.amount = character_item.amount
     keyboard = await sell_get_keyboard(callback_data)
     await callback.message.edit_text(
-        text=await get_character_item_info_text(character_item),
+        text=await get_item_info_text(character_item),
         reply_markup=keyboard.as_markup(),
     )
 

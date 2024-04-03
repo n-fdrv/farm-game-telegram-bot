@@ -68,8 +68,9 @@ async def get_location_drop(character: Character, location: Location) -> str:
     """Получение информации об эффектах защиты локации."""
     attack = await get_character_property(character, EffectProperty.ATTACK)
     attack_buff = attack / location.attack
-    drop_modifier = await get_character_property(
-        character, EffectProperty.DROP
+    drop_modifier = (
+        await get_character_property(character, EffectProperty.DROP)
+        * game_config.DROP_RATE
     )
     drop_buff = drop_modifier * attack_buff
     drop_data = ""
@@ -242,7 +243,10 @@ async def check_if_dropped(
         "item", "location"
     ).filter(location=character.current_location):
         if random.uniform(0.01, 100) <= drop.chance * drop_buff:
-            amount = random.randint(drop.min_amount, drop.max_amount)
+            amount = random.randint(
+                drop.min_amount * game_config.DROP_AMOUNT_RATE,
+                drop.max_amount * game_config.DROP_AMOUNT_RATE,
+            )
             item, created = await CharacterItem.objects.aget_or_create(
                 character=character, item=drop.item
             )
@@ -297,8 +301,9 @@ async def get_hunting_loot(character: Character, bot):
     }
     hunting_minutes = await get_hunting_minutes(character)
     health_reducing = await get_health_reducing(character)
-    drop_modifier = await get_character_property(
-        character, EffectProperty.DROP
+    drop_modifier = (
+        await get_character_property(character, EffectProperty.DROP)
+        * game_config.DROP_RATE
     )
     max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
     location_exp = (

@@ -3,7 +3,13 @@ import math
 from aiogram.types import InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from bot.utils.callback_helpers import get_callback_by_action
+from bot.constants.callback_data import CALLBACK_DATA_PREFIX
+
+
+def get_callback_by_action(action):
+    """Получения CallbackFactory из callback_data.action."""
+    data = action.split("-")
+    return CALLBACK_DATA_PREFIX[data[0]](action=action)
 
 
 class Paginator:

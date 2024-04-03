@@ -54,7 +54,10 @@ download-data: # Выгрузить данные
 	--exclude=character.CharacterRecipe \
 	--exclude=character.CharacterEffect \
 	--exclude=character.MarketplaceItem \
-	--exclude=clan \
+	--exclude=clan.Clan \
+    --exclude=clan.ClanRequest \
+    --exclude=clan.ClanWar \
+    --exclude=clan.ClanWarehouse \
 	--indent=1 -o data/db.json && \
 	cd ..
 

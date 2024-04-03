@@ -72,6 +72,15 @@ class ClanData(BaseCallbackData, prefix="cl"):
     war_id: Optional[int] = 0
 
 
+class ClanWarehouseData(BaseCallbackData, prefix="wa"):
+    """Данные для хендлеров клана."""
+
+    user_id: Optional[int] = None
+    item_id: Optional[int] = None
+    type: Optional[str] = None
+    amount: Optional[int] = 1
+
+
 class TopData(BaseCallbackData, prefix="top"):
     """Данные для хендлеров топа персонажей."""
 
@@ -88,4 +97,5 @@ CALLBACK_DATA_PREFIX = {
     PremiumData.__prefix__: PremiumData,
     ClanData.__prefix__: ClanData,
     TopData.__prefix__: TopData,
+    ClanWarehouseData.__prefix__: ClanWarehouseData,
 }

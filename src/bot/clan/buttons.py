@@ -3,6 +3,7 @@ CREATE_CLAN_BUTTON = "🆕Создать Клан"
 
 CLAN_MEMBERS_BUTTON = "👥Члены Клана"
 CLAN_WARS_BUTTON = "⚔️Клановые Войны"
+CLAN_WAREHOUSE_BUTTON = "🏰Хранилище Клана"
 REQUEST_LIST_BUTTON = "🖋Заявки"
 SETTINGS_BUTTON = "⚙️Настройки"
 EXIT_CLAN_BUTTON = "🥾Выйти из Клана"

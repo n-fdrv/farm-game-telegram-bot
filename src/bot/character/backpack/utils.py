@@ -7,7 +7,6 @@ from character.models import (
     CharacterItem,
     CharacterSkill,
 )
-from django.conf import settings
 from django.db.models import Q
 from django.utils import timezone
 from item.models import (
@@ -27,12 +26,10 @@ from item.models import (
 from bot.character.backpack.messages import (
     ALREADY_KNOWN_RECIPE,
     ALREADY_KNOWN_SKILL_MESSAGE,
-    BOOK_INFO_MESSAGE,
     ENHANCE_GET_MESSAGE,
     EQUIP_IN_LOCATION_MESSAGE,
     EQUIP_MESSAGE,
     FAILURE_ENCHANT,
-    ITEM_GET_MESSAGE,
     NO_BRACELET_MESSAGE,
     NOT_CORRECT_CHARACTER_CLASS_MESSAGE,
     NOT_CORRECT_CHARACTER_SKILL_MESSAGE,
@@ -47,167 +44,17 @@ from bot.character.backpack.messages import (
     UNEQUIP_MESSAGE,
 )
 from bot.character.utils import get_character_property, regen_health_or_mana
+from bot.utils.game_utils import (
+    add_item,
+    get_item_effects,
+    remove_item,
+)
 from core.config import game_config
-
-
-async def remove_item(
-    character: Character, item: Item, amount: int, enhancement_level: int = 0
-):
-    """Метод удаление предметов у персонажа."""
-    exists = await CharacterItem.objects.filter(
-        character=character, item=item, enhancement_level=enhancement_level
-    ).aexists()
-    if not exists:
-        return False, 0
-    character_item = await CharacterItem.objects.aget(
-        character=character, item=item, enhancement_level=enhancement_level
-    )
-    if character_item.amount < amount:
-        return False, character_item.amount
-    character_item.amount -= amount
-    if character_item.amount == 0:
-        await character_item.adelete()
-        return True, 0
-    await character_item.asave(update_fields=("amount",))
-    return True, character_item.amount
-
-
-async def add_item(
-    character: Character,
-    item: Item,
-    amount: int = 1,
-    enhancement_level: int = 0,
-    equipped: bool = False,
-):
-    """Метод добавления предмета персонажу."""
-    exists = await CharacterItem.objects.filter(
-        character=character, item=item, enhancement_level=enhancement_level
-    ).aexists()
-    if not exists:
-        character_item = await CharacterItem.objects.select_related(
-            "item", "character"
-        ).acreate(
-            character=character,
-            item=item,
-            amount=amount,
-            enhancement_level=enhancement_level,
-            equipped=equipped,
-        )
-        return character_item
-    character_item = await CharacterItem.objects.select_related(
-        "item", "character"
-    ).aget(character=character, item=item, enhancement_level=enhancement_level)
-    character_item.amount += amount
-    await character_item.asave(update_fields=("amount",))
-    return character_item
-
-
-async def get_gold_amount(character: Character):
-    """Получение количества золота у персонажа."""
-    exists = await CharacterItem.objects.filter(
-        character=character, item__name=settings.GOLD_NAME
-    ).aexists()
-    if exists:
-        gold = await CharacterItem.objects.aget(
-            character=character, item__name=settings.GOLD_NAME
-        )
-        return gold.amount
-    return 0
-
-
-async def get_diamond_amount(character: Character):
-    """Получение количества алмазов у персонажа."""
-    exists = await CharacterItem.objects.filter(
-        character=character, item__name=settings.DIAMOND_NAME
-    ).aexists()
-    if exists:
-        diamond = await CharacterItem.objects.aget(
-            character=character, item__name=settings.DIAMOND_NAME
-        )
-        return diamond.amount
-    return 0
-
-
-async def get_character_item_effects(character_item: CharacterItem) -> str:
-    """Метод получения эффектов предмета."""
-    effects = ""
-    if not await character_item.item.effects.aexists():
-        return effects
-    effects = "\n<i>Эффекты:</i>\n"
-    async for effect in character_item.item.effects.all():
-        enhance_type = game_config.ENHANCE_INCREASE
-        if effect.in_percent:
-            enhance_type = game_config.ENHANCE_IN_PERCENT_INCREASE
-        amount = effect.amount + (
-            enhance_type * character_item.enhancement_level
-        )
-        effects += f"{effect.get_property_display()} - {amount}"
-        if effect.in_percent:
-            effects += "%"
-        effects += "\n"
-    return effects
-
-
-async def get_bag_loot(item: Item) -> str:
-    """Метод получения дропа из мешков."""
-    text = "\nВозможные трофеи:\n"
-    all_chance = sum(
-        [
-            x
-            async for x in BagItem.objects.values_list(
-                "chance", flat=True
-            ).filter(bag=item)
-        ]
-    )
-    async for drop in BagItem.objects.select_related("item").filter(bag=item):
-        chance = round(drop.chance / all_chance * 100, 2)
-        text += f"<b>{drop.item.name_with_type}</b> - {chance}%\n"
-    return text
-
-
-async def get_book_info(item: Item) -> str:
-    """Метод получения дропа из мешков."""
-    book = await Book.objects.select_related(
-        "character_class",
-        "required_skill",
-    ).aget(pk=item.pk)
-    return BOOK_INFO_MESSAGE.format(
-        book.character_class, book.required_level, book.required_skill
-    )
-
-
-async def get_character_item_info_text(character_item: CharacterItem):
-    """Метод получения текста информации о товаре."""
-    additional_info = await get_character_item_effects(character_item)
-    if character_item.item.type == ItemType.BAG:
-        additional_info += await get_bag_loot(character_item.item)
-    if character_item.item.type == ItemType.BOOK:
-        additional_info += await get_book_info(character_item.item)
-    equipped = ""
-    if character_item.equipped:
-        equipped = "\n⤴️Экипировано"
-    shop_text = ""
-    if character_item.item.buy_price:
-        shop_text += (
-            f"<i>Покупка:</i> <b>{character_item.item.buy_price}🟡</b> | "
-        )
-    if character_item.item.sell_price:
-        shop_text += (
-            f"<i>Продажа:</i> <b>{character_item.item.sell_price}🟡</b>"
-        )
-    return ITEM_GET_MESSAGE.format(
-        character_item.name_with_enhance,
-        character_item.amount,
-        equipped,
-        character_item.item.description,
-        additional_info,
-        shop_text,
-    )
 
 
 async def get_character_item_enhance_text(character_item: CharacterItem):
     """Метод получения текста информации о товаре."""
-    additional_info = await get_character_item_effects(character_item)
+    additional_info = await get_item_effects(character_item)
     description = ""
     if character_item.equipped:
         description += "Надето"

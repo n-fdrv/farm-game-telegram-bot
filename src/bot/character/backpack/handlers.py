@@ -1,6 +1,7 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import CharacterItem
+from django.conf import settings
 from item.models import ItemType
 
 from bot.character.backpack.keyboards import (
@@ -24,9 +25,6 @@ from bot.character.backpack.utils import (
     equip_item,
     equip_talisman,
     get_character_item_enhance_text,
-    get_character_item_info_text,
-    get_diamond_amount,
-    get_gold_amount,
     open_bag,
     use_book,
     use_potion,
@@ -35,6 +33,7 @@ from bot.character.backpack.utils import (
 )
 from bot.constants.actions import backpack_action
 from bot.constants.callback_data import BackpackData
+from bot.utils.game_utils import get_item_amount, get_item_info_text
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -52,11 +51,12 @@ async def backpack_preview(
 ):
     """Коллбек получения инвентаря."""
     user = await get_user(callback.from_user.id)
-    gold = await get_gold_amount(user.character)
-    diamond = await get_diamond_amount(user.character)
     keyboard = await backpack_preview_keyboard(user.character)
     await callback.message.edit_text(
-        text=ITEM_PREVIEW_MESSAGE.format(gold, diamond),
+        text=ITEM_PREVIEW_MESSAGE.format(
+            await get_item_amount(user.character, settings.GOLD_NAME),
+            await get_item_amount(user.character, settings.DIAMOND_NAME),
+        ),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -96,7 +96,7 @@ async def backpack_get(
         id=callback_data.id
     )
     await callback.message.edit_text(
-        text=await get_character_item_info_text(character_item),
+        text=await get_item_info_text(character_item),
         reply_markup=keyboard.as_markup(),
     )
 
@@ -137,7 +137,7 @@ async def backpack_equip_handler(
         id=callback_data.id
     )
     await callback.message.edit_text(
-        text=await get_character_item_info_text(character_item),
+        text=await get_item_info_text(character_item),
         reply_markup=keyboard.as_markup(),
     )
 

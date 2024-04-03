@@ -4,7 +4,7 @@ from character.models import Character, CharacterItem
 from django.conf import settings
 from item.models import Item
 
-from bot.character.backpack.utils import add_item, remove_item
+from bot.character.backpack.utils import add_item
 from bot.character.shop.messages import (
     CHARACTER_IN_LOCATION_MESSAGE,
     EQUIPPED_ITEM_MESSAGE,
@@ -14,24 +14,7 @@ from bot.character.shop.messages import (
     SUCCESS_BUY_MESSAGE,
     SUCCESS_SELL_MESSAGE,
 )
-
-
-async def check_item_amount(
-    character: Character,
-    item: Item,
-    amount: int = 1,
-    enhancement_level: int = 0,
-) -> bool:
-    """Метод проверки наличия товара у персонажа."""
-    exists = await character.items.filter(pk=item.pk).aexists()
-    if not exists:
-        return False
-    character_item = await CharacterItem.objects.aget(
-        character=character, item=item, enhancement_level=enhancement_level
-    )
-    if character_item.amount < amount:
-        return False
-    return True
+from bot.utils.game_utils import get_item_amount, remove_item
 
 
 async def check_correct_amount(message: str):
@@ -43,7 +26,7 @@ async def check_correct_amount(message: str):
     return True
 
 
-async def get_item_info_text(item: Item):
+async def get_shop_item_info_text(item: Item):
     """Метод получения текста информации о товаре."""
     effects = ""
     if await item.effects.aexists():
@@ -70,14 +53,12 @@ async def sell_item(character_item: CharacterItem, amount: int):
     if character_item.character.current_location:
         return False, CHARACTER_IN_LOCATION_MESSAGE
     gold = await Item.objects.aget(name=settings.GOLD_NAME)
-    enough_amount = await check_item_amount(
+    character_amount = await get_item_amount(
         character_item.character,
-        character_item.item,
-        amount,
+        character_item.item.name,
         character_item.enhancement_level,
     )
-
-    if not enough_amount:
+    if character_amount < amount:
         return False, NOT_ENOUGH_ITEMS_MESSAGE
     await remove_item(
         character_item.character,
@@ -102,8 +83,11 @@ async def buy_item(character: Character, item: Item):
     if character.current_location:
         return False, CHARACTER_IN_LOCATION_MESSAGE
     gold = await Item.objects.aget(name=settings.GOLD_NAME)
-    enough_amount = await check_item_amount(character, gold, item.buy_price)
-    if not enough_amount:
+    character_amount = await get_item_amount(
+        character,
+        gold.name,
+    )
+    if character_amount < item.buy_price:
         return False, NOT_ENOUGH_GOLD_MESSAGE
     success, amount = await remove_item(character, gold, item.buy_price)
     await add_item(character, item)

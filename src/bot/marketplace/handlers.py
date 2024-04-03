@@ -52,12 +52,12 @@ from bot.marketplace.messages import (
 from bot.marketplace.utils import (
     add_item_on_marketplace,
     buy_item,
-    get_character_item_marketplace_text,
     get_lot_text,
     get_marketplace_item,
     remove_lot,
 )
 from bot.models import User
+from bot.utils.game_utils import get_item_info_text
 from bot.utils.schedulers import send_message_to_user
 from bot.utils.user_helpers import get_user
 from core.config import game_config
@@ -156,7 +156,7 @@ async def sell_get_callback(
         id=callback_data.id
     )
     await callback.message.edit_text(
-        text=await get_character_item_marketplace_text(character_item),
+        text=await get_item_info_text(character_item),
         reply_markup=keyboard.as_markup(),
     )
 

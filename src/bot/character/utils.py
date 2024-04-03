@@ -159,8 +159,8 @@ async def get_character_property(
 ):
     """Метод получения характеристики персонажа."""
     property_data = {
-        EffectProperty.DROP: game_config.DROP_RATE,
-        EffectProperty.EXP: game_config.EXP_RATE,
+        EffectProperty.DROP: 1,
+        EffectProperty.EXP: 1,
         EffectProperty.ATTACK: character.attack,
         EffectProperty.DEFENCE: character.defence,
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
@@ -350,7 +350,7 @@ async def get_hunting_minutes(character: Character):
 
 async def get_exp(character: Character, exp_amount: int, bot):
     """Метод получения опыта."""
-    character.exp += exp_amount
+    character.exp += exp_amount * game_config.EXP_RATE
     while character.exp >= character.exp_for_level_up:
         character.exp -= character.exp_for_level_up
         character.exp_for_level_up *= game_config.EXP_FOR_LEVEL_UP_MULTIPLIER

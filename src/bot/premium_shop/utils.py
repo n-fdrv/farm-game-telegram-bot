@@ -5,13 +5,14 @@ from django.conf import settings
 from django.utils import timezone
 from item.models import Armor, Bag, Etc, Weapon
 
-from bot.character.backpack.utils import add_item, remove_item
+from bot.character.backpack.utils import add_item
 from bot.premium_shop.buttons import (
     MONTH_PREMIUM_BUTTON,
     START_PACK_BUTTON,
     WEEK_PREMIUM_BUTTON,
 )
 from bot.premium_shop.messages import NOT_ENOUGH_CURRENCY, SUCCESS_BUY_MESSAGE
+from bot.utils.game_utils import remove_item
 
 
 async def buy_premium(character: Character, premium_type: str, price: int):

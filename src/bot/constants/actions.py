@@ -169,6 +169,14 @@ class ClanAction(Action):
     wars_declare_set = f"{callback_data.ClanData.__prefix__}-wadese"
 
 
+class ClanWarehouseAction(Action):
+    """Действия для хендлеров клана."""
+
+    preview = f"{callback_data.ClanWarehouseData.__prefix__}-pr"
+    look = f"{callback_data.ClanWarehouseData.__prefix__}-lo"
+    put = f"{callback_data.ClanWarehouseData.__prefix__}-pu"
+
+
 class TopAction(Action):
     """Действия для хендлеров клана."""
 
@@ -187,4 +195,7 @@ marketplace_action = MarketplaceAction(
 )
 premium_action = PremiumAction(callback_data.PremiumData.__prefix__)
 clan_action = ClanAction(callback_data.ClanData.__prefix__)
+clan_warehouse_action = ClanWarehouseAction(
+    callback_data.ClanWarehouseData.__prefix__
+)
 top_action = TopAction(callback_data.TopData.__prefix__)

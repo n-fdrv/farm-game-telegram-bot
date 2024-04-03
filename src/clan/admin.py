@@ -58,7 +58,12 @@ class ClanAdmin(DjangoObjectActions, admin.ModelAdmin):
     )
     list_filter = ("level", "by_request")
     search_fields = ("name", "leader")
-    inlines = (ClanRequestInline, ClanAttackInline, ClanDefenceInline)
+    inlines = (
+        ClanRequestInline,
+        ClanAttackInline,
+        ClanDefenceInline,
+        ClanWarehouseInline,
+    )
 
 
 @admin.register(ClanBoss)
