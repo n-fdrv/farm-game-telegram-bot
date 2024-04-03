@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from item.models import Item
 
 
 class Clan(models.Model):
@@ -30,6 +32,9 @@ class Clan(models.Model):
         through="ClanRequest",
         verbose_name="Заявки",
         related_name="clan_request",
+    )
+    warehouse = models.ManyToManyField(
+        Item, through="ClanWarehouse", related_name="clan_warehouse"
     )
     wars = models.ManyToManyField(
         to="Clan", through="ClanWar", verbose_name="Войны"
@@ -104,3 +109,83 @@ class ClanWar(models.Model):
 
     def __str__(self):
         return f"{self.clan.name} против {self.enemy.name}"
+
+
+class ClanWarehouse(models.Model):
+    """Модель кланового хранилища."""
+
+    clan = models.ForeignKey(
+        Clan, on_delete=models.CASCADE, verbose_name="Клан"
+    )
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, verbose_name="Предмет"
+    )
+    amount = models.IntegerField(default=0, verbose_name="Количество")
+    equipped = models.BooleanField(default=False, verbose_name="Надето")
+    enhancement_level = models.IntegerField(
+        default=0, verbose_name="Уровень улучшения"
+    )
+
+    @property
+    def name_with_enhance(self):
+        """Возвращает название с уровнем улучшения."""
+        if self.enhancement_level:
+            return f"{self.item.name_with_type} +{self.enhancement_level}"
+        return f"{self.item.name_with_type}"
+
+    class Meta:
+        verbose_name = "Предмет Клана"
+        verbose_name_plural = "Предметы Клана"
+
+    def __str__(self):
+        return (
+            f"Clan: {self.clan} | "
+            f"Item: {self.item} | "
+            f"Amount: {self.amount}"
+        )
+
+
+class ClanBoss(models.Model):
+    """Модель клановых боссов."""
+
+    name = models.CharField(max_length=16, verbose_name="Имя")
+    respawn = models.DateTimeField(
+        default=timezone.now, verbose_name="Время Респауна"
+    )
+    required_power = models.IntegerField(
+        default=100, verbose_name="Необходимая сила клана"
+    )
+    drop = models.ManyToManyField(
+        Item, through="ClanBossDrop", related_name="clan_boss_drop"
+    )
+
+    class Meta:
+        verbose_name = "Клановый босс"
+        verbose_name_plural = "Клановые боссы"
+
+    def __str__(self):
+        return (
+            f"Name: {self.name} | "
+            f"Required Power: {self.required_power} | "
+            f"Respawn: {self.respawn}"
+        )
+
+
+class ClanBossDrop(models.Model):
+    """Модель для хранения дроп листа клановых боссов."""
+
+    clan_boss = models.ForeignKey(
+        ClanBoss, on_delete=models.CASCADE, verbose_name="Клановый босс"
+    )
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, verbose_name="Предмет"
+    )
+    min_amount = models.IntegerField(
+        default=1, verbose_name="Минимальное количество"
+    )
+    max_amount = models.IntegerField(
+        default=1, verbose_name="Максимальное количество"
+    )
+    chance = models.FloatField(
+        default=1, verbose_name="Шанс в процентах в минуту"
+    )

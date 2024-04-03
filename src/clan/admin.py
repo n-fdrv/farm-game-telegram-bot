@@ -1,13 +1,27 @@
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
 
-from clan.models import Clan
+from clan.models import Clan, ClanBoss
 
 
 class ClanRequestInline(admin.TabularInline):
     """Инлайн модель предметов крафта."""
 
     model = Clan.requests.through
+    extra = 1
+
+
+class ClanWarehouseInline(admin.TabularInline):
+    """Инлайн модель предметов крафта."""
+
+    model = Clan.warehouse.through
+    extra = 1
+
+
+class ClanBossDropInline(admin.TabularInline):
+    """Инлайн модель предметов крафта."""
+
+    model = ClanBoss.drop.through
     extra = 1
 
 
@@ -32,7 +46,7 @@ class ClanDefenceInline(admin.TabularInline):
 
 
 @admin.register(Clan)
-class UserAdmin(DjangoObjectActions, admin.ModelAdmin):
+class ClanAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью пользователя."""
 
     list_display = (
@@ -45,3 +59,17 @@ class UserAdmin(DjangoObjectActions, admin.ModelAdmin):
     list_filter = ("level", "by_request")
     search_fields = ("name", "leader")
     inlines = (ClanRequestInline, ClanAttackInline, ClanDefenceInline)
+
+
+@admin.register(ClanBoss)
+class ClanBossAdmin(DjangoObjectActions, admin.ModelAdmin):
+    """Управление моделью пользователя."""
+
+    list_display = (
+        "name",
+        "required_power",
+        "respawn",
+    )
+    list_filter = ("required_power",)
+    search_fields = ("name",)
+    inlines = (ClanBossDropInline,)
