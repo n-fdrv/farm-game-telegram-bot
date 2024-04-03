@@ -369,7 +369,7 @@ async def get_hunting_loot(character: Character, bot):
     if hunting_stats["mp_potion_uses"]:
         add_info += AUTO_USE_MP_TEXT.format(hunting_stats["mp_potion_uses"])
     logger.info(
-        f"{character.name_with_level} окончил охоту\n"
+        f"{character} окончил охоту\n"
         "Статистика:\n"
         f"Опыт: {exp_gained}\n"
         f"{hunting_stats}\n"
