@@ -28,6 +28,7 @@ class LocationData(BaseCallbackData, prefix="loc"):
     """Данные для хенжлеров локаций."""
 
     character_id: Optional[int] = 0
+    message_id: Optional[int] = 0
 
 
 class BackpackData(BaseCallbackData, prefix="bp"):

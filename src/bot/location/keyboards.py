@@ -180,3 +180,49 @@ async def kill_character_confirm_keyboard(callback_data: LocationData):
     )
     keyboard.adjust(2)
     return keyboard
+
+
+async def attack_more_keyboard(callback_data: LocationData):
+    """Клавиатура после атаки персонажа."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=CHARACTER_KILL_BUTTON,
+        callback_data=LocationData(
+            action=location_action.characters_kill,
+            id=callback_data.id,
+            message_id=callback_data.message_id,
+            character_id=callback_data.character_id,
+        ),
+    )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=LocationData(
+            action=location_action.characters_get,
+            id=callback_data.id,
+            message_id=callback_data.message_id,
+            character_id=callback_data.character_id,
+        ),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def attack_keyboard(
+    attacker: Character, attacker_message_id, target: Character
+):
+    """Клавиатура цели атаки персонажа."""
+    keyboard = InlineKeyboardBuilder()
+    location_id = 0
+    if attacker.current_location:
+        location_id = attacker.current_location.pk
+    keyboard.button(
+        text=CHARACTER_KILL_BUTTON,
+        callback_data=LocationData(
+            action=location_action.characters_kill,
+            message_id=attacker_message_id,
+            id=location_id,
+            character_id=target.pk,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard

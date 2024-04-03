@@ -55,6 +55,6 @@ class UserAdmin(DjangoObjectActions, admin.ModelAdmin):
     #     """Запрещает удалять объект."""
     #     return False
 
-    def has_add_permission(self, request):
-        """Запрещает добавлять объект."""
-        return False
+    # def has_add_permission(self, request):
+    #     """Запрещает добавлять объект."""
+    #     return False

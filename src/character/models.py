@@ -224,6 +224,9 @@ class Character(models.Model):
     auto_use_mp_potion = models.BooleanField(
         default=False, verbose_name="Автоиспользование эликсиров маны"
     )
+    pvp_mode_expired = models.DateTimeField(
+        default=timezone.now, verbose_name="Окончание PvP режима"
+    )
 
     class Meta:
         verbose_name = "Персонаж"

@@ -1,3 +1,5 @@
+import asyncio
+
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import Character
@@ -11,6 +13,7 @@ from bot.character.utils import (
 from bot.constants.actions import location_action
 from bot.constants.callback_data import LocationData
 from bot.location.keyboards import (
+    attack_more_keyboard,
     character_list_keyboard,
     exit_location_confirmation,
     kill_character_confirm_keyboard,
@@ -19,6 +22,7 @@ from bot.location.keyboards import (
     location_list_keyboard,
 )
 from bot.location.messages import (
+    ATTACK_CHARACTER_MESSAGE,
     CHARACTER_KILL_CONFIRM_MESSAGE,
     CHARACTER_LIST_MESSAGE,
     EXIT_LOCATION_CONFIRMATION_MESSAGE,
@@ -206,7 +210,7 @@ async def location_character_kill_confirm_handler(
         "character_class", "clan"
     ).aget(id=callback_data.character_id)
     keyboard = await kill_character_confirm_keyboard(callback_data)
-    war_text = NO_WAR_KILL_CONFIRM_MESSAGE
+    war_text = NO_WAR_KILL_CONFIRM_MESSAGE.format(enemy.name_with_clan)
     if await check_clan_war_exists(user.character, enemy):
         war_text = WAR_KILL_CONFIRM_MESSAGE
     await callback.message.edit_text(
@@ -231,10 +235,34 @@ async def location_character_kill_handler(
         "current_location", "character_class", "clan"
     ).aget(id=callback_data.character_id)
     user = await get_user(callback.from_user.id)
-    await attack_character(user.character, character)
-    keyboard = await character_get_keyboard(user.character)
-    await callback.message.delete()
-    await callback.message.answer(
-        text=await get_character_info(user.character),
+    (more_attack, text, damage, callback_data.message_id) = (
+        await attack_character(
+            user.character,
+            character,
+            callback.bot,
+            callback.message,
+            callback_data.message_id,
+        )
+    )
+    if not more_attack:
+        keyboard = await character_get_keyboard(user.character)
+        await callback.message.delete()
+        await callback.message.answer(
+            text=text,
+            reply_markup=keyboard.as_markup(),
+        )
+        return
+    await callback.message.edit_text(
+        text=text,
+    )
+    seconds = 2
+    for i in range(seconds):
+        await asyncio.sleep(1)
+        await callback.message.edit_text(
+            text=ATTACK_CHARACTER_MESSAGE.format(damage, seconds - i),
+        )
+    keyboard = await attack_more_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=ATTACK_CHARACTER_MESSAGE.format(damage, 0),
         reply_markup=keyboard.as_markup(),
     )

@@ -1,6 +1,7 @@
 import datetime
 import random
 
+from aiogram.types import Message
 from character.models import (
     Character,
     CharacterEffect,
@@ -23,25 +24,24 @@ from bot.character.utils import (
     regen_health_or_mana,
     remove_exp,
 )
+from bot.location.keyboards import attack_keyboard
 from bot.location.messages import (
     ALREADY_IN_LOCATION_MESSAGE,
+    ATTACK_CHARACTER_MESSAGE,
+    ATTACK_CHARACTER_MESSAGE_TO_TARGET,
     AUTO_USE_HP_TEXT,
     AUTO_USE_MP_TEXT,
     CHARACTER_KILL_MESSAGE,
-    FAIL_KILL_MESSAGE,
     HUNTING_END_MESSAGE,
-    INCREASE_CLAN_REPUTATION_MESSAGE,
+    KILL_CHARACTER_MESSAGE_TO_ATTACKER,
     LOCATION_CHARACTER_GET_MESSAGE,
     LOCATION_ENTER_MESSAGE,
     LOCATION_FULL_MESSAGE,
     LOCATION_GET_MESSAGE,
     LOCATION_NOT_AVAILABLE,
     LOCATION_WEEK_STRONG_MESSAGE,
-    NO_CHARACTER_CURRENT_LOCATION,
     NO_WAR_KILL_MESSAGE_TO_ATTACKER,
-    SUCCESS_KILL_MESSAGE,
-    SUCCESS_KILL_MESSAGE_TO_ATTACKER,
-    TRY_TO_KILL_CHARACTER_WHILE_HUNTING_MESSAGE,
+    WAR_KILL_MESSAGE_TO_ATTACKER,
 )
 from bot.models import User
 from core.config import game_config
@@ -326,9 +326,7 @@ async def get_hunting_loot(character: Character, bot):
         if character.mana > max_mana:
             character.mana = max_mana
         hunting_stats["farm_minutes"] += 1
-
     await get_exp(character, exp_gained, bot)
-
     character.current_location = None
     character.hunting_begin = None
     character.hunting_end = None
@@ -342,7 +340,6 @@ async def get_hunting_loot(character: Character, bot):
         drop_text += f"<b>{name}</b> - {amount} шт.\n"
     if not drop_data:
         drop_text = "❌"
-
     await character.asave(
         update_fields=(
             "current_location",
@@ -358,6 +355,13 @@ async def get_hunting_loot(character: Character, bot):
         add_info += AUTO_USE_HP_TEXT.format(hunting_stats["hp_potion_uses"])
     if hunting_stats["mp_potion_uses"]:
         add_info += AUTO_USE_MP_TEXT.format(hunting_stats["mp_potion_uses"])
+    logger.info(
+        f"{character.name_with_level} окончил охоту\n"
+        "Статистика:\n"
+        f"Опыт: {exp_gained}\n"
+        f"{hunting_stats}\n"
+        f"Трофеи: {drop_text}"
+    )
     return HUNTING_END_MESSAGE.format(
         round(exp_gained / character.exp_for_level_up * 100, 2),
         hunting_stats["farm_minutes"],
@@ -388,10 +392,7 @@ async def location_get_character_about(character: Character) -> str:
         clan = character.clan.name_with_emoji
     return LOCATION_CHARACTER_GET_MESSAGE.format(
         character.name_with_class,
-        character.level,
         clan,
-        int(await get_character_property(character, EffectProperty.ATTACK)),
-        int(await get_character_property(character, EffectProperty.DEFENCE)),
         "\n".join(
             [
                 await get_character_item_with_effects(x)
@@ -404,51 +405,83 @@ async def location_get_character_about(character: Character) -> str:
     )
 
 
-async def attack_character(attacker: Character, target: Character):
+async def attack_character(
+    attacker: Character,
+    target: Character,
+    bot,
+    attacker_message: Message,
+    target_message_id: int = 0,
+):
     """Обработка атаки на персонажа."""
-    pass
-    if attacker.current_location:
-        return False, TRY_TO_KILL_CHARACTER_WHILE_HUNTING_MESSAGE
-    if not target.current_location:
+    attacker_attack = await get_character_property(
+        attacker, EffectProperty.ATTACK
+    )
+    target_defence = await get_character_property(
+        target, EffectProperty.DEFENCE
+    )
+    damage = int(attacker_attack - target_defence)
+    if damage < 0:
+        damage = 0
+    keyboard = await attack_keyboard(
+        attacker, attacker_message.message_id, target
+    )
+    target.health -= damage
+    target_telegram_id = await User.objects.values_list(
+        "telegram_id", flat=True
+    ).aget(character=target)
+    target_text = ATTACK_CHARACTER_MESSAGE_TO_TARGET.format(
+        attacker.name_with_clan, damage, f"{target.health}/{target.max_health}"
+    )
+    logger.info(
+        f"{attacker.name_with_level} ({attacker.hp} напал на "
+        f"{target.name_with_level} ({target.mp}) "
+        f"Нанесено: {damage} Урона"
+    )
+    if not target_message_id:
+        target_message = await bot.send_message(
+            target_telegram_id,
+            text=target_text,
+            reply_markup=keyboard.as_markup(),
+        )
+        target_message_id = target_message.message_id
+        logger.info(
+            "Отправлено сообщение об атаке персонажу"
+            f" {target} id: {target_message_id}"
+        )
+    else:
+        await bot.edit_message_text(
+            chat_id=target_telegram_id,
+            message_id=target_message_id,
+            text=target_text,
+            reply_markup=keyboard.as_markup(),
+        )
+        logger.info(
+            "Исправлено сообщение об атаке персонажу "
+            f"{target} id: {target_message_id}"
+        )
+    attacker.pvp_mode_expired = timezone.now() + datetime.timedelta(minutes=2)
+    await attacker.asave(update_fields=("pvp_mode_expired",))
+    await use_toggle(attacker)
+    if target.health <= 0:
+        await bot.delete_message(
+            message_id=target_message_id,
+            chat_id=target_telegram_id,
+        )
+        await kill_character(target, bot, attacker)
+        logger.info(f"Персонаж {target} убит!")
         return (
             False,
-            NO_CHARACTER_CURRENT_LOCATION.format(target.name_with_class),
+            KILL_CHARACTER_MESSAGE_TO_ATTACKER.format(target.name_with_clan),
+            damage,
+            target_message_id,
         )
-    attacker_attack = (
-        int(await get_character_property(attacker, EffectProperty.ATTACK)),
+    await target.asave(update_fields=("health",))
+    return (
+        True,
+        ATTACK_CHARACTER_MESSAGE.format(damage, 3),
+        damage,
+        target_message_id,
     )
-    attacker_defence = (
-        int(await get_character_property(attacker, EffectProperty.DEFENCE)),
-    )
-    target_attack = (
-        int(await get_character_property(target, EffectProperty.ATTACK)),
-    )
-    target_defence = (
-        int(await get_character_property(target, EffectProperty.DEFENCE)),
-    )
-    attack_difference = attacker_attack[0] / target_defence[0]
-    defence_difference = attacker_defence[0] / target_attack[0]
-    difference = (attack_difference + defence_difference) / 2
-    chance = round(difference * 50, 2)
-    text = (
-        f"\nПерсонаж: {attacker.name_with_class} "
-        f"(Атака: {attacker_attack[0]}, Защита: {attacker_defence[0]})\n"
-        f"Атакует: {target.name_with_class} "
-        f"(Атака: {target_attack[0]}, Защита: {target_defence[0]})\n"
-        f"Шанс успеха: {chance}%"
-    )
-    if random.uniform(0.01, 100) <= chance:
-        text += "\nУспешно"
-        # await kill_character_scheduler(target, timezone.now(), attacker)
-        logger.info(text)
-        return True, SUCCESS_KILL_MESSAGE.format(target.name_with_clan)
-    # await kill_character_scheduler(attacker, timezone.now(), target)
-    return False, FAIL_KILL_MESSAGE.format(target.name_with_clan)
-
-
-async def attack_character_v2(attacker: Character, target: Character):
-    """Обработка атаки на персонажа."""
-    pass
 
 
 async def kill_character(
@@ -456,53 +489,48 @@ async def kill_character(
 ):
     """Убийство персонажа."""
     decrease_exp = game_config.EXP_DECREASE_PERCENT
-    if attacker:
-        attacker_text = SUCCESS_KILL_MESSAGE_TO_ATTACKER.format(
-            character.name_with_clan
-        )
-        attacker.kills += 1
-        await attacker.asave(update_fields=("kills",))
-        if await check_clan_war_exists(attacker, character):
-            decrease_exp = game_config.WAR_EXP_DECREASE_PERCENT
-            if character.clan.reputation:
-                character.clan.reputation -= 1
-                attacker.clan.reputation += 1
-                await character.clan.asave(update_fields=("reputation",))
-                await attacker.clan.asave(update_fields=("reputation",))
-                attacker_text += INCREASE_CLAN_REPUTATION_MESSAGE.format("1")
-        else:
-            async for effect in Effect.objects.filter(slug=EffectSlug.FATIGUE):
-                fatigue, created = (
-                    await CharacterEffect.objects.aget_or_create(
-                        character=attacker,
-                        effect=effect,
-                    )
-                )
-                fatigue.expired += datetime.timedelta(hours=1)
-                await fatigue.asave(update_fields=("expired",))
-            attacker_text += NO_WAR_KILL_MESSAGE_TO_ATTACKER
+    attacker_text = KILL_CHARACTER_MESSAGE_TO_ATTACKER.format(
+        character.name_with_clan
+    )
+    attacker.kills += 1
+    await attacker.asave(update_fields=("kills",))
+    clan_war = await check_clan_war_exists(attacker, character)
+    if character.pvp_mode_expired < timezone.now() and not clan_war:
+        async for effect in Effect.objects.filter(slug=EffectSlug.FATIGUE):
+            fatigue, created = await CharacterEffect.objects.aget_or_create(
+                character=attacker,
+                effect=effect,
+            )
+            fatigue.expired += datetime.timedelta(hours=1)
+            await fatigue.asave(update_fields=("expired",))
+        attacker_text += NO_WAR_KILL_MESSAGE_TO_ATTACKER
+    if clan_war:
+        decrease_exp = game_config.WAR_EXP_DECREASE_PERCENT
+        if character.clan.reputation:
+            character.clan.reputation -= 1
+            attacker.clan.reputation += 1
+            await character.clan.asave(update_fields=("reputation",))
+            await attacker.clan.asave(update_fields=("reputation",))
+            attacker_text += WAR_KILL_MESSAGE_TO_ATTACKER
         attacker_telegram_id = await User.objects.values_list(
             "telegram_id", flat=True
         ).aget(character=attacker)
         await bot.send_message(attacker_telegram_id, attacker_text)
+
     character_telegram_id = await User.objects.values_list(
         "telegram_id", flat=True
     ).aget(character=character)
-    attacker_name = "Монстры в Локации"
-    if attacker:
-        attacker_name = attacker.name_with_clan
-    if character.current_location:
-        character.hunting_end = timezone.now()
-        await character.asave(update_fields=("hunting_end",))
-        text = await get_hunting_loot(character, bot)
-        await bot.send_message(
-            character_telegram_id,
-            text,
-        ),
+    character.hunting_end = timezone.now()
+    text = await get_hunting_loot(character, bot)
+    await bot.send_message(
+        character_telegram_id,
+        text,
+    ),
     lost_exp = int(character.exp_for_level_up / 100 * decrease_exp)
     if character.premium_expired > timezone.now():
         lost_exp *= game_config.PREMIUM_DEATH_EXP_MODIFIER
     await remove_exp(character, lost_exp)
+    lost_exp = character.exp_for_level_up / lost_exp
     async for character_effect in CharacterEffect.objects.exclude(
         effect__slug=EffectSlug.FATIGUE
     ).filter(
@@ -511,5 +539,7 @@ async def kill_character(
         await character_effect.adelete()
     await bot.send_message(
         character_telegram_id,
-        CHARACTER_KILL_MESSAGE.format(attacker_name, round(lost_exp, 2)),
+        CHARACTER_KILL_MESSAGE.format(
+            attacker.name_with_clan, round(lost_exp, 2)
+        ),
     )
