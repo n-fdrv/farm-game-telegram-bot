@@ -244,8 +244,8 @@ async def check_if_dropped(
     ).filter(location=character.current_location):
         if random.uniform(0.01, 100) <= drop.chance * drop_buff:
             amount = random.randint(
-                drop.min_amount * game_config.DROP_AMOUNT_RATE,
-                drop.max_amount * game_config.DROP_AMOUNT_RATE,
+                drop.min_amount,
+                drop.max_amount,
             )
             item, created = await CharacterItem.objects.aget_or_create(
                 character=character, item=drop.item

@@ -99,7 +99,7 @@ async def get_item_effects(
     effects = "\n<i>Эффекты:</i>\n"
     async for effect in item.effects.all():
         amount = effect.amount
-        if type(item_with_enhance) is not Item:
+        if type(item) is not Item:
             enhance_type = game_config.ENHANCE_INCREASE
             if effect.in_percent:
                 enhance_type = game_config.ENHANCE_IN_PERCENT_INCREASE
@@ -164,7 +164,7 @@ async def get_lots_info(
 
 
 async def get_item_info_text(
-    item: [CharacterItem, MarketplaceItem, ClanWarehouse]
+    item: [CharacterItem, MarketplaceItem, ClanWarehouse, Item]
 ):
     """Метод получения текста информации о товаре."""
     add_info_data = {ItemType.BAG: get_bag_loot, ItemType.BOOK: get_book_info}
@@ -172,6 +172,7 @@ async def get_item_info_text(
     if item.item.type in add_info_data.keys():
         additional_info += await add_info_data[item.item.type](item.item)
     equipped = ""
+
     if type(item) is CharacterItem:
         if item.equipped:
             equipped = "\n⤴️Экипировано"
