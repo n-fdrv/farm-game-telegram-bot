@@ -54,6 +54,7 @@ download-data: # Выгрузить данные
 	--exclude=character.CharacterRecipe \
 	--exclude=character.CharacterEffect \
 	--exclude=character.MarketplaceItem \
+    --exclude=character.RecipeShare \
 	--exclude=clan.Clan \
     --exclude=clan.ClanRequest \
     --exclude=clan.ClanWar \
