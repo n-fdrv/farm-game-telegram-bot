@@ -7,7 +7,6 @@ from bot.clan.warehouse.keyboards import (
     clan_warehouse_get_keyboard,
     clan_warehouse_list_keyboard,
     clan_warehouse_look_keyboard,
-    clan_warehouse_preview_keyboard,
     clan_warehouse_send_list_keyboard,
     enter_amount_keyboard,
     enter_confirm_keyboard,
@@ -19,7 +18,6 @@ from bot.clan.warehouse.messages import (
     LOOK_WAREHOUSE_MESSAGE,
     SEND_CONFIRM_MESSAGE,
     SEND_LIST_MESSAGE,
-    WAREHOUSE_PREVIEW_MESSAGE,
 )
 from bot.clan.warehouse.utils import send_item_from_warehouse
 from bot.constants.actions import clan_warehouse_action
@@ -31,23 +29,6 @@ from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
 clan_warehouse_router = Router()
-
-
-@clan_warehouse_router.callback_query(
-    ClanWarehouseData.filter(F.action == clan_warehouse_action.preview)
-)
-@log_in_dev
-async def clan_warehouse_preview_handler(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: ClanWarehouseData,
-):
-    """Коллбек получения хранилища."""
-    keyboard = await clan_warehouse_preview_keyboard(callback_data)
-    await callback.message.edit_text(
-        text=WAREHOUSE_PREVIEW_MESSAGE,
-        reply_markup=keyboard.as_markup(),
-    )
 
 
 @clan_warehouse_router.callback_query(
@@ -225,7 +206,7 @@ async def clan_warehouse_send_handler(
         pk=callback_data.character_id
     )
     success, text = await send_item_from_warehouse(
-        item, character, callback_data.amount
+        item, character, callback.bot, callback_data.amount
     )
     keyboard = await send_item_keyboard(callback_data)
     await callback.message.edit_text(

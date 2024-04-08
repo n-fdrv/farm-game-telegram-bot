@@ -79,7 +79,7 @@ async def clan_get_keyboard(character: Character):
     keyboard.button(
         text=CLAN_WAREHOUSE_BUTTON,
         callback_data=ClanWarehouseData(
-            action=clan_warehouse_action.preview, id=character.clan.id
+            action=clan_warehouse_action.look, id=character.clan.id
         ),
     )
     if character.clan.leader == character:

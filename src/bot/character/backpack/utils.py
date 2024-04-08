@@ -40,10 +40,14 @@ from bot.character.backpack.messages import (
     NOT_ENOUGH_SKILL_LEVEL_MESSAGE,
     NOT_MASTER_CLASS_MESSAGE,
     SUCCESS_ENCHANT,
+    SUCCESS_PUT_MESSAGE,
+    SUCCESS_PUT_MESSAGE_TO_USER,
     SUCCESS_USE_MESSAGE,
     UNEQUIP_MESSAGE,
 )
 from bot.character.utils import get_character_property, regen_health_or_mana
+from bot.clan.warehouse.utils import add_clan_item
+from bot.models import User
 from bot.utils.game_utils import (
     add_item,
     get_item_effects,
@@ -285,3 +289,39 @@ async def open_bag(character: Character, item: Item, amount: int = 1):
         drop_data[loot.name_with_type] += 1
     await remove_item(item=item, character=character, amount=amount)
     return drop_data
+
+
+async def send_item_to_clan_warehouse(
+    character_item: CharacterItem, bot, amount
+):
+    """Передача предмета клану."""
+    if character_item.amount < amount:
+        amount = character_item.amount
+    await add_clan_item(
+        clan=character_item.character.clan,
+        item=character_item.item,
+        amount=amount,
+        enhancement_level=character_item.enhancement_level,
+    )
+    leader_telegram_id = await User.objects.values_list(
+        "telegram_id", flat=True
+    ).aget(character=character_item.character.clan.leader)
+    await bot.send_message(
+        leader_telegram_id,
+        SUCCESS_PUT_MESSAGE_TO_USER.format(
+            character_item.character.name_with_clan,
+            character_item.name_with_enhance,
+            amount,
+        ),
+    )
+    await remove_item(
+        character=character_item.character,
+        item=character_item.item,
+        amount=amount,
+        enhancement_level=character_item.enhancement_level,
+    )
+    return True, SUCCESS_PUT_MESSAGE.format(
+        character_item.name_with_enhance,
+        amount,
+        character_item.character.clan.name_with_emoji,
+    )

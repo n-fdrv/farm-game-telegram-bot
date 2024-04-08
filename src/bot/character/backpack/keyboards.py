@@ -10,10 +10,16 @@ from bot.character.backpack.buttons import (
     OPEN_ALL_BUTTON,
     OPEN_BUTTON,
     OPEN_MORE_BUTTON,
+    PUT_IN_CLAN_WAREHOUSE_BUTTON,
     USE_BUTTON,
     USE_MORE_BUTTON,
 )
-from bot.command.buttons import BACK_BUTTON
+from bot.command.buttons import (
+    BACK_BUTTON,
+    CANCEL_BUTTON,
+    NO_BUTTON,
+    YES_BUTTON,
+)
 from bot.constants.actions import (
     backpack_action,
     character_action,
@@ -40,8 +46,6 @@ async def backpack_preview_keyboard(character: Character):
         .all()
     ]
     for item_type in ItemType.choices:
-        if item_type[0] == ItemType.ETC:
-            continue
         if item_type[0] in items_data:
             keyboard.button(
                 text=item_type[1],
@@ -95,7 +99,7 @@ async def backpack_list_keyboard(user: User, callback_data: BackpackData):
     )
 
 
-async def item_get_keyboard(callback_data: BackpackData):
+async def item_get_keyboard(character: Character, callback_data: BackpackData):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
     equipped_data = [ItemType.WEAPON, ItemType.ARMOR, ItemType.TALISMAN]
@@ -138,12 +142,92 @@ async def item_get_keyboard(callback_data: BackpackData):
                 amount=callback_data.amount,
             ),
         )
+
+    if character.clan:
+        keyboard.button(
+            text=PUT_IN_CLAN_WAREHOUSE_BUTTON,
+            callback_data=BackpackData(
+                action=backpack_action.put_clan_amount,
+                id=callback_data.id,
+                type=callback_data.type,
+            ),
+        )
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=BackpackData(
             action=backpack_action.list,
             page=callback_data.page,
             type=callback_data.type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def put_clan_confirm_keyboard(callback_data: BackpackData):
+    """Клавиатура подтверждения отправки в клан."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.put_clan,
+            id=callback_data.id,
+            amount=callback_data.amount,
+            type=callback_data.type,
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.get,
+            id=callback_data.id,
+            type=callback_data.type,
+        ),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def enter_put_amount_keyboard(callback_data: BackpackData):
+    """Клавиаутар ввода количества предметов в клан."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.get,
+            id=callback_data.id,
+            type=callback_data.type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def put_item_keyboard(callback_data: BackpackData):
+    """Клавиатура отправки предмета."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.list,
+            type=callback_data.type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def not_correct_amount_keyboard(callback_data: BackpackData):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=BackpackData(
+            action=backpack_action.get,
+            id=callback_data.id,
+            type=callback_data.type,
+            page=callback_data.page,
+            amount=callback_data.amount,
         ),
     )
     keyboard.adjust(1)

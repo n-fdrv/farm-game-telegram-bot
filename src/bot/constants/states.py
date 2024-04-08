@@ -29,3 +29,9 @@ class ClanState(StatesGroup):
     settings_description = State()
     declare_war = State()
     send_amount = State()
+
+
+class BackpackState(StatesGroup):
+    """Состояния для хендлеров инвентаря."""
+
+    item_amount = State()

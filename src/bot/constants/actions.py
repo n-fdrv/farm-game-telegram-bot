@@ -66,6 +66,10 @@ class BackpackAction(Action):
     enhance_get = f"{callback_data.BackpackData.__prefix__}-enge"
     enhance = f"{callback_data.BackpackData.__prefix__}-en"
 
+    put_clan_amount = f"{callback_data.BackpackData.__prefix__}-puclam"
+    put_clan_confirm = f"{callback_data.BackpackData.__prefix__}-puclco"
+    put_clan = f"{callback_data.BackpackData.__prefix__}-pucl"
+
 
 class ShopAction(Action):
     """Действия для хендлеров магазина."""
@@ -174,12 +178,16 @@ class ClanWarehouseAction(Action):
 
     preview = f"{callback_data.ClanWarehouseData.__prefix__}-pr"
     look = f"{callback_data.ClanWarehouseData.__prefix__}-lo"
-    put = f"{callback_data.ClanWarehouseData.__prefix__}-pu"
 
     send_list = f"{callback_data.ClanWarehouseData.__prefix__}-seli"
     send_amount = f"{callback_data.ClanWarehouseData.__prefix__}-seam"
     send_confirm = f"{callback_data.ClanWarehouseData.__prefix__}-seco"
     send = f"{callback_data.ClanWarehouseData.__prefix__}-se"
+
+    put_preview = f"{callback_data.ClanWarehouseData.__prefix__}-pupr"
+    put_list = f"{callback_data.ClanWarehouseData.__prefix__}-puli"
+    put_get = f"{callback_data.ClanWarehouseData.__prefix__}-puge"
+    put = f"{callback_data.ClanWarehouseData.__prefix__}-pu"
 
 
 class TopAction(Action):

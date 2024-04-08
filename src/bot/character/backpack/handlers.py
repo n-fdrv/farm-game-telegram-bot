@@ -9,15 +9,21 @@ from bot.character.backpack.keyboards import (
     backpack_list_keyboard,
     backpack_preview_keyboard,
     enhance_get_keyboard,
+    enter_put_amount_keyboard,
     item_get_keyboard,
+    not_correct_amount_keyboard,
     not_success_equip_keyboard,
     open_more_keyboard,
+    put_clan_confirm_keyboard,
+    put_item_keyboard,
     use_item_keyboard,
     use_scroll_keyboard,
 )
 from bot.character.backpack.messages import (
+    ENTER_AMOUNT_TO_CLAN_MESSAGE,
     ITEM_LIST_MESSAGE,
     ITEM_PREVIEW_MESSAGE,
+    PUT_CONFIRM_MESSAGE,
     SCROLL_LIST_MESSAGE,
     SUCCESS_OPEN_BAG_MESSAGE,
 )
@@ -26,6 +32,7 @@ from bot.character.backpack.utils import (
     equip_talisman,
     get_character_item_enhance_text,
     open_bag,
+    send_item_to_clan_warehouse,
     use_book,
     use_potion,
     use_recipe,
@@ -33,7 +40,13 @@ from bot.character.backpack.utils import (
 )
 from bot.constants.actions import backpack_action
 from bot.constants.callback_data import BackpackData
-from bot.utils.game_utils import get_item_amount, get_item_info_text
+from bot.constants.states import BackpackState
+from bot.utils.game_utils import (
+    check_correct_amount,
+    get_item_amount,
+    get_item_info_text,
+)
+from bot.utils.messages import NOT_CORRECT_AMOUNT_MESSAGE
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -88,16 +101,123 @@ async def backpack_get(
     callback_data: BackpackData,
 ):
     """Коллбек получения предмета в инвентаре."""
-    keyboard = await item_get_keyboard(callback_data)
+    await state.clear()
     if not await CharacterItem.objects.filter(id=callback_data.id).aexists():
         await callback.message.delete()
         return
-    character_item = await CharacterItem.objects.select_related("item").aget(
-        id=callback_data.id
-    )
+    character_item = await CharacterItem.objects.select_related(
+        "character", "character__clan", "item"
+    ).aget(id=callback_data.id)
+    keyboard = await item_get_keyboard(character_item.character, callback_data)
     await callback.message.edit_text(
         text=await get_item_info_text(character_item),
         reply_markup=keyboard.as_markup(),
+    )
+
+
+@backpack_router.callback_query(
+    BackpackData.filter(F.action == backpack_action.put_clan_amount)
+)
+@log_in_dev
+async def backpack_put_amount(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: BackpackData,
+):
+    """Коллбек ввода количества предметов на отправку."""
+    if not await CharacterItem.objects.filter(id=callback_data.id).aexists():
+        await callback.message.delete()
+        return
+    character_item = await CharacterItem.objects.select_related(
+        "character", "character__clan", "item"
+    ).aget(id=callback_data.id)
+    if character_item.amount > 1:
+        keyboard = await enter_put_amount_keyboard(callback_data)
+        await callback.message.edit_text(
+            text=ENTER_AMOUNT_TO_CLAN_MESSAGE.format(
+                character_item.name_with_enhance,
+                character_item.character.clan.name_with_emoji,
+            ),
+            reply_markup=keyboard.as_markup(),
+        )
+        await state.update_data(
+            action=callback_data.action,
+            id=callback_data.id,
+            type=callback_data.type,
+            page=callback_data.page,
+            amount=callback_data.amount,
+        )
+        await state.set_state(BackpackState.item_amount)
+        return
+    callback_data.amount = 1
+    keyboard = await put_clan_confirm_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=PUT_CONFIRM_MESSAGE.format(
+            character_item.name_with_enhance,
+            character_item.amount,
+            character_item.character.clan.name_with_emoji,
+        ),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@backpack_router.message(BackpackState.item_amount)
+@log_in_dev
+async def put_to_clan_amount_state_handler(
+    message: types.Message, state: FSMContext
+):
+    """Хендлер ввода количества."""
+    amount = message.text
+    data = await state.get_data()
+    is_correct = await check_correct_amount(amount)
+    callback_data = BackpackData(
+        action=data["action"],
+        id=data["id"],
+        type=data["type"],
+        page=data["page"],
+        amount=data["amount"],
+    )
+    if not is_correct:
+        keyboard = await not_correct_amount_keyboard(callback_data)
+        await message.answer(
+            text=NOT_CORRECT_AMOUNT_MESSAGE, reply_markup=keyboard.as_markup()
+        )
+        await state.set_state(BackpackState.item_amount)
+        return
+    callback_data.amount = amount
+    character_item = await CharacterItem.objects.select_related(
+        "character", "character__clan", "item"
+    ).aget(pk=callback_data.id)
+    keyboard = await put_clan_confirm_keyboard(callback_data)
+    await message.answer(
+        text=PUT_CONFIRM_MESSAGE.format(
+            character_item.name_with_enhance,
+            amount,
+            character_item.character.clan.name_with_emoji,
+        ),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@backpack_router.callback_query(
+    BackpackData.filter(F.action == backpack_action.put_clan)
+)
+@log_in_dev
+async def put_into_clan_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: BackpackData,
+):
+    """Коллбек отправки предмета персонажу."""
+    character_item = await CharacterItem.objects.select_related(
+        "character", "character__clan", "item", "character__clan__leader"
+    ).aget(pk=callback_data.id)
+    success, text = await send_item_to_clan_warehouse(
+        character_item, callback.bot, callback_data.amount
+    )
+    keyboard = await put_item_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=text, reply_markup=keyboard.as_markup()
     )
 
 
@@ -132,10 +252,10 @@ async def backpack_equip_handler(
             reply_markup=keyboard.as_markup(),
         )
         return
-    keyboard = await item_get_keyboard(callback_data)
-    character_item = await CharacterItem.objects.select_related("item").aget(
-        id=callback_data.id
-    )
+    character_item = await CharacterItem.objects.select_related(
+        "character", "character__clan", "item"
+    ).aget(id=callback_data.id)
+    keyboard = await item_get_keyboard(character_item.character, callback_data)
     await callback.message.edit_text(
         text=await get_item_info_text(character_item),
         reply_markup=keyboard.as_markup(),

@@ -6,7 +6,6 @@ from item.models import ItemType
 
 from bot.clan.warehouse.buttons import (
     LOOK_WAREHOUSE_BUTTON,
-    PUT_ITEM_BUTTON,
     SEND_ITEM_BUTTON,
 )
 from bot.command.buttons import (
@@ -24,34 +23,6 @@ from bot.constants.callback_data import (
     ClanWarehouseData,
 )
 from bot.utils.paginator import Paginator
-
-
-async def clan_warehouse_preview_keyboard(callback_data: ClanWarehouseData):
-    """Клавиатура неудачного надевания предмета."""
-    keyboard = InlineKeyboardBuilder()
-    keyboard.button(
-        text=LOOK_WAREHOUSE_BUTTON,
-        callback_data=ClanWarehouseData(
-            action=clan_warehouse_action.look,
-            id=callback_data.id,
-        ),
-    )
-    keyboard.button(
-        text=PUT_ITEM_BUTTON,
-        callback_data=ClanWarehouseData(
-            action=clan_warehouse_action.put,
-            id=callback_data.id,
-        ),
-    )
-    keyboard.button(
-        text=BACK_BUTTON,
-        callback_data=ClanData(
-            action=clan_action.preview,
-            id=callback_data.id,
-        ),
-    )
-    keyboard.adjust(1)
-    return keyboard
 
 
 async def clan_warehouse_look_keyboard(callback_data: ClanWarehouseData):
@@ -85,8 +56,8 @@ async def clan_warehouse_look_keyboard(callback_data: ClanWarehouseData):
         row.append(button_number)
     keyboard.button(
         text=BACK_BUTTON,
-        callback_data=ClanWarehouseData(
-            action=clan_warehouse_action.preview, id=callback_data.id
+        callback_data=ClanData(
+            action=clan_action.preview, id=callback_data.id
         ),
     )
     keyboard.adjust(*row, 1)
