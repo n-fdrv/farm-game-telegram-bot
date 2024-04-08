@@ -10,6 +10,7 @@ from bot.constants.callback_data import MasterShopData
 from bot.master_shop.keyboards import (
     master_shop_choose_type_keyboard,
     master_shop_craft_confirm_keyboard,
+    master_shop_craft_keyboard,
     master_shop_get_keyboard,
     master_shop_list_keyboard,
     master_shop_preview_keyboard,
@@ -20,7 +21,7 @@ from bot.master_shop.messages import (
     MASTER_SHOP_LIST_MESSAGE,
     MASTER_SHOP_PREVIEW_MESSAGE,
 )
-from bot.master_shop.utils import get_share_recipe_info
+from bot.master_shop.utils import craft_item, get_share_recipe_info
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -144,5 +145,32 @@ async def master_shop_craft_confirm_callback(
     keyboard = await master_shop_craft_confirm_keyboard(callback_data)
     await callback.message.edit_text(
         text=MASTER_SHOP_CRAFT_CONFIRM,
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@master_shop_router.callback_query(
+    MasterShopData.filter(F.action == master_shop_action.craft)
+)
+@log_in_dev
+async def master_shop_craft_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MasterShopData,
+):
+    """Коллбек меню Клана."""
+    user = await get_user(callback.from_user.id)
+    recipe_share = await RecipeShare.objects.select_related(
+        "character_recipe__character",
+        "character_recipe__character__clan",
+        "character_recipe__recipe",
+        "character_recipe__recipe__create",
+    ).aget(pk=callback_data.id)
+    success, text = await craft_item(
+        user.character, recipe_share, callback.bot
+    )
+    keyboard = await master_shop_craft_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=text,
         reply_markup=keyboard.as_markup(),
     )

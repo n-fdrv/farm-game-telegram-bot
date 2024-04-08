@@ -9,6 +9,7 @@ from bot.constants.callback_data import MasterShopData
 from bot.master_shop.buttons import (
     ADD_RECIPE_BUTTON,
     CRAFT_BUTTON,
+    CRAFT_MORE_BUTTON,
     LOOK_MASTER_SHOP,
     LOOK_RECIPE_BUTTON,
     SEARCH_RECIPE_BUTTON,
@@ -177,4 +178,29 @@ async def master_shop_craft_confirm_keyboard(callback_data: MasterShopData):
         ),
     )
     keyboard.adjust(2)
+    return keyboard
+
+
+async def master_shop_craft_keyboard(callback_data: MasterShopData):
+    """Клавиатура изготовления."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=CRAFT_MORE_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.craft_confirm,
+            id=callback_data.id,
+            type=callback_data.type,
+            page=callback_data.page,
+        ),
+    )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.get,
+            id=callback_data.id,
+            type=callback_data.type,
+            page=callback_data.page,
+        ),
+    )
+    keyboard.adjust(1)
     return keyboard

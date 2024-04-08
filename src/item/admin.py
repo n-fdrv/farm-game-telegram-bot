@@ -30,7 +30,7 @@ class CraftingItemInline(admin.TabularInline):
     """Инлайн модель предметов крафта."""
 
     model = CraftingItem
-    fk_name = "material"
+    fk_name = "recipe"
     extra = 1
 
 
