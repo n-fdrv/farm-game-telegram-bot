@@ -327,6 +327,8 @@ async def buy_get_keyboard(callback_data: MarketplaceData):
             type=callback_data.type,
         ),
     )
+    if not callback_data.back_action:
+        callback_data.back_action = marketplace_action.buy_preview
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=MarketplaceData(

@@ -151,6 +151,8 @@ async def master_shop_get_keyboard(callback_data: MasterShopData):
             page=callback_data.page,
         ),
     )
+    if not callback_data.back_action:
+        callback_data.back_action = master_shop_action.preview
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=MasterShopData(
