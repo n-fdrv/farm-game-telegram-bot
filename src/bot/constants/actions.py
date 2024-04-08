@@ -93,6 +93,7 @@ class MasterShopAction(Action):
 
     choose_type = f"{callback_data.MasterShopData.__prefix__}-chty"
     search_recipe = f"{callback_data.MasterShopData.__prefix__}-sere"
+    search_recipe_list = f"{callback_data.MasterShopData.__prefix__}-sereli"
 
     craft_list = f"{callback_data.MasterShopData.__prefix__}-crli"
     craft_get = f"{callback_data.MasterShopData.__prefix__}-crge"

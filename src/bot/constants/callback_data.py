@@ -91,6 +91,8 @@ class MasterShopData(BaseCallbackData, prefix="mash"):
     """Данные для хендлеров мастерской."""
 
     type: Optional[str] = None
+    name_contains: Optional[str] = None
+    back_action: Optional[str] = None
 
 
 CALLBACK_DATA_PREFIX = {

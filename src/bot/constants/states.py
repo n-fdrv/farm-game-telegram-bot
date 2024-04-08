@@ -35,3 +35,9 @@ class BackpackState(StatesGroup):
     """Состояния для хендлеров инвентаря."""
 
     item_amount = State()
+
+
+class MasterShopState(StatesGroup):
+    """Состояния для хендлеров мастерской."""
+
+    recipe_search = State()

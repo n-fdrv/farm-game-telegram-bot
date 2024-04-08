@@ -289,6 +289,7 @@ async def buy_list_keyboard(callback_data: MarketplaceData):
                 id=item.id,
                 currency=callback_data.currency,
                 type=callback_data.type,
+                back_action=callback_data.action,
             ),
         )
     keyboard.adjust(1)
@@ -326,26 +327,16 @@ async def buy_get_keyboard(callback_data: MarketplaceData):
             type=callback_data.type,
         ),
     )
-    if callback_data.back_action == "search":
-        keyboard.button(
-            text=BACK_BUTTON,
-            callback_data=MarketplaceData(
-                action=marketplace_action.search_lot_list,
-                page=callback_data.page,
-                currency=callback_data.currency,
-                name_contains=callback_data.name_contains,
-            ),
-        )
-    else:
-        keyboard.button(
-            text=BACK_BUTTON,
-            callback_data=MarketplaceData(
-                action=marketplace_action.buy_list,
-                page=callback_data.page,
-                type=callback_data.type,
-                currency=callback_data.currency,
-            ),
-        )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=MarketplaceData(
+            action=callback_data.back_action,
+            page=callback_data.page,
+            type=callback_data.type,
+            name_contains=callback_data.name_contains,
+            currency=callback_data.currency,
+        ),
+    )
     keyboard.adjust(1)
     return keyboard
 
@@ -482,7 +473,7 @@ async def lot_item_list_keyboard(callback_data: MarketplaceData):
                 id=item.id,
                 currency=callback_data.currency,
                 name_contains=callback_data.name_contains,
-                back_action="search",
+                back_action=callback_data.action,
             ),
         )
     keyboard.adjust(1)

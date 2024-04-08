@@ -6,3 +6,4 @@ LOOK_RECIPE_BUTTON = "📜Ваши Общие Рецепты"
 SEARCH_RECIPE_BUTTON = "🔎Поиск Рецепта"
 
 CRAFT_MORE_BUTTON = "⚒Изготовить Еще!"
+TO_SEARCH_RECIPE_LIST_BUTTON = "📜К Списку Рецептов"

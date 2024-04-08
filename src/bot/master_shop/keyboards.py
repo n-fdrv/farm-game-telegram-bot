@@ -3,7 +3,12 @@ from character.models import Character, RecipeShare
 from django.db.models import Count
 from item.models import ItemType
 
-from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
+from bot.command.buttons import (
+    BACK_BUTTON,
+    CANCEL_BUTTON,
+    NO_BUTTON,
+    YES_BUTTON,
+)
 from bot.constants.actions import master_shop_action
 from bot.constants.callback_data import MasterShopData
 from bot.master_shop.buttons import (
@@ -13,6 +18,7 @@ from bot.master_shop.buttons import (
     LOOK_MASTER_SHOP,
     LOOK_RECIPE_BUTTON,
     SEARCH_RECIPE_BUTTON,
+    TO_SEARCH_RECIPE_LIST_BUTTON,
 )
 from bot.utils.paginator import Paginator
 
@@ -110,6 +116,7 @@ async def master_shop_list_keyboard(callback_data: MasterShopData):
                 page=callback_data.page,
                 id=recipe_share.id,
                 type=callback_data.type,
+                back_action=callback_data.action,
             ),
         )
     keyboard.adjust(1)
@@ -147,11 +154,13 @@ async def master_shop_get_keyboard(callback_data: MasterShopData):
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=MasterShopData(
-            action=master_shop_action.list,
-            type=callback_data.type,
+            action=callback_data.back_action,
             page=callback_data.page,
+            name_contains=callback_data.name_contains,
+            type=callback_data.type,
         ),
     )
+
     keyboard.adjust(1)
     return keyboard
 
@@ -204,3 +213,83 @@ async def master_shop_craft_keyboard(callback_data: MasterShopData):
     )
     keyboard.adjust(1)
     return keyboard
+
+
+async def master_shop_recipe_search_keyboard():
+    """Клавиатура поиска предмета."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.choose_type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def recipe_search_keyboard(recipe_name_contains: str):
+    """Клавиатура перехода к списку найденных рецептов."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=TO_SEARCH_RECIPE_LIST_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.search_recipe_list,
+            name_contains=recipe_name_contains,
+        ),
+    )
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.choose_type,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def master_shop_recipe_search_list_keyboard(
+    callback_data: MasterShopData,
+):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    async for recipe_share in (
+        RecipeShare.objects.select_related(
+            "character_recipe", "character_recipe__recipe"
+        )
+        .filter(
+            character_recipe__recipe__create__name__contains=callback_data.name_contains,
+        )
+        .order_by("price")
+    ):
+        keyboard.button(
+            text=(
+                f"{recipe_share.character_recipe.recipe.name_with_chance} - "
+                f"{recipe_share.price}🟡"
+            ),
+            callback_data=MasterShopData(
+                action=master_shop_action.get,
+                page=callback_data.page,
+                id=recipe_share.id,
+                name_contains=callback_data.name_contains,
+                back_action=callback_data.action,
+            ),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=master_shop_action.search_recipe_list,
+        size=6,
+        page=callback_data.page,
+        name_contains=callback_data.type,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            (
+                BACK_BUTTON,
+                MasterShopData(
+                    action=master_shop_action.choose_type,
+                ),
+            ),
+        ]
+    )
