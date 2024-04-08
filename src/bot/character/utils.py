@@ -386,7 +386,7 @@ async def get_exp(character: Character, exp_amount: int, bot):
             "max_mana",
         )
     )
-    return character
+    return exp_amount * game_config.EXP_RATE
 
 
 async def remove_exp(character: Character, exp_amount: int):

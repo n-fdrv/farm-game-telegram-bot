@@ -9,6 +9,7 @@ from character.models import (
     CharacterClass,
     ClassEquipment,
     MarketplaceItem,
+    RecipeShare,
     Skill,
 )
 
@@ -157,3 +158,13 @@ class MarketplaceItemAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление торговой площадкой."""
 
     list_display = ("seller", "item", "sell_currency", "price")
+
+
+@admin.register(RecipeShare)
+class RecipeShareAdmin(DjangoObjectActions, admin.ModelAdmin):
+    """Управление общими рецептами."""
+
+    list_display = (
+        "character_recipe",
+        "price",
+    )

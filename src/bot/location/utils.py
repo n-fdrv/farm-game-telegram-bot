@@ -339,7 +339,7 @@ async def get_hunting_loot(character: Character, bot):
         if character.mana > max_mana:
             character.mana = max_mana
         hunting_stats["farm_minutes"] += 1
-    await get_exp(character, exp_gained, bot)
+    exp_gained = await get_exp(character, exp_gained, bot)
     character.current_location = None
     character.hunting_begin = None
     character.hunting_end = None

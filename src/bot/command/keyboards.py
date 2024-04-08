@@ -6,6 +6,7 @@ from bot.command.buttons import (
     CLAN_BUTTON,
     CREATE_CHARACTER_BUTTON,
     MARKET_BUTTON,
+    MASTER_SHOP_BUTTON,
     PREMIUM_SHOP_BUTTON,
     TOP_BUTTON,
 )
@@ -21,10 +22,11 @@ async def start_keyboard():
         KeyboardButton(text=CLAN_BUTTON),
     )
     keyboard.row(
-        KeyboardButton(text=PREMIUM_SHOP_BUTTON),
+        KeyboardButton(text=MASTER_SHOP_BUTTON),
         KeyboardButton(text=MARKET_BUTTON),
     )
     keyboard.row(
+        KeyboardButton(text=PREMIUM_SHOP_BUTTON),
         KeyboardButton(text=TOP_BUTTON),
     )
     return keyboard

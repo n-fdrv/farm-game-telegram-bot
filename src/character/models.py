@@ -441,3 +441,25 @@ class MarketplaceItem(models.Model):
             f"Amount: {self.amount} |"
             f"Price: {self.price}"
         )
+
+
+class RecipeShare(models.Model):
+    """Модель хранения общих рецептов."""
+
+    character_recipe = models.ForeignKey(
+        CharacterRecipe,
+        on_delete=models.CASCADE,
+        verbose_name="Рецепт Персонажа",
+    )
+    price = models.IntegerField(default=0, verbose_name="Цена")
+
+    class Meta:
+        verbose_name = "Рецепт на Торговой Площадке"
+        verbose_name_plural = "Рецпты на Торговой Площадке"
+
+    def __str__(self):
+        return (
+            f"Seller: {self.character_recipe.character} | "
+            f"Recipe: {self.character_recipe.recipe} | "
+            f"Price: {self.price}"
+        )

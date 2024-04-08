@@ -86,6 +86,24 @@ class ShopAction(Action):
     sell = f"{callback_data.ShopData.__prefix__}-se"
 
 
+class MasterShopAction(Action):
+    """Действия для хендлеров магазина."""
+
+    preview = f"{callback_data.MasterShopData.__prefix__}-pr"
+
+    choose_type = f"{callback_data.MasterShopData.__prefix__}-chty"
+    search_recipe = f"{callback_data.MasterShopData.__prefix__}-sere"
+
+    craft_list = f"{callback_data.MasterShopData.__prefix__}-crli"
+    craft_get = f"{callback_data.MasterShopData.__prefix__}-crge"
+    craft_confirm = f"{callback_data.MasterShopData.__prefix__}-crco"
+    craft = f"{callback_data.MasterShopData.__prefix__}-cr"
+
+    add_recipe_list = f"{callback_data.MasterShopData.__prefix__}-adreli"
+
+    recipe_list = f"{callback_data.MasterShopData.__prefix__}-reli"
+
+
 class CraftAction(Action):
     """Действия для хендлеров создания."""
 
@@ -212,3 +230,4 @@ clan_warehouse_action = ClanWarehouseAction(
     callback_data.ClanWarehouseData.__prefix__
 )
 top_action = TopAction(callback_data.TopData.__prefix__)
+master_shop_action = MasterShopAction(callback_data.MasterShopData.__prefix__)

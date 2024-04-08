@@ -87,6 +87,12 @@ class TopData(BaseCallbackData, prefix="top"):
     filter_by: Optional[str] = None
 
 
+class MasterShopData(BaseCallbackData, prefix="mash"):
+    """Данные для хендлеров мастерской."""
+
+    type: Optional[str] = None
+
+
 CALLBACK_DATA_PREFIX = {
     CharacterData.__prefix__: CharacterData,
     LocationData.__prefix__: LocationData,
@@ -98,4 +104,5 @@ CALLBACK_DATA_PREFIX = {
     ClanData.__prefix__: ClanData,
     TopData.__prefix__: TopData,
     ClanWarehouseData.__prefix__: ClanWarehouseData,
+    MasterShopData.__prefix__: MasterShopData,
 }

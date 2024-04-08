@@ -372,7 +372,7 @@ class CraftingItem(models.Model):
     """Модель хранения предметов рецепта."""
 
     material = models.ForeignKey(
-        to=Material,
+        to=Item,
         on_delete=models.RESTRICT,
         verbose_name="Предмет",
         related_name="recipes",

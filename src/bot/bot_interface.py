@@ -29,6 +29,7 @@ from bot.command.handlers import command_router
 from bot.constants import commands
 from bot.location.handlers import location_router
 from bot.marketplace.handlers import marketplace_router
+from bot.master_shop.handlers import master_shop_router
 from bot.premium_shop.handlers import premium_router
 from bot.top.handlers import top_router
 
@@ -78,6 +79,7 @@ class AiogramApp:
             clan_wars_router,
             clan_warehouse_router,
             top_router,
+            master_shop_router,
         ]
         self._download_routes(routes)
         asyncio.ensure_future(
