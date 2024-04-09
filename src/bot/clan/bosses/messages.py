@@ -12,6 +12,10 @@ GET_CLAN_BOSS_MESSAGE = (
     "<i>Возможные Трофеи:</i>\n{}"
 )
 
+NOT_ENOUGH_POWER_MESSAGE = (
+    "❌ Неудачно!\n\n" "Недостаточная сила клана для данного Босса!"
+)
+
 ALERT_ABOUT_CLAN_BOSS_RESPAWN_MESSAGE = (
     "<b>⚠️ Уведомление</b>\n\n"
     "Клановый босс <b>{}</b> воскрес\n\n"

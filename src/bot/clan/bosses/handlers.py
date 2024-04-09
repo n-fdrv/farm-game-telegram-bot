@@ -5,12 +5,12 @@ from clan.models import ClanBoss
 from bot.clan.bosses.keyboards import (
     clan_bosses_get_keyboard,
     clan_bosses_list_keyboard,
+    not_enough_power_keyboard,
 )
 from bot.clan.bosses.messages import CLAN_BOSSES_LIST_MESSAGE
 from bot.clan.bosses.utils import (
     accept_clan_boss_raid,
     accept_decline_clan_boss_hunting,
-    alert_about_clan_boss_respawn,
     get_clan_boss_info,
 )
 from bot.constants.actions import clan_bosses_action
@@ -70,13 +70,16 @@ async def clan_bosses_create_callback(
     """Коллбек списка клановых боссов."""
     user = await get_user(callback.from_user.id)
     boss = await ClanBoss.objects.aget(pk=callback_data.id)
-    await accept_decline_clan_boss_hunting(boss, user.character.clan)
+    success, text = await accept_decline_clan_boss_hunting(
+        boss, user.character.clan
+    )
     keyboard = await clan_bosses_get_keyboard(user.character, boss)
+    if not success:
+        keyboard = await not_enough_power_keyboard()
     await callback.message.edit_text(
-        text=await get_clan_boss_info(boss, user.character.clan),
+        text=text,
         reply_markup=keyboard.as_markup(),
     )
-    await alert_about_clan_boss_respawn(boss, callback.bot)
 
 
 @clan_bosses_router.callback_query(

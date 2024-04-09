@@ -71,6 +71,17 @@ async def clan_bosses_get_keyboard(character: Character, boss: ClanBoss):
     return keyboard
 
 
+async def not_enough_power_keyboard():
+    """Клавиатура возврата к превью."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=ClanBossesData(action=clan_bosses_action.list),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
 async def alert_about_clan_boss_respawn_keyboard(boss: ClanBoss):
     """Клавиатура подтверждения названия Клана."""
     keyboard = InlineKeyboardBuilder()

@@ -13,9 +13,11 @@ from bot.clan.bosses.messages import (
     ALREADY_KILLED_CLAN_BOSS_MESSAGE,
     GET_CLAN_BOSS_MESSAGE,
     NO_BOSS_KILLED_MESSAGE,
+    NOT_ENOUGH_POWER_MESSAGE,
     SUCCESS_ACCEPT_CLAN_RAID_MESSAGE,
     SUCCESS_BOSS_KILLED_MESSAGE,
 )
+from bot.clan.utils import get_clan_power
 from bot.clan.warehouse.utils import add_clan_item
 from bot.models import User
 from bot.utils.schedulers import run_date_job
@@ -55,10 +57,13 @@ async def get_clan_boss_info(boss: ClanBoss, clan: Clan) -> str:
 
 async def accept_decline_clan_boss_hunting(boss: ClanBoss, clan: Clan):
     """Включение и отключение охоты на босса."""
+    if await get_clan_power(clan) < boss.required_power:
+        return False, NOT_ENOUGH_POWER_MESSAGE
     if await ClanBossClan.objects.filter(clan=clan).aexists():
         await ClanBossClan.objects.filter(clan=clan).adelete()
     else:
         await boss.clans.aadd(clan)
+    return True, await get_clan_boss_info(boss, clan)
 
 
 async def make_schedulers_after_restart(bot):
