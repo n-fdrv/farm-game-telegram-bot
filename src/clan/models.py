@@ -158,6 +158,10 @@ class ClanBoss(models.Model):
     drop = models.ManyToManyField(
         Item, through="ClanBossDrop", related_name="clan_boss_drop"
     )
+    clans = models.ManyToManyField(to=Clan, through="ClanBossClan")
+    characters = models.ManyToManyField(
+        to="character.Character", through="ClanBossCharacter"
+    )
 
     class Meta:
         verbose_name = "Клановый босс"
@@ -169,6 +173,49 @@ class ClanBoss(models.Model):
             f"Required Power: {self.required_power} | "
             f"Respawn: {self.respawn}"
         )
+
+    @property
+    def name_with_power(self):
+        """Имя с необходимой силой клана."""
+        return f"{self.name} ⚔️{self.required_power}"
+
+
+class ClanBossClan(models.Model):
+    """Модель хранения персонажей участвующих в рейде."""
+
+    clan = models.ForeignKey(
+        to=Clan, on_delete=models.CASCADE, verbose_name="Клан в рейде"
+    )
+    boss = models.ForeignKey(
+        ClanBoss, on_delete=models.CASCADE, verbose_name="Клановый босс"
+    )
+
+    class Meta:
+        verbose_name = "Клан в рейде"
+        verbose_name_plural = "Кланы в рейде"
+
+    def __str__(self):
+        return f"Clan: {self.clan} | " f"Boss: {self.boss}"
+
+
+class ClanBossCharacter(models.Model):
+    """Модель хранения персонажей участвующих в рейде."""
+
+    character = models.ForeignKey(
+        to="character.Character",
+        on_delete=models.CASCADE,
+        verbose_name="Персонаж в рейде",
+    )
+    boss = models.ForeignKey(
+        ClanBoss, on_delete=models.CASCADE, verbose_name="Клановый босс"
+    )
+
+    class Meta:
+        verbose_name = "Персонаж в рейде"
+        verbose_name_plural = "Персонажи в рейде"
+
+    def __str__(self):
+        return f"Character: {self.character} | " f"Boss: {self.boss}"
 
 
 class ClanBossDrop(models.Model):

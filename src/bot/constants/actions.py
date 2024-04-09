@@ -209,6 +209,12 @@ class ClanWarehouseAction(Action):
     put = f"{callback_data.ClanWarehouseData.__prefix__}-pu"
 
 
+class ClanBossesAction(Action):
+    """Действия для хендлеров клана."""
+
+    accept_raid = f"{callback_data.ClanBossesData.__prefix__}-acra"
+
+
 class TopAction(Action):
     """Действия для хендлеров клана."""
 
@@ -230,5 +236,6 @@ clan_action = ClanAction(callback_data.ClanData.__prefix__)
 clan_warehouse_action = ClanWarehouseAction(
     callback_data.ClanWarehouseData.__prefix__
 )
+clan_bosses_action = ClanBossesAction(callback_data.ClanBossesData.__prefix__)
 top_action = TopAction(callback_data.TopData.__prefix__)
 master_shop_action = MasterShopAction(callback_data.MasterShopData.__prefix__)

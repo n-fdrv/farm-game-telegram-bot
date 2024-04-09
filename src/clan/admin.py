@@ -25,6 +25,20 @@ class ClanBossDropInline(admin.TabularInline):
     extra = 1
 
 
+class ClanBossClanInline(admin.TabularInline):
+    """Инлайн модель предметов крафта."""
+
+    model = ClanBoss.clans.through
+    extra = 1
+
+
+class ClanBossCharacterInline(admin.TabularInline):
+    """Инлайн модель предметов крафта."""
+
+    model = ClanBoss.characters.through
+    extra = 1
+
+
 class ClanAttackInline(admin.TabularInline):
     """Инлайн модель предметов крафта."""
 
@@ -77,4 +91,4 @@ class ClanBossAdmin(DjangoObjectActions, admin.ModelAdmin):
     )
     list_filter = ("required_power",)
     search_fields = ("name",)
-    inlines = (ClanBossDropInline,)
+    inlines = (ClanBossDropInline, ClanBossClanInline, ClanBossCharacterInline)

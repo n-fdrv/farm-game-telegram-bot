@@ -3,6 +3,7 @@ from character.models import Character
 from clan.models import Clan
 
 from bot.clan.buttons import (
+    CLAN_BOSSES_BUTTON,
     CLAN_MEMBERS_BUTTON,
     CLAN_WAREHOUSE_BUTTON,
     CLAN_WARS_BUTTON,
@@ -21,8 +22,16 @@ from bot.command.buttons import (
     NO_BUTTON,
     YES_BUTTON,
 )
-from bot.constants.actions import clan_action, clan_warehouse_action
-from bot.constants.callback_data import ClanData, ClanWarehouseData
+from bot.constants.actions import (
+    clan_action,
+    clan_bosses_action,
+    clan_warehouse_action,
+)
+from bot.constants.callback_data import (
+    ClanBossesData,
+    ClanData,
+    ClanWarehouseData,
+)
 from bot.utils.paginator import Paginator
 
 
@@ -71,6 +80,10 @@ async def clan_get_keyboard(character: Character):
         callback_data=ClanData(
             action=clan_action.members, id=character.clan.id
         ),
+    )
+    keyboard.button(
+        text=CLAN_BOSSES_BUTTON,
+        callback_data=ClanBossesData(action=clan_bosses_action.list),
     )
     keyboard.button(
         text=CLAN_WARS_BUTTON,

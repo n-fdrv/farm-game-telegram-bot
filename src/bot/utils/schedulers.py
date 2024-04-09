@@ -80,3 +80,15 @@ async def send_message_to_user(user_id: int, text: str):
         run_date=datetime.datetime.now(),
         args=[user_id, text],
     )
+
+
+@log_schedulers
+async def run_date_job(job, date, args):
+    """Шедулер убийства персонажа."""
+    bot, scheduler = await get_bot_and_scheduler()
+    scheduler.add_job(
+        job,
+        "date",
+        run_date=date,
+        args=args,
+    )

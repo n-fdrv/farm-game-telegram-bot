@@ -19,6 +19,8 @@ from bot.character.craft.handlers import craft_router
 from bot.character.handlers import character_router
 from bot.character.shop.handlers import shop_router
 from bot.character.skills.handlers import character_skills_router
+from bot.clan.bosses.handlers import clan_bosses_router
+from bot.clan.bosses.utils import make_schedulers_after_restart
 from bot.clan.handlers import clan_router
 from bot.clan.members.handlers import clan_members_router
 from bot.clan.requests.handlers import clan_request_router
@@ -77,6 +79,7 @@ class AiogramApp:
             clan_members_router,
             clan_settings_router,
             clan_wars_router,
+            clan_bosses_router,
             clan_warehouse_router,
             top_router,
             master_shop_router,
@@ -129,6 +132,7 @@ class AiogramApp:
                 )
             )
         self.scheduler.start()
+        asyncio.ensure_future(make_schedulers_after_restart(self.bot))
 
     def stop(self) -> None:
         """Останавливает бота."""

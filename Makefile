@@ -59,6 +59,8 @@ download-data: # Выгрузить данные
     --exclude=clan.ClanRequest \
     --exclude=clan.ClanWar \
     --exclude=clan.ClanWarehouse \
+    --exclude=clan.ClanBossClan \
+    --exclude=clan.ClanBossCharacter \
 	--indent=1 -o data/db.json && \
 	cd ..
 

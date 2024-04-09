@@ -81,6 +81,12 @@ class ClanWarehouseData(BaseCallbackData, prefix="wa"):
     amount: Optional[int] = 1
 
 
+class ClanBossesData(BaseCallbackData, prefix="clbo"):
+    """Данные для хендлеров клановых боссов."""
+
+    pass
+
+
 class TopData(BaseCallbackData, prefix="top"):
     """Данные для хендлеров топа персонажей."""
 
@@ -106,5 +112,6 @@ CALLBACK_DATA_PREFIX = {
     ClanData.__prefix__: ClanData,
     TopData.__prefix__: TopData,
     ClanWarehouseData.__prefix__: ClanWarehouseData,
+    ClanBossesData.__prefix__: ClanBossesData,
     MasterShopData.__prefix__: MasterShopData,
 }

@@ -4316,6 +4316,149 @@
  }
 },
 {
+ "model": "admin.logentry",
+ "pk": 333,
+ "fields": {
+  "action_time": "2024-04-09T11:23:18.460Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-03 13:30:14+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (1)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (2)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (3)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (4)\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 334,
+ "fields": {
+  "action_time": "2024-04-09T11:26:01.962Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-03 13:30:14+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (5)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (6)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (7)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (8)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (9)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (10)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (11)\"}}, {\"added\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (12)\"}}, {\"changed\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (3)\", \"fields\": [\"\\u041c\\u0438\\u043d\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u043e\\u0435 \\u043a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\", \"\\u041c\\u0430\\u043a\\u0441\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u043e\\u0435 \\u043a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\"]}}, {\"changed\": {\"name\": \"clan boss drop\", \"object\": \"ClanBossDrop object (4)\", \"fields\": [\"\\u041c\\u0438\\u043d\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u043e\\u0435 \\u043a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\", \"\\u041c\\u0430\\u043a\\u0441\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u043e\\u0435 \\u043a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 335,
+ "fields": {
+  "action_time": "2024-04-09T11:58:03.270Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-03 13:30:14+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"deleted\": {\"name\": \"\\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436 \\u0432 \\u0440\\u0435\\u0439\\u0434\\u0435\", \"object\": \"Character: waca | Level: 1 | Attack : 10 | Defence: 9 | Boss: Name: \\u041a\\u0430\\u043c\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0413\\u043e\\u043b\\u0435\\u043c | Required Power: 300 | Respawn: 2024-04-03 13:30:14+03:00\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 336,
+ "fields": {
+  "action_time": "2024-04-09T12:46:09.507Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-09 16:45:59+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0412\\u0440\\u0435\\u043c\\u044f \\u0420\\u0435\\u0441\\u043f\\u0430\\u0443\\u043d\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 337,
+ "fields": {
+  "action_time": "2024-04-09T12:46:51.195Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-10 16:45:59+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0412\\u0440\\u0435\\u043c\\u044f \\u0420\\u0435\\u0441\\u043f\\u0430\\u0443\\u043d\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 338,
+ "fields": {
+  "action_time": "2024-04-09T15:05:37.441Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-10 22:26:33+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"deleted\": {\"name\": \"\\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436 \\u0432 \\u0440\\u0435\\u0439\\u0434\\u0435\", \"object\": \"Character: waca | Level: 1 | Attack : 10 | Defence: 9 | Boss: Name: \\u041a\\u0430\\u043c\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0413\\u043e\\u043b\\u0435\\u043c | Required Power: 300 | Respawn: 2024-04-10 22:26:33+03:00\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 339,
+ "fields": {
+  "action_time": "2024-04-09T15:07:16.999Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-09 18:07:11+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0412\\u0440\\u0435\\u043c\\u044f \\u0420\\u0435\\u0441\\u043f\\u0430\\u0443\\u043d\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 340,
+ "fields": {
+  "action_time": "2024-04-09T15:14:47.813Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-09 19:14:40+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0412\\u0440\\u0435\\u043c\\u044f \\u0420\\u0435\\u0441\\u043f\\u0430\\u0443\\u043d\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 341,
+ "fields": {
+  "action_time": "2024-04-09T15:15:16.127Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-09 18:15:13+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0412\\u0440\\u0435\\u043c\\u044f \\u0420\\u0435\\u0441\\u043f\\u0430\\u0443\\u043d\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 342,
+ "fields": {
+  "action_time": "2024-04-09T15:16:10.565Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-09 18:16:08+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0412\\u0440\\u0435\\u043c\\u044f \\u0420\\u0435\\u0441\\u043f\\u0430\\u0443\\u043d\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 343,
+ "fields": {
+  "action_time": "2024-04-09T15:18:01.218Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "1",
+  "object_repr": "waca | Level: 1 | Attack : 322 | Defence: 9",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0442\\u0430\\u043a\\u0430\"]}}]"
+ }
+},
+{
  "model": "contenttypes.contenttype",
  "pk": 1,
  "fields": {
@@ -4665,6 +4808,22 @@
  "fields": {
   "app_label": "character",
   "model": "recipeshare"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 45,
+ "fields": {
+  "app_label": "clan",
+  "model": "clanbosscharacter"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 46,
+ "fields": {
+  "app_label": "clan",
+  "model": "clanbossclan"
  }
 },
 {
@@ -9928,8 +10087,140 @@
  "pk": 1,
  "fields": {
   "name": "Каменный Голем",
-  "respawn": "2024-04-03T10:30:14Z",
+  "respawn": "2024-04-11T00:07:40.237Z",
   "required_power": 300
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 1,
+ "fields": {
+  "clan_boss": 1,
+  "item": 11,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 10.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 2,
+ "fields": {
+  "clan_boss": 1,
+  "item": 10,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 10.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 3,
+ "fields": {
+  "clan_boss": 1,
+  "item": 9,
+  "min_amount": 10,
+  "max_amount": 20,
+  "chance": 100.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 4,
+ "fields": {
+  "clan_boss": 1,
+  "item": 8,
+  "min_amount": 10,
+  "max_amount": 20,
+  "chance": 100.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 5,
+ "fields": {
+  "clan_boss": 1,
+  "item": 73,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 6,
+ "fields": {
+  "clan_boss": 1,
+  "item": 72,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 7,
+ "fields": {
+  "clan_boss": 1,
+  "item": 71,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 8,
+ "fields": {
+  "clan_boss": 1,
+  "item": 83,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 9,
+ "fields": {
+  "clan_boss": 1,
+  "item": 82,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 10,
+ "fields": {
+  "clan_boss": 1,
+  "item": 81,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 11,
+ "fields": {
+  "clan_boss": 1,
+  "item": 80,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
+ }
+},
+{
+ "model": "clan.clanbossdrop",
+ "pk": 12,
+ "fields": {
+  "clan_boss": 1,
+  "item": 27,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 5.0
  }
 }
 ]
