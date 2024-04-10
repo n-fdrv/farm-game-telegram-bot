@@ -13,10 +13,13 @@ from loguru import logger
 from bot.master_shop.messages import (
     CHARACTER_RECIPE_GET_MESSAGE,
     FAIL_CRAFT_MESSAGE,
+    FAIL_CREATE_RECIPE_MESSAGE,
     NOT_ENOUGH_ITEMS_MESSAGE,
     RECIPE_SHARE_GET_MESSAGE,
     SHARE_RECIPE_USED_MESSAGE_TO_MASTER,
     SUCCESS_CRAFT_MESSAGE,
+    SUCCESS_CREATE_RECIPE_MESSAGE,
+    SUCCESS_DELETE_RECIPE_MESSAGE,
 )
 from bot.models import User
 from bot.utils.game_utils import add_item, get_item_effects, remove_item
@@ -24,6 +27,7 @@ from bot.utils.messages import (
     NOT_ENOUGH_GOLD_MESSAGE,
     NOT_UNKNOWN_ERROR_MESSAGE,
 )
+from core.config import game_config
 
 
 async def get_recipe_materials(character: Character, recipe: Recipe):
@@ -103,7 +107,10 @@ async def craft_item(
         removed = await remove_item(character, gold, recipe.price)
         if not removed:
             return False, NOT_ENOUGH_GOLD_MESSAGE
-        await add_item(recipe.character_recipe.character, gold, recipe.price)
+        recipe.price -= recipe.price / 100 * game_config.MASTER_SHOP_TAX
+        await add_item(
+            recipe.character_recipe.character, gold, int(recipe.price)
+        )
         master_telegram_id = await User.objects.values_list(
             "telegram_id", flat=True
         ).aget(character=recipe.character_recipe.character)
@@ -132,3 +139,29 @@ async def craft_item(
         await add_item(character, recipe.create, 1)
         return True, SUCCESS_CRAFT_MESSAGE.format(recipe.create.name_with_type)
     return False, FAIL_CRAFT_MESSAGE
+
+
+async def share_recipe_update(
+    character_recipe: CharacterRecipe, price: int = 0
+):
+    """Создание и удаление общего рецепта."""
+    if await RecipeShare.objects.filter(
+        character_recipe=character_recipe
+    ).aexists():
+        await RecipeShare.objects.filter(
+            character_recipe=character_recipe
+        ).adelete()
+        return True, SUCCESS_DELETE_RECIPE_MESSAGE.format(
+            character_recipe.recipe.name_with_chance
+        )
+    recipe_share_amount = await RecipeShare.objects.filter(
+        character_recipe__character=character_recipe.character
+    ).acount()
+    if recipe_share_amount >= game_config.MAX_RECIPE_AMOUNT:
+        return False, FAIL_CREATE_RECIPE_MESSAGE
+    await RecipeShare.objects.acreate(
+        character_recipe=character_recipe, price=price
+    )
+    return True, SUCCESS_CREATE_RECIPE_MESSAGE.format(
+        character_recipe.recipe.name_with_chance
+    )

@@ -101,9 +101,10 @@ class MasterShopAction(Action):
     craft_confirm = f"{callback_data.MasterShopData.__prefix__}-crco"
     craft = f"{callback_data.MasterShopData.__prefix__}-cr"
 
-    add_recipe_list = f"{callback_data.MasterShopData.__prefix__}-adreli"
-
     recipe_list = f"{callback_data.MasterShopData.__prefix__}-reli"
+    recipe_create_amount = f"{callback_data.MasterShopData.__prefix__}-recram"
+    recipe_delete_confirm = f"{callback_data.MasterShopData.__prefix__}-redeco"
+    recipe_update = f"{callback_data.MasterShopData.__prefix__}-reup"
 
 
 class PremiumAction(Action):

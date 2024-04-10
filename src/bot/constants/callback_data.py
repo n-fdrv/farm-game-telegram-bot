@@ -94,6 +94,7 @@ class MasterShopData(BaseCallbackData, prefix="mash"):
     character_id: Optional[int] = None
     name_contains: Optional[str] = None
     back_action: Optional[str] = None
+    price: Optional[int] = None
 
 
 CALLBACK_DATA_PREFIX = {

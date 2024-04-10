@@ -41,3 +41,4 @@ class MasterShopState(StatesGroup):
     """Состояния для хендлеров мастерской."""
 
     recipe_search = State()
+    enter_price = State()

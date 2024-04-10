@@ -15,6 +15,7 @@ from bot.master_shop.buttons import (
     ADD_RECIPE_BUTTON,
     CRAFT_BUTTON,
     CRAFT_MORE_BUTTON,
+    DELETE_RECIPE_BUTTON,
     LOOK_MASTER_SHOP,
     LOOK_RECIPE_BUTTON,
     SEARCH_RECIPE_BUTTON,
@@ -34,19 +35,15 @@ async def master_shop_preview_keyboard(character: Character):
         keyboard.button(
             text=CRAFT_BUTTON,
             callback_data=MasterShopData(
-                action=master_shop_action.craft_choose_type
-            ),
-        )
-        keyboard.button(
-            text=ADD_RECIPE_BUTTON,
-            callback_data=MasterShopData(
-                action=master_shop_action.add_recipe_list
+                action=master_shop_action.craft_choose_type,
+                character_id=character.pk,
             ),
         )
         keyboard.button(
             text=LOOK_RECIPE_BUTTON,
             callback_data=MasterShopData(
-                action=master_shop_action.recipe_list
+                action=master_shop_action.recipe_list,
+                character_id=character.pk,
             ),
         )
     keyboard.adjust(1)
@@ -303,7 +300,9 @@ async def master_shop_recipe_search_list_keyboard(
     )
 
 
-async def master_shop_craft_choose_type_keyboard(character: Character):
+async def master_shop_craft_choose_type_keyboard(
+    callback_data: MasterShopData,
+):
     """Клавиатура для нового пользователя."""
     keyboard = InlineKeyboardBuilder()
     button_number = 0
@@ -314,7 +313,7 @@ async def master_shop_craft_choose_type_keyboard(character: Character):
         async for x in CharacterRecipe.objects.values_list(
             "recipe__create__type", flat=True
         )
-        .filter(character=character)
+        .filter(character__pk=callback_data.character_id)
         .annotate(Count("recipe__create__type"))
     ]
     if items_data:
@@ -325,7 +324,7 @@ async def master_shop_craft_choose_type_keyboard(character: Character):
                     callback_data=MasterShopData(
                         action=master_shop_action.craft_list,
                         type=item_type[0],
-                        character_id=character.pk,
+                        character_id=callback_data.character_id,
                     ),
                 )
                 button_number += 1
@@ -361,8 +360,8 @@ async def master_shop_craft_list_keyboard(callback_data: MasterShopData):
                 page=callback_data.page,
                 id=character_recipe.id,
                 type=callback_data.type,
-                back_action=callback_data.action,
                 character_id=callback_data.character_id,
+                back_action=callback_data.action,
             ),
         )
     keyboard.adjust(1)
@@ -380,7 +379,146 @@ async def master_shop_craft_list_keyboard(callback_data: MasterShopData):
                 BACK_BUTTON,
                 MasterShopData(
                     action=master_shop_action.craft_choose_type,
+                    character_id=callback_data.character_id,
                 ),
             ),
         ]
     )
+
+
+async def master_shop_recipe_list_keyboard(callback_data: MasterShopData):
+    """Клавиатура выставленных общих рецептов."""
+    keyboard = InlineKeyboardBuilder()
+    async for recipe_share in RecipeShare.objects.select_related(
+        "character_recipe__recipe"
+    ).filter(character_recipe__character__pk=callback_data.character_id):
+        keyboard.button(
+            text=(
+                f"{recipe_share.character_recipe.recipe.name_with_chance} - "
+                f"{recipe_share.price}🟡"
+            ),
+            callback_data=MasterShopData(
+                action=master_shop_action.craft_get,
+                page=callback_data.page,
+                id=recipe_share.id,
+                type=callback_data.type,
+                character_id=callback_data.character_id,
+                back_action=callback_data.action,
+            ),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=master_shop_action.recipe_list,
+        size=6,
+        page=callback_data.page,
+        character_id=callback_data.character_id,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            (
+                BACK_BUTTON,
+                MasterShopData(
+                    action=master_shop_action.preview,
+                ),
+            ),
+        ]
+    )
+
+
+async def master_shop_craft_get_keyboard(
+    character_recipe: CharacterRecipe, back_action
+):
+    """Клавиатура получения рецепта."""
+    keyboard = InlineKeyboardBuilder()
+    btn_text = ADD_RECIPE_BUTTON
+    btn_action = master_shop_action.recipe_create_amount
+    if await RecipeShare.objects.filter(
+        character_recipe=character_recipe
+    ).aexists():
+        btn_text = DELETE_RECIPE_BUTTON
+        btn_action = master_shop_action.recipe_delete_confirm
+    keyboard.button(
+        text=CRAFT_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.craft_confirm,
+            id=character_recipe.pk,
+            type=character_recipe.recipe.create.type,
+            character_id=character_recipe.character.pk,
+            back_action=back_action,
+        ),
+    )
+    keyboard.button(
+        text=btn_text,
+        callback_data=MasterShopData(
+            action=btn_action,
+            id=character_recipe.pk,
+            back_action=back_action,
+            character_id=character_recipe.character.pk,
+        ),
+    )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=MasterShopData(
+            action=back_action,
+            type=character_recipe.recipe.create.type,
+            character_id=character_recipe.character.pk,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def enter_recipe_price_keyboard(callback_data: MasterShopData):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=CANCEL_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.craft_get,
+            id=callback_data.id,
+            back_action=callback_data.back_action,
+            character_id=callback_data.character_id,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def recipe_create_confirm_keyboard(callback_data: MasterShopData):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.recipe_update,
+            id=callback_data.id,
+            price=callback_data.price,
+            back_action=callback_data.back_action,
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.craft_get,
+            id=callback_data.id,
+            back_action=callback_data.back_action,
+        ),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def recipe_update_keyboard(callback_data: MasterShopData):
+    """Клавиатура для нового пользователя."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=MasterShopData(
+            action=master_shop_action.craft_get,
+            id=callback_data.id,
+            back_action=callback_data.back_action,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
