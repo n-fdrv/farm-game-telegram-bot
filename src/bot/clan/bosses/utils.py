@@ -68,7 +68,17 @@ async def accept_decline_clan_boss_hunting(boss: ClanBoss, clan: Clan):
 
 async def make_clan_bosses_schedulers_after_restart(bot):
     """Создание шедулеров на оповещения после рестарта сервера."""
-    async for boss in ClanBoss.objects.filter(respawn__gt=timezone.now()):
+    async for boss in ClanBoss.objects.all():
+        if boss.respawn < timezone.now():
+            boss.respawn = timezone.now() + datetime.timedelta(
+                hours=random.randint(
+                    game_config.RESPAWN_HOURS_CLAN_BOSS - 4,
+                    game_config.RESPAWN_HOURS_CLAN_BOSS + 4,
+                ),
+                minutes=random.randint(1, 59),
+                seconds=random.randint(1, 59),
+            )
+            await boss.asave(update_fields=("respawn",))
         await run_date_job(
             alert_about_clan_boss_respawn, boss.respawn, [boss, bot]
         )
@@ -109,6 +119,8 @@ async def kill_clan_boss(boss: ClanBoss, bot):
             game_config.RESPAWN_HOURS_CLAN_BOSS - 4,
             game_config.RESPAWN_HOURS_CLAN_BOSS + 4,
         ),
+        minutes=random.randint(1, 59),
+        seconds=random.randint(1, 59),
     )
     await boss.asave(update_fields=("respawn",))
     raid_power = sum(

@@ -401,6 +401,16 @@ async def get_hunting_loot(character: Character, bot):
     )
 
 
+async def make_hunting_end_schedulers_after_restart(bot):
+    """Создание шедулеров на оповещения после рестарта сервера."""
+    async for character in Character.objects.select_related(
+        "current_location"
+    ).exclude(current_location=None):
+        await run_date_job(
+            end_hunting, character.hunting_end, [character, bot]
+        )
+
+
 async def end_hunting(character: Character, bot):
     """Конец охоты по времени."""
     await character.asave(update_fields=("hunting_end",))
@@ -602,9 +612,17 @@ async def get_location_boss_info(boss: LocationBoss) -> str:
 
 async def make_location_bosses_schedulers_after_restart(bot):
     """Создание шедулеров на оповещения после рестарта сервера."""
-    async for boss in LocationBoss.objects.select_related("location").filter(
-        respawn__gt=timezone.now()
-    ):
+    async for boss in LocationBoss.objects.select_related("location").all():
+        if boss.respawn < timezone.now():
+            boss.respawn = timezone.now() + datetime.timedelta(
+                hours=random.randint(
+                    game_config.RESPAWN_HOURS_LOCATION_BOSS - 3,
+                    game_config.RESPAWN_HOURS_LOCATION_BOSS + 3,
+                ),
+                minutes=random.randint(1, 59),
+                seconds=random.randint(1, 59),
+            )
+            await boss.asave(update_fields=("respawn",))
         await run_date_job(
             alert_about_location_boss_respawn, boss.respawn, [boss, bot]
         )
@@ -652,9 +670,11 @@ async def kill_location_boss(boss: LocationBoss, bot):
     """Убийство босса и распределение дропа."""
     boss.respawn = timezone.now() + datetime.timedelta(
         hours=random.randint(
-            game_config.RESPAWN_HOURS_LOCATION_BOSS - 4,
-            game_config.RESPAWN_HOURS_LOCATION_BOSS + 4,
+            game_config.RESPAWN_HOURS_LOCATION_BOSS - 3,
+            game_config.RESPAWN_HOURS_LOCATION_BOSS + 3,
         ),
+        minutes=random.randint(1, 59),
+        seconds=random.randint(1, 59),
     )
     await boss.asave(update_fields=("respawn",))
     clan_chances_data = []

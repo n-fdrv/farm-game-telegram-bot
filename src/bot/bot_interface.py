@@ -29,7 +29,10 @@ from bot.clan.wars.handlers import clan_wars_router
 from bot.command.handlers import command_router
 from bot.constants import commands
 from bot.location.handlers import location_router
-from bot.location.utils import make_location_bosses_schedulers_after_restart
+from bot.location.utils import (
+    make_hunting_end_schedulers_after_restart,
+    make_location_bosses_schedulers_after_restart,
+)
 from bot.marketplace.handlers import marketplace_router
 from bot.master_shop.handlers import master_shop_router
 from bot.premium_shop.handlers import premium_router
@@ -69,6 +72,9 @@ class AiogramApp:
         )
         asyncio.ensure_future(
             make_location_bosses_schedulers_after_restart(self.bot)
+        )
+        asyncio.ensure_future(
+            make_hunting_end_schedulers_after_restart(self.bot)
         )
 
     def start(self) -> None:
