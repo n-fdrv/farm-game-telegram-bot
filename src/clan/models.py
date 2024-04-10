@@ -236,3 +236,10 @@ class ClanBossDrop(models.Model):
     chance = models.FloatField(
         default=1, verbose_name="Шанс в процентах в минуту"
     )
+
+    class Meta:
+        verbose_name = "Трофей с босса"
+        verbose_name_plural = "Трофеи с босса"
+
+    def __str__(self):
+        return f"{self.item.name_with_type} {self.chance}"

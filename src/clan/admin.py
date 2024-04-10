@@ -85,8 +85,7 @@ class ClanBossAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью пользователя."""
 
     list_display = (
-        "name",
-        "required_power",
+        "name_with_power",
         "respawn",
     )
     list_filter = ("required_power",)

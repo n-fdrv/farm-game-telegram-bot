@@ -4459,6 +4459,175 @@
  }
 },
 {
+ "model": "admin.logentry",
+ "pk": 344,
+ "fields": {
+  "action_time": "2024-04-09T15:28:01.596Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-11 03:07:40+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436 \\u0432 \\u0440\\u0435\\u0439\\u0434\\u0435\", \"object\": \"Character: waca | Level: 1 | Attack : 322 | Defence: 9 | Boss: Name: \\u041a\\u0430\\u043c\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0413\\u043e\\u043b\\u0435\\u043c | Required Power: 300 | Respawn: 2024-04-11 03:07:40+03:00\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 345,
+ "fields": {
+  "action_time": "2024-04-09T15:31:24.922Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-11 01:30:08+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436 \\u0432 \\u0440\\u0435\\u0439\\u0434\\u0435\", \"object\": \"Character: waca | Level: 1 | Attack : 322 | Defence: 9 | Boss: Name: \\u041a\\u0430\\u043c\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0413\\u043e\\u043b\\u0435\\u043c | Required Power: 300 | Respawn: 2024-04-11 01:30:08+03:00\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 346,
+ "fields": {
+  "action_time": "2024-04-09T15:39:54.726Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "1",
+  "object_repr": "waca | Level: 1 | Attack : 15 | Defence: 9",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0442\\u0430\\u043a\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 347,
+ "fields": {
+  "action_time": "2024-04-09T15:40:51.142Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 300 | Respawn: 2024-04-11 03:05:31+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"deleted\": {\"name\": \"\\u041a\\u043b\\u0430\\u043d \\u0432 \\u0440\\u0435\\u0439\\u0434\\u0435\", \"object\": \"Clan: Debiki \\u0423\\u0440. 1 | Boss: Name: \\u041a\\u0430\\u043c\\u0435\\u043d\\u043d\\u044b\\u0439 \\u0413\\u043e\\u043b\\u0435\\u043c | Required Power: 300 | Respawn: 2024-04-11 03:05:31+03:00\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 348,
+ "fields": {
+  "action_time": "2024-04-10T10:00:14.820Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "1",
+  "object_repr": "Мастер Создания Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 349,
+ "fields": {
+  "action_time": "2024-04-10T10:00:19.528Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "2",
+  "object_repr": "Мастер Создания Ур. 2",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041e\\u043f\\u0438\\u0441\\u0430\\u043d\\u0438\\u0435\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 350,
+ "fields": {
+  "action_time": "2024-04-10T15:59:48.526Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "1",
+  "object_repr": "Name: Железный Голем | Required Power: 100 | Respawn: 2024-04-10 18:54:30+03:00",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 100.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441\\u043e \\u0421\\u0432\\u0438\\u0442\\u043a\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 100.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) 50.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) 50.0\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 351,
+ "fields": {
+  "action_time": "2024-04-10T16:00:09.747Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "1",
+  "object_repr": "Name: Железный Голем | Required Power: 150 | Respawn: 2024-04-10 18:54:30+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0435\\u043e\\u0431\\u0445\\u043e\\u0434\\u0438\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 352,
+ "fields": {
+  "action_time": "2024-04-10T16:00:31.438Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "1",
+  "object_repr": "Name: Железный Голем | Required Power: 150 | Respawn: 2024-04-10 18:54:30+03:00",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 353,
+ "fields": {
+  "action_time": "2024-04-10T16:02:46.993Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "2",
+  "object_repr": "Name: Древний Призрак | Required Power: 130 | Respawn: 2024-04-10 19:00:42+03:00",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 100.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441\\u043e \\u0421\\u0432\\u0438\\u0442\\u043a\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 100.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) 50.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) 50.0\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 354,
+ "fields": {
+  "action_time": "2024-04-10T16:04:55.440Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "3",
+  "object_repr": "Name: Повелитель Зомби | Required Power: 110 | Respawn: 2024-04-10 19:02:53+03:00",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 100.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441\\u043e \\u0421\\u0432\\u0438\\u0442\\u043a\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 100.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) 50.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) 50.0\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 355,
+ "fields": {
+  "action_time": "2024-04-10T16:11:55.505Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "2",
+  "object_repr": "Name: Древний Призрак | Required Power: 130 | Respawn: 2024-04-10 19:00:42+03:00",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 356,
+ "fields": {
+  "action_time": "2024-04-10T16:13:18.354Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "4",
+  "object_repr": "Name: Король Орков | Required Power: 90 | Respawn: 2024-04-10 19:12:03+03:00",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 70.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 20.0\"}}, {\"added\": {\"name\": \"\\u0422\\u0440\\u043e\\u0444\\u0435\\u0439 \\u0441 \\u0431\\u043e\\u0441\\u0441\\u0430\", \"object\": \"\\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) 20.0\"}}]"
+ }
+},
+{
  "model": "contenttypes.contenttype",
  "pk": 1,
  "fields": {
@@ -4824,6 +4993,30 @@
  "fields": {
   "app_label": "clan",
   "model": "clanbossclan"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 47,
+ "fields": {
+  "app_label": "location",
+  "model": "locationboss"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 48,
+ "fields": {
+  "app_label": "location",
+  "model": "locationbossdrop"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 49,
+ "fields": {
+  "app_label": "location",
+  "model": "locationbosscharacter"
  }
 },
 {
@@ -9019,7 +9212,7 @@
  "fields": {
   "name": "Мастер Создания",
   "emoji": "🔨",
-  "description": "Умеет создавать предметы из ресурсов",
+  "description": "Позволяет создавать предметы в Мастерской",
   "level": 1,
   "mana_cost": 0,
   "effect_time": null,
@@ -9033,7 +9226,7 @@
  "fields": {
   "name": "Мастер Создания",
   "emoji": "🔨",
-  "description": "Умеет создавать предметы из ресурсов",
+  "description": "Позволяет создавать предметы в Мастерской",
   "level": 2,
   "mana_cost": 0,
   "effect_time": null,
@@ -10083,11 +10276,216 @@
  }
 },
 {
+ "model": "location.locationboss",
+ "pk": 1,
+ "fields": {
+  "name": "Железный Голем",
+  "respawn": "2024-04-10T15:54:30Z",
+  "required_power": 150,
+  "location": 7
+ }
+},
+{
+ "model": "location.locationboss",
+ "pk": 2,
+ "fields": {
+  "name": "Древний Призрак",
+  "respawn": "2024-04-10T16:00:42Z",
+  "required_power": 130,
+  "location": 6
+ }
+},
+{
+ "model": "location.locationboss",
+ "pk": 3,
+ "fields": {
+  "name": "Повелитель Зомби",
+  "respawn": "2024-04-10T16:02:53Z",
+  "required_power": 110,
+  "location": 5
+ }
+},
+{
+ "model": "location.locationboss",
+ "pk": 4,
+ "fields": {
+  "name": "Король Орков",
+  "respawn": "2024-04-10T16:12:03Z",
+  "required_power": 90,
+  "location": 2
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 1,
+ "fields": {
+  "boss": 1,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 10,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 2,
+ "fields": {
+  "boss": 1,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 10,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 3,
+ "fields": {
+  "boss": 1,
+  "item": 93,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 4,
+ "fields": {
+  "boss": 1,
+  "item": 94,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 5,
+ "fields": {
+  "boss": 2,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 6,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 6,
+ "fields": {
+  "boss": 2,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 6,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 7,
+ "fields": {
+  "boss": 2,
+  "item": 93,
+  "min_amount": 1,
+  "max_amount": 2,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 8,
+ "fields": {
+  "boss": 2,
+  "item": 94,
+  "min_amount": 1,
+  "max_amount": 2,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 9,
+ "fields": {
+  "boss": 3,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 10,
+ "fields": {
+  "boss": 3,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 11,
+ "fields": {
+  "boss": 3,
+  "item": 93,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 12,
+ "fields": {
+  "boss": 3,
+  "item": 94,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 13,
+ "fields": {
+  "boss": 4,
+  "item": 12,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 70.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 14,
+ "fields": {
+  "boss": 4,
+  "item": 4,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 20.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 15,
+ "fields": {
+  "boss": 4,
+  "item": 7,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 20.0
+ }
+},
+{
  "model": "clan.clanboss",
  "pk": 1,
  "fields": {
   "name": "Каменный Голем",
-  "respawn": "2024-04-11T00:07:40.237Z",
+  "respawn": "2024-04-11T00:05:31Z",
   "required_power": 300
  }
 },

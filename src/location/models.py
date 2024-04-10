@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from item.models import Item
 
 
@@ -62,3 +63,87 @@ class LocationDrop(models.Model):
             f"Amount: {self.min_amount} - {self.max_amount} | "
             f"Chance: {self.chance}"
         )
+
+
+class LocationBoss(models.Model):
+    """Модель боссов локаций."""
+
+    name = models.CharField(max_length=16, verbose_name="Имя")
+    respawn = models.DateTimeField(
+        default=timezone.now, verbose_name="Время Респауна"
+    )
+    required_power = models.IntegerField(
+        default=100, verbose_name="Необходимая сила персонажа"
+    )
+    drop = models.ManyToManyField(
+        Item, through="LocationBossDrop", related_name="location_boss_drop"
+    )
+    location = models.ForeignKey(
+        Location, on_delete=models.CASCADE, verbose_name="Локация"
+    )
+    characters = models.ManyToManyField(
+        to="character.Character", through="LocationBossCharacter"
+    )
+
+    class Meta:
+        verbose_name = "Босс Локации"
+        verbose_name_plural = "Боссы Локации"
+
+    def __str__(self):
+        return (
+            f"Name: {self.name} | "
+            f"Required Power: {self.required_power} | "
+            f"Respawn: {self.respawn}"
+        )
+
+    @property
+    def name_with_power(self):
+        """Имя с необходимой силой клана."""
+        return f"{self.name} ⚔️{self.required_power}"
+
+
+class LocationBossCharacter(models.Model):
+    """Модель хранения персонажей участвующих в рейде."""
+
+    character = models.ForeignKey(
+        to="character.Character",
+        on_delete=models.CASCADE,
+        verbose_name="Персонаж в рейде",
+    )
+    boss = models.ForeignKey(
+        LocationBoss, on_delete=models.CASCADE, verbose_name="Босс локации"
+    )
+
+    class Meta:
+        verbose_name = "Персонаж в рейде"
+        verbose_name_plural = "Персонажи в рейде"
+
+    def __str__(self):
+        return f"Character: {self.character} | " f"Boss: {self.boss}"
+
+
+class LocationBossDrop(models.Model):
+    """Модель для хранения дроп листа боссов локации."""
+
+    boss = models.ForeignKey(
+        LocationBoss, on_delete=models.CASCADE, verbose_name="Босс локации"
+    )
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, verbose_name="Предмет"
+    )
+    min_amount = models.IntegerField(
+        default=1, verbose_name="Минимальное количество"
+    )
+    max_amount = models.IntegerField(
+        default=1, verbose_name="Максимальное количество"
+    )
+    chance = models.FloatField(
+        default=1, verbose_name="Шанс в процентах в минуту"
+    )
+
+    class Meta:
+        verbose_name = "Трофей с босса"
+        verbose_name_plural = "Трофеи с босса"
+
+    def __str__(self):
+        return f"{self.item.name_with_type} {self.chance}"
