@@ -29,6 +29,7 @@ class LocationData(BaseCallbackData, prefix="loc"):
 
     character_id: Optional[int] = 0
     message_id: Optional[int] = 0
+    boss_id: Optional[int] = 0
 
 
 class BackpackData(BaseCallbackData, prefix="bp"):

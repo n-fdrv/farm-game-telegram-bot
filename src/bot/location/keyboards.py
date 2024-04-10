@@ -2,14 +2,15 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from character.models import Character
 from django.utils import timezone
 from item.models import EffectProperty
-from location.models import Location
+from location.models import Location, LocationBoss
 
 from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
 from bot.constants.actions import character_action, location_action
 from bot.constants.callback_data import CharacterData, LocationData
 from bot.location.buttons import (
+    ACCEPT_BOSS_BUTTON,
     CHARACTER_KILL_BUTTON,
-    GET_DROP_MESSAGE,
+    LOCATION_BOSSES_BUTTON,
     LOCATION_BUTTON,
     LOCATION_CHARACTERS_BUTTON,
     START_HUNTING_MESSAGE,
@@ -53,6 +54,12 @@ async def location_get_keyboard(callback_data: LocationData):
         ),
     )
     keyboard.button(
+        text=LOCATION_BOSSES_BUTTON,
+        callback_data=LocationData(
+            action=location_action.boss_list, id=callback_data.id
+        ),
+    )
+    keyboard.button(
         text=LOCATION_CHARACTERS_BUTTON,
         callback_data=LocationData(
             action=location_action.characters_list, id=callback_data.id
@@ -68,12 +75,64 @@ async def location_get_keyboard(callback_data: LocationData):
     return keyboard
 
 
-async def get_drop_keyboard():
-    """Клавиатура получения дропа с локации."""
+async def boss_list_keyboard(callback_data: LocationData):
+    """Клавиатура списка боссов локации."""
+    keyboard = InlineKeyboardBuilder()
+    async for boss in LocationBoss.objects.filter(
+        location__pk=callback_data.id
+    ):
+        keyboard.button(
+            text=boss.name_with_power,
+            callback_data=LocationData(
+                action=location_action.boss_get,
+                id=callback_data.id,
+                boss_id=boss.id,
+            ),
+        )
+    keyboard.adjust(1)
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=location_action.boss_list,
+        size=6,
+        page=callback_data.page,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [
+            [
+                BACK_BUTTON,
+                LocationData(
+                    action=location_action.get,
+                    page=callback_data.page,
+                    id=callback_data.id,
+                ),
+            ]
+        ]
+    )
+
+
+async def boss_get_keyboard(callback_data: LocationData):
+    """Клавиатура босса локации."""
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
-        text=GET_DROP_MESSAGE,
-        callback_data=LocationData(action=location_action.exit_location),
+        text=BACK_BUTTON,
+        callback_data=LocationData(
+            action=location_action.boss_list,
+            id=callback_data.id,
+            page=callback_data.page,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def alert_about_location_boss_respawn_keyboard(boss: LocationBoss):
+    """Клавиатура подтверждения названия Клана."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=ACCEPT_BOSS_BUTTON,
+        callback_data=LocationData(
+            action=location_action.boss_accept, id=boss.pk
+        ),
     )
     keyboard.adjust(1)
     return keyboard

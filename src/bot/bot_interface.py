@@ -19,7 +19,7 @@ from bot.character.handlers import character_router
 from bot.character.shop.handlers import shop_router
 from bot.character.skills.handlers import character_skills_router
 from bot.clan.bosses.handlers import clan_bosses_router
-from bot.clan.bosses.utils import make_schedulers_after_restart
+from bot.clan.bosses.utils import make_clan_bosses_schedulers_after_restart
 from bot.clan.handlers import clan_router
 from bot.clan.members.handlers import clan_members_router
 from bot.clan.requests.handlers import clan_request_router
@@ -29,6 +29,7 @@ from bot.clan.wars.handlers import clan_wars_router
 from bot.command.handlers import command_router
 from bot.constants import commands
 from bot.location.handlers import location_router
+from bot.location.utils import make_location_bosses_schedulers_after_restart
 from bot.marketplace.handlers import marketplace_router
 from bot.master_shop.handlers import master_shop_router
 from bot.premium_shop.handlers import premium_router
@@ -60,6 +61,15 @@ class AiogramApp:
             tail = route
             head.include_router(tail)
             head = route
+
+    def _make_jobs(self):
+        """Добавляет нужные шедулеры."""
+        asyncio.ensure_future(
+            make_clan_bosses_schedulers_after_restart(self.bot)
+        )
+        asyncio.ensure_future(
+            make_location_bosses_schedulers_after_restart(self.bot)
+        )
 
     def start(self) -> None:
         """Запускает бота."""
@@ -130,7 +140,7 @@ class AiogramApp:
                 )
             )
         self.scheduler.start()
-        asyncio.ensure_future(make_schedulers_after_restart(self.bot))
+        self._make_jobs()
 
     def stop(self) -> None:
         """Останавливает бота."""

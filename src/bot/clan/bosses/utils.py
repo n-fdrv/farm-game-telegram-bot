@@ -10,7 +10,6 @@ from bot.character.utils import get_character_property
 from bot.clan.bosses.keyboards import alert_about_clan_boss_respawn_keyboard
 from bot.clan.bosses.messages import (
     ALERT_ABOUT_CLAN_BOSS_RESPAWN_MESSAGE,
-    ALREADY_KILLED_CLAN_BOSS_MESSAGE,
     GET_CLAN_BOSS_MESSAGE,
     NO_BOSS_KILLED_MESSAGE,
     NOT_ENOUGH_POWER_MESSAGE,
@@ -20,6 +19,7 @@ from bot.clan.bosses.messages import (
 from bot.clan.utils import get_clan_power
 from bot.clan.warehouse.utils import add_clan_item
 from bot.models import User
+from bot.utils.messages import ALREADY_KILLED_MESSAGE
 from bot.utils.schedulers import run_date_job
 from core.config import game_config
 
@@ -66,7 +66,7 @@ async def accept_decline_clan_boss_hunting(boss: ClanBoss, clan: Clan):
     return True, await get_clan_boss_info(boss, clan)
 
 
-async def make_schedulers_after_restart(bot):
+async def make_clan_bosses_schedulers_after_restart(bot):
     """Создание шедулеров на оповещения после рестарта сервера."""
     async for boss in ClanBoss.objects.filter(respawn__gt=timezone.now()):
         await run_date_job(
@@ -97,7 +97,7 @@ async def alert_about_clan_boss_respawn(boss: ClanBoss, bot):
 async def accept_clan_boss_raid(boss: ClanBoss, character: Character):
     """Подтверждение рейда персонажем."""
     if boss.respawn > timezone.now():
-        return False, ALREADY_KILLED_CLAN_BOSS_MESSAGE.format(boss.name)
+        return False, ALREADY_KILLED_MESSAGE.format(boss.name)
     await boss.characters.aadd(character)
     return True, SUCCESS_ACCEPT_CLAN_RAID_MESSAGE.format(boss.name)
 
@@ -105,9 +105,10 @@ async def accept_clan_boss_raid(boss: ClanBoss, character: Character):
 async def kill_clan_boss(boss: ClanBoss, bot):
     """Убийство босса и распределение дропа."""
     boss.respawn = timezone.now() + datetime.timedelta(
-        hours=random.randint(24, 36),
-        minutes=random.randint(0, 59),
-        seconds=random.randint(1, 59),
+        hours=random.randint(
+            game_config.RESPAWN_HOURS_CLAN_BOSS - 4,
+            game_config.RESPAWN_HOURS_CLAN_BOSS + 4,
+        ),
     )
     await boss.asave(update_fields=("respawn",))
     raid_power = sum(

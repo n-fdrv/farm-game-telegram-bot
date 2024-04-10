@@ -23,7 +23,6 @@ ALERT_ABOUT_CLAN_BOSS_RESPAWN_MESSAGE = (
     f"❗️ У вас есть {MINUTES_FOR_ENTER_CLAN_RAID} минута чтобы принять участие"
 )
 
-ALREADY_KILLED_CLAN_BOSS_MESSAGE = "❌ Ошибка!\n\n" "<b>{}</b> уже убит!"
 
 SUCCESS_ACCEPT_CLAN_RAID_MESSAGE = (
     "<b>✅Успешно!</b>\n\n" "Вы приняли участие в охоте на <b>{}</b>!"

@@ -3,7 +3,7 @@ import asyncio
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import Character
-from location.models import Location
+from location.models import Location, LocationBoss
 
 from bot.character.keyboards import character_get_keyboard
 from bot.character.utils import (
@@ -14,6 +14,8 @@ from bot.constants.actions import location_action
 from bot.constants.callback_data import LocationData
 from bot.location.keyboards import (
     attack_more_keyboard,
+    boss_get_keyboard,
+    boss_list_keyboard,
     character_list_keyboard,
     exit_location_confirmation,
     kill_character_confirm_keyboard,
@@ -23,6 +25,7 @@ from bot.location.keyboards import (
 )
 from bot.location.messages import (
     ATTACK_CHARACTER_MESSAGE,
+    BOSS_LIST_MESSAGE,
     CHARACTER_KILL_CONFIRM_MESSAGE,
     CHARACTER_LIST_MESSAGE,
     EXIT_LOCATION_CONFIRMATION_MESSAGE,
@@ -32,13 +35,16 @@ from bot.location.messages import (
     WAR_KILL_CONFIRM_MESSAGE,
 )
 from bot.location.utils import (
+    accept_location_boss_raid,
     attack_character,
+    end_hunting,
     enter_location,
     get_hunting_loot,
+    get_location_boss_info,
     get_location_info,
     location_get_character_about,
 )
-from bot.utils.schedulers import hunting_end_scheduler, remove_scheduler
+from bot.utils.schedulers import remove_scheduler, run_date_job
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -94,7 +100,13 @@ async def location_enter(
     location = await Location.objects.aget(pk=callback_data.id)
     success, text = await enter_location(user.character, location)
     if success:
-        await hunting_end_scheduler(user.character)
+        job = await run_date_job(
+            end_hunting,
+            user.character.hunting_end,
+            [user.character, callback.bot],
+        )
+        user.character.job_id = job.id
+        await user.character.asave(update_fields=("job_id",))
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=text,
@@ -265,4 +277,57 @@ async def location_character_kill_handler(
     await callback.message.edit_text(
         text=ATTACK_CHARACTER_MESSAGE.format(damage, 0),
         reply_markup=keyboard.as_markup(),
+    )
+
+
+@location_router.callback_query(
+    LocationData.filter(F.action == location_action.boss_list)
+)
+@log_in_dev
+async def location_boss_list_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: LocationData,
+):
+    """Хендлер списка боссов локации."""
+    paginator = await boss_list_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=BOSS_LIST_MESSAGE,
+        reply_markup=paginator,
+    )
+
+
+@location_router.callback_query(
+    LocationData.filter(F.action == location_action.boss_get)
+)
+@log_in_dev
+async def location_boss_get_handler(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: LocationData,
+):
+    """Хендлер списка боссов локации."""
+    keyboard = await boss_get_keyboard(callback_data)
+    boss = await LocationBoss.objects.aget(pk=callback_data.boss_id)
+    await callback.message.edit_text(
+        text=await get_location_boss_info(boss),
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@location_router.callback_query(
+    LocationData.filter(F.action == location_action.boss_accept)
+)
+@log_in_dev
+async def location_boss_accept_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: LocationData,
+):
+    """Коллбек принятия участия в охоте на босса."""
+    user = await get_user(callback.from_user.id)
+    boss = await LocationBoss.objects.aget(pk=callback_data.id)
+    success, text = await accept_location_boss_raid(boss, user.character)
+    await callback.message.edit_text(
+        text=text,
     )

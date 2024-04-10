@@ -52,6 +52,10 @@ class LocationAction(Action):
     characters_kill_confirm = f"{callback_data.LocationData.__prefix__}-chkico"
     characters_kill = f"{callback_data.LocationData.__prefix__}-chki"
 
+    boss_list = f"{callback_data.LocationData.__prefix__}-boli"
+    boss_get = f"{callback_data.LocationData.__prefix__}-boge"
+    boss_accept = f"{callback_data.LocationData.__prefix__}-boac"
+
 
 class BackpackAction(Action):
     """Действия для хендлеров инвентаря."""
