@@ -1,6 +1,6 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
-from character.models import RecipeShare
+from character.models import CharacterRecipe, RecipeShare
 
 from bot.command.buttons import MASTER_SHOP_BUTTON
 from bot.command.keyboards import user_created_keyboard
@@ -10,8 +10,10 @@ from bot.constants.callback_data import MasterShopData
 from bot.constants.states import MasterShopState
 from bot.master_shop.keyboards import (
     master_shop_choose_type_keyboard,
+    master_shop_craft_choose_type_keyboard,
     master_shop_craft_confirm_keyboard,
     master_shop_craft_keyboard,
+    master_shop_craft_list_keyboard,
     master_shop_get_keyboard,
     master_shop_list_keyboard,
     master_shop_preview_keyboard,
@@ -28,7 +30,11 @@ from bot.master_shop.messages import (
     RECIPE_SEARCH_MESSAGE,
     SEARCH_RECIPE_LIST_MESSAGE,
 )
-from bot.master_shop.utils import craft_item, get_share_recipe_info
+from bot.master_shop.utils import (
+    craft_item,
+    get_character_recipe_info,
+    get_share_recipe_info,
+)
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -230,4 +236,58 @@ async def search_recipe_list_callback(
     paginator = await master_shop_recipe_search_list_keyboard(callback_data)
     await callback.message.edit_text(
         text=SEARCH_RECIPE_LIST_MESSAGE, reply_markup=paginator
+    )
+
+
+@master_shop_router.callback_query(
+    MasterShopData.filter(F.action == master_shop_action.craft_choose_type)
+)
+@log_in_dev
+async def master_shop_craft_choose_type_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MasterShopData,
+):
+    """Коллбек меню Клана."""
+    user = await get_user(callback.from_user.id)
+    keyboard = await master_shop_craft_choose_type_keyboard(user.character)
+    await callback.message.edit_text(
+        text=MASTER_SHOP_CHOOSE_TYPE_MESSAGE,
+        reply_markup=keyboard.as_markup(),
+    )
+
+
+@master_shop_router.callback_query(
+    MasterShopData.filter(F.action == master_shop_action.craft_list)
+)
+@log_in_dev
+async def master_shop_craft_list_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MasterShopData,
+):
+    """Коллбек получения предмета в инвентаре."""
+    paginator = await master_shop_craft_list_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=MASTER_SHOP_LIST_MESSAGE, reply_markup=paginator
+    )
+
+
+@master_shop_router.callback_query(
+    MasterShopData.filter(F.action == master_shop_action.craft_get)
+)
+@log_in_dev
+async def master_shop_craft_get_callback(
+    callback: types.CallbackQuery,
+    state: FSMContext,
+    callback_data: MasterShopData,
+):
+    """Коллбек меню Клана."""
+    character_recipe = await CharacterRecipe.objects.select_related(
+        "character", "recipe", "recipe__create"
+    ).aget(pk=callback_data.id)
+    keyboard = await master_shop_get_keyboard(callback_data)
+    await callback.message.edit_text(
+        text=await get_character_recipe_info(character_recipe),
+        reply_markup=keyboard.as_markup(),
     )

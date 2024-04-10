@@ -1,1 +1,0 @@
-CRAFT_BUTTON = "Создать"

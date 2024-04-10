@@ -15,7 +15,6 @@ from loguru import logger
 from redis.asyncio.client import Redis
 
 from bot.character.backpack.handlers import backpack_router
-from bot.character.craft.handlers import craft_router
 from bot.character.handlers import character_router
 from bot.character.shop.handlers import shop_router
 from bot.character.skills.handlers import character_skills_router
@@ -71,7 +70,6 @@ class AiogramApp:
             location_router,
             backpack_router,
             shop_router,
-            craft_router,
             marketplace_router,
             premium_router,
             clan_router,

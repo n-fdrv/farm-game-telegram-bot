@@ -3,18 +3,15 @@ from character.models import Character, CharacterSkill, SkillType
 
 from bot.character.skills.buttons import (
     ACTIVE_BUTTON,
-    RECIPE_BUTTON,
     TOGGLE_OFF_BUTTON,
     TOGGLE_ON_BUTTON,
 )
 from bot.command.buttons import BACK_BUTTON
 from bot.constants.actions import (
     character_action,
-    craft_action,
 )
 from bot.constants.callback_data import (
     CharacterData,
-    CraftData,
 )
 from bot.utils.paginator import Paginator
 
@@ -50,11 +47,6 @@ async def skill_list_keyboard(
 async def skill_get_keyboard(character_skill: CharacterSkill):
     """Клавиатура выбора класса персонажа."""
     keyboard = InlineKeyboardBuilder()
-    if character_skill.skill.name == "Мастер Создания":
-        keyboard.button(
-            text=RECIPE_BUTTON,
-            callback_data=CraftData(action=craft_action.list),
-        )
     if character_skill.skill.type == SkillType.TOGGLE:
         button_text = TOGGLE_ON_BUTTON
         if character_skill.turn_on:

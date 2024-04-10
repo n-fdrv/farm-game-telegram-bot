@@ -1,11 +1,17 @@
 import random
 
-from character.models import Character, CharacterItem, RecipeShare
+from character.models import (
+    Character,
+    CharacterItem,
+    CharacterRecipe,
+    RecipeShare,
+)
 from django.conf import settings
 from item.models import Item, Recipe
 from loguru import logger
 
 from bot.master_shop.messages import (
+    CHARACTER_RECIPE_GET_MESSAGE,
     FAIL_CRAFT_MESSAGE,
     NOT_ENOUGH_ITEMS_MESSAGE,
     RECIPE_SHARE_GET_MESSAGE,
@@ -55,6 +61,17 @@ async def get_share_recipe_info(
     )
 
 
+async def get_character_recipe_info(character_recipe: CharacterRecipe) -> str:
+    """Получение информации о рецепте."""
+    return CHARACTER_RECIPE_GET_MESSAGE.format(
+        character_recipe.recipe.name_with_chance,
+        await get_item_effects(character_recipe.recipe.create),
+        await get_recipe_materials(
+            character_recipe.character, character_recipe.recipe
+        ),
+    )
+
+
 async def check_crafting_items(
     character: Character, recipe: [RecipeShare, Recipe]
 ):
@@ -90,7 +107,7 @@ async def craft_item(
         master_telegram_id = await User.objects.values_list(
             "telegram_id", flat=True
         ).aget(character=recipe.character_recipe.character)
-        if bot:
+        if bot and character != recipe.character_recipe.character:
             await bot.send_message(
                 chat_id=master_telegram_id,
                 text=SHARE_RECIPE_USED_MESSAGE_TO_MASTER.format(

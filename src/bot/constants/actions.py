@@ -95,6 +95,7 @@ class MasterShopAction(Action):
     search_recipe = f"{callback_data.MasterShopData.__prefix__}-sere"
     search_recipe_list = f"{callback_data.MasterShopData.__prefix__}-sereli"
 
+    craft_choose_type = f"{callback_data.MasterShopData.__prefix__}-crchty"
     craft_list = f"{callback_data.MasterShopData.__prefix__}-crli"
     craft_get = f"{callback_data.MasterShopData.__prefix__}-crge"
     craft_confirm = f"{callback_data.MasterShopData.__prefix__}-crco"
@@ -103,12 +104,6 @@ class MasterShopAction(Action):
     add_recipe_list = f"{callback_data.MasterShopData.__prefix__}-adreli"
 
     recipe_list = f"{callback_data.MasterShopData.__prefix__}-reli"
-
-
-class CraftAction(Action):
-    """Действия для хендлеров создания."""
-
-    pass
 
 
 class PremiumAction(Action):
@@ -227,7 +222,6 @@ character_action = CharacterAction(callback_data.CharacterData.__prefix__)
 location_action = LocationAction(callback_data.LocationData.__prefix__)
 backpack_action = BackpackAction(callback_data.BackpackData.__prefix__)
 shop_action = ShopAction(callback_data.ShopData.__prefix__)
-craft_action = CraftAction(callback_data.CraftData.__prefix__)
 marketplace_action = MarketplaceAction(
     callback_data.MarketplaceData.__prefix__
 )

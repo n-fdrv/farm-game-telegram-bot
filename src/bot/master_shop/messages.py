@@ -45,3 +45,8 @@ RECIPE_SEARCH_AMOUNT_MESSAGE = (
 )
 
 SEARCH_RECIPE_LIST_MESSAGE = "🔎 Поиск\n\n" "Список найденных рецептов:"
+
+
+CHARACTER_RECIPE_GET_MESSAGE = (
+    "<b>{}</b>\n" "<b>{}</b>\n" "<i>Требуемые Материалы:</i> <b>{}</b>"
+)

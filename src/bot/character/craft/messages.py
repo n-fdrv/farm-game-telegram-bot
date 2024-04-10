@@ -1,5 +1,0 @@
-CRAFTING_LIST_MESSAGE = "Список доступных предметов"
-CRAFTING_GET_MESSAGE = "<b>{}</b>\n" "{}\n" "Требуемые материалы:\n{}"
-NOT_ENOUGH_ITEMS_MESSAGE = "Недостаточно предметов для изготовления"
-SUCCESS_CRAFT_MESSAGE = "Вы успешно создали предмет: {}!"
-NOT_SUCCESS_CRAFT_MESSAGE = "Создание предмета: {} - не удалось!"

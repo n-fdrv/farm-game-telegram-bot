@@ -47,12 +47,6 @@ class ShopData(BaseCallbackData, prefix="sh"):
     amount: Optional[int] = 1
 
 
-class CraftData(BaseCallbackData, prefix="cra"):
-    """Данные для хенжлеров создания."""
-
-    pass
-
-
 class MarketplaceData(BaseCallbackData, prefix="mp"):
     """Данные для хендлеров торговой площадки.."""
 
@@ -97,6 +91,7 @@ class MasterShopData(BaseCallbackData, prefix="mash"):
     """Данные для хендлеров мастерской."""
 
     type: Optional[str] = None
+    character_id: Optional[int] = None
     name_contains: Optional[str] = None
     back_action: Optional[str] = None
 
@@ -107,7 +102,6 @@ CALLBACK_DATA_PREFIX = {
     BackpackData.__prefix__: BackpackData,
     ShopData.__prefix__: ShopData,
     MarketplaceData.__prefix__: MarketplaceData,
-    CraftData.__prefix__: CraftData,
     PremiumData.__prefix__: PremiumData,
     ClanData.__prefix__: ClanData,
     TopData.__prefix__: TopData,
