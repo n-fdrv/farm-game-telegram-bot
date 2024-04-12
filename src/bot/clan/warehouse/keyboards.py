@@ -122,7 +122,6 @@ async def clan_warehouse_get_keyboard(
                 id=callback_data.id,
                 item_id=callback_data.item_id,
                 type=callback_data.type,
-                page=callback_data.page,
                 amount=callback_data.amount,
             ),
         )
@@ -131,7 +130,6 @@ async def clan_warehouse_get_keyboard(
         callback_data=ClanWarehouseData(
             action=clan_warehouse_action.list,
             id=callback_data.id,
-            page=callback_data.page,
             type=callback_data.type,
         ),
     )
@@ -165,6 +163,7 @@ async def clan_warehouse_send_list_keyboard(callback_data: ClanWarehouseData):
         action=clan_warehouse_action.send_list,
         size=6,
         page=callback_data.page,
+        id=callback_data.id,
     )
     return paginator.get_paginator_with_buttons_list(
         [
