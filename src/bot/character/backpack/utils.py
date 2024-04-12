@@ -252,10 +252,11 @@ async def use_book(character: Character, item: Item):
         return False, NOT_CORRECT_CHARACTER_CLASS_MESSAGE
     if character.level < book.required_level:
         return False, NOT_ENOUGH_CHARACTER_LEVEL_MESSAGE
-    if not await character.skills.filter(
-        name=book.required_skill.name, level=book.required_skill.level
-    ).aexists():
-        return False, NOT_CORRECT_CHARACTER_SKILL_MESSAGE
+    if book.required_skill:
+        if not await character.skills.filter(
+            name=book.required_skill.name, level=book.required_skill.level
+        ).aexists():
+            return False, NOT_CORRECT_CHARACTER_SKILL_MESSAGE
     if await character.skills.filter(
         name=book.skill.name, level=book.skill.level
     ).aexists():

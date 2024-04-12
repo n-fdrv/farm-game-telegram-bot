@@ -179,6 +179,7 @@ async def master_shop_craft_confirm_keyboard(callback_data: MasterShopData):
             type=callback_data.type,
             page=callback_data.page,
             back_action=callback_data.back_action,
+            character_id=callback_data.character_id,
         ),
     )
     keyboard.button(
@@ -188,6 +189,7 @@ async def master_shop_craft_confirm_keyboard(callback_data: MasterShopData):
             id=callback_data.id,
             type=callback_data.type,
             page=callback_data.page,
+            character_id=callback_data.character_id,
         ),
     )
     keyboard.adjust(2)
@@ -205,6 +207,7 @@ async def master_shop_craft_keyboard(callback_data: MasterShopData):
             type=callback_data.type,
             page=callback_data.page,
             back_action=callback_data.back_action,
+            character_id=callback_data.character_id,
         ),
     )
     keyboard.button(
@@ -214,6 +217,7 @@ async def master_shop_craft_keyboard(callback_data: MasterShopData):
             id=callback_data.id,
             type=callback_data.type,
             page=callback_data.page,
+            character_id=callback_data.character_id,
         ),
     )
     keyboard.adjust(1)

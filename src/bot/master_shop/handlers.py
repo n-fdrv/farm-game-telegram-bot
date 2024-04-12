@@ -188,15 +188,19 @@ async def master_shop_craft_callback(
 ):
     """Коллбек меню Клана."""
     user = await get_user(callback.from_user.id)
-    recipe_share = await RecipeShare.objects.select_related(
-        "character_recipe__character",
-        "character_recipe__character__clan",
-        "character_recipe__recipe",
-        "character_recipe__recipe__create",
-    ).aget(pk=callback_data.id)
-    success, text = await craft_item(
-        user.character, recipe_share, callback.bot
-    )
+    if callback_data.back_action == master_shop_action.craft_list:
+        character_recipe = await CharacterRecipe.objects.select_related(
+            "recipe", "recipe__create"
+        ).aget(pk=callback_data.id)
+        recipe = character_recipe.recipe
+    else:
+        recipe = await RecipeShare.objects.select_related(
+            "character_recipe__character",
+            "character_recipe__character__clan",
+            "character_recipe__recipe",
+            "character_recipe__recipe__create",
+        ).aget(pk=callback_data.id)
+    success, text = await craft_item(user.character, recipe, callback.bot)
     keyboard = await master_shop_craft_keyboard(callback_data)
     await callback.message.edit_text(
         text=text,
