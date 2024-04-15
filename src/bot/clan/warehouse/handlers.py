@@ -124,7 +124,7 @@ async def clan_warehouse_send_amount_handler(
         keyboard = await enter_amount_keyboard(callback_data)
         await callback.message.edit_text(
             text=ENTER_AMOUNT_MESSAGE.format(
-                item.name_with_enhance, character.name_with_class
+                item.name_with_enhance, character.name_with_class, item.amount
             ),
             reply_markup=keyboard.as_markup(),
         )

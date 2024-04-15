@@ -137,6 +137,7 @@ async def backpack_put_amount(
             text=ENTER_AMOUNT_TO_CLAN_MESSAGE.format(
                 character_item.name_with_enhance,
                 character_item.character.clan.name_with_emoji,
+                character_item.amount,
             ),
             reply_markup=keyboard.as_markup(),
         )

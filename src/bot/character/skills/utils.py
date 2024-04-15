@@ -31,9 +31,15 @@ async def get_skill_info(character_skill: CharacterSkill):
             active = "✅Включена"
         skill_type += f" ({active})"
     elif character_skill.skill.type == SkillType.ACTIVE:
+        effect_time = ""
+        if character_skill.skill.effect_time:
+            effect_time = (
+                "<i>⏳Длительность:</i> "
+                f"<b>{character_skill.skill.effect_time}</b>\n"
+            )
         add_info = ACTIVE_SKILL_INFO_MESSAGE.format(
             character_skill.skill.mana_cost,
-            character_skill.skill.effect_time,
+            effect_time,
             character_skill.skill.cooldown,
         )
         cooldown = "✅Готова к использованию"
