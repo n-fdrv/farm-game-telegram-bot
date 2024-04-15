@@ -6,6 +6,7 @@ from item.models import (
     Bag,
     BagItem,
     Book,
+    Bracelet,
     CraftingItem,
     Effect,
     Etc,
@@ -77,6 +78,13 @@ class ArmorAdmin(BaseEquipmentAdmin):
 
 @admin.register(Weapon)
 class WeaponAdmin(BaseEquipmentAdmin):
+    """Управление моделью предметов."""
+
+    pass
+
+
+@admin.register(Bracelet)
+class BraceletAdmin(BaseEquipmentAdmin):
     """Управление моделью предметов."""
 
     pass

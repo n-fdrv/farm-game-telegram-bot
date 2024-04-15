@@ -240,6 +240,7 @@ async def backpack_equip_handler(
     equip_item_data = {
         ItemType.WEAPON: equip_item,
         ItemType.ARMOR: equip_item,
+        ItemType.BRACELET: equip_item,
         ItemType.TALISMAN: equip_talisman,
     }
     success, text = await equip_item_data[character_item.item.type](

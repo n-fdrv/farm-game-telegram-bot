@@ -82,6 +82,10 @@ async def equip_item(item: CharacterItem):
     ]:
         return False, NOT_CORRECT_EQUIPMENT_TYPE_MESSAGE
     if item.equipped:
+        if equipment.type == ItemType.BRACELET:
+            await CharacterItem.objects.select_related("item").filter(
+                item__type=ItemType.TALISMAN
+            ).aupdate(equipped=False)
         item.equipped = False
         await item.asave(update_fields=("equipped",))
         return True, UNEQUIP_MESSAGE
@@ -108,12 +112,11 @@ async def equip_talisman(item: CharacterItem):
         await item.asave(update_fields=("equipped",))
         return True, UNEQUIP_MESSAGE
     character = item.character
-    bracelet_name = "Браслет"
+
     if not await CharacterItem.objects.filter(
-        character=character, item__name=bracelet_name, equipped=True
+        character=character, item__type=ItemType.BRACELET, equipped=True
     ).aexists():
         return False, NO_BRACELET_MESSAGE
-
     talisman = await Talisman.objects.aget(pk=item.item.pk)
     type_equipped = await CharacterItem.objects.filter(
         character=character, equipped=True, item=talisman
@@ -124,13 +127,16 @@ async def equip_talisman(item: CharacterItem):
         ).aget(character=character, item=talisman, equipped=True)
         equipped_item.equipped = False
         await equipped_item.asave(update_fields=("equipped",))
-    bracelet = await CharacterItem.objects.aget(
-        character=character, item__name=bracelet_name, equipped=True
+    bracelet = await CharacterItem.objects.select_related("item").aget(
+        character=character, item__type=ItemType.BRACELET, equipped=True
     )
+    can_wear_amount = await bracelet.item.effects.values_list(
+        "amount", flat=True
+    ).aget(property=EffectProperty.TALISMAN_AMOUNT)
     talisman_equipped_amount = await CharacterItem.objects.filter(
         character=character, item__type=ItemType.TALISMAN, equipped=True
     ).acount()
-    if talisman_equipped_amount == bracelet.enhancement_level + 1:
+    if talisman_equipped_amount >= can_wear_amount:
         return False, NOT_ENOUGH_BRACELET_LEVEL_MESSAGE.format(
             talisman_equipped_amount
         )
@@ -277,8 +283,10 @@ async def open_bag(character: Character, item: Item, amount: int = 1):
     bag = await Bag.objects.aget(pk=item.pk)
     drop_data = {}
     item_data = []
-    async for bag_item in BagItem.objects.select_related("item").filter(
-        bag=bag
+    async for bag_item in (
+        BagItem.objects.select_related("item")
+        .filter(bag=bag)
+        .order_by("-chance")
     ):
         item_data.extend([bag_item.item] * bag_item.chance)
     for _i in range(amount):

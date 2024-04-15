@@ -29,7 +29,10 @@ async def start_handler(message: types.Message, state: FSMContext):
         await message.bot.leave_chat(chat_id=message.chat.id)
         return
     user, created = await User.objects.select_related(
-        "character", "character__character_class", "character__clan"
+        "character",
+        "character__character_class",
+        "character__clan",
+        "character__current_location",
     ).aget_or_create(
         telegram_id=message.from_user.id,
     )

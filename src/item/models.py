@@ -7,6 +7,7 @@ class ItemType(models.TextChoices):
     """Типы информационных карт."""
 
     ARMOR = "armor", "🛡Броня"
+    BRACELET = "bracelet", "💍Браслет"
     BOOK = "book", "📕Книга"
     WEAPON = "weapon", "⚔️Оружие"
     POTION = "potion", "🌡Эликсир"
@@ -45,10 +46,11 @@ class EffectProperty(models.TextChoices):
     EXP = "exp", "🔮Опыт"
     DROP = "drop", "🍀Выпадение предметов"
     HUNTING_TIME = "hunting_time", "⏳Время охоты"
-    PVP = "pvp", "🩸Победа в PvP"
+    PVP = "pvp", "🩸Урон в PvP"
+    TALISMAN_AMOUNT = "talisman_amount", "⭐️Количество Талисманов"
     MASS_ATTACK = "mass_attack", "⚡️Массовая Атака"
     NO_DEATH_EXP = "no_death_exp", "🪦Без потери опыта при смерти"
-    EVASION = "evasion", "🥾Шанс избежать PvP"
+    EVASION = "evasion", "🥾Уклонение"
     INVISIBLE = "invisible", "💨Невидимость"
 
 
@@ -144,6 +146,16 @@ class Weapon(Equipment):
     class Meta:
         verbose_name = "Оружие"
         verbose_name_plural = "Оружия"
+
+
+class Bracelet(Equipment):
+    """Модель хранения оружия."""
+
+    pass
+
+    class Meta:
+        verbose_name = "Браслет"
+        verbose_name_plural = "Браслеты"
 
 
 class Talisman(Item):
