@@ -124,7 +124,12 @@ async def get_bag_loot(item: Item) -> str:
     )
     async for drop in BagItem.objects.select_related("item").filter(bag=item):
         chance = round(drop.chance / all_chance * 100, 2)
-        text += f"<b>{drop.item.name_with_type}</b> - {chance}%\n"
+        amount = ""
+        if drop.amount > 1:
+            amount = f" ({drop.amount} шт.) "
+        text += (
+            f"<i>{drop.item.name_with_type} {amount}</i> - <b>{chance}%</b>\n"
+        )
     return text
 
 
@@ -164,30 +169,41 @@ async def get_lots_info(
 
 
 async def get_item_info_text(
-    item: [CharacterItem, MarketplaceItem, ClanWarehouse, Item]
+    item_data: [CharacterItem, MarketplaceItem, ClanWarehouse, Item]
 ):
     """Метод получения текста информации о товаре."""
     add_info_data = {ItemType.BAG: get_bag_loot, ItemType.BOOK: get_book_info}
-    additional_info = await get_item_effects(item)
-    if item.item.type in add_info_data.keys():
-        additional_info += await add_info_data[item.item.type](item.item)
+    additional_info = await get_item_effects(item_data)
+    name = item_data
+    amount = 1
+    gold_lots = ""
+    diamonds_lots = ""
+    item = item_data
+    if type(item_data) is not Item:
+        name = item_data.name_with_enhance
+        amount = item_data.amount
+        item = item_data.item
+        gold_lots = await get_lots_info(item_data, settings.GOLD_NAME)
+        diamonds_lots = await get_lots_info(item_data, settings.DIAMOND_NAME)
+    if item.type in add_info_data.keys():
+        additional_info += await add_info_data[item.type](item)
     equipped = ""
 
-    if type(item) is CharacterItem:
-        if item.equipped:
+    if type(item_data) is CharacterItem:
+        if item_data.equipped:
             equipped = "\n⤴️Экипировано"
     shop_text = ""
-    if item.item.buy_price:
-        shop_text += f"<i>Покупка:</i> <b>{item.item.buy_price}🟡</b> | "
-    if item.item.sell_price:
-        shop_text += f"<i>Продажа:</i> <b>{item.item.sell_price}🟡</b>"
+    if item.buy_price:
+        shop_text += f"<i>Покупка:</i> <b>{item.buy_price}🟡</b> | "
+    if item.sell_price:
+        shop_text += f"<i>Продажа:</i> <b>{item.sell_price}🟡</b>"
     return ITEM_GET_MESSAGE.format(
-        item.name_with_enhance,
-        item.amount,
+        name,
+        amount,
         equipped,
-        item.item.description,
+        item.description,
         additional_info,
         shop_text,
-        await get_lots_info(item, settings.GOLD_NAME),
-        await get_lots_info(item, settings.DIAMOND_NAME),
+        gold_lots,
+        diamonds_lots,
     )

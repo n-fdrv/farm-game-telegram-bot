@@ -9,8 +9,11 @@ from item.models import (
     Bracelet,
     CraftingItem,
     Effect,
+    EffectSlug,
     Etc,
+    Item,
     ItemEffect,
+    ItemType,
     Material,
     Potion,
     Recipe,
@@ -26,6 +29,23 @@ class ItemEffectInline(admin.TabularInline):
     model = ItemEffect
     extra = 1
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Effect.objects.filter(slug=EffectSlug.ITEM)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class PotionEffectInline(admin.TabularInline):
+    """Инлайн модель эффектов предметов."""
+
+    model = ItemEffect
+    extra = 1
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Effect.objects.filter(slug=EffectSlug.POTION)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 class CraftingItemInline(admin.TabularInline):
     """Инлайн модель предметов крафта."""
@@ -34,6 +54,11 @@ class CraftingItemInline(admin.TabularInline):
     fk_name = "recipe"
     extra = 1
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Item.objects.filter(type=ItemType.MATERIAL)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 class BagItemInline(admin.TabularInline):
     """Инлайн модель предметов в мешке."""
@@ -41,7 +66,11 @@ class BagItemInline(admin.TabularInline):
     model = BagItem
     fk_name = "bag"
     extra = 1
-    ordering = ("item__type",)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Item.objects.order_by("type")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class BaseItemAdmin(DjangoObjectActions, admin.ModelAdmin):
@@ -115,7 +144,7 @@ class MaterialAdmin(BaseItemAdmin):
 class PotionAdmin(BaseItemAdmin):
     """Управление моделью эликсиров."""
 
-    pass
+    inlines = (PotionEffectInline,)
 
 
 @admin.register(Scroll)
@@ -170,10 +199,11 @@ class EffectAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью мешков."""
 
     list_display = (
+        "slug",
         "property",
         "amount",
         "in_percent",
     )
-    list_filter = ("property", "in_percent")
+    list_filter = ("property", "in_percent", "slug")
     list_display_links = ("property",)
     search_fields = ("property",)

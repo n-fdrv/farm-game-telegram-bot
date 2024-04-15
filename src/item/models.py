@@ -96,7 +96,9 @@ class Item(models.Model):
         verbose_name_plural = "Предметы"
 
     def __str__(self):
-        return f"{self.name}"
+        if self.type == ItemType.ETC:
+            return f"{self.name}"
+        return f"{self.get_type_display()[:1]}{self.name}"
 
     @property
     def name_with_type(self):
@@ -305,7 +307,8 @@ class BagItem(models.Model):
         verbose_name="Мешок",
         related_name="bag_items",
     )
-    chance = models.IntegerField(default=1, verbose_name="Количество в мешке")
+    chance = models.IntegerField(default=1, verbose_name="Шанс")
+    amount = models.IntegerField(default=1, verbose_name="Количество")
 
     class Meta:
         verbose_name = "Предмет в мешке"

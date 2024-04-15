@@ -3,6 +3,7 @@ import datetime
 from django.apps import apps
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
+from item.models import Effect, EffectSlug
 
 from character.models import (
     Character,
@@ -22,6 +23,7 @@ class CharacterSkillInline(admin.TabularInline):
 
     model = Character.skills.through
     extra = 1
+    classes = ("collapse",)
 
 
 class ClassSkillInline(admin.TabularInline):
@@ -43,6 +45,11 @@ class SkillEffectInline(admin.TabularInline):
 
     model = Skill.effects.through
     extra = 1
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Effect.objects.filter(slug=EffectSlug.SKILL)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 @admin.register(Skill)
@@ -78,6 +85,7 @@ class CharacterItemInline(admin.TabularInline):
 
     model = Character.items.through
     extra = 1
+    classes = ("collapse",)
 
 
 class CharacterRecipeInline(admin.TabularInline):
@@ -85,6 +93,7 @@ class CharacterRecipeInline(admin.TabularInline):
 
     model = Character.recipes.through
     extra = 1
+    classes = ("collapse",)
 
 
 class CharacterEffectInline(admin.TabularInline):
@@ -92,6 +101,7 @@ class CharacterEffectInline(admin.TabularInline):
 
     model = Character.effects.through
     extra = 1
+    classes = ("collapse",)
 
 
 @admin.register(Character)

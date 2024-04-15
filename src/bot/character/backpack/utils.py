@@ -172,11 +172,20 @@ async def use_potion(character: Character, item: Item):
         )
         return True, SUCCESS_USE_MESSAGE.format(item.name_with_type, amount)
     async for effect in potion.effects.all():
-        character_effect, created = (
-            await CharacterEffect.objects.aget_or_create(
-                character=character, effect=effect
-            )
+        (
+            character_effect,
+            created,
+        ) = await CharacterEffect.objects.select_related(
+            "effect"
+        ).aget_or_create(
+            character=character,
+            effect__property=effect.property,
+            effect__slug=effect.slug,
         )
+        if character_effect.effect.amount != effect.amount:
+            character_effect.effect = effect
+            character_effect.expired = timezone.now()
+            await character_effect.asave(update_fields=("effect",))
         if character_effect.expired < timezone.now():
             character_effect.expired = timezone.now()
         character_effect.expired += datetime.timedelta(
@@ -288,14 +297,16 @@ async def open_bag(character: Character, item: Item, amount: int = 1):
         .filter(bag=bag)
         .order_by("-chance")
     ):
-        item_data.extend([bag_item.item] * bag_item.chance)
+        item_data.extend([bag_item] * bag_item.chance)
     for _i in range(amount):
         chance = random.randint(0, len(item_data) - 1)
-        loot = item_data[chance]
-        await add_item(item=loot, character=character, amount=1)
-        if loot.name_with_type not in drop_data:
-            drop_data[loot.name_with_type] = 0
-        drop_data[loot.name_with_type] += 1
+        bag_item = item_data[chance]
+        await add_item(
+            item=bag_item.item, character=character, amount=bag_item.amount
+        )
+        if bag_item.item.name_with_type not in drop_data:
+            drop_data[bag_item.item.name_with_type] = 0
+        drop_data[bag_item.item.name_with_type] += bag_item.amount
     await remove_item(item=item, character=character, amount=amount)
     return drop_data
 

@@ -26,7 +26,6 @@ from bot.character.shop.messages import (
 )
 from bot.character.shop.utils import (
     buy_item,
-    get_shop_item_info_text,
     sell_item,
 )
 from bot.constants.actions import shop_action
@@ -109,7 +108,7 @@ async def shop_buy_get_handler(
     item = await Item.objects.aget(pk=callback_data.id)
     keyboard = await buy_get_keyboard(callback_data)
     await callback.message.edit_text(
-        text=await get_shop_item_info_text(item),
+        text=await get_item_info_text(item),
         reply_markup=keyboard.as_markup(),
     )
 
