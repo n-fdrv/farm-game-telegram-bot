@@ -174,8 +174,12 @@ class Character(models.Model):
     exp_for_level_up = models.IntegerField(
         default=500, verbose_name="Опыт для достижения уровня"
     )
-    attack = models.IntegerField(default=0, verbose_name="Атака")
-    defence = models.IntegerField(default=0, verbose_name="Защита")
+    attack = models.IntegerField(default=10, verbose_name="Атака")
+    defence = models.IntegerField(default=10, verbose_name="Защита")
+    crit_rate = models.IntegerField(default=10, verbose_name="Шанс Крита")
+    crit_power = models.IntegerField(default=100, verbose_name="Сила Крита")
+    evasion = models.IntegerField(default=10, verbose_name="Уклонение")
+    accuracy = models.IntegerField(default=10, verbose_name="Точность")
     health = models.IntegerField(default=20, verbose_name="Здоровье")
     max_health = models.IntegerField(default=20, verbose_name="Макс здоровье")
     mana = models.IntegerField(default=20, verbose_name="Мана")

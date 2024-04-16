@@ -166,6 +166,10 @@ async def get_character_property(
         EffectProperty.HUNTING_TIME: character.max_hunting_time,
         EffectProperty.MAX_HEALTH: character.max_health,
         EffectProperty.MAX_MANA: character.max_mana,
+        EffectProperty.EVASION: character.evasion,
+        EffectProperty.ACCURACY: character.accuracy,
+        EffectProperty.CRIT_RATE: character.crit_rate,
+        EffectProperty.CRIT_POWER: character.crit_power,
     }
     chosen_property = property_data[effect_property]
     if effect_property == EffectProperty.HUNTING_TIME:
@@ -181,10 +185,26 @@ async def get_character_property(
         chosen_property += await get_property_amount(
             character, effect_property
         )
-        return chosen_property
+        return round(chosen_property, 2)
     chosen_property += await get_property_amount(character, effect_property)
     chosen_property *= await get_property_modifier(character, effect_property)
     return round(chosen_property, 2)
+
+
+async def get_character_power(character: Character) -> int:
+    """Получение силы Персонажа."""
+    power_data = [
+        await get_character_property(character, EffectProperty.ATTACK),
+        await get_character_property(character, EffectProperty.DEFENCE),
+        await get_character_property(character, EffectProperty.EVASION),
+        await get_character_property(character, EffectProperty.ACCURACY),
+        await get_character_property(character, EffectProperty.CRIT_RATE),
+        await get_character_property(character, EffectProperty.CRIT_POWER)
+        / 10,
+        await get_character_property(character, EffectProperty.MAX_HEALTH),
+        await get_character_property(character, EffectProperty.MAX_MANA),
+    ]
+    return int(sum(power_data))
 
 
 async def get_character_info(character: Character) -> str:
@@ -214,6 +234,7 @@ async def get_character_info(character: Character) -> str:
         hp_text = TURN_ON_TEXT
     if character.auto_use_mp_potion:
         mp_text = TURN_ON_TEXT
+
     return CHARACTER_INFO_MESSAGE.format(
         character.name_with_class,
         character.level,
@@ -221,8 +242,7 @@ async def get_character_info(character: Character) -> str:
         clan,
         f"{character.health}/{int(max_health)}",
         f"{character.mana}/{int(max_mana)}",
-        int(await get_character_property(character, EffectProperty.ATTACK)),
-        int(await get_character_property(character, EffectProperty.DEFENCE)),
+        await get_character_power(character),
         location,
         hp_text,
         mp_text,
@@ -301,11 +321,20 @@ async def get_character_about(character: Character) -> str:
         character.level,
         exp_in_percent,
         clan,
+        character.kills,
         f"{character.health}/{int(max_health)}",
         f"{character.mana}/{int(max_mana)}",
         int(await get_character_property(character, EffectProperty.ATTACK)),
         int(await get_character_property(character, EffectProperty.DEFENCE)),
-        character.kills,
+        int(await get_character_property(character, EffectProperty.ACCURACY)),
+        int(await get_character_property(character, EffectProperty.EVASION)),
+        int(
+            await get_character_property(character, EffectProperty.CRIT_RATE)
+            / 10
+        ),
+        int(
+            await get_character_property(character, EffectProperty.CRIT_POWER)
+        ),
         premium_expired,
         round(
             await get_character_property(character, EffectProperty.EXP) * 100

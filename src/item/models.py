@@ -51,6 +51,9 @@ class EffectProperty(models.TextChoices):
     MASS_ATTACK = "mass_attack", "⚡️Массовая Атака"
     NO_DEATH_EXP = "no_death_exp", "🪦Без потери опыта при смерти"
     EVASION = "evasion", "🥾Уклонение"
+    ACCURACY = "accuracy", "🎯Точность"
+    CRIT_RATE = "crit_race", "🎲Шанс Критического Удара"
+    CRIT_POWER = "crit_power", "♦️Сила Критического Удара"
     INVISIBLE = "invisible", "💨Невидимость"
 
 
