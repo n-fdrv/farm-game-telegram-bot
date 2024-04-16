@@ -6565,6 +6565,331 @@
  }
 },
 {
+ "model": "admin.logentry",
+ "pk": 506,
+ "fields": {
+  "action_time": "2024-04-16T12:31:16.591Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "50",
+  "object_repr": "Набор Эликсиров Ур. 1 | Эликсир Удачи Ур. 1 - ⏳Время охоты: 10%",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 507,
+ "fields": {
+  "action_time": "2024-04-16T12:33:05.405Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "56",
+  "object_repr": " - 🍀Выпадение предметов: 10%",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 508,
+ "fields": {
+  "action_time": "2024-04-16T12:33:07.334Z",
+  "user": 1,
+  "content_type": 33,
+  "object_id": "6",
+  "object_repr": "Улучшенное Чутье Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043f\\u043e\\u0441\\u043e\\u0431\\u043d\\u043e\\u0441\\u0442\\u0438\", \"object\": \"\\u0423\\u043b\\u0443\\u0447\\u0448\\u0435\\u043d\\u043d\\u043e\\u0435 \\u0427\\u0443\\u0442\\u044c\\u0435 \\u0423\\u0440. 1  - \\ud83c\\udf40\\u0412\\u044b\\u043f\\u0430\\u0434\\u0435\\u043d\\u0438\\u0435 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u043e\\u0432: 10%\"}}, {\"deleted\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u0441\\u043f\\u043e\\u0441\\u043e\\u0431\\u043d\\u043e\\u0441\\u0442\\u0438\", \"object\": \"\\u0423\\u043b\\u0443\\u0447\\u0448\\u0435\\u043d\\u043d\\u043e\\u0435 \\u0427\\u0443\\u0442\\u044c\\u0435 \\u0423\\u0440. 1 \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 | \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0423\\u0434\\u0430\\u0447\\u0438 \\u0423\\u0440. 1 - \\ud83c\\udf40\\u0412\\u044b\\u043f\\u0430\\u0434\\u0435\\u043d\\u0438\\u0435 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u043e\\u0432: 10%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 509,
+ "fields": {
+  "action_time": "2024-04-16T12:33:20.934Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "54",
+  "object_repr": "Талисман Удачи - 🍀Выпадение предметов: 10%",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 510,
+ "fields": {
+  "action_time": "2024-04-16T12:33:20.937Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "15",
+  "object_repr": "Набор Эликсиров Ур. 1 | Эликсир Удачи Ур. 1 - 🍀Выпадение предметов: 10%",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 511,
+ "fields": {
+  "action_time": "2024-04-16T12:33:51.827Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "53",
+  "object_repr": "Талисман Выносливости - ⏳Время охоты: 10%",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 512,
+ "fields": {
+  "action_time": "2024-04-16T12:35:39.623Z",
+  "user": 1,
+  "content_type": 16,
+  "object_id": "55",
+  "object_repr": "⭐Талисман Выносливости",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 513,
+ "fields": {
+  "action_time": "2024-04-16T12:35:39.625Z",
+  "user": 1,
+  "content_type": 16,
+  "object_id": "54",
+  "object_repr": "⭐Талисман Удачи",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 514,
+ "fields": {
+  "action_time": "2024-04-16T12:36:38.025Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "113",
+  "object_repr": "🌡Эликсир Удачи Ур. 1",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 515,
+ "fields": {
+  "action_time": "2024-04-16T12:38:26.548Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "57",
+  "object_repr": " - 🎯Точность: 10%",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 516,
+ "fields": {
+  "action_time": "2024-04-16T12:38:41.459Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "119",
+  "object_repr": "🌡Эликсир Точности Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0422\\u043e\\u0447\\u043d\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0422\\u043e\\u0447\\u043d\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 - \\ud83c\\udfaf\\u0422\\u043e\\u0447\\u043d\\u043e\\u0441\\u0442\\u044c: 10%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 517,
+ "fields": {
+  "action_time": "2024-04-16T12:38:57.061Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "119",
+  "object_repr": "🌡Эликсир Точности Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u043e\\u0438\\u043c\\u043e\\u0441\\u0442\\u044c \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0438\", \"\\u0421\\u0442\\u043e\\u0438\\u043c\\u043e\\u0441\\u0442\\u044c \\u043f\\u0440\\u043e\\u0434\\u0430\\u0436\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 518,
+ "fields": {
+  "action_time": "2024-04-16T12:39:22.804Z",
+  "user": 1,
+  "content_type": 8,
+  "object_id": "58",
+  "object_repr": " - 🥾Уклонение: 10%",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 519,
+ "fields": {
+  "action_time": "2024-04-16T12:39:23.771Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "120",
+  "object_repr": "Эликсир Уклонения",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0423\\u043a\\u043b\\u043e\\u043d\\u0435\\u043d\\u0438\\u044f \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0423\\u043a\\u043b\\u043e\\u043d\\u0435\\u043d\\u0438\\u044f - \\ud83e\\udd7e\\u0423\\u043a\\u043b\\u043e\\u043d\\u0435\\u043d\\u0438\\u0435: 10%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 520,
+ "fields": {
+  "action_time": "2024-04-16T12:39:45.272Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "110",
+  "object_repr": "🌡Эликсир Атаки Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u043c\\u044f\"]}}, {\"deleted\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0410\\u0442\\u0430\\u043a\\u0438 \\u0423\\u0440. 1 \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 - \\ud83d\\udee1\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430: 10%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 521,
+ "fields": {
+  "action_time": "2024-04-16T12:39:52.617Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "120",
+  "object_repr": "Эликсир Уклонения Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u043c\\u044f\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 522,
+ "fields": {
+  "action_time": "2024-04-16T12:40:34.164Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "121",
+  "object_repr": "🌡Эликсир Защиты Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0417\\u0430\\u0449\\u0438\\u0442\\u044b \\u0423\\u0440. 1 \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 | \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0417\\u0430\\u0449\\u0438\\u0442\\u044b \\u0423\\u0440. 1 - \\ud83d\\udee1\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430: 10%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 523,
+ "fields": {
+  "action_time": "2024-04-16T12:40:54.528Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "120",
+  "object_repr": "Эликсир Уклонения Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u043e\\u0438\\u043c\\u043e\\u0441\\u0442\\u044c \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 524,
+ "fields": {
+  "action_time": "2024-04-16T12:41:05.177Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "119",
+  "object_repr": "🌡Эликсир Точности Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u043e\\u0438\\u043c\\u043e\\u0441\\u0442\\u044c \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 525,
+ "fields": {
+  "action_time": "2024-04-16T12:41:24.310Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "116",
+  "object_repr": "🌡Набор Эликсиров Ур. 1",
+  "action_flag": 3,
+  "change_message": ""
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 526,
+ "fields": {
+  "action_time": "2024-04-16T12:42:16.174Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "122",
+  "object_repr": "🌡Набор Эликсиров Ур. 1",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0417\\u0430\\u0449\\u0438\\u0442\\u044b \\u0423\\u0440. 1 | \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 - \\ud83d\\udee1\\u0417\\u0430\\u0449\\u0438\\u0442\\u0430: 10%\"}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u041c\\u0443\\u0434\\u0440\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 - \\ud83d\\udd2e\\u041e\\u043f\\u044b\\u0442: 10%\"}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0410\\u0442\\u0430\\u043a\\u0438 \\u0423\\u0440. 1 | \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 - \\ufe0f\\u2694\\ufe0f\\u0410\\u0442\\u0430\\u043a\\u0430: 10%\"}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0412\\u044b\\u043d\\u043e\\u0441\\u043b\\u0438\\u0432\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 - \\u2764\\ufe0f\\u0423\\u0432\\u0435\\u043b\\u0438\\u0447\\u0435\\u043d\\u0438\\u0435 \\u0417\\u0434\\u043e\\u0440\\u043e\\u0432\\u044c\\u044f: 10%\"}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0412\\u044b\\u043d\\u043e\\u0441\\u043b\\u0438\\u0432\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 - \\ud83d\\udd37\\u0423\\u0432\\u0435\\u043b\\u0438\\u0447\\u0435\\u043d\\u0438\\u0435 \\u041c\\u0430\\u043d\\u044b: 10%\"}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0422\\u043e\\u0447\\u043d\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 - \\ud83c\\udfaf\\u0422\\u043e\\u0447\\u043d\\u043e\\u0441\\u0442\\u044c: 10%\"}}, {\"added\": {\"name\": \"\\u042d\\u0444\\u0444\\u0435\\u043a\\u0442 \\u043f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\\u0430\", \"object\": \"\\ud83c\\udf21\\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0423\\u043a\\u043b\\u043e\\u043d\\u0435\\u043d\\u0438\\u044f \\u0423\\u0440. 1 | \\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 - \\ud83e\\udd7e\\u0423\\u043a\\u043b\\u043e\\u043d\\u0435\\u043d\\u0438\\u0435: 10%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 527,
+ "fields": {
+  "action_time": "2024-04-16T12:42:27.654Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "112",
+  "object_repr": "🌡Эликсир Выносливости Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u043e\\u0438\\u043c\\u043e\\u0441\\u0442\\u044c \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 528,
+ "fields": {
+  "action_time": "2024-04-16T12:42:33.650Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "111",
+  "object_repr": "🌡Эликсир Мудрости Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0421\\u0442\\u043e\\u0438\\u043c\\u043e\\u0441\\u0442\\u044c \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0438\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 529,
+ "fields": {
+  "action_time": "2024-04-16T12:45:37.841Z",
+  "user": 1,
+  "content_type": 10,
+  "object_id": "117",
+  "object_repr": "📦Мешок с Эликсирами Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0418\\u043c\\u044f\", \"\\u0421\\u0442\\u043e\\u0438\\u043c\\u043e\\u0441\\u0442\\u044c \\u043f\\u043e\\u043a\\u0443\\u043f\\u043a\\u0438\"]}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u0430\\u043c\\u0438 \\u0423\\u0440. 1 | Item: \\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0410\\u0442\\u0430\\u043a\\u0438 \\u0423\\u0440. 1 | Chance: 20%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u0430\\u043c\\u0438 \\u0423\\u0440. 1 | Item: \\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0417\\u0430\\u0449\\u0438\\u0442\\u044b \\u0423\\u0440. 1 | Chance: 20%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u0430\\u043c\\u0438 \\u0423\\u0440. 1 | Item: \\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u041c\\u0443\\u0434\\u0440\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | Chance: 5%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u0430\\u043c\\u0438 \\u0423\\u0440. 1 | Item: \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0423\\u043a\\u043b\\u043e\\u043d\\u0435\\u043d\\u0438\\u044f \\u0423\\u0440. 1 | Chance: 5%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u0430\\u043c\\u0438 \\u0423\\u0440. 1 | Item: \\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0422\\u043e\\u0447\\u043d\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | Chance: 5%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u0430\\u043c\\u0438 \\u0423\\u0440. 1 | Item: \\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u0412\\u044b\\u043d\\u043e\\u0441\\u043b\\u0438\\u0432\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | Chance: 5%\"}}, {\"added\": {\"name\": \"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442 \\u0432 \\u043c\\u0435\\u0448\\u043a\\u0435\", \"object\": \"Bag: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u0430\\u043c\\u0438 \\u0423\\u0440. 1 | Item: \\ud83c\\udf21\\u041d\\u0430\\u0431\\u043e\\u0440 \\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440\\u043e\\u0432 \\u0423\\u0440. 1 | Chance: 1%\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 530,
+ "fields": {
+  "action_time": "2024-04-16T12:45:56.384Z",
+  "user": 1,
+  "content_type": 14,
+  "object_id": "120",
+  "object_repr": "🌡Эликсир Уклонения Ур. 1",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0438\\u043f\"]}}]"
+ }
+},
+{
  "model": "contenttypes.contenttype",
  "pk": 1,
  "fields": {
@@ -7564,30 +7889,6 @@
 },
 {
  "model": "item.item",
- "pk": 54,
- "fields": {
-  "name": "Талисман Удачи",
-  "description": "Увеличивает Шанс выпадения предметов. Для экипировки требуется Браслет",
-  "buy_price": 0,
-  "sell_price": 0,
-  "created": "2024-03-25T12:01:43.136Z",
-  "type": "talisman"
- }
-},
-{
- "model": "item.item",
- "pk": 55,
- "fields": {
-  "name": "Талисман Выносливости",
-  "description": "Увеличивает Время Охоты персонажа. Для экипировки требуется Браслет",
-  "buy_price": 0,
-  "sell_price": 0,
-  "created": "2024-03-25T12:01:43.140Z",
-  "type": "talisman"
- }
-},
-{
- "model": "item.item",
  "pk": 56,
  "fields": {
   "name": "Талисман Атаки",
@@ -8238,7 +8539,7 @@
  "model": "item.item",
  "pk": 110,
  "fields": {
-  "name": "Эликсир Силы Ур. 1",
+  "name": "Эликсир Атаки Ур. 1",
   "description": "Улучшает характеристики персонажа",
   "buy_price": 500,
   "sell_price": 250,
@@ -8252,7 +8553,7 @@
  "fields": {
   "name": "Эликсир Мудрости Ур. 1",
   "description": "Улучшает характеристики персонажа",
-  "buy_price": 500,
+  "buy_price": 0,
   "sell_price": 250,
   "created": "2024-04-15T10:46:25.675Z",
   "type": "potion"
@@ -8264,21 +8565,9 @@
  "fields": {
   "name": "Эликсир Выносливости Ур. 1",
   "description": "Нет описания предмета",
-  "buy_price": 500,
+  "buy_price": 0,
   "sell_price": 250,
   "created": "2024-04-15T10:47:42.088Z",
-  "type": "potion"
- }
-},
-{
- "model": "item.item",
- "pk": 113,
- "fields": {
-  "name": "Эликсир Удачи Ур. 1",
-  "description": "Повышает Характеристики Персонажа",
-  "buy_price": 500,
-  "sell_price": 250,
-  "created": "2024-04-15T10:49:37.848Z",
   "type": "potion"
  }
 },
@@ -8308,23 +8597,11 @@
 },
 {
  "model": "item.item",
- "pk": 116,
- "fields": {
-  "name": "Набор Эликсиров Ур. 1",
-  "description": "Включает в себя: Эликсир Удачи Ур. 1, Выносливости Ур. 1, Мудрости Ур. 1, Атаки Ур. 1",
-  "buy_price": 2000,
-  "sell_price": 1000,
-  "created": "2024-04-15T11:16:00.367Z",
-  "type": "potion"
- }
-},
-{
- "model": "item.item",
  "pk": 117,
  "fields": {
-  "name": "Мешок с Наборами Эликсиров",
+  "name": "Мешок с Эликсирами Ур. 1",
   "description": "Нет описания предмета",
-  "buy_price": 20000,
+  "buy_price": 5000,
   "sell_price": 0,
   "created": "2024-04-15T11:18:47.010Z",
   "type": "bag"
@@ -8339,6 +8616,54 @@
   "buy_price": 0,
   "sell_price": 0,
   "created": "2024-04-15T11:28:59.987Z",
+  "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 119,
+ "fields": {
+  "name": "Эликсир Точности Ур. 1",
+  "description": "Повышает Точность Персонажа",
+  "buy_price": 0,
+  "sell_price": 250,
+  "created": "2024-04-16T12:38:41.453Z",
+  "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 120,
+ "fields": {
+  "name": "Эликсир Уклонения Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 250,
+  "created": "2024-04-16T12:39:23.767Z",
+  "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 121,
+ "fields": {
+  "name": "Эликсир Защиты Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 500,
+  "sell_price": 250,
+  "created": "2024-04-16T12:40:34.161Z",
+  "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 122,
+ "fields": {
+  "name": "Набор Эликсиров Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 2500,
+  "created": "2024-04-16T12:42:16.162Z",
   "type": "potion"
  }
 },
@@ -8622,20 +8947,6 @@
 },
 {
  "model": "item.talisman",
- "pk": 54,
- "fields": {
-  "talisman_type": "drop"
- }
-},
-{
- "model": "item.talisman",
- "pk": 55,
- "fields": {
-  "talisman_type": "hunting_time"
- }
-},
-{
- "model": "item.talisman",
  "pk": 56,
  "fields": {
   "talisman_type": "attack"
@@ -8678,21 +8989,35 @@
 },
 {
  "model": "item.potion",
- "pk": 113,
- "fields": {
-  "effect_time": "12:00:00"
- }
-},
-{
- "model": "item.potion",
- "pk": 116,
- "fields": {
-  "effect_time": "12:00:00"
- }
-},
-{
- "model": "item.potion",
  "pk": 118,
+ "fields": {
+  "effect_time": "12:00:00"
+ }
+},
+{
+ "model": "item.potion",
+ "pk": 119,
+ "fields": {
+  "effect_time": "12:00:00"
+ }
+},
+{
+ "model": "item.potion",
+ "pk": 120,
+ "fields": {
+  "effect_time": "12:00:00"
+ }
+},
+{
+ "model": "item.potion",
+ "pk": 121,
+ "fields": {
+  "effect_time": "12:00:00"
+ }
+},
+{
+ "model": "item.potion",
+ "pk": 122,
  "fields": {
   "effect_time": "12:00:00"
  }
@@ -9544,29 +9869,9 @@
 },
 {
  "model": "item.bagitem",
- "pk": 35,
- "fields": {
-  "item": 54,
-  "bag": 9,
-  "chance": 1,
-  "amount": 1
- }
-},
-{
- "model": "item.bagitem",
  "pk": 36,
  "fields": {
   "item": 56,
-  "bag": 9,
-  "chance": 1,
-  "amount": 1
- }
-},
-{
- "model": "item.bagitem",
- "pk": 37,
- "fields": {
-  "item": 55,
   "bag": 9,
   "chance": 1,
   "amount": 1
@@ -9607,26 +9912,6 @@
  "pk": 41,
  "fields": {
   "item": 53,
-  "bag": 10,
-  "chance": 1,
-  "amount": 1
- }
-},
-{
- "model": "item.bagitem",
- "pk": 42,
- "fields": {
-  "item": 54,
-  "bag": 10,
-  "chance": 1,
-  "amount": 1
- }
-},
-{
- "model": "item.bagitem",
- "pk": 43,
- "fields": {
-  "item": 55,
   "bag": 10,
   "chance": 1,
   "amount": 1
@@ -10214,9 +10499,69 @@
 },
 {
  "model": "item.bagitem",
- "pk": 102,
+ "pk": 103,
  "fields": {
-  "item": 116,
+  "item": 110,
+  "bag": 117,
+  "chance": 20,
+  "amount": 10
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 104,
+ "fields": {
+  "item": 121,
+  "bag": 117,
+  "chance": 20,
+  "amount": 10
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 105,
+ "fields": {
+  "item": 111,
+  "bag": 117,
+  "chance": 5,
+  "amount": 10
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 106,
+ "fields": {
+  "item": 120,
+  "bag": 117,
+  "chance": 5,
+  "amount": 10
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 107,
+ "fields": {
+  "item": 119,
+  "bag": 117,
+  "chance": 5,
+  "amount": 10
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 108,
+ "fields": {
+  "item": 112,
+  "bag": 117,
+  "chance": 5,
+  "amount": 10
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 109,
+ "fields": {
+  "item": 122,
   "bag": 117,
   "chance": 1,
   "amount": 10
@@ -10360,16 +10705,6 @@
   "amount": 10,
   "in_percent": true,
   "slug": "item"
- }
-},
-{
- "model": "item.effect",
- "pk": 15,
- "fields": {
-  "property": "drop",
-  "amount": 10,
-  "in_percent": true,
-  "slug": "potion"
  }
 },
 {
@@ -10694,16 +11029,6 @@
 },
 {
  "model": "item.effect",
- "pk": 50,
- "fields": {
-  "property": "hunting_time",
-  "amount": 10,
-  "in_percent": true,
-  "slug": "potion"
- }
-},
-{
- "model": "item.effect",
  "pk": 51,
  "fields": {
   "property": "attack",
@@ -10724,32 +11049,42 @@
 },
 {
  "model": "item.effect",
- "pk": 53,
- "fields": {
-  "property": "hunting_time",
-  "amount": 10,
-  "in_percent": true,
-  "slug": "item"
- }
-},
-{
- "model": "item.effect",
- "pk": 54,
- "fields": {
-  "property": "drop",
-  "amount": 10,
-  "in_percent": true,
-  "slug": "item"
- }
-},
-{
- "model": "item.effect",
  "pk": 55,
  "fields": {
   "property": "defence",
   "amount": 10,
   "in_percent": true,
   "slug": "item"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 56,
+ "fields": {
+  "property": "drop",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 57,
+ "fields": {
+  "property": "accuracy",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "potion"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 58,
+ "fields": {
+  "property": "evasion",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "potion"
  }
 },
 {
@@ -11002,14 +11337,6 @@
 },
 {
  "model": "item.itemeffect",
- "pk": 37,
- "fields": {
-  "item": 110,
-  "effect": 13
- }
-},
-{
- "model": "item.itemeffect",
  "pk": 38,
  "fields": {
   "item": 111,
@@ -11034,78 +11361,6 @@
 },
 {
  "model": "item.itemeffect",
- "pk": 41,
- "fields": {
-  "item": 113,
-  "effect": 15
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 42,
- "fields": {
-  "item": 113,
-  "effect": 50
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 43,
- "fields": {
-  "item": 116,
-  "effect": 47
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 44,
- "fields": {
-  "item": 116,
-  "effect": 13
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 45,
- "fields": {
-  "item": 116,
-  "effect": 48
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 46,
- "fields": {
-  "item": 116,
-  "effect": 49
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 47,
- "fields": {
-  "item": 116,
-  "effect": 50
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 48,
- "fields": {
-  "item": 116,
-  "effect": 15
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 49,
- "fields": {
-  "item": 116,
-  "effect": 16
- }
-},
-{
- "model": "item.itemeffect",
  "pk": 50,
  "fields": {
   "item": 118,
@@ -11122,26 +11377,90 @@
 },
 {
  "model": "item.itemeffect",
- "pk": 52,
- "fields": {
-  "item": 55,
-  "effect": 53
- }
-},
-{
- "model": "item.itemeffect",
- "pk": 53,
- "fields": {
-  "item": 54,
-  "effect": 54
- }
-},
-{
- "model": "item.itemeffect",
  "pk": 54,
  "fields": {
   "item": 52,
   "effect": 55
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 55,
+ "fields": {
+  "item": 119,
+  "effect": 57
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 56,
+ "fields": {
+  "item": 120,
+  "effect": 58
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 57,
+ "fields": {
+  "item": 121,
+  "effect": 13
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 58,
+ "fields": {
+  "item": 122,
+  "effect": 13
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 59,
+ "fields": {
+  "item": 122,
+  "effect": 16
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 60,
+ "fields": {
+  "item": 122,
+  "effect": 47
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 61,
+ "fields": {
+  "item": 122,
+  "effect": 48
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 62,
+ "fields": {
+  "item": 122,
+  "effect": 49
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 63,
+ "fields": {
+  "item": 122,
+  "effect": 57
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 64,
+ "fields": {
+  "item": 122,
+  "effect": 58
  }
 },
 {
@@ -11884,14 +12203,6 @@
 },
 {
  "model": "character.skilleffect",
- "pk": 3,
- "fields": {
-  "skill": 6,
-  "effect": 15
- }
-},
-{
- "model": "character.skilleffect",
  "pk": 4,
  "fields": {
   "skill": 5,
@@ -12016,6 +12327,14 @@
  "fields": {
   "skill": 22,
   "effect": 34
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 20,
+ "fields": {
+  "skill": 6,
+  "effect": 56
  }
 },
 {

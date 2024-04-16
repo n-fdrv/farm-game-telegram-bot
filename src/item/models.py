@@ -45,7 +45,6 @@ class EffectProperty(models.TextChoices):
     MAX_MANA = "max_mana", "🔷Увеличение Маны"
     EXP = "exp", "🔮Опыт"
     DROP = "drop", "🍀Выпадение предметов"
-    HUNTING_TIME = "hunting_time", "⏳Время охоты"
     PVP = "pvp", "🩸Урон в PvP"
     TALISMAN_AMOUNT = "talisman_amount", "⭐️Количество Талисманов"
     MASS_ATTACK = "mass_attack", "⚡️Массовая Атака"
@@ -300,13 +299,13 @@ class BagItem(models.Model):
 
     item = models.ForeignKey(
         Item,
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name="Возможный предмет",
         related_name="item_in_bag",
     )
     bag = models.ForeignKey(
         Bag,
-        on_delete=models.RESTRICT,
+        on_delete=models.CASCADE,
         verbose_name="Мешок",
         related_name="bag_items",
     )
@@ -372,10 +371,10 @@ class ItemEffect(models.Model):
     """Модель хранения эффектов предметов."""
 
     item = models.ForeignKey(
-        Item, on_delete=models.RESTRICT, verbose_name="Предмет"
+        Item, on_delete=models.CASCADE, verbose_name="Предмет"
     )
     effect = models.ForeignKey(
-        Effect, on_delete=models.RESTRICT, verbose_name="Эффект"
+        Effect, on_delete=models.CASCADE, verbose_name="Эффект"
     )
 
     class Meta:
