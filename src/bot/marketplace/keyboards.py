@@ -106,6 +106,7 @@ async def sell_list_keyboard(user: User, callback_data: MarketplaceData):
         action=marketplace_action.sell_list,
         size=6,
         page=callback_data.page,
+        type=callback_data.type,
     )
     return paginator.get_paginator_with_button(
         BACK_BUTTON, marketplace_action.sell_preview
