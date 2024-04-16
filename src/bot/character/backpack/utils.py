@@ -172,12 +172,26 @@ async def use_potion(character: Character, item: Item):
         )
         return True, SUCCESS_USE_MESSAGE.format(item.name_with_type, amount)
     async for effect in potion.effects.all():
-        (
-            character_effect,
-            created,
-        ) = await CharacterEffect.objects.select_related(
+        exists = await CharacterEffect.objects.filter(
+            character=character,
+            effect__property=effect.property,
+            effect__slug=effect.slug,
+        ).aexists()
+        if not exists:
+            await CharacterEffect.objects.acreate(
+                character=character,
+                effect=effect,
+                expired=timezone.now()
+                + datetime.timedelta(
+                    hours=potion.effect_time.hour,
+                    minutes=potion.effect_time.minute,
+                    seconds=potion.effect_time.second,
+                ),
+            )
+            continue
+        character_effect = await CharacterEffect.objects.select_related(
             "effect"
-        ).aget_or_create(
+        ).aget(
             character=character,
             effect__property=effect.property,
             effect__slug=effect.slug,
