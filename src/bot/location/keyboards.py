@@ -21,10 +21,10 @@ from bot.utils.paginator import Paginator
 async def location_list_keyboard(callback_data: LocationData):
     """Клавиатура списка локаций."""
     keyboard = InlineKeyboardBuilder()
-    async for location in Location.objects.order_by("attack").all():
+    async for location in Location.objects.order_by("required_power").all():
         keyboard.button(
             text=LOCATION_BUTTON.format(
-                location.name, location.attack, location.defence
+                location.name, location.required_power
             ),
             callback_data=LocationData(
                 action=location_action.get,

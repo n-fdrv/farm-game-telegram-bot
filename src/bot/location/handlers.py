@@ -37,14 +37,12 @@ from bot.location.messages import (
 from bot.location.utils import (
     accept_location_boss_raid,
     attack_character,
-    end_hunting,
     enter_location,
-    get_hunting_loot,
+    exit_location,
     get_location_boss_info,
     get_location_info,
     location_get_character_about,
 )
-from bot.utils.schedulers import remove_scheduler, run_date_job
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -98,15 +96,9 @@ async def location_enter(
     """Коллбек входа в локацию."""
     user = await get_user(callback.from_user.id)
     location = await Location.objects.aget(pk=callback_data.id)
-    success, text = await enter_location(user.character, location)
-    if success:
-        job = await run_date_job(
-            end_hunting,
-            user.character.hunting_end,
-            [user.character, callback.bot],
-        )
-        user.character.job_id = job.id
-        await user.character.asave(update_fields=("job_id",))
+    success, text = await enter_location(
+        user.character, location, callback.bot
+    )
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=text,
@@ -139,7 +131,7 @@ async def exit_location_confirm(
     LocationData.filter(F.action == location_action.exit_location)
 )
 @log_in_dev
-async def exit_location(
+async def exit_location_handler(
     callback: types.CallbackQuery,
     state: FSMContext,
     callback_data: LocationData,
@@ -150,8 +142,7 @@ async def exit_location(
         await callback.message.delete()
         return
     await callback.message.edit_text(text=PREPARING_HUNTING_END_MESSAGE)
-    await remove_scheduler(user.character.job_id)
-    text = await get_hunting_loot(user.character, callback.bot)
+    text = await exit_location(user.character, callback.bot)
     keyboard = await character_get_keyboard(user.character)
     await callback.message.edit_text(
         text=text,

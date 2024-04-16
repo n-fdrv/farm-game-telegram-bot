@@ -163,7 +163,6 @@ async def get_character_property(
         EffectProperty.EXP: 1,
         EffectProperty.ATTACK: character.attack,
         EffectProperty.DEFENCE: character.defence,
-        EffectProperty.HUNTING_TIME: character.max_hunting_time,
         EffectProperty.MAX_HEALTH: character.max_health,
         EffectProperty.MAX_MANA: character.max_mana,
         EffectProperty.EVASION: character.evasion,
@@ -172,12 +171,6 @@ async def get_character_property(
         EffectProperty.CRIT_POWER: character.crit_power,
     }
     chosen_property = property_data[effect_property]
-    if effect_property == EffectProperty.HUNTING_TIME:
-        chosen_property = (
-            character.max_hunting_time.hour * 60
-            + character.max_hunting_time.minute
-            + character.max_hunting_time.second // 60
-        )
     if game_config.IN_PERCENT_MODIFIER_FIRST:
         chosen_property *= await get_property_modifier(
             character, effect_property
@@ -196,13 +189,13 @@ async def get_character_power(character: Character) -> int:
     power_data = [
         await get_character_property(character, EffectProperty.ATTACK),
         await get_character_property(character, EffectProperty.DEFENCE),
-        await get_character_property(character, EffectProperty.EVASION),
-        await get_character_property(character, EffectProperty.ACCURACY),
-        await get_character_property(character, EffectProperty.CRIT_RATE),
+        await get_character_property(character, EffectProperty.EVASION) * 4,
+        await get_character_property(character, EffectProperty.ACCURACY) * 4,
+        await get_character_property(character, EffectProperty.CRIT_RATE) / 5,
         await get_character_property(character, EffectProperty.CRIT_POWER)
         / 10,
-        await get_character_property(character, EffectProperty.MAX_HEALTH),
-        await get_character_property(character, EffectProperty.MAX_MANA),
+        await get_character_property(character, EffectProperty.MAX_HEALTH) / 4,
+        await get_character_property(character, EffectProperty.MAX_MANA) / 2,
     ]
     return int(sum(power_data))
 
@@ -210,17 +203,9 @@ async def get_character_power(character: Character) -> int:
 async def get_character_info(character: Character) -> str:
     """Возвращает сообщение с данными о персонаже."""
     exp_in_percent = round(character.exp / character.exp_for_level_up * 100, 2)
-    location = "<b>Город</b>"
+    location = "Город"
     if character.current_location:
-        time_left_text = "<b>Охота окончена</b>"
-        if character.hunting_end > timezone.now():
-            time_left = str(character.hunting_end - timezone.now()).split(".")[
-                0
-            ]
-            time_left_text = f"<i>Осталось:</i> <b>{time_left}</b>"
-        location = (
-            f"<b>{character.current_location.name}</b>\n" f"⏳{time_left_text}"
-        )
+        location = f"{character.current_location.name_with_power}"
     clan = "Нет"
     if character.clan:
         clan = character.clan.name_with_emoji
@@ -368,15 +353,6 @@ async def get_character_about(character: Character) -> str:
     )
 
 
-async def get_hunting_minutes(character: Character):
-    """Метод получения минут охоты."""
-    hunting_end_time = timezone.now()
-    if hunting_end_time > character.hunting_end:
-        hunting_end_time = character.hunting_end
-    minutes = (hunting_end_time - character.hunting_begin).seconds / 60
-    return int(minutes)
-
-
 async def get_exp(character: Character, exp_amount: int, bot):
     """Метод получения опыта."""
     character.exp += exp_amount * game_config.EXP_RATE
@@ -385,7 +361,10 @@ async def get_exp(character: Character, exp_amount: int, bot):
         character.exp_for_level_up *= game_config.EXP_FOR_LEVEL_UP_MULTIPLIER
         character.attack += game_config.ATTACK_INCREASE_LEVEL_UP
         character.defence += game_config.DEFENCE_INCREASE_LEVEL_UP
+        character.evasion += game_config.EVASION_INCREASE_LEVEL_UP
+        character.accuracy += game_config.ACCURACY_INCREASE_LEVEL_UP
         character.level += 1
+        character.skill_points += 1
         character.max_health += game_config.HEALTH_INCREASE_LEVEL_UP
         character.max_mana += game_config.MANA_INCREASE_LEVEL_UP
         character.health = character.max_health
@@ -409,10 +388,13 @@ async def get_exp(character: Character, exp_amount: int, bot):
             "exp_for_level_up",
             "attack",
             "defence",
+            "evasion",
+            "accuracy",
             "health",
             "mana",
             "max_health",
             "max_mana",
+            "skill_points",
         )
     )
     return exp_amount * game_config.EXP_RATE
@@ -423,30 +405,7 @@ async def remove_exp(character: Character, exp_amount: int):
     character.exp -= exp_amount
     if character.level == 1 and character.exp < 0:
         character.exp = 0
-    while character.exp < 0:
-        character.level -= 1
-        character.exp_for_level_up /= game_config.EXP_FOR_LEVEL_UP_MULTIPLIER
-        character.exp += character.exp_for_level_up
-        character.attack -= game_config.ATTACK_INCREASE_LEVEL_UP
-        character.defence -= game_config.DEFENCE_INCREASE_LEVEL_UP
-        character.max_health -= game_config.HEALTH_INCREASE_LEVEL_UP
-        character.max_mana -= game_config.MANA_INCREASE_LEVEL_UP
-        character.health = character.max_health
-        character.mana = character.max_mana
-
-    await character.asave(
-        update_fields=(
-            "level",
-            "exp",
-            "exp_for_level_up",
-            "attack",
-            "defence",
-            "health",
-            "mana",
-            "max_health",
-            "max_mana",
-        )
-    )
+    await character.asave(update_fields=("exp",))
     return character
 
 

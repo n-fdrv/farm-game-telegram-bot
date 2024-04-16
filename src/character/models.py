@@ -1,5 +1,3 @@
-import datetime
-
 from clan.models import Clan
 from django.db import models
 from django.utils import timezone
@@ -176,7 +174,7 @@ class Character(models.Model):
     )
     attack = models.IntegerField(default=10, verbose_name="Атака")
     defence = models.IntegerField(default=10, verbose_name="Защита")
-    crit_rate = models.IntegerField(default=10, verbose_name="Шанс Крита")
+    crit_rate = models.IntegerField(default=50, verbose_name="Шанс Крита")
     crit_power = models.IntegerField(default=100, verbose_name="Сила Крита")
     evasion = models.IntegerField(default=10, verbose_name="Уклонение")
     accuracy = models.IntegerField(default=10, verbose_name="Точность")
@@ -184,6 +182,9 @@ class Character(models.Model):
     max_health = models.IntegerField(default=20, verbose_name="Макс здоровье")
     mana = models.IntegerField(default=20, verbose_name="Мана")
     max_mana = models.IntegerField(default=20, verbose_name="Макс мана")
+    skill_points = models.IntegerField(
+        default=0, verbose_name="Очки Характеристик"
+    )
     premium_expired = models.DateTimeField(
         default=timezone.now, verbose_name="Окончание Премиума"
     )
@@ -196,12 +197,6 @@ class Character(models.Model):
     )
     hunting_begin = models.DateTimeField(
         null=True, blank=True, verbose_name="Начало охоты"
-    )
-    hunting_end = models.DateTimeField(
-        null=True, blank=True, verbose_name="Конец охоты"
-    )
-    max_hunting_time = models.TimeField(
-        default=datetime.time(hour=4), verbose_name="Максимальное время охоты"
     )
     items = models.ManyToManyField(
         Item, through="CharacterItem", related_name="items"

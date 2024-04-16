@@ -33,14 +33,13 @@ class LocationAdmin(DjangoObjectActions, admin.ModelAdmin):
 
     list_display = (
         "name",
-        "attack",
-        "defence",
+        "required_power",
         "exp",
     )
     list_display_links = ("name",)
     search_fields = ("name",)
     inlines = (LocationDropInline,)
-    ordering = ("-attack", "-defence")
+    ordering = ("-required_power",)
 
 
 @admin.register(LocationBoss)

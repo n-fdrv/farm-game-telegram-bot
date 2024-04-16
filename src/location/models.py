@@ -15,8 +15,6 @@ class BaseLocationModel(models.Model):
 class Location(BaseLocationModel):
     """Модель для хранения локаций."""
 
-    attack = models.IntegerField(verbose_name="Требуемая атака персонажа")
-    defence = models.IntegerField(verbose_name="Требуемая защита персонажа")
     exp = models.IntegerField(
         default=1, verbose_name="Количество опыта в минуту"
     )
@@ -24,13 +22,21 @@ class Location(BaseLocationModel):
         Item, through="LocationDrop", related_name="drop"
     )
     place = models.IntegerField(default=10, verbose_name="Мест в локации")
+    required_power = models.IntegerField(
+        default=100, verbose_name="Требуемая сила персонажа"
+    )
 
     class Meta:
         verbose_name = "Локация"
         verbose_name_plural = "Локации"
 
     def __str__(self):
-        return f"{self.name} | Attack: {self.attack} | Defence: {self.defence}"
+        return f"{self.name} | Power: {self.required_power}"
+
+    @property
+    def name_with_power(self):
+        """Имя с необходимой силой клана."""
+        return f"{self.name} ⚔️{self.required_power}"
 
 
 class LocationDrop(models.Model):
