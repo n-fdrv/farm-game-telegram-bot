@@ -1,7 +1,9 @@
 EXIT_LOCATION_BUTTON = "👟Выйти из локации"
 LOCATIONS_BUTTON = "📍Локации"
+DUNGEONS_BUTTON = "☠️Подземелья"
 BACKPACK_BUTTON = "🎒Инвентарь"
 SKILLS_BUTTON = "✨Способности"
+POWER_BUTTON = "⚡️Сила"
 ABOUT_BUTTON = "🗣О персонаже"
 SHOP_BUTTON = "💰Магазин"
 

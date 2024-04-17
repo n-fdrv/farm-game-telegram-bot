@@ -76,11 +76,15 @@ async def get_item_amount(
 ):
     """Получение количества золота у персонажа."""
     exists = await CharacterItem.objects.filter(
-        character=character, item__name=name
+        character=character,
+        item__name=name,
+        enhancement_level=enhancement_level,
     ).aexists()
     if exists:
         item = await CharacterItem.objects.aget(
-            character=character, item__name=name
+            character=character,
+            item__name=name,
+            enhancement_level=enhancement_level,
         )
         return item.amount
     return 0

@@ -32,6 +32,12 @@ class LocationData(BaseCallbackData, prefix="loc"):
     boss_id: Optional[int] = 0
 
 
+class DungeonData(BaseCallbackData, prefix="dun"):
+    """Данные для хенжлеров локаций."""
+
+    pass
+
+
 class BackpackData(BaseCallbackData, prefix="bp"):
     """Данные для хенжлеров инвентаря."""
 
@@ -110,4 +116,5 @@ CALLBACK_DATA_PREFIX = {
     ClanWarehouseData.__prefix__: ClanWarehouseData,
     ClanBossesData.__prefix__: ClanBossesData,
     MasterShopData.__prefix__: MasterShopData,
+    DungeonData.__prefix__: DungeonData,
 }

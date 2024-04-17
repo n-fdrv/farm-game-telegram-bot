@@ -39,6 +39,13 @@ class CharacterAction(Action):
 
     auto_use = f"{callback_data.CharacterData.__prefix__}-auus"
 
+    power_list = f"{callback_data.CharacterData.__prefix__}-poli"
+    power_get = f"{callback_data.CharacterData.__prefix__}-poge"
+    power_add_confirm = f"{callback_data.CharacterData.__prefix__}-poadco"
+    power_add = f"{callback_data.CharacterData.__prefix__}-poad"
+    power_reset_confirm = f"{callback_data.CharacterData.__prefix__}-poreco"
+    power_reset = f"{callback_data.CharacterData.__prefix__}-pore"
+
 
 class LocationAction(Action):
     """Действия для хендлеров локаций."""
@@ -55,6 +62,23 @@ class LocationAction(Action):
     boss_list = f"{callback_data.LocationData.__prefix__}-boli"
     boss_get = f"{callback_data.LocationData.__prefix__}-boge"
     boss_accept = f"{callback_data.LocationData.__prefix__}-boac"
+
+
+class DungeonAction(Action):
+    """Действия для хендлеров подземелий."""
+
+    enter = f"{callback_data.DungeonData.__prefix__}-en"
+    exit_location_confirm = f"{callback_data.DungeonData.__prefix__}-exco"
+    exit_location = f"{callback_data.DungeonData.__prefix__}-exlo"
+
+    characters_list = f"{callback_data.DungeonData.__prefix__}-chli"
+    characters_get = f"{callback_data.DungeonData.__prefix__}-chge"
+    characters_kill_confirm = f"{callback_data.DungeonData.__prefix__}-chkico"
+    characters_kill = f"{callback_data.DungeonData.__prefix__}-chki"
+
+    boss_list = f"{callback_data.DungeonData.__prefix__}-boli"
+    boss_get = f"{callback_data.DungeonData.__prefix__}-boge"
+    boss_accept = f"{callback_data.DungeonData.__prefix__}-boac"
 
 
 class BackpackAction(Action):
@@ -225,6 +249,7 @@ class TopAction(Action):
 
 character_action = CharacterAction(callback_data.CharacterData.__prefix__)
 location_action = LocationAction(callback_data.LocationData.__prefix__)
+dungeon_action = DungeonAction(callback_data.DungeonData.__prefix__)
 backpack_action = BackpackAction(callback_data.BackpackData.__prefix__)
 shop_action = ShopAction(callback_data.ShopData.__prefix__)
 marketplace_action = MarketplaceAction(

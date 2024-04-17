@@ -64,10 +64,10 @@ class SkillEffect(models.Model):
     """Модель хранения эффектов предметов."""
 
     skill = models.ForeignKey(
-        Skill, on_delete=models.RESTRICT, verbose_name="Способность"
+        Skill, on_delete=models.CASCADE, verbose_name="Способность"
     )
     effect = models.ForeignKey(
-        to=Effect, on_delete=models.RESTRICT, verbose_name="Эффект"
+        to=Effect, on_delete=models.CASCADE, verbose_name="Эффект"
     )
 
     class Meta:
@@ -76,6 +76,23 @@ class SkillEffect(models.Model):
 
     def __str__(self):
         return f"{self.skill} {self.effect}"
+
+
+class Power(models.Model):
+    """Модель хранения силы."""
+
+    name = models.CharField(max_length=32, verbose_name="Название")
+    effect = models.ForeignKey(
+        Effect, on_delete=models.CASCADE, verbose_name="Эффект"
+    )
+    price = models.IntegerField(default=0, verbose_name="Цена")
+
+    class Meta:
+        verbose_name = "Сила"
+        verbose_name_plural = "Силы"
+
+    def __str__(self):
+        return f"{self.name} ({self.price} SP) | {self.effect}"
 
 
 class CharacterClass(models.Model):
@@ -175,7 +192,7 @@ class Character(models.Model):
     attack = models.IntegerField(default=10, verbose_name="Атака")
     defence = models.IntegerField(default=10, verbose_name="Защита")
     crit_rate = models.IntegerField(default=50, verbose_name="Шанс Крита")
-    crit_power = models.IntegerField(default=100, verbose_name="Сила Крита")
+    crit_power = models.IntegerField(default=50, verbose_name="Сила Крита")
     evasion = models.IntegerField(default=10, verbose_name="Уклонение")
     accuracy = models.IntegerField(default=10, verbose_name="Точность")
     health = models.IntegerField(default=20, verbose_name="Здоровье")
@@ -203,6 +220,9 @@ class Character(models.Model):
     )
     skills = models.ManyToManyField(
         Skill, through="CharacterSkill", related_name="character_skills"
+    )
+    powers = models.ManyToManyField(
+        Power, through="CharacterPower", related_name="character_power"
     )
     effects = models.ManyToManyField(
         Effect, through="CharacterEffect", related_name="character_effects"
@@ -287,6 +307,21 @@ class Character(models.Model):
     def mp(self):
         """Получения здоровье/максимальное здоровье."""
         return f"{self.mana}/{self.max_mana}"
+
+
+class CharacterPower(models.Model):
+    """Модель для хранения характеристик персонажей."""
+
+    power = models.ForeignKey(
+        Power, on_delete=models.CASCADE, verbose_name="Сила"
+    )
+    character = models.ForeignKey(
+        Character, on_delete=models.CASCADE, verbose_name="Класс"
+    )
+
+    class Meta:
+        verbose_name = "Сила персонажа"
+        verbose_name_plural = "Силы персонажей"
 
 
 class CharacterSkill(models.Model):

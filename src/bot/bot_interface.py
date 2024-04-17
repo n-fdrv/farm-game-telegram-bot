@@ -16,6 +16,7 @@ from redis.asyncio.client import Redis
 
 from bot.character.backpack.handlers import backpack_router
 from bot.character.handlers import character_router
+from bot.character.powers.handlers import character_powers_router
 from bot.character.shop.handlers import shop_router
 from bot.character.skills.handlers import character_skills_router
 from bot.clan.bosses.handlers import clan_bosses_router
@@ -83,6 +84,7 @@ class AiogramApp:
             command_router,
             character_router,
             character_skills_router,
+            character_powers_router,
             location_router,
             backpack_router,
             shop_router,

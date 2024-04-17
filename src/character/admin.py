@@ -10,6 +10,7 @@ from character.models import (
     CharacterClass,
     ClassEquipment,
     MarketplaceItem,
+    Power,
     RecipeShare,
     Skill,
 )
@@ -68,6 +69,22 @@ class SkillAdmin(DjangoObjectActions, admin.ModelAdmin):
     )
 
 
+@admin.register(Power)
+class PowerAdmin(DjangoObjectActions, admin.ModelAdmin):
+    """Управление классами персонажа."""
+
+    list_display = ("name", "effect", "price")
+    list_filter = (
+        "price",
+        "effect__property",
+    )
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Effect.objects.filter(slug=EffectSlug.POWER)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
 @admin.register(CharacterClass)
 class CharacterClassAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление классами персонажа."""
@@ -97,6 +114,14 @@ class CharacterRecipeInline(admin.TabularInline):
     """Инлайн модель предметов персонажа."""
 
     model = Character.recipes.through
+    extra = 1
+    classes = ("collapse",)
+
+
+class CharacterPowerInline(admin.TabularInline):
+    """Инлайн модель предметов персонажа."""
+
+    model = Character.powers.through
     extra = 1
     classes = ("collapse",)
 
@@ -163,6 +188,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     search_fields = ("name",)
     inlines = (
         CharacterSkillInline,
+        CharacterPowerInline,
         CharacterItemInline,
         CharacterRecipeInline,
         CharacterEffectInline,

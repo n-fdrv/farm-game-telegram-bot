@@ -8,8 +8,10 @@ from bot.character.buttons import (
     AUTO_MP_POTION_BUTTON,
     BACKPACK_BUTTON,
     CLASS_CHOOSE_BUTTON,
+    DUNGEONS_BUTTON,
     EXIT_LOCATION_BUTTON,
     LOCATIONS_BUTTON,
+    POWER_BUTTON,
     SHOP_BUTTON,
     SKILLS_BUTTON,
 )
@@ -18,12 +20,14 @@ from bot.command.buttons import BACK_BUTTON, YES_BUTTON
 from bot.constants.actions import (
     backpack_action,
     character_action,
+    dungeon_action,
     location_action,
     shop_action,
 )
 from bot.constants.callback_data import (
     BackpackData,
     CharacterData,
+    DungeonData,
     LocationData,
     ShopData,
 )
@@ -32,6 +36,7 @@ from bot.constants.callback_data import (
 async def character_get_keyboard(character: Character):
     """Клавиатура персонажа."""
     keyboard = InlineKeyboardBuilder()
+    rows = []
     if character.current_location:
         keyboard.button(
             text=EXIT_LOCATION_BUTTON,
@@ -39,28 +44,49 @@ async def character_get_keyboard(character: Character):
                 action=location_action.exit_location_confirm
             ),
         )
+        rows.append(1)
+        keyboard.button(
+            text=BACKPACK_BUTTON,
+            callback_data=BackpackData(action=backpack_action.preview),
+        )
+        rows.append(1)
     else:
         keyboard.button(
             text=LOCATIONS_BUTTON,
             callback_data=LocationData(action=location_action.list),
         )
         keyboard.button(
+            text=DUNGEONS_BUTTON,
+            callback_data=DungeonData(action=dungeon_action.list),
+        )
+        rows.append(2)
+        keyboard.button(
             text=SHOP_BUTTON,
             callback_data=ShopData(action=shop_action.get),
         )
-    keyboard.button(
-        text=BACKPACK_BUTTON,
-        callback_data=BackpackData(action=backpack_action.preview),
-    )
+        keyboard.button(
+            text=BACKPACK_BUTTON,
+            callback_data=BackpackData(action=backpack_action.preview),
+        )
+        rows.append(2)
+
     keyboard.button(
         text=SKILLS_BUTTON,
         callback_data=CharacterData(action=character_action.skill_list),
     )
     keyboard.button(
+        text=POWER_BUTTON,
+        callback_data=CharacterData(action=character_action.power_list),
+    )
+    rows.append(2)
+
+    keyboard.button(
         text=ABOUT_BUTTON,
         callback_data=CharacterData(action=character_action.about),
     )
-    keyboard.adjust(1, 2, 2)
+    rows.append(1)
+
+    keyboard.adjust(*rows)
     return keyboard
 
 

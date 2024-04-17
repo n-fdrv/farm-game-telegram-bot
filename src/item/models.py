@@ -63,6 +63,7 @@ class EffectSlug(models.TextChoices):
     SKILL = "skill", "↗️Способность"
     ITEM = "item", "🎒Предмет"
     FATIGUE = "fatigue", "♦️Усталость"
+    POWER = "power", "⚡️Сила"
 
 
 class Item(models.Model):

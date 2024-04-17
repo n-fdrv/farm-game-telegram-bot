@@ -6,6 +6,7 @@ from character.models import (
     CharacterClass,
     CharacterEffect,
     CharacterItem,
+    CharacterPower,
     SkillEffect,
     SkillType,
 )
@@ -122,6 +123,14 @@ async def get_property_amount(
 ):
     """Получение прибавки характеристики от непроцентных эффектов."""
     amount = 0
+    async for character_power in CharacterPower.objects.select_related(
+        "power__effect"
+    ).filter(
+        character=character,
+        power__effect__property=effect_property,
+        power__effect__in_percent=False,
+    ):
+        amount += character_power.power.effect.amount
     async for skill_effect in SkillEffect.objects.select_related(
         "effect"
     ).filter(
@@ -191,10 +200,9 @@ async def get_character_power(character: Character) -> int:
         await get_character_property(character, EffectProperty.DEFENCE),
         await get_character_property(character, EffectProperty.EVASION) * 4,
         await get_character_property(character, EffectProperty.ACCURACY) * 4,
-        await get_character_property(character, EffectProperty.CRIT_RATE) / 5,
-        await get_character_property(character, EffectProperty.CRIT_POWER)
-        / 10,
-        await get_character_property(character, EffectProperty.MAX_HEALTH) / 4,
+        await get_character_property(character, EffectProperty.CRIT_RATE) / 2,
+        await get_character_property(character, EffectProperty.CRIT_POWER) / 2,
+        await get_character_property(character, EffectProperty.MAX_HEALTH) / 3,
         await get_character_property(character, EffectProperty.MAX_MANA) / 2,
     ]
     return int(sum(power_data))
