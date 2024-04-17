@@ -51,6 +51,7 @@ download-data: # Выгрузить данные
 	--exclude=character.Character \
 	--exclude=character.CharacterItem \
 	--exclude=character.CharacterSKill \
+    --exclude=character.CharacterPower \
 	--exclude=character.CharacterRecipe \
 	--exclude=character.CharacterEffect \
 	--exclude=character.MarketplaceItem \
