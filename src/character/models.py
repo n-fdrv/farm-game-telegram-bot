@@ -10,6 +10,8 @@ from item.models import (
 )
 from location.models import Location
 
+from core.config import game_config
+
 
 class SkillType(models.TextChoices):
     """Типы способностей."""
@@ -191,14 +193,30 @@ class Character(models.Model):
     )
     attack = models.IntegerField(default=10, verbose_name="Атака")
     defence = models.IntegerField(default=10, verbose_name="Защита")
-    crit_rate = models.IntegerField(default=50, verbose_name="Шанс Крита")
-    crit_power = models.IntegerField(default=50, verbose_name="Сила Крита")
-    evasion = models.IntegerField(default=10, verbose_name="Уклонение")
-    accuracy = models.IntegerField(default=10, verbose_name="Точность")
-    health = models.IntegerField(default=20, verbose_name="Здоровье")
-    max_health = models.IntegerField(default=20, verbose_name="Макс здоровье")
-    mana = models.IntegerField(default=20, verbose_name="Мана")
-    max_mana = models.IntegerField(default=20, verbose_name="Макс мана")
+    crit_rate = models.IntegerField(
+        default=game_config.CRIT_RATE_DEFAULT, verbose_name="Шанс Крита"
+    )
+    crit_power = models.IntegerField(
+        default=game_config.CRIT_POWER_DEFAULT, verbose_name="Сила Крита"
+    )
+    evasion = models.IntegerField(
+        default=game_config.EVASION_DEFAULT, verbose_name="Уклонение"
+    )
+    accuracy = models.IntegerField(
+        default=game_config.ACCURACY_DEFAULT, verbose_name="Точность"
+    )
+    health = models.IntegerField(
+        default=game_config.MAX_HEALTH_DEFAULT, verbose_name="Здоровье"
+    )
+    max_health = models.IntegerField(
+        default=game_config.MAX_HEALTH_DEFAULT, verbose_name="Макс здоровье"
+    )
+    mana = models.IntegerField(
+        default=game_config.MAX_MANA_DEFAULT, verbose_name="Мана"
+    )
+    max_mana = models.IntegerField(
+        default=game_config.MAX_MANA_DEFAULT, verbose_name="Макс мана"
+    )
     skill_points = models.IntegerField(
         default=0, verbose_name="Очки Характеристик"
     )

@@ -17,6 +17,7 @@ from character.models import (
 
 from bot.location.utils import end_hunting
 from bot.models import User
+from core.config import game_config
 
 
 class CharacterSkillInline(admin.TabularInline):
@@ -143,7 +144,7 @@ class CharacterEffectInline(admin.TabularInline):
 class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью персонажей."""
 
-    def end_hunting(modeladmin, request, queryset):
+    def end_hunting(self, request, queryset):
         """Окончить охоту персонажей."""
         app_config = apps.get_app_config("bot")
         app = app_config.bot
@@ -166,7 +167,45 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
             )
 
     end_hunting.short_description = "Окончить охоту всех персонажей"
-    changelist_actions = ("end_hunting",)
+
+    def reset_character_characteristics(self, request, queryset):
+        """Окончить охоту персонажей."""
+        for character in queryset:
+            character.attack = (
+                character.character_class.attack
+                + game_config.ATTACK_INCREASE_LEVEL_UP * (character.level - 1)
+            )
+            character.defence = (
+                character.character_class.defence
+                + game_config.DEFENCE_INCREASE_LEVEL_UP * (character.level - 1)
+            )
+            character.accuracy = (
+                game_config.ACCURACY_DEFAULT
+                + game_config.ACCURACY_INCREASE_LEVEL_UP
+                * (character.level - 1)
+            )
+            character.evasion = (
+                game_config.EVASION_DEFAULT
+                + game_config.EVASION_INCREASE_LEVEL_UP * (character.level - 1)
+            )
+            character.max_health = (
+                game_config.MAX_HEALTH_DEFAULT
+                + game_config.HEALTH_INCREASE_LEVEL_UP * (character.level - 1)
+            )
+            character.max_mana = (
+                game_config.MAX_MANA_DEFAULT
+                + game_config.MANA_INCREASE_LEVEL_UP * (character.level - 1)
+            )
+            character.health = character.max_health
+            character.mana = character.max_mana
+            character.crit_rate = game_config.CRIT_RATE_DEFAULT
+            character.crit_power = game_config.CRIT_POWER_DEFAULT
+            character.save()
+
+    reset_character_characteristics.short_description = (
+        "Сброс характеристик персонажей"
+    )
+    changelist_actions = ("end_hunting", "reset_character_characteristics")
 
     list_display = (
         "name_with_level",
