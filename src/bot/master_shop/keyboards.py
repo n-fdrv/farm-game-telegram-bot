@@ -404,7 +404,7 @@ async def master_shop_recipe_list_keyboard(callback_data: MasterShopData):
             callback_data=MasterShopData(
                 action=master_shop_action.craft_get,
                 page=callback_data.page,
-                id=recipe_share.id,
+                id=recipe_share.character_recipe.id,
                 type=callback_data.type,
                 character_id=callback_data.character_id,
                 back_action=callback_data.action,
