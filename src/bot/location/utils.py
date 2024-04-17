@@ -160,7 +160,8 @@ async def enter_location(character: Character, location: Location, bot):
     character.hunting_begin = timezone.now()
     job = await run_date_job(
         end_hunting,
-        timezone.now() + datetime.timedelta(hours=1),
+        timezone.now()
+        + datetime.timedelta(hours=game_config.HUNTING_ALERT_HOURS),
         [character, bot],
     )
     character.job_id = job.id
@@ -272,7 +273,8 @@ async def get_hunting_loot(character: Character, bot):
         drop_text = "❌"
     job = await run_date_job(
         end_hunting,
-        timezone.now() + datetime.timedelta(hours=1),
+        timezone.now()
+        + datetime.timedelta(hours=game_config.HUNTING_ALERT_HOURS),
         [character, bot],
     )
     character.job_id = job.id
@@ -296,7 +298,8 @@ async def make_hunting_end_schedulers_after_restart(bot):
     ).exclude(current_location=None):
         await run_date_job(
             end_hunting,
-            timezone.now() + datetime.timedelta(hours=1),
+            timezone.now()
+            + datetime.timedelta(hours=game_config.HUNTING_ALERT_HOURS),
             [character, bot],
         )
 
