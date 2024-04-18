@@ -7618,6 +7618,591 @@
  }
 },
 {
+ "model": "admin.logentry",
+ "pk": 587,
+ "fields": {
+  "action_time": "2024-04-17T10:21:33.757Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "waca | Level: 1 | Attack : 12 | Defence: 9",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0410\\u0442\\u0430\\u043a\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 588,
+ "fields": {
+  "action_time": "2024-04-17T10:30:42.958Z",
+  "user": 1,
+  "content_type": 24,
+  "object_id": "5",
+  "object_repr": "waca | Level: 1 | Attack : 9 | Defence: 10",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043b\\u0430\\u0441\\u0441 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 589,
+ "fields": {
+  "action_time": "2024-04-18T08:08:34.064Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "1",
+  "object_repr": "Заброшенная Шахта | Power: 128",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 590,
+ "fields": {
+  "action_time": "2024-04-18T08:08:54.887Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "4",
+  "object_repr": "Лагерь гоблинов | Power: 224",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e \\u043e\\u043f\\u044b\\u0442\\u0430 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\", \"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 591,
+ "fields": {
+  "action_time": "2024-04-18T08:09:19.801Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "4",
+  "object_repr": "Лагерь гоблинов | Power: 224",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 592,
+ "fields": {
+  "action_time": "2024-04-18T08:09:32.098Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "3",
+  "object_repr": "Эльфийский лес | Power: 347",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 593,
+ "fields": {
+  "action_time": "2024-04-18T08:10:08.799Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "4",
+  "object_repr": "Лагерь гоблинов | Power: 195",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 594,
+ "fields": {
+  "action_time": "2024-04-18T08:10:25.549Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "3",
+  "object_repr": "Эльфийский лес | Power: 284",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e \\u043e\\u043f\\u044b\\u0442\\u0430 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\", \"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 595,
+ "fields": {
+  "action_time": "2024-04-18T08:10:33.959Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "2",
+  "object_repr": "Лагерь Орков | Power: 362",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 596,
+ "fields": {
+  "action_time": "2024-04-18T08:10:42.605Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "5",
+  "object_repr": "Мертвая Деревня | Power: 475",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 597,
+ "fields": {
+  "action_time": "2024-04-18T08:10:55.292Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "6",
+  "object_repr": "Призрачный Лес | Power: 518",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 598,
+ "fields": {
+  "action_time": "2024-04-18T08:11:01.452Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "5",
+  "object_repr": "Мертвая Деревня | Power: 518",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 599,
+ "fields": {
+  "action_time": "2024-04-18T08:11:15.182Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "6",
+  "object_repr": "Призрачный Лес | Power: 589",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 600,
+ "fields": {
+  "action_time": "2024-04-18T08:11:38.714Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "5",
+  "object_repr": "Мертвая Деревня | Power: 518",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u041c\\u0435\\u0440\\u0442\\u0432\\u0430\\u044f \\u0414\\u0435\\u0440\\u0435\\u0432\\u043d\\u044f | Power: 518 | Amount: 1 - 1 | Chance: 0.01\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441\\u043e \\u0421\\u0432\\u0438\\u0442\\u043a\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u041c\\u0435\\u0440\\u0442\\u0432\\u0430\\u044f \\u0414\\u0435\\u0440\\u0435\\u0432\\u043d\\u044f | Power: 518 | Amount: 1 - 1 | Chance: 0.01\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 601,
+ "fields": {
+  "action_time": "2024-04-18T08:46:10.616Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "8",
+  "object_repr": "Подземелье Опыта | Level: 5 - 9",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"dungeon required item\", \"object\": \"DungeonRequiredItem object (1)\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u041c\\u0443\\u0434\\u0440\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u041e\\u043f\\u044b\\u0442\\u0430 | Level: 5 - 9 | Amount: 1 - 1 | Chance: 1.0\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 602,
+ "fields": {
+  "action_time": "2024-04-18T08:47:11.341Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "9",
+  "object_repr": "Подземелье Опыта | Level: 11 - 19",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"dungeon required item\", \"object\": \"DungeonRequiredItem object (2)\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83c\\udf21\\u042d\\u043b\\u0438\\u043a\\u0441\\u0438\\u0440 \\u041c\\u0443\\u0434\\u0440\\u043e\\u0441\\u0442\\u0438 \\u0423\\u0440. 1 | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u041e\\u043f\\u044b\\u0442\\u0430 | Level: 11 - 19 | Amount: 1 - 1 | Chance: 2.0\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 603,
+ "fields": {
+  "action_time": "2024-04-18T08:47:20.003Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "8",
+  "object_repr": "Подземелье Опыта | Level: 5 - 10",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0438\\u043d\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c \\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 604,
+ "fields": {
+  "action_time": "2024-04-18T08:48:01.513Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "8",
+  "object_repr": "Подземелье Опыта | Level: 3 - 10",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0438\\u043d\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c \\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 605,
+ "fields": {
+  "action_time": "2024-04-18T08:50:09.676Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "10",
+  "object_repr": "Подземелье Знаний | Level: 10 - 19",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"dungeon required item\", \"object\": \"DungeonRequiredItem object (3)\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441\\u043e \\u0421\\u0432\\u0438\\u0442\\u043a\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0417\\u043d\\u0430\\u043d\\u0438\\u0439 | Level: 10 - 19 | Amount: 1 - 1 | Chance: 2.0\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udfe1\\u0417\\u043e\\u043b\\u043e\\u0442\\u043e | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0417\\u043d\\u0430\\u043d\\u0438\\u0439 | Level: 10 - 19 | Amount: 1 - 2 | Chance: 50.0\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441\\u043e \\u0421\\u0432\\u0438\\u0442\\u043a\\u043e\\u043c (\\u0420\\u0435\\u0434\\u043a\\u0438\\u0439) | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0417\\u043d\\u0430\\u043d\\u0438\\u0439 | Level: 10 - 19 | Amount: 1 - 1 | Chance: 0.01\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 606,
+ "fields": {
+  "action_time": "2024-04-18T08:50:18.320Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "10",
+  "object_repr": "Подземелье Знаний | Level: 11 - 19",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0438\\u043d\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c \\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 607,
+ "fields": {
+  "action_time": "2024-04-18T08:50:25.564Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "10",
+  "object_repr": "Подземелье Знаний | Level: 10 - 19",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0438\\u043d\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c \\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 608,
+ "fields": {
+  "action_time": "2024-04-18T08:50:27.746Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "10",
+  "object_repr": "Подземелье Знаний | Level: 10 - 19",
+  "action_flag": 2,
+  "change_message": "[]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 609,
+ "fields": {
+  "action_time": "2024-04-18T08:50:31.915Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "9",
+  "object_repr": "Подземелье Опыта | Level: 10 - 19",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0438\\u043d\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c \\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 610,
+ "fields": {
+  "action_time": "2024-04-18T08:50:37.545Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "8",
+  "object_repr": "Подземелье Опыта | Level: 3 - 9",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041c\\u0430\\u043a\\u0441\\u0438\\u043c\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439 \\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c \\u041f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 611,
+ "fields": {
+  "action_time": "2024-04-18T08:51:58.043Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "10",
+  "object_repr": "Подземелье Знаний | Level: 10 - 19",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0417\\u043d\\u0430\\u043d\\u0438\\u0439 | Level: 10 - 19 | Amount: 1 - 1 | Chance: 0.1\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0417\\u043d\\u0430\\u043d\\u0438\\u0439 | Level: 10 - 19 | Amount: 1 - 1 | Chance: 0.5\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 612,
+ "fields": {
+  "action_time": "2024-04-18T08:53:47.521Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "11",
+  "object_repr": "Подземелье Знаний | Level: 3 - 9",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"dungeon required item\", \"object\": \"DungeonRequiredItem object (4)\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0417\\u043d\\u0430\\u043d\\u0438\\u0439 | Level: 3 - 9 | Amount: 1 - 1 | Chance: 0.5\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udfe1\\u0417\\u043e\\u043b\\u043e\\u0442\\u043e | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0417\\u043d\\u0430\\u043d\\u0438\\u0439 | Level: 3 - 9 | Amount: 1 - 1 | Chance: 50.0\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 613,
+ "fields": {
+  "action_time": "2024-04-18T08:54:47.938Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "10",
+  "object_repr": "Подземелье Знаний | Level: 10 - 19",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e \\u043e\\u043f\\u044b\\u0442\\u0430 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 614,
+ "fields": {
+  "action_time": "2024-04-18T08:55:37.101Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "11",
+  "object_repr": "Подземелье Знаний | Level: 3 - 9",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041a\\u043d\\u0438\\u0433\\u043e\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0417\\u043d\\u0430\\u043d\\u0438\\u0439 | Level: 3 - 9 | Amount: 1 - 1 | Chance: 0.01\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 615,
+ "fields": {
+  "action_time": "2024-04-18T08:56:48.172Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "12",
+  "object_repr": "Подземелье Талисманов | Level: 10 - 19",
+  "action_flag": 1,
+  "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"dungeon required item\", \"object\": \"DungeonRequiredItem object (5)\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udfe1\\u0417\\u043e\\u043b\\u043e\\u0442\\u043e | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u0432 | Level: 10 - 19 | Amount: 1 - 2 | Chance: 50.0\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u0432 | Level: 10 - 19 | Amount: 1 - 1 | Chance: 2.0\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u043c (\\u0420\\u0435\\u0434\\u043a\\u0438\\u0439) | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u0432 | Level: 10 - 19 | Amount: 1 - 1 | Chance: 0.01\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 616,
+ "fields": {
+  "action_time": "2024-04-18T08:57:46.936Z",
+  "user": 1,
+  "content_type": 56,
+  "object_id": "12",
+  "object_repr": "Подземелье Талисманов | Level: 10 - 19",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udc8d\\u0414\\u0435\\u0440\\u0435\\u0432\\u044f\\u043d\\u043d\\u044b\\u0439 \\u0411\\u0440\\u0430\\u0441\\u043b\\u0435\\u0442 | Dungeon: \\u041f\\u043e\\u0434\\u0437\\u0435\\u043c\\u0435\\u043b\\u044c\\u0435 \\u0422\\u0430\\u043b\\u0438\\u0441\\u043c\\u0430\\u043d\\u043e\\u0432 | Level: 10 - 19 | Amount: 1 - 1 | Chance: 0.01\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 617,
+ "fields": {
+  "action_time": "2024-04-18T08:58:54.976Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "1",
+  "object_repr": "Заброшенная Шахта | Power: 128",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0420\\u0435\\u0446\\u0435\\u043f\\u0442\\u0430\\u043c\\u0438 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 1) | Location: \\u0417\\u0430\\u0431\\u0440\\u043e\\u0448\\u0435\\u043d\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 128 | Amount: 1 - 1 | Chance: 0.05\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u0417\\u0430\\u0431\\u0440\\u043e\\u0448\\u0435\\u043d\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 128 | Amount: 1 - 1 | Chance: 0.01\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u0417\\u0430\\u0431\\u0440\\u043e\\u0448\\u0435\\u043d\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 128 | Amount: 1 - 1 | Chance: 0.01\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 618,
+ "fields": {
+  "action_time": "2024-04-18T08:59:18.328Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "1",
+  "object_repr": "Заброшенная Шахта | Power: 128",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u0417\\u0430\\u0431\\u0440\\u043e\\u0448\\u0435\\u043d\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 128 | Amount: 1 - 1 | Chance: 0.05\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u0417\\u0430\\u0431\\u0440\\u043e\\u0448\\u0435\\u043d\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 128 | Amount: 1 - 1 | Chance: 0.05\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 619,
+ "fields": {
+  "action_time": "2024-04-18T08:59:44.070Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "4",
+  "object_repr": "Лагерь гоблинов | Power: 195",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u041b\\u0430\\u0433\\u0435\\u0440\\u044c \\u0433\\u043e\\u0431\\u043b\\u0438\\u043d\\u043e\\u0432 | Power: 195 | Amount: 1 - 1 | Chance: 0.7\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u041b\\u0430\\u0433\\u0435\\u0440\\u044c \\u0433\\u043e\\u0431\\u043b\\u0438\\u043d\\u043e\\u0432 | Power: 195 | Amount: 1 - 1 | Chance: 0.7\"}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0420\\u0435\\u0446\\u0435\\u043f\\u0442\\u0430\\u043c\\u0438 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 1) | Location: \\u041b\\u0430\\u0433\\u0435\\u0440\\u044c \\u0433\\u043e\\u0431\\u043b\\u0438\\u043d\\u043e\\u0432 | Power: 195 | Amount: 1 - 1 | Chance: 0.7\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 620,
+ "fields": {
+  "action_time": "2024-04-18T09:00:04.499Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "3",
+  "object_repr": "Эльфийский лес | Power: 284",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0420\\u0435\\u0446\\u0435\\u043f\\u0442\\u0430\\u043c\\u0438 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 1) | Location: \\u042d\\u043b\\u044c\\u0444\\u0438\\u0439\\u0441\\u043a\\u0438\\u0439 \\u043b\\u0435\\u0441 | Power: 284 | Amount: 1 - 1 | Chance: 1.0\"}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u042d\\u043b\\u044c\\u0444\\u0438\\u0439\\u0441\\u043a\\u0438\\u0439 \\u043b\\u0435\\u0441 | Power: 284 | Amount: 1 - 1 | Chance: 1.0\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u042d\\u043b\\u044c\\u0444\\u0438\\u0439\\u0441\\u043a\\u0438\\u0439 \\u043b\\u0435\\u0441 | Power: 284 | Amount: 1 - 1 | Chance: 1.0\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 621,
+ "fields": {
+  "action_time": "2024-04-18T09:00:30.883Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "2",
+  "object_repr": "Лагерь Орков | Power: 362",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u041b\\u0430\\u0433\\u0435\\u0440\\u044c \\u041e\\u0440\\u043a\\u043e\\u0432 | Power: 362 | Amount: 1 - 1 | Chance: 1.2\"}}, {\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0420\\u0435\\u0446\\u0435\\u043f\\u0442\\u0430\\u043c\\u0438 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 1) | Location: \\u041b\\u0430\\u0433\\u0435\\u0440\\u044c \\u041e\\u0440\\u043a\\u043e\\u0432 | Power: 362 | Amount: 1 - 1 | Chance: 1.2\"}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u041e\\u0431\\u044b\\u0447\\u043d\\u044b\\u0439) | Location: \\u041b\\u0430\\u0433\\u0435\\u0440\\u044c \\u041e\\u0440\\u043a\\u043e\\u0432 | Power: 362 | Amount: 1 - 1 | Chance: 1.2\", \"fields\": [\"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\", \"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 622,
+ "fields": {
+  "action_time": "2024-04-18T09:02:02.797Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "7",
+  "object_repr": "Угольная Шахта | Power: 450",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0420\\u0435\\u0446\\u0435\\u043f\\u0442\\u0430\\u043c\\u0438 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u0423\\u0433\\u043e\\u043b\\u044c\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 450 | Amount: 1 - 1 | Chance: 0.5\"}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 623,
+ "fields": {
+  "action_time": "2024-04-18T09:02:11.981Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "7",
+  "object_repr": "Угольная Шахта | Power: 624",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u0422\\u0440\\u0435\\u0431\\u0443\\u0435\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 624,
+ "fields": {
+  "action_time": "2024-04-18T09:02:55.553Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "5",
+  "object_repr": "Мертвая Деревня | Power: 518",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0420\\u0435\\u0446\\u0435\\u043f\\u0442\\u0430\\u043c\\u0438 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u041c\\u0435\\u0440\\u0442\\u0432\\u0430\\u044f \\u0414\\u0435\\u0440\\u0435\\u0432\\u043d\\u044f | Power: 518 | Amount: 1 - 1 | Chance: 0.5\"}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u041c\\u0435\\u0440\\u0442\\u0432\\u0430\\u044f \\u0414\\u0435\\u0440\\u0435\\u0432\\u043d\\u044f | Power: 518 | Amount: 1 - 1 | Chance: 0.5\", \"fields\": [\"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\", \"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u041c\\u0435\\u0440\\u0442\\u0432\\u0430\\u044f \\u0414\\u0435\\u0440\\u0435\\u0432\\u043d\\u044f | Power: 518 | Amount: 1 - 1 | Chance: 0.5\", \"fields\": [\"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\", \"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 625,
+ "fields": {
+  "action_time": "2024-04-18T09:03:15.526Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "6",
+  "object_repr": "Призрачный Лес | Power: 589",
+  "action_flag": 2,
+  "change_message": "[{\"added\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u041f\\u0440\\u0438\\u0437\\u0440\\u0430\\u0447\\u043d\\u044b\\u0439 \\u041b\\u0435\\u0441 | Power: 589 | Amount: 1 - 1 | Chance: 1.0\"}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0420\\u0435\\u0446\\u0435\\u043f\\u0442\\u0430\\u043c\\u0438 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u041f\\u0440\\u0438\\u0437\\u0440\\u0430\\u0447\\u043d\\u044b\\u0439 \\u041b\\u0435\\u0441 | Power: 589 | Amount: 1 - 1 | Chance: 1.0\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u041f\\u0440\\u0438\\u0437\\u0440\\u0430\\u0447\\u043d\\u044b\\u0439 \\u041b\\u0435\\u0441 | Power: 589 | Amount: 1 - 1 | Chance: 1.0\", \"fields\": [\"\\u041f\\u0440\\u0435\\u0434\\u043c\\u0435\\u0442\", \"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 626,
+ "fields": {
+  "action_time": "2024-04-18T09:03:30.070Z",
+  "user": 1,
+  "content_type": 36,
+  "object_id": "7",
+  "object_repr": "Угольная Шахта | Power: 624",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u041e\\u0440\\u0443\\u0436\\u0438\\u0435\\u043c (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u0423\\u0433\\u043e\\u043b\\u044c\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 624 | Amount: 1 - 1 | Chance: 1.5\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0411\\u0440\\u043e\\u043d\\u0435\\u0439 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u0423\\u0433\\u043e\\u043b\\u044c\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 624 | Amount: 1 - 1 | Chance: 1.5\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}, {\"changed\": {\"name\": \"\\u0414\\u0440\\u043e\\u043f \\u0432 \\u043b\\u043e\\u043a\\u0430\\u0446\\u0438\\u0438\", \"object\": \"Item: \\ud83d\\udce6\\u041c\\u0435\\u0448\\u043e\\u043a \\u0441 \\u0420\\u0435\\u0446\\u0435\\u043f\\u0442\\u0430\\u043c\\u0438 (\\u0423\\u0440\\u043e\\u0432\\u0435\\u043d\\u044c 2) | Location: \\u0423\\u0433\\u043e\\u043b\\u044c\\u043d\\u0430\\u044f \\u0428\\u0430\\u0445\\u0442\\u0430 | Power: 624 | Amount: 1 - 1 | Chance: 1.5\", \"fields\": [\"\\u0428\\u0430\\u043d\\u0441 \\u0432 \\u043f\\u0440\\u043e\\u0446\\u0435\\u043d\\u0442\\u0430\\u0445 \\u0432 \\u043c\\u0438\\u043d\\u0443\\u0442\\u0443\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 627,
+ "fields": {
+  "action_time": "2024-04-18T09:04:22.428Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "4",
+  "object_repr": "Name: Король Орков | Required Power: 420 | Respawn: 2024-04-18 23:35:19+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0435\\u043e\\u0431\\u0445\\u043e\\u0434\\u0438\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 628,
+ "fields": {
+  "action_time": "2024-04-18T09:04:31.757Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "3",
+  "object_repr": "Name: Повелитель Зомби | Required Power: 554 | Respawn: 2024-04-19 00:43:56+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0435\\u043e\\u0431\\u0445\\u043e\\u0434\\u0438\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 629,
+ "fields": {
+  "action_time": "2024-04-18T09:04:39.280Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "2",
+  "object_repr": "Name: Древний Призрак | Required Power: 619 | Respawn: 2024-04-18 20:41:38+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0435\\u043e\\u0431\\u0445\\u043e\\u0434\\u0438\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 630,
+ "fields": {
+  "action_time": "2024-04-18T09:04:45.742Z",
+  "user": 1,
+  "content_type": 47,
+  "object_id": "1",
+  "object_repr": "Name: Железный Голем | Required Power: 694 | Respawn: 2024-04-18 23:35:58+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0435\\u043e\\u0431\\u0445\\u043e\\u0434\\u0438\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043f\\u0435\\u0440\\u0441\\u043e\\u043d\\u0430\\u0436\\u0430\"]}}]"
+ }
+},
+{
+ "model": "admin.logentry",
+ "pk": 631,
+ "fields": {
+  "action_time": "2024-04-18T09:05:03.928Z",
+  "user": 1,
+  "content_type": 41,
+  "object_id": "1",
+  "object_repr": "Name: Каменный Голем | Required Power: 8940 | Respawn: 2024-04-18 17:56:49+03:00",
+  "action_flag": 2,
+  "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0435\\u043e\\u0431\\u0445\\u043e\\u0434\\u0438\\u043c\\u0430\\u044f \\u0441\\u0438\\u043b\\u0430 \\u043a\\u043b\\u0430\\u043d\\u0430\"]}}]"
+ }
+},
+{
  "model": "contenttypes.contenttype",
  "pk": 1,
  "fields": {
@@ -8031,6 +8616,38 @@
  "fields": {
   "app_label": "character",
   "model": "characterpower"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 53,
+ "fields": {
+  "app_label": "location",
+  "model": "dungeondrop"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 54,
+ "fields": {
+  "app_label": "location",
+  "model": "dungeonrequireditem"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 55,
+ "fields": {
+  "app_label": "location",
+  "model": "dungeoncharacter"
+ }
+},
+{
+ "model": "contenttypes.contenttype",
+ "pk": 56,
+ "fields": {
+  "app_label": "location",
+  "model": "dungeon"
  }
 },
 {
@@ -13498,6 +14115,46 @@
  }
 },
 {
+ "model": "location.baselocationmodel",
+ "pk": 8,
+ "fields": {
+  "name": "Подземелье Опыта",
+  "created": "2024-04-18T08:46:10.610Z"
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 9,
+ "fields": {
+  "name": "Подземелье Опыта",
+  "created": "2024-04-18T08:47:11.337Z"
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 10,
+ "fields": {
+  "name": "Подземелье Знаний",
+  "created": "2024-04-18T08:50:09.672Z"
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 11,
+ "fields": {
+  "name": "Подземелье Знаний",
+  "created": "2024-04-18T08:53:47.517Z"
+ }
+},
+{
+ "model": "location.baselocationmodel",
+ "pk": 12,
+ "fields": {
+  "name": "Подземелье Талисманов",
+  "created": "2024-04-18T08:56:48.168Z"
+ }
+},
+{
  "model": "location.location",
  "pk": 1,
  "fields": {
@@ -13512,25 +14169,25 @@
  "fields": {
   "exp": 4,
   "place": 10,
-  "required_power": 270
+  "required_power": 362
  }
 },
 {
  "model": "location.location",
  "pk": 3,
  "fields": {
-  "exp": 2,
+  "exp": 3,
   "place": 10,
-  "required_power": 194
+  "required_power": 284
  }
 },
 {
  "model": "location.location",
  "pk": 4,
  "fields": {
-  "exp": 1,
+  "exp": 2,
   "place": 10,
-  "required_power": 152
+  "required_power": 195
  }
 },
 {
@@ -13539,7 +14196,7 @@
  "fields": {
   "exp": 6,
   "place": 10,
-  "required_power": 340
+  "required_power": 518
  }
 },
 {
@@ -13548,7 +14205,7 @@
  "fields": {
   "exp": 7,
   "place": 10,
-  "required_power": 390
+  "required_power": 589
  }
 },
 {
@@ -13557,7 +14214,7 @@
  "fields": {
   "exp": 9,
   "place": 10,
-  "required_power": 450
+  "required_power": 624
  }
 },
 {
@@ -13620,10 +14277,10 @@
  "pk": 6,
  "fields": {
   "location": 2,
-  "item": 12,
+  "item": 4,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.05
+  "chance": 1.2
  }
 },
 {
@@ -13634,7 +14291,7 @@
   "item": 4,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.1
+  "chance": 1.0
  }
 },
 {
@@ -13645,7 +14302,7 @@
   "item": 7,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.1
+  "chance": 1.0
  }
 },
 {
@@ -13656,7 +14313,7 @@
   "item": 6,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.1
+  "chance": 0.7
  }
 },
 {
@@ -13675,10 +14332,10 @@
  "pk": 12,
  "fields": {
   "location": 5,
-  "item": 9,
+  "item": 94,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.1
+  "chance": 0.5
  }
 },
 {
@@ -13686,10 +14343,10 @@
  "pk": 13,
  "fields": {
   "location": 5,
-  "item": 8,
+  "item": 93,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.1
+  "chance": 0.5
  }
 },
 {
@@ -13766,7 +14423,7 @@
   "item": 92,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.1
+  "chance": 1.0
  }
 },
 {
@@ -13788,7 +14445,7 @@
   "item": 94,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.5
+  "chance": 1.5
  }
 },
 {
@@ -13799,7 +14456,7 @@
   "item": 93,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.5
+  "chance": 1.5
  }
 },
 {
@@ -13818,10 +14475,590 @@
  "pk": 25,
  "fields": {
   "location": 6,
+  "item": 93,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.0
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 26,
+ "fields": {
+  "location": 1,
+  "item": 6,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.05
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 27,
+ "fields": {
+  "location": 1,
+  "item": 4,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.05
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 28,
+ "fields": {
+  "location": 1,
+  "item": 7,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.05
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 29,
+ "fields": {
+  "location": 4,
+  "item": 4,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.7
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 30,
+ "fields": {
+  "location": 4,
+  "item": 7,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.7
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 31,
+ "fields": {
+  "location": 3,
+  "item": 6,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.0
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 32,
+ "fields": {
+  "location": 2,
+  "item": 7,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.2
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 33,
+ "fields": {
+  "location": 2,
+  "item": 6,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.2
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 34,
+ "fields": {
+  "location": 7,
+  "item": 92,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.5
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 35,
+ "fields": {
+  "location": 5,
+  "item": 92,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.5
+ }
+},
+{
+ "model": "location.locationdrop",
+ "pk": 36,
+ "fields": {
+  "location": 6,
+  "item": 94,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.0
+ }
+},
+{
+ "model": "location.locationboss",
+ "pk": 1,
+ "fields": {
+  "name": "Железный Голем",
+  "respawn": "2024-04-18T20:35:58Z",
+  "required_power": 694,
+  "location": 7
+ }
+},
+{
+ "model": "location.locationboss",
+ "pk": 2,
+ "fields": {
+  "name": "Древний Призрак",
+  "respawn": "2024-04-18T17:41:38Z",
+  "required_power": 619,
+  "location": 6
+ }
+},
+{
+ "model": "location.locationboss",
+ "pk": 3,
+ "fields": {
+  "name": "Повелитель Зомби",
+  "respawn": "2024-04-18T21:43:56Z",
+  "required_power": 554,
+  "location": 5
+ }
+},
+{
+ "model": "location.locationboss",
+ "pk": 4,
+ "fields": {
+  "name": "Король Орков",
+  "respawn": "2024-04-18T20:35:19Z",
+  "required_power": 420,
+  "location": 2
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 1,
+ "fields": {
+  "boss": 1,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 10,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 2,
+ "fields": {
+  "boss": 1,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 10,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 3,
+ "fields": {
+  "boss": 1,
+  "item": 93,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 4,
+ "fields": {
+  "boss": 1,
+  "item": 94,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 5,
+ "fields": {
+  "boss": 2,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 6,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 6,
+ "fields": {
+  "boss": 2,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 6,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 7,
+ "fields": {
+  "boss": 2,
+  "item": 93,
+  "min_amount": 1,
+  "max_amount": 2,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 8,
+ "fields": {
+  "boss": 2,
+  "item": 94,
+  "min_amount": 1,
+  "max_amount": 2,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 9,
+ "fields": {
+  "boss": 3,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 10,
+ "fields": {
+  "boss": 3,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 100.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 11,
+ "fields": {
+  "boss": 3,
+  "item": 93,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 12,
+ "fields": {
+  "boss": 3,
+  "item": 94,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 13,
+ "fields": {
+  "boss": 4,
+  "item": 12,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 70.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 14,
+ "fields": {
+  "boss": 4,
+  "item": 4,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 20.0
+ }
+},
+{
+ "model": "location.locationbossdrop",
+ "pk": 15,
+ "fields": {
+  "boss": 4,
+  "item": 7,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 20.0
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 8,
+ "fields": {
+  "exp": 5,
+  "min_level": 3,
+  "max_level": 9,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 9,
+ "fields": {
+  "exp": 10,
+  "min_level": 10,
+  "max_level": 19,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 10,
+ "fields": {
+  "exp": 2,
+  "min_level": 10,
+  "max_level": 19,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 11,
+ "fields": {
+  "exp": 1,
+  "min_level": 3,
+  "max_level": 9,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 12,
+ "fields": {
+  "exp": 2,
+  "min_level": 10,
+  "max_level": 19,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 1,
+ "fields": {
+  "dungeon": 8,
+  "item": 1,
+  "amount": 2000
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 2,
+ "fields": {
+  "dungeon": 9,
+  "item": 1,
+  "amount": 10000
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 3,
+ "fields": {
+  "dungeon": 10,
+  "item": 1,
+  "amount": 5000
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 4,
+ "fields": {
+  "dungeon": 11,
+  "item": 1,
+  "amount": 1000
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 5,
+ "fields": {
+  "dungeon": 12,
+  "item": 1,
+  "amount": 5000
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 1,
+ "fields": {
+  "dungeon": 8,
+  "item": 111,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.0
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 2,
+ "fields": {
+  "dungeon": 9,
+  "item": 111,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 2.0
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 3,
+ "fields": {
+  "dungeon": 10,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 2.0
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 4,
+ "fields": {
+  "dungeon": 10,
+  "item": 1,
+  "min_amount": 1,
+  "max_amount": 2,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 5,
+ "fields": {
+  "dungeon": 10,
+  "item": 11,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.01
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 6,
+ "fields": {
+  "dungeon": 10,
   "item": 103,
   "min_amount": 1,
   "max_amount": 1,
-  "chance": 0.02
+  "chance": 0.1
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 7,
+ "fields": {
+  "dungeon": 10,
+  "item": 12,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.5
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 8,
+ "fields": {
+  "dungeon": 11,
+  "item": 12,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.5
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 9,
+ "fields": {
+  "dungeon": 11,
+  "item": 1,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 10,
+ "fields": {
+  "dungeon": 11,
+  "item": 103,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.01
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 11,
+ "fields": {
+  "dungeon": 12,
+  "item": 1,
+  "min_amount": 1,
+  "max_amount": 2,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 12,
+ "fields": {
+  "dungeon": 12,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 2.0
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 13,
+ "fields": {
+  "dungeon": 12,
+  "item": 10,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.01
+ }
+},
+{
+ "model": "location.dungeondrop",
+ "pk": 14,
+ "fields": {
+  "dungeon": 12,
+  "item": 109,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.01
  }
 },
 {
@@ -13829,8 +15066,8 @@
  "pk": 1,
  "fields": {
   "name": "Каменный Голем",
-  "respawn": "2024-04-17T11:15:15.038Z",
-  "required_power": 300
+  "respawn": "2024-04-18T14:56:49Z",
+  "required_power": 8940
  }
 },
 {

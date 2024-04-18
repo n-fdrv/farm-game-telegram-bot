@@ -153,3 +153,108 @@ class LocationBossDrop(models.Model):
 
     def __str__(self):
         return f"{self.item.name_with_type} {self.chance}"
+
+
+class Dungeon(BaseLocationModel):
+    """Модель для хранения локаций."""
+
+    exp = models.IntegerField(
+        default=1, verbose_name="Количество опыта в минуту"
+    )
+    drop = models.ManyToManyField(
+        Item, through="DungeonDrop", related_name="dungeon_drop"
+    )
+    min_level = models.IntegerField(
+        default=1, verbose_name="Минимальный Уровень Персонажа"
+    )
+    max_level = models.IntegerField(
+        default=1, verbose_name="Максимальный Уровень Персонажа"
+    )
+    cooldown_hours = models.IntegerField(
+        default=24, verbose_name="Ожидание часов для повторного входа"
+    )
+    hunting_hours = models.IntegerField(
+        default=4, verbose_name="Часов максимальной охоты"
+    )
+    required_items = models.ManyToManyField(
+        Item,
+        through="DungeonRequiredItem",
+        related_name="dungeon_required_items",
+    )
+    characters = models.ManyToManyField(
+        to="character.Character",
+        through="DungeonCharacter",
+        related_name="dungeon_characters",
+    )
+
+    class Meta:
+        verbose_name = "Подземелье"
+        verbose_name_plural = "Подземелья"
+
+    def __str__(self):
+        return f"{self.name} | Level: {self.min_level} - {self.max_level}"
+
+    @property
+    def name_with_level(self):
+        """Имя с необходимой силой клана."""
+        return f"{self.name} Ур. {self.min_level}-{self.max_level}"
+
+
+class DungeonCharacter(models.Model):
+    """Модель для хранения предметов персонажа."""
+
+    dungeon = models.ForeignKey(
+        Dungeon, on_delete=models.CASCADE, verbose_name="Подземелье"
+    )
+    character = models.ForeignKey(
+        to="character.Character",
+        on_delete=models.CASCADE,
+        verbose_name="Персонаж",
+    )
+    hunting_begin = models.DateTimeField(
+        null=True, blank=True, verbose_name="Начало охоты"
+    )
+
+
+class DungeonRequiredItem(models.Model):
+    """Модель для хранения предметов персонажа."""
+
+    dungeon = models.ForeignKey(
+        Dungeon, on_delete=models.CASCADE, verbose_name="Подземелье"
+    )
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, verbose_name="Предмет"
+    )
+    amount = models.IntegerField(default=0, verbose_name="Количество")
+
+
+class DungeonDrop(models.Model):
+    """Модель для хранения дроп листа в локациях."""
+
+    dungeon = models.ForeignKey(
+        Dungeon, on_delete=models.CASCADE, verbose_name="Подземелье"
+    )
+    item = models.ForeignKey(
+        Item, on_delete=models.CASCADE, verbose_name="Предмет"
+    )
+    min_amount = models.IntegerField(
+        default=1, verbose_name="Минимальное количество"
+    )
+    max_amount = models.IntegerField(
+        default=1, verbose_name="Максимальное количество"
+    )
+    chance = models.FloatField(
+        default=1, verbose_name="Шанс в процентах в минуту"
+    )
+
+    class Meta:
+        verbose_name = "Дроп в локации"
+        verbose_name_plural = "Дроп в локациях"
+
+    def __str__(self):
+        return (
+            f"Item: {self.item} | "
+            f"Dungeon: {self.dungeon} | "
+            f"Amount: {self.min_amount} - {self.max_amount} | "
+            f"Chance: {self.chance}"
+        )

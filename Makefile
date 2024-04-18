@@ -50,7 +50,7 @@ download-data: # Выгрузить данные
 	--exclude=bot \
 	--exclude=character.Character \
 	--exclude=character.CharacterItem \
-	--exclude=character.CharacterSKill \
+	--exclude=character.CharacterSkill \
     --exclude=character.CharacterPower \
 	--exclude=character.CharacterRecipe \
 	--exclude=character.CharacterEffect \
@@ -62,9 +62,8 @@ download-data: # Выгрузить данные
     --exclude=clan.ClanWarehouse \
     --exclude=clan.ClanBossClan \
     --exclude=clan.ClanBossCharacter \
-    --exclude=location.LocationBoss \
-    --exclude=location.LocationBossDrop \
     --exclude=location.LocationBossCharacter \
+    --exclude=location.DungeonCharacter \
 	--indent=1 -o data/db.json && \
 	cd ..
 

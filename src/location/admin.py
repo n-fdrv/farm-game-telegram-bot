@@ -1,7 +1,8 @@
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
+from item.models import Item
 
-from location.models import Location, LocationBoss
+from location.models import Dungeon, Location, LocationBoss
 
 
 class LocationDropInline(admin.TabularInline):
@@ -9,7 +10,11 @@ class LocationDropInline(admin.TabularInline):
 
     model = Location.drop.through
     extra = 1
-    ordering = ("item__type",)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Item.objects.order_by("type")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class LocationBossDropInline(admin.TabularInline):
@@ -51,3 +56,60 @@ class LocationBossAdmin(DjangoObjectActions, admin.ModelAdmin):
     list_filter = ("location",)
     search_fields = ("name",)
     inlines = (LocationBossDropInline, LocationBossCharacterInline)
+
+
+class DungeonDropInline(admin.TabularInline):
+    """Инлайн модель предметов персонажа."""
+
+    model = Dungeon.drop.through
+    extra = 1
+    ordering = ("item__type",)
+    classes = ("collapse",)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Item.objects.order_by("type")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class DungeonRequiredItemInline(admin.TabularInline):
+    """Инлайн модель предметов персонажа."""
+
+    model = Dungeon.required_items.through
+    extra = 1
+    ordering = ("item__type",)
+    classes = ("collapse",)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Item.objects.order_by("type")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+
+class DungeonCharacterInline(admin.TabularInline):
+    """Инлайн модель предметов персонажа."""
+
+    model = Dungeon.characters.through
+    extra = 1
+    classes = ("collapse",)
+
+
+@admin.register(Dungeon)
+class DungeonAdmin(DjangoObjectActions, admin.ModelAdmin):
+    """Управление моделью локаций."""
+
+    list_display = (
+        "name_with_level",
+        "exp",
+        "hunting_hours",
+        "cooldown_hours",
+    )
+    list_display_links = ("name_with_level",)
+    list_filter = ("name", "hunting_hours", "cooldown_hours")
+    search_fields = ("name",)
+    inlines = (
+        DungeonRequiredItemInline,
+        DungeonDropInline,
+        DungeonCharacterInline,
+    )
+    ordering = ("-min_level",)
