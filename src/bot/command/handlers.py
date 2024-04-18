@@ -32,7 +32,7 @@ async def start_handler(message: types.Message, state: FSMContext):
         "character",
         "character__character_class",
         "character__clan",
-        "character__current_location",
+        "character__current_place",
     ).aget_or_create(
         telegram_id=message.from_user.id,
     )

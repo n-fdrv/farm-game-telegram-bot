@@ -1,26 +1,28 @@
+import datetime
+
 from django.db import models
 from django.utils import timezone
 from item.models import Item
 
 
-class BaseLocationModel(models.Model):
+class HuntingZone(models.Model):
     """Базовая модель для моделей игры."""
 
     name = models.CharField(max_length=32, verbose_name="Имя")
     created = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания"
     )
-
-
-class Location(BaseLocationModel):
-    """Модель для хранения локаций."""
-
     exp = models.IntegerField(
         default=1, verbose_name="Количество опыта в минуту"
     )
     drop = models.ManyToManyField(
-        Item, through="LocationDrop", related_name="drop"
+        Item, through="HuntingZoneDrop", related_name="drop"
     )
+
+
+class Location(HuntingZone):
+    """Модель для хранения локаций."""
+
     place = models.IntegerField(default=10, verbose_name="Мест в локации")
     required_power = models.IntegerField(
         default=100, verbose_name="Требуемая сила персонажа"
@@ -39,11 +41,11 @@ class Location(BaseLocationModel):
         return f"{self.name} ⚔️{self.required_power}"
 
 
-class LocationDrop(models.Model):
+class HuntingZoneDrop(models.Model):
     """Модель для хранения дроп листа в локациях."""
 
-    location = models.ForeignKey(
-        Location, on_delete=models.CASCADE, verbose_name="Локация"
+    hunting_zone = models.ForeignKey(
+        HuntingZone, on_delete=models.CASCADE, verbose_name="Зона Охоты"
     )
     item = models.ForeignKey(
         Item, on_delete=models.CASCADE, verbose_name="Предмет"
@@ -59,13 +61,13 @@ class LocationDrop(models.Model):
     )
 
     class Meta:
-        verbose_name = "Дроп в локации"
-        verbose_name_plural = "Дроп в локациях"
+        verbose_name = "Дроп в зоне охоты"
+        verbose_name_plural = "Дроп в зонах охоты"
 
     def __str__(self):
         return (
             f"Item: {self.item} | "
-            f"Location: {self.location} | "
+            f"Location: {self.hunting_zone} | "
             f"Amount: {self.min_amount} - {self.max_amount} | "
             f"Chance: {self.chance}"
         )
@@ -155,15 +157,9 @@ class LocationBossDrop(models.Model):
         return f"{self.item.name_with_type} {self.chance}"
 
 
-class Dungeon(BaseLocationModel):
+class Dungeon(HuntingZone):
     """Модель для хранения локаций."""
 
-    exp = models.IntegerField(
-        default=1, verbose_name="Количество опыта в минуту"
-    )
-    drop = models.ManyToManyField(
-        Item, through="DungeonDrop", related_name="dungeon_drop"
-    )
     min_level = models.IntegerField(
         default=1, verbose_name="Минимальный Уровень Персонажа"
     )
@@ -212,7 +208,8 @@ class DungeonCharacter(models.Model):
         verbose_name="Персонаж",
     )
     hunting_begin = models.DateTimeField(
-        null=True, blank=True, verbose_name="Начало охоты"
+        default=timezone.now() - datetime.timedelta(days=364),
+        verbose_name="Начало охоты",
     )
 
 
@@ -226,35 +223,3 @@ class DungeonRequiredItem(models.Model):
         Item, on_delete=models.CASCADE, verbose_name="Предмет"
     )
     amount = models.IntegerField(default=0, verbose_name="Количество")
-
-
-class DungeonDrop(models.Model):
-    """Модель для хранения дроп листа в локациях."""
-
-    dungeon = models.ForeignKey(
-        Dungeon, on_delete=models.CASCADE, verbose_name="Подземелье"
-    )
-    item = models.ForeignKey(
-        Item, on_delete=models.CASCADE, verbose_name="Предмет"
-    )
-    min_amount = models.IntegerField(
-        default=1, verbose_name="Минимальное количество"
-    )
-    max_amount = models.IntegerField(
-        default=1, verbose_name="Максимальное количество"
-    )
-    chance = models.FloatField(
-        default=1, verbose_name="Шанс в процентах в минуту"
-    )
-
-    class Meta:
-        verbose_name = "Дроп в локации"
-        verbose_name_plural = "Дроп в локациях"
-
-    def __str__(self):
-        return (
-            f"Item: {self.item} | "
-            f"Dungeon: {self.dungeon} | "
-            f"Amount: {self.min_amount} - {self.max_amount} | "
-            f"Chance: {self.chance}"
-        )

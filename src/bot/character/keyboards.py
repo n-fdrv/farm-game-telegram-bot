@@ -37,7 +37,7 @@ async def character_get_keyboard(character: Character):
     """Клавиатура персонажа."""
     keyboard = InlineKeyboardBuilder()
     rows = []
-    if character.current_location:
+    if character.current_place:
         keyboard.button(
             text=EXIT_LOCATION_BUTTON,
             callback_data=LocationData(

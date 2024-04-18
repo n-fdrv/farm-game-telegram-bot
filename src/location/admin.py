@@ -1,19 +1,23 @@
+from django.conf import settings
 from django.contrib import admin
+from django.db.models import Q
 from django_object_actions import DjangoObjectActions
-from item.models import Item
+from item.models import Item, ItemType
 
-from location.models import Dungeon, Location, LocationBoss
+from location.models import Dungeon, HuntingZone, Location, LocationBoss
 
 
-class LocationDropInline(admin.TabularInline):
+class HuntingZoneDropInline(admin.TabularInline):
     """Инлайн модель предметов персонажа."""
 
-    model = Location.drop.through
+    model = HuntingZone.drop.through
     extra = 1
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         """Изменение списка формы инлайн модели."""
-        kwargs["queryset"] = Item.objects.order_by("type")
+        kwargs["queryset"] = Item.objects.filter(
+            Q(name=settings.GOLD_NAME) | Q(type=ItemType.BAG)
+        ).order_by("name")
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -22,7 +26,13 @@ class LocationBossDropInline(admin.TabularInline):
 
     model = LocationBoss.drop.through
     extra = 1
-    ordering = ("item__type",)
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Item.objects.filter(type=ItemType.BAG).order_by(
+            "name"
+        )
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class LocationBossCharacterInline(admin.TabularInline):
@@ -43,7 +53,7 @@ class LocationAdmin(DjangoObjectActions, admin.ModelAdmin):
     )
     list_display_links = ("name",)
     search_fields = ("name",)
-    inlines = (LocationDropInline,)
+    inlines = (HuntingZoneDropInline,)
     ordering = ("-required_power",)
 
 
@@ -58,20 +68,6 @@ class LocationBossAdmin(DjangoObjectActions, admin.ModelAdmin):
     inlines = (LocationBossDropInline, LocationBossCharacterInline)
 
 
-class DungeonDropInline(admin.TabularInline):
-    """Инлайн модель предметов персонажа."""
-
-    model = Dungeon.drop.through
-    extra = 1
-    ordering = ("item__type",)
-    classes = ("collapse",)
-
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        """Изменение списка формы инлайн модели."""
-        kwargs["queryset"] = Item.objects.order_by("type")
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
-
-
 class DungeonRequiredItemInline(admin.TabularInline):
     """Инлайн модель предметов персонажа."""
 
@@ -82,7 +78,9 @@ class DungeonRequiredItemInline(admin.TabularInline):
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         """Изменение списка формы инлайн модели."""
-        kwargs["queryset"] = Item.objects.order_by("type")
+        kwargs["queryset"] = Item.objects.filter(type=ItemType.ETC).order_by(
+            "name"
+        )
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
@@ -109,7 +107,7 @@ class DungeonAdmin(DjangoObjectActions, admin.ModelAdmin):
     search_fields = ("name",)
     inlines = (
         DungeonRequiredItemInline,
-        DungeonDropInline,
+        HuntingZoneDropInline,
         DungeonCharacterInline,
     )
     ordering = ("-min_level",)

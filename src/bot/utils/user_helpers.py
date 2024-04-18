@@ -5,7 +5,7 @@ async def get_user(user_id: int) -> User:
     """Метод получения пользователя из базы данных."""
     return await User.objects.select_related(
         "character",
-        "character__current_location",
+        "character__current_place",
         "character__character_class",
         "character__clan",
         "character__clan__leader",

@@ -1,3 +1,4 @@
+import datetime
 import re
 
 from character.models import Character, CharacterItem, MarketplaceItem
@@ -88,6 +89,13 @@ async def get_item_amount(
         )
         return item.amount
     return 0
+
+
+async def get_expired_text(time_left: datetime.timedelta):
+    """Получения остатка времени действия эликсира."""
+    if time_left > datetime.timedelta(days=1):
+        return f"более {time_left.days} суток"
+    return str(time_left).split(".")[0]
 
 
 async def get_item_effects(

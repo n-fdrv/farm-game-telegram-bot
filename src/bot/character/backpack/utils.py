@@ -74,7 +74,7 @@ async def get_character_item_enhance_text(character_item: CharacterItem):
 
 async def equip_item(item: CharacterItem):
     """Метод надевания, снятия предмета."""
-    if item.character.current_location:
+    if item.character.current_place:
         return False, EQUIP_IN_LOCATION_MESSAGE
     equipment = await Equipment.objects.aget(pk=item.item.pk)
     if equipment.equipment_type not in [

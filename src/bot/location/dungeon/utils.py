@@ -11,6 +11,9 @@ from character.models import (
 from django.utils import timezone
 from item.models import Effect, EffectProperty, EffectSlug
 from location.models import (
+    Dungeon,
+    DungeonCharacter,
+    DungeonRequiredItem,
     HuntingZoneDrop,
     Location,
     LocationBoss,
@@ -28,6 +31,7 @@ from bot.character.utils import (
     get_exp,
     remove_exp,
 )
+from bot.location.dungeon.messages import DUNGEON_GET_MESSAGE
 from bot.location.keyboards import (
     alert_about_location_boss_respawn_keyboard,
     attack_keyboard,
@@ -44,7 +48,6 @@ from bot.location.messages import (
     LOCATION_CHARACTER_GET_MESSAGE,
     LOCATION_ENTER_MESSAGE,
     LOCATION_FULL_MESSAGE,
-    LOCATION_GET_MESSAGE,
     LOCATION_NOT_AVAILABLE,
     LOCATION_WEEK_STRONG_MESSAGE,
     NO_WAR_KILL_MESSAGE_TO_ATTACKER,
@@ -54,7 +57,7 @@ from bot.location.messages import (
     WAR_KILL_MESSAGE_TO_ATTACKER,
 )
 from bot.models import User
-from bot.utils.game_utils import add_item
+from bot.utils.game_utils import add_item, get_expired_text
 from bot.utils.messages import ALREADY_KILLED_MESSAGE
 from bot.utils.schedulers import remove_scheduler, run_date_job
 from core.config import game_config
@@ -77,54 +80,80 @@ async def get_location_attack_effect(
     )
 
 
-async def get_location_drop(character: Character, location: Location) -> str:
+async def get_dungeon_required_items(dungeon: Dungeon) -> str:
+    """Получение информации об эффектах защиты локации."""
+    items_data = ""
+    async for required_item in (
+        DungeonRequiredItem.objects.select_related("item")
+        .filter(dungeon=dungeon)
+        .order_by("-amount")
+    ):
+        items_data += (
+            f"<b>{required_item.item.name_with_type}</b> - "
+            f"<i>{required_item.amount} шт.</i>\n"
+        )
+    return items_data
+
+
+async def get_dungeon_drop(character: Character, dungeon: Dungeon) -> str:
     """Получение информации об эффектах защиты локации."""
     drop_modifier = (
         await get_character_property(character, EffectProperty.DROP)
         * game_config.DROP_RATE
     )
     drop_data = ""
-    async for location_drop in (
+    async for dungeon_drop in (
         HuntingZoneDrop.objects.select_related("item")
-        .filter(hunting_zone=location)
+        .filter(hunting_zone=dungeon)
         .order_by("-chance")
     ):
-        chance = round(location_drop.chance * drop_modifier, 2)
+        chance = round(dungeon_drop.chance * drop_modifier, 2)
         chance_limit = 100
         if chance > chance_limit:
             chance = chance_limit
         amount = ""
-        if location_drop.max_amount > 1:
-            amount = (
-                f"({location_drop.min_amount}-{location_drop.max_amount}) "
-            )
+        if dungeon_drop.max_amount > 1:
+            amount = f"({dungeon_drop.min_amount}-{dungeon_drop.max_amount}) "
         drop_data += (
-            f"<b>{location_drop.item.name_with_type}</b> "
+            f"<b>{dungeon_drop.item.name_with_type}</b> "
             f"<i>{amount}- {chance}%</i>\n"
         )
     return drop_data
 
 
-async def get_location_info(character: Character, location: Location) -> str:
+async def check_dungeon_access(character: Character, dungeon: Dungeon):
+    """Проверка доступности подземелья."""
+    dungeon_character, created = await DungeonCharacter.objects.aget_or_create(
+        character=character, dungeon=dungeon
+    )
+    if (
+        created
+        or dungeon_character.hunting_begin
+        < timezone.now() - datetime.timedelta(hours=dungeon.cooldown_hours)
+    ):
+        return "Доступно"
+    time_left = (
+        dungeon_character.hunting_begin
+        + datetime.timedelta(hours=dungeon.cooldown_hours)
+        - timezone.now()
+    )
+    return await get_expired_text(time_left)
+
+
+async def get_dungeon_info(character: Character, dungeon: Dungeon) -> str:
     """Возвращает сообщение с данными о персонаже."""
-    characters_in_location = await Character.objects.filter(
-        current_place=location
-    ).acount()
     location_exp = (
         await get_character_property(character, EffectProperty.EXP)
-        * location.exp
+        * dungeon.exp
     )
     exp_by_kill = location_exp / character.exp_for_level_up * 100
-    hunting_speed = (
-        await get_character_power(character) / location.required_power
-    )
-    return LOCATION_GET_MESSAGE.format(
-        location.name,
-        location.required_power,
-        f"{characters_in_location}/{location.place}",
+    return DUNGEON_GET_MESSAGE.format(
+        dungeon.name_with_level,
+        await check_dungeon_access(character, dungeon),
+        dungeon.hunting_hours,
         round(exp_by_kill, 2),
-        round(hunting_speed, 2),
-        await get_location_drop(character, location),
+        await get_dungeon_drop(character, dungeon),
+        await get_dungeon_required_items(dungeon),
     )
 
 
@@ -192,7 +221,7 @@ async def check_if_dropped(
 ):
     """Проверка выпал ли предмет на охоте."""
     async for drop in HuntingZoneDrop.objects.select_related(
-        "item", "hunting_zone"
+        "item", "location"
     ).filter(hunting_zone=character.current_place):
         if random.uniform(0.01, 100) <= drop.chance * drop_buff:
             amount = random.randint(
@@ -245,9 +274,9 @@ async def use_toggle(character: Character):
 async def get_hunting_loot(character: Character, bot):
     """Метод получения трофеев с охоты."""
     monster_killed = (timezone.now() - character.hunting_begin).seconds / 60
-    location = await Location.objects.aget(pk=character.current_place.pk)
     monster_killed *= (
-        await get_character_power(character) / location.required_power
+        await get_character_power(character)
+        / character.current_place.required_power
     )
     drop_modifier = (
         await get_character_property(character, EffectProperty.DROP)

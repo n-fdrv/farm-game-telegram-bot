@@ -8,7 +8,7 @@ from item.models import (
     Item,
     Recipe,
 )
-from location.models import Location
+from location.models import HuntingZone
 
 from core.config import game_config
 
@@ -223,8 +223,8 @@ class Character(models.Model):
     premium_expired = models.DateTimeField(
         default=timezone.now, verbose_name="Окончание Премиума"
     )
-    current_location = models.ForeignKey(
-        to=Location,
+    current_place = models.ForeignKey(
+        to=HuntingZone,
         on_delete=models.SET_NULL,
         verbose_name="Текущая локация",
         null=True,

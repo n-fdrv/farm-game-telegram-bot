@@ -67,6 +67,7 @@ class LocationAction(Action):
 class DungeonAction(Action):
     """Действия для хендлеров подземелий."""
 
+    enter_confirm = f"{callback_data.DungeonData.__prefix__}-enco"
     enter = f"{callback_data.DungeonData.__prefix__}-en"
     exit_location_confirm = f"{callback_data.DungeonData.__prefix__}-exco"
     exit_location = f"{callback_data.DungeonData.__prefix__}-exlo"

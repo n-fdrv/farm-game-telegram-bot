@@ -29,6 +29,7 @@ from bot.clan.warehouse.handlers import clan_warehouse_router
 from bot.clan.wars.handlers import clan_wars_router
 from bot.command.handlers import command_router
 from bot.constants import commands
+from bot.location.dungeon.handlers import dungeon_router
 from bot.location.handlers import location_router
 from bot.location.utils import (
     make_hunting_end_schedulers_after_restart,
@@ -86,6 +87,7 @@ class AiogramApp:
             character_skills_router,
             character_powers_router,
             location_router,
+            dungeon_router,
             backpack_router,
             shop_router,
             marketplace_router,

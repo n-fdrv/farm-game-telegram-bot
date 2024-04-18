@@ -1,4 +1,3 @@
-import datetime
 import re
 
 from character.models import (
@@ -24,6 +23,7 @@ from bot.character.messages import (
     TURN_ON_TEXT,
 )
 from bot.models import User
+from bot.utils.game_utils import get_expired_text
 from core.config import game_config
 
 
@@ -212,8 +212,8 @@ async def get_character_info(character: Character) -> str:
     """Возвращает сообщение с данными о персонаже."""
     exp_in_percent = round(character.exp / character.exp_for_level_up * 100, 2)
     location = "Город"
-    if character.current_location:
-        location = f"{character.current_location.name_with_power}"
+    if character.current_place:
+        location = f"{character.current_place.name}"
     clan = "Нет"
     if character.clan:
         clan = character.clan.name_with_emoji
@@ -264,13 +264,6 @@ async def get_character_item_with_effects(character_item: CharacterItem):
         if effect.in_percent:
             effects += "%"
     return f"{character_item.name_with_enhance}{effects}"
-
-
-async def get_expired_text(time_left: datetime.timedelta):
-    """Получения остатка времени действия эликсира."""
-    if time_left > datetime.timedelta(days=1):
-        return f"более {time_left.days} суток"
-    return str(time_left).split(".")[0]
 
 
 async def get_elixir_with_effects_and_expired(character: Character):

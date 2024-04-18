@@ -152,7 +152,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
         bot = app.get_bot()
         for character in queryset:
             user = User.objects.get(character=character)
-            if character.current_location:
+            if character.current_place:
                 scheduler.add_job(
                     end_hunting,
                     "date",
@@ -216,7 +216,7 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
         "kills",
         "attack",
         "defence",
-        "current_location",
+        "current_place",
         "premium_expired",
     )
     list_display_links = ("name_with_level",)

@@ -48,6 +48,10 @@ download-data: # Выгрузить данные
 	cd src && poetry run python -Xutf8 manage.py dumpdata \
 	--exclude=auth.permission \
 	--exclude=bot \
+	--exclude=admin_user \
+	--exclude=admin.logentry \
+	--exclude=contenttypes \
+	--exclude=sessions \
 	--exclude=character.Character \
 	--exclude=character.CharacterItem \
 	--exclude=character.CharacterSkill \

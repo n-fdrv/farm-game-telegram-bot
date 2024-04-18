@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
+from item.models import Item
 
 from clan.models import Clan, ClanBoss
 
@@ -23,6 +24,11 @@ class ClanBossDropInline(admin.TabularInline):
 
     model = ClanBoss.drop.through
     extra = 1
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """Изменение списка формы инлайн модели."""
+        kwargs["queryset"] = Item.objects.order_by("type", "name")
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 class ClanBossClanInline(admin.TabularInline):

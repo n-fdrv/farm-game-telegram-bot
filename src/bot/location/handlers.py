@@ -117,7 +117,7 @@ async def exit_location_confirm(
 ):
     """Хендлер подтверждения выхода из локации."""
     user = await get_user(callback.from_user.id)
-    if not user.character.current_location:
+    if not user.character.current_place:
         await callback.message.delete()
         return
     keyboard = await exit_location_confirmation()
@@ -138,7 +138,7 @@ async def exit_location_handler(
 ):
     """Хендлер выхода из локации."""
     user = await get_user(callback.from_user.id)
-    if not user.character.current_location:
+    if not user.character.current_place:
         await callback.message.delete()
         return
     await callback.message.edit_text(text=PREPARING_HUNTING_END_MESSAGE)
@@ -164,7 +164,7 @@ async def character_list_handler(
 ):
     """Хендлер подтверждения выхода из локации."""
     user = await get_user(callback.from_user.id)
-    if user.character.current_location:
+    if user.character.current_place:
         await callback.message.delete()
         return
     paginator = await character_list_keyboard(callback_data)
@@ -185,11 +185,11 @@ async def location_character_get_handler(
 ):
     """Хендлер подтверждения выхода из локации."""
     user = await get_user(callback.from_user.id)
-    if user.character.current_location:
+    if user.character.current_place:
         await callback.message.delete()
         return
     character = await Character.objects.select_related(
-        "current_location", "character_class", "clan"
+        "current_place", "character_class", "clan"
     ).aget(id=callback_data.character_id)
     keyboard = await location_character_get_keyboard(callback_data)
     await callback.message.edit_text(
@@ -235,7 +235,7 @@ async def location_character_kill_handler(
 ):
     """Хендлер подтверждения выхода из локации."""
     character = await Character.objects.select_related(
-        "current_location", "character_class", "clan"
+        "current_place", "character_class", "clan"
     ).aget(id=callback_data.character_id)
     user = await get_user(callback.from_user.id)
     (more_attack, text, damage, callback_data.message_id) = (

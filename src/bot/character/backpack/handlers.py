@@ -234,7 +234,7 @@ async def backpack_equip_handler(
     """Коллбек надевания/снятия предмета."""
     character_item = await CharacterItem.objects.select_related(
         "character",
-        "character__current_location",
+        "character__current_place",
         "character__character_class",
         "item",
     ).aget(id=callback_data.id)
