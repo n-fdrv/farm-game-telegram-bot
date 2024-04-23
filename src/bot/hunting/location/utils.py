@@ -3,7 +3,6 @@ import random
 
 from character.models import (
     Character,
-    CharacterItem,
 )
 from django.utils import timezone
 from item.models import EffectProperty
@@ -14,10 +13,8 @@ from location.models import (
 )
 
 from bot.character.utils import (
-    get_character_item_with_effects,
     get_character_power,
     get_character_property,
-    get_elixir_with_effects_and_expired,
 )
 from bot.hunting.location.keyboards import (
     alert_about_location_boss_respawn_keyboard,
@@ -25,7 +22,6 @@ from bot.hunting.location.keyboards import (
 from bot.hunting.location.messages import (
     ALERT_ABOUT_BOSS_RESPAWN_MESSAGE,
     GET_LOCATION_BOSS_MESSAGE,
-    LOCATION_CHARACTER_GET_MESSAGE,
     LOCATION_FULL_MESSAGE,
     LOCATION_NOT_AVAILABLE,
     LOCATION_WEEK_STRONG_MESSAGE,
@@ -57,26 +53,6 @@ async def check_location_access(character: Character, location: Location):
     if characters_in_location >= location.place:
         return False, LOCATION_NOT_AVAILABLE.format(LOCATION_FULL_MESSAGE)
     return True, "Успешно"
-
-
-async def location_get_character_about(character: Character) -> str:
-    """Возвращает сообщение с данными о персонаже."""
-    clan = "Нет"
-    if character.clan:
-        clan = character.clan.name_with_emoji
-    return LOCATION_CHARACTER_GET_MESSAGE.format(
-        character.name_with_class,
-        clan,
-        "\n".join(
-            [
-                await get_character_item_with_effects(x)
-                async for x in CharacterItem.objects.select_related(
-                    "item"
-                ).filter(character=character, equipped=True)
-            ]
-        ),
-        await get_elixir_with_effects_and_expired(character),
-    )
 
 
 async def get_location_boss_drop(boss: LocationBoss):

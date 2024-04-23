@@ -5,6 +5,29 @@ from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
 from bot.constants.actions import pvp_action
 from bot.constants.callback_data import PvPData
 from bot.pvp.buttons import ATTACK_BUTTON
+from bot.utils.paginator import get_callback_by_action
+
+
+async def pvp_get_keyboard(callback_data: PvPData):
+    """Клавиатура подтверждения выхода из локации."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=ATTACK_BUTTON,
+        callback_data=PvPData(
+            action=pvp_action.attack_confirm,
+            id=callback_data.id,
+            back_action=callback_data.back_action,
+            back_id=callback_data.back_id,
+        ),
+    )
+    back_data = get_callback_by_action(callback_data.back_action)
+    back_data.id = callback_data.back_id
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=back_data,
+    )
+    keyboard.adjust(1)
+    return keyboard
 
 
 async def attack_character_confirm_keyboard(callback_data: PvPData):
@@ -15,6 +38,8 @@ async def attack_character_confirm_keyboard(callback_data: PvPData):
         callback_data=PvPData(
             action=pvp_action.attack,
             id=callback_data.id,
+            back_action=callback_data.back_action,
+            back_id=callback_data.back_id,
         ),
     )
     keyboard.button(
@@ -22,6 +47,8 @@ async def attack_character_confirm_keyboard(callback_data: PvPData):
         callback_data=PvPData(
             action=pvp_action.get,
             id=callback_data.id,
+            back_action=callback_data.back_action,
+            back_id=callback_data.back_id,
         ),
     )
     keyboard.adjust(2)

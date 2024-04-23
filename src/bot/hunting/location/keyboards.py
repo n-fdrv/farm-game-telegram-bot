@@ -5,11 +5,10 @@ from item.models import EffectProperty
 from location.models import Location, LocationBoss
 
 from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
-from bot.constants.actions import character_action, location_action
-from bot.constants.callback_data import CharacterData, LocationData
+from bot.constants.actions import character_action, location_action, pvp_action
+from bot.constants.callback_data import CharacterData, LocationData, PvPData
 from bot.hunting.location.buttons import (
     ACCEPT_BOSS_BUTTON,
-    CHARACTER_KILL_BUTTON,
     LOCATION_BOSSES_BUTTON,
     LOCATION_BUTTON,
     LOCATION_CHARACTERS_BUTTON,
@@ -168,10 +167,11 @@ async def character_list_keyboard(callback_data: LocationData):
             continue
         keyboard.button(
             text=character.name_with_clan,
-            callback_data=LocationData(
-                action=location_action.characters_get,
-                id=callback_data.id,
-                character_id=character.id,
+            callback_data=PvPData(
+                action=pvp_action.get,
+                id=character.id,
+                back_action=callback_data.action,
+                back_id=callback_data.id,
             ),
         )
     keyboard.adjust(1)
@@ -193,26 +193,3 @@ async def character_list_keyboard(callback_data: LocationData):
             ]
         ]
     )
-
-
-async def location_character_get_keyboard(callback_data: LocationData):
-    """Клавиатура подтверждения выхода из локации."""
-    keyboard = InlineKeyboardBuilder()
-    keyboard.button(
-        text=CHARACTER_KILL_BUTTON,
-        callback_data=LocationData(
-            action=location_action.characters_kill_confirm,
-            id=callback_data.id,
-            character_id=callback_data.character_id,
-        ),
-    )
-    keyboard.button(
-        text=BACK_BUTTON,
-        callback_data=LocationData(
-            action=location_action.characters_list,
-            id=callback_data.id,
-            character_id=callback_data.character_id,
-        ),
-    )
-    keyboard.adjust(1)
-    return keyboard

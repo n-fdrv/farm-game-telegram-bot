@@ -38,6 +38,7 @@ from bot.hunting.utils import make_hunting_end_schedulers_after_restart
 from bot.marketplace.handlers import marketplace_router
 from bot.master_shop.handlers import master_shop_router
 from bot.premium_shop.handlers import premium_router
+from bot.pvp.handlers import pvp_router
 from bot.top.handlers import top_router
 
 
@@ -101,6 +102,7 @@ class AiogramApp:
             clan_warehouse_router,
             top_router,
             master_shop_router,
+            pvp_router,
         ]
         self._download_routes(routes)
         asyncio.ensure_future(

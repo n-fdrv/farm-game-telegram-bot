@@ -1,6 +1,5 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
-from character.models import Character
 from location.models import Location, LocationBoss
 
 from bot.character.keyboards import character_get_keyboard
@@ -14,7 +13,6 @@ from bot.hunting.location.keyboards import (
     boss_list_keyboard,
     character_list_keyboard,
     exit_location_confirmation,
-    location_character_get_keyboard,
     location_get_keyboard,
     location_list_keyboard,
 )
@@ -28,7 +26,6 @@ from bot.hunting.location.messages import (
 from bot.hunting.location.utils import (
     accept_location_boss_raid,
     get_location_boss_info,
-    location_get_character_about,
 )
 from bot.hunting.utils import (
     enter_hunting_zone,
@@ -163,30 +160,6 @@ async def character_list_handler(
     await callback.message.edit_text(
         text=CHARACTER_LIST_MESSAGE,
         reply_markup=paginator,
-    )
-
-
-@location_router.callback_query(
-    LocationData.filter(F.action == location_action.characters_get)
-)
-@log_in_dev
-async def location_character_get_handler(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: LocationData,
-):
-    """Хендлер подтверждения выхода из локации."""
-    user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
-    character = await Character.objects.select_related(
-        "current_place", "character_class", "clan"
-    ).aget(id=callback_data.character_id)
-    keyboard = await location_character_get_keyboard(callback_data)
-    await callback.message.edit_text(
-        text=await location_get_character_about(character),
-        reply_markup=keyboard.as_markup(),
     )
 
 

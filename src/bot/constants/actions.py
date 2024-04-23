@@ -145,7 +145,8 @@ class PremiumAction(Action):
 class PvPAction(Action):
     """Действия для хендлеров ПвП."""
 
-    pass
+    attack_confirm = f"{callback_data.PvPData.__prefix__}-atco"
+    attack = f"{callback_data.PvPData.__prefix__}-at"
 
 
 class MarketplaceAction(Action):

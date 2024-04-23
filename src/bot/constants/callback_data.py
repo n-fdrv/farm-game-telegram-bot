@@ -107,8 +107,9 @@ class MasterShopData(BaseCallbackData, prefix="mash"):
 class PvPData(BaseCallbackData, prefix="pvp"):
     """Данные для пвп."""
 
-    character_id: Optional[int] = 0
     message_id: Optional[int] = 0
+    back_action: Optional[str] = None
+    back_id: Optional[int] = 0
 
 
 CALLBACK_DATA_PREFIX = {

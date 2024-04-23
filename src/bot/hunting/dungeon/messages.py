@@ -27,7 +27,7 @@ NOT_READY_DUNGEON_MESSAGE = (
     "<b>❌Ошибка!</b>\n\n" "Вы не можете войти в <b>{}</b>!"
 )
 
-DUNGEON_ENTER_ADD_INFO: str = "⚠️ По окончанию охоты я оповещу тебя!"
+DUNGEON_ENTER_ADD_INFO = "⚠️ По окончанию охоты я оповещу тебя!"
 
 DUNGEON_HUNTING_END_MESSAGE = (
     "ℹ️<b>Охота Окончена:</b>\n\n"

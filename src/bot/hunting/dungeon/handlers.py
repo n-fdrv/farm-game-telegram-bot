@@ -77,7 +77,7 @@ async def dungeon_enter_confirm_handler(
     DungeonData.filter(F.action == dungeon_action.enter)
 )
 @log_in_dev
-async def location_enter(
+async def dungeon_enter_handler(
     callback: types.CallbackQuery,
     state: FSMContext,
     callback_data: DungeonData,
