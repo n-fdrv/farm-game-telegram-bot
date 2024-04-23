@@ -2,13 +2,14 @@ import datetime
 
 from aiogram.types import Message
 from character.models import Character, CharacterEffect
+from clan.models import ClanWar
+from django.db.models import Q
 from django.utils import timezone
 from item.models import Effect, EffectProperty, EffectSlug
 from loguru import logger
 
 from bot.character.skills.utils import use_toggle
 from bot.character.utils import (
-    check_clan_war_exists,
     get_character_property,
     remove_exp,
 )
@@ -28,6 +29,16 @@ from core.config.game_config import (
     PREMIUM_DEATH_EXP_MODIFIER,
     WAR_EXP_DECREASE_PERCENT,
 )
+
+
+async def check_clan_war_exists(attacker: Character, enemy: Character):
+    """Проверка есть ли война между персонажами."""
+    if attacker.clan and enemy.clan:
+        return await ClanWar.objects.filter(
+            Q(clan=attacker.clan, enemy=enemy.clan, accepted=True)
+            | Q(enemy=attacker.clan, clan=enemy.clan, accepted=True)
+        ).aexists()
+    return False
 
 
 async def attack_character(

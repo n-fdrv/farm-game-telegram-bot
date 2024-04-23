@@ -214,7 +214,7 @@ class Dungeon(HuntingZone):
     @property
     def name_with_level(self):
         """Имя с необходимой силой клана."""
-        return f"{self.name} Ур. {self.min_level}-{self.max_level}"
+        return f"{self.name_with_type} Ур. {self.min_level}-{self.max_level}"
 
 
 class DungeonCharacter(models.Model):

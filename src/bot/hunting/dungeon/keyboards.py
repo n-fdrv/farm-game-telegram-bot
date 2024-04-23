@@ -66,7 +66,9 @@ async def enter_dungeon_confirm_keyboard(callback_data: DungeonData):
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
         text=YES_BUTTON,
-        callback_data=DungeonData(action=dungeon_action.enter),
+        callback_data=DungeonData(
+            action=dungeon_action.enter, id=callback_data.id
+        ),
     )
     keyboard.button(
         text=NO_BUTTON,

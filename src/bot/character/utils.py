@@ -1,3 +1,4 @@
+import datetime
 import re
 
 from character.models import (
@@ -9,10 +10,10 @@ from character.models import (
     SkillEffect,
     SkillType,
 )
-from clan.models import ClanWar
 from django.db.models import Q
 from django.utils import timezone
 from item.models import EffectProperty
+from location.models import Dungeon, HuntingZoneType
 
 from bot.character.messages import (
     CHARACTER_ABOUT_MESSAGE,
@@ -37,16 +38,6 @@ def check_nickname_correct(nickname: str) -> bool:
     if not re.search("^[А-Яа-яA-Za-z0-9]{1,16}$", nickname):
         return False
     return True
-
-
-async def check_clan_war_exists(attacker: Character, enemy: Character):
-    """Проверка есть ли война между персонажами."""
-    if attacker.clan and enemy.clan:
-        return await ClanWar.objects.filter(
-            Q(clan=attacker.clan, enemy=enemy.clan, accepted=True)
-            | Q(enemy=attacker.clan, clan=enemy.clan, accepted=True)
-        ).aexists()
-    return False
 
 
 async def create_character(
@@ -214,6 +205,16 @@ async def get_character_info(character: Character) -> str:
     location = "Город"
     if character.current_place:
         location = f"{character.current_place.name}"
+        if character.current_place.type == HuntingZoneType.DUNGEON:
+            dungeon = await Dungeon.objects.aget(pk=character.current_place.pk)
+            time_left = (
+                character.hunting_begin
+                + datetime.timedelta(hours=dungeon.hunting_hours)
+                - timezone.now()
+            )
+            location += (
+                f"\n<i>⏳Осталось:</i> {await get_expired_text(time_left)}"
+            )
     clan = "Нет"
     if character.clan:
         clan = character.clan.name_with_emoji

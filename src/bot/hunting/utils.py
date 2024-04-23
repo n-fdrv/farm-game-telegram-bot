@@ -18,15 +18,19 @@ from bot.character.utils import (
     get_exp,
 )
 from bot.hunting.dungeon.messages import (
+    DUNGEON_ENTER_ADD_INFO,
     DUNGEON_GET_MESSAGE,
     DUNGEON_HUNTING_END_MESSAGE,
 )
 from bot.hunting.dungeon.utils import (
     check_dungeon_access,
+    check_dungeon_access_text,
+    enter_dungeon,
     get_dungeon_required_items,
 )
 from bot.hunting.location.messages import (
     HUNTING_ALERT_MESSAGE,
+    LOCATION_ENTER_ADD_INFO,
     LOCATION_GET_MESSAGE,
 )
 from bot.hunting.location.utils import check_location_access
@@ -102,7 +106,7 @@ async def get_hunting_zone_info(
         dungeon = await Dungeon.objects.aget(pk=hunting_zone.pk)
     return DUNGEON_GET_MESSAGE.format(
         dungeon.name_with_level,
-        await check_dungeon_access(character, dungeon),
+        await check_dungeon_access_text(character, dungeon),
         dungeon.hunting_hours,
         exp_by_kill,
         drop,
@@ -118,6 +122,9 @@ async def check_hunting_zone_access(
         if hunting_zone != Location:
             hunting_zone = await Location.objects.aget(pk=hunting_zone.pk)
         return await check_location_access(character, hunting_zone)
+    if hunting_zone != Dungeon:
+        hunting_zone = await Dungeon.objects.aget(pk=hunting_zone.pk)
+    return await check_dungeon_access(character, hunting_zone)
 
 
 async def enter_hunting_zone(
@@ -134,11 +141,14 @@ async def enter_hunting_zone(
     character.current_place = hunting_zone
     character.hunting_begin = timezone.now()
     job_time = timezone.now() + datetime.timedelta(hours=HUNTING_ALERT_HOURS)
+    add_info = LOCATION_ENTER_ADD_INFO
     if hunting_zone.type == HuntingZoneType.DUNGEON:
+        add_info = DUNGEON_ENTER_ADD_INFO
         if hunting_zone != Dungeon:
-            hunting_zone = Dungeon.objects.aget(pk=hunting_zone.pk)
+            hunting_zone = await Dungeon.objects.aget(pk=hunting_zone.pk)
+        await enter_dungeon(character, hunting_zone)
         job_time = timezone.now() + datetime.timedelta(
-            hours=hunting_zone.hunting_time
+            hours=hunting_zone.hunting_hours
         )
     job = await run_date_job(
         end_hunting,
@@ -150,7 +160,7 @@ async def enter_hunting_zone(
         update_fields=("current_place", "hunting_begin", "job_id")
     )
     return True, HUNTING_ZONE_ENTER_MESSAGE.format(
-        hunting_zone.name_with_type,
+        hunting_zone.name_with_type, add_info
     )
 
 
@@ -275,9 +285,19 @@ async def make_hunting_end_schedulers_after_restart(bot):
     async for character in Character.objects.select_related(
         "current_place"
     ).exclude(current_place=None):
+        job_time = timezone.now() + datetime.timedelta(
+            hours=HUNTING_ALERT_HOURS
+        )
+        if character.current_place.type == HuntingZoneType.DUNGEON:
+            dungeon = await Dungeon.objects.aget(pk=character.current_place.pk)
+            job_time = character.hunting_begin + datetime.timedelta(
+                hours=dungeon.hunting_hours
+            )
+            if job_time < timezone.now():
+                job_time = timezone.now()
         await run_date_job(
             end_hunting,
-            timezone.now() + datetime.timedelta(hours=HUNTING_ALERT_HOURS),
+            job_time,
             [character, bot],
         )
 
