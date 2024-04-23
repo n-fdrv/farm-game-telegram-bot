@@ -15,7 +15,7 @@ from character.models import (
     Skill,
 )
 
-from bot.location.utils import end_hunting
+from bot.hunting.utils import end_hunting
 from bot.models import User
 from core.config import game_config
 

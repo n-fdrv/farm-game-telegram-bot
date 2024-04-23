@@ -104,6 +104,13 @@ class MasterShopData(BaseCallbackData, prefix="mash"):
     price: Optional[int] = None
 
 
+class PvPData(BaseCallbackData, prefix="pvp"):
+    """Данные для пвп."""
+
+    character_id: Optional[int] = 0
+    message_id: Optional[int] = 0
+
+
 CALLBACK_DATA_PREFIX = {
     CharacterData.__prefix__: CharacterData,
     LocationData.__prefix__: LocationData,
@@ -117,4 +124,5 @@ CALLBACK_DATA_PREFIX = {
     ClanBossesData.__prefix__: ClanBossesData,
     MasterShopData.__prefix__: MasterShopData,
     DungeonData.__prefix__: DungeonData,
+    PvPData.__prefix__: PvPData,
 }

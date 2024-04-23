@@ -4,16 +4,16 @@ from location.models import Dungeon
 
 from bot.constants.actions import dungeon_action
 from bot.constants.callback_data import DungeonData
-from bot.location.dungeon.keyboards import (
+from bot.hunting.dungeon.keyboards import (
     dungeon_get_keyboard,
     dungeon_list_keyboard,
     enter_dungeon_confirm_keyboard,
 )
-from bot.location.dungeon.messages import (
+from bot.hunting.dungeon.messages import (
     DUNGEON_LIST_MESSAGE,
     ENTER_DUNGEON_CONFIRM_MESSAGE,
 )
-from bot.location.dungeon.utils import get_dungeon_info
+from bot.hunting.utils import get_hunting_zone_info
 from bot.utils.user_helpers import get_user
 from core.config.logging import log_in_dev
 
@@ -51,7 +51,7 @@ async def dungeon_get_handler(
     dungeon = await Dungeon.objects.aget(pk=callback_data.id)
     keyboard = await dungeon_get_keyboard(callback_data)
     await callback.message.edit_text(
-        text=await get_dungeon_info(user.character, dungeon),
+        text=await get_hunting_zone_info(user.character, dungeon),
         reply_markup=keyboard.as_markup(),
     )
 

@@ -1,12 +1,16 @@
 import datetime
 
 from character.models import (
+    Character,
     CharacterEffect,
+    CharacterItem,
     CharacterSkill,
     SkillType,
 )
 from django.utils import timezone
+from item.models import EffectProperty
 
+from bot.character.backpack.utils import use_potion
 from bot.character.skills.messages import (
     ACTIVE_SKILL_INFO_MESSAGE,
     NOT_ENOUGH_MANA_MESSAGE,
@@ -95,3 +99,35 @@ async def use_skill(character_skill: CharacterSkill):
     return True, SUCCESS_USE_SKILL_MESSAGE.format(
         character_skill.skill.name_with_level
     )
+
+
+async def use_toggle(character: Character):
+    """Проверка на атакующей способности."""
+    counter = 0
+    potion_used = 0
+    if character.auto_use_mp_potion:
+        if character.mana < character.max_mana * 0.5:
+            exists = await CharacterItem.objects.filter(
+                character=character,
+                item__effects__property=EffectProperty.MANA,
+            ).aexists()
+            if exists:
+                character_item = await CharacterItem.objects.select_related(
+                    "item"
+                ).aget(
+                    character=character,
+                    item__effects__property=EffectProperty.MANA,
+                )
+                await use_potion(character, character_item.item)
+                potion_used = 1
+            else:
+                character.auto_use_mp_potion = False
+                await character.asave(update_fields=("auto_use_mp_potion",))
+    async for character_toggle in CharacterSkill.objects.select_related(
+        "skill"
+    ).filter(character=character, turn_on=True):
+        if character.mana < character_toggle.skill.mana_cost:
+            continue
+        character.mana -= character_toggle.skill.mana_cost
+        counter += 1
+    return counter, potion_used

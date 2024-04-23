@@ -7,7 +7,7 @@ from location.models import Location, LocationBoss
 from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
 from bot.constants.actions import character_action, location_action
 from bot.constants.callback_data import CharacterData, LocationData
-from bot.location.buttons import (
+from bot.hunting.location.buttons import (
     ACCEPT_BOSS_BUTTON,
     CHARACTER_KILL_BUTTON,
     LOCATION_BOSSES_BUTTON,
@@ -263,25 +263,4 @@ async def attack_more_keyboard(callback_data: LocationData):
         ),
     )
     keyboard.adjust(2)
-    return keyboard
-
-
-async def attack_keyboard(
-    attacker: Character, attacker_message_id, target: Character
-):
-    """Клавиатура цели атаки персонажа."""
-    keyboard = InlineKeyboardBuilder()
-    location_id = 0
-    if attacker.current_place:
-        location_id = attacker.current_place.pk
-    keyboard.button(
-        text=CHARACTER_KILL_BUTTON,
-        callback_data=LocationData(
-            action=location_action.characters_kill,
-            message_id=attacker_message_id,
-            id=location_id,
-            character_id=target.pk,
-        ),
-    )
-    keyboard.adjust(1)
     return keyboard

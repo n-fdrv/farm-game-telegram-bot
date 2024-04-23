@@ -5,10 +5,23 @@ from django.utils import timezone
 from item.models import Item
 
 
+class HuntingZoneType(models.TextChoices):
+    """Типы информационных карт."""
+
+    LOCATION = "location", "📍Локация"
+    DUNGEON = "dungeon", "☠️Подземелье"
+
+
 class HuntingZone(models.Model):
     """Базовая модель для моделей игры."""
 
     name = models.CharField(max_length=32, verbose_name="Имя")
+    type = models.CharField(
+        max_length=16,
+        choices=HuntingZoneType.choices,
+        default=HuntingZoneType.LOCATION,
+        verbose_name="Тип",
+    )
     created = models.DateTimeField(
         auto_now_add=True, verbose_name="Дата создания"
     )
@@ -18,6 +31,14 @@ class HuntingZone(models.Model):
     drop = models.ManyToManyField(
         Item, through="HuntingZoneDrop", related_name="drop"
     )
+
+    def __str__(self):
+        return f"{self.get_type_display()[:1]}{self.name}"
+
+    @property
+    def name_with_type(self):
+        """Возвращение название с иконкой типа."""
+        return f"{self.get_type_display()[:1]}{self.name}"
 
 
 class Location(HuntingZone):

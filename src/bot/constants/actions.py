@@ -142,6 +142,12 @@ class PremiumAction(Action):
     buy = f"{callback_data.PremiumData.__prefix__}-buy"
 
 
+class PvPAction(Action):
+    """Действия для хендлеров ПвП."""
+
+    pass
+
+
 class MarketplaceAction(Action):
     """Действия для хендлеров торговой площадки."""
 
@@ -264,3 +270,4 @@ clan_warehouse_action = ClanWarehouseAction(
 clan_bosses_action = ClanBossesAction(callback_data.ClanBossesData.__prefix__)
 top_action = TopAction(callback_data.TopData.__prefix__)
 master_shop_action = MasterShopAction(callback_data.MasterShopData.__prefix__)
+pvp_action = PvPAction(callback_data.PvPData.__prefix__)
