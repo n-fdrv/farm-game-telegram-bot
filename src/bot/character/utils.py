@@ -161,6 +161,7 @@ async def get_character_property(
     property_data = {
         EffectProperty.DROP: 1,
         EffectProperty.EXP: 1,
+        EffectProperty.MASS_ATTACK: 0,
         EffectProperty.ATTACK: character.attack,
         EffectProperty.DEFENCE: character.defence,
         EffectProperty.MAX_HEALTH: character.max_health,

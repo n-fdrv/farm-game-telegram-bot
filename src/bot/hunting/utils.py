@@ -210,6 +210,19 @@ async def get_hunting_drop(character: Character, monster_killed: int):
     return drop_text
 
 
+async def get_mass_attack_kill(character: Character, monster_killed: int):
+    """Получение количества убитых с помощью массовой атаки."""
+    mass_attack = await get_character_property(
+        character, EffectProperty.MASS_ATTACK
+    )
+    double_kill = 0
+    if mass_attack:
+        for _monster in range(monster_killed):
+            if mass_attack <= random.randint(1, 100):
+                double_kill += 1
+    return double_kill
+
+
 async def get_monster_killed_amount(character: Character):
     """Метод получения количества убитых монстров."""
     monster_killed = (timezone.now() - character.hunting_begin).seconds / 60
@@ -218,6 +231,7 @@ async def get_monster_killed_amount(character: Character):
             "required_power", flat=True
         ).aget(pk=character.current_place.pk)
         monster_killed *= await get_character_power(character) / required_power
+        monster_killed += await get_mass_attack_kill(character, monster_killed)
         return monster_killed
     max_hunting_minutes = (
         await Dungeon.objects.values_list("hunting_hours", flat=True).aget(
@@ -227,6 +241,7 @@ async def get_monster_killed_amount(character: Character):
     )
     if monster_killed > max_hunting_minutes:
         monster_killed = max_hunting_minutes
+    monster_killed += await get_mass_attack_kill(character, monster_killed)
     return monster_killed
 
 

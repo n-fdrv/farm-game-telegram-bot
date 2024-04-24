@@ -601,24 +601,12 @@
 },
 {
  "model": "item.item",
- "pk": 59,
- "fields": {
-  "name": "Книга: Улучшенное Чутье Ур. 2",
-  "description": "С помощью книги можно выучить или улучшить способность",
-  "buy_price": 0,
-  "sell_price": 100,
-  "created": "2024-03-25T12:02:19.228Z",
-  "type": "book"
- }
-},
-{
- "model": "item.item",
  "pk": 60,
  "fields": {
   "name": "Книга: Мастер Создания Ур. 2",
   "description": "С помощью книги можно выучить или улучшить способность",
   "buy_price": 0,
-  "sell_price": 100,
+  "sell_price": 1000,
   "created": "2024-03-25T12:02:19.235Z",
   "type": "book"
  }
@@ -1069,18 +1057,6 @@
 },
 {
  "model": "item.item",
- "pk": 98,
- "fields": {
-  "name": "Книга: Выживаемость Ур. 1",
-  "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 0,
-  "created": "2024-03-29T10:11:55.312Z",
-  "type": "book"
- }
-},
-{
- "model": "item.item",
  "pk": 99,
  "fields": {
   "name": "Книга: Массовые Заклинания Ур. 1",
@@ -1088,18 +1064,6 @@
   "buy_price": 0,
   "sell_price": 1000,
   "created": "2024-03-29T10:13:36.018Z",
-  "type": "book"
- }
-},
-{
- "model": "item.item",
- "pk": 100,
- "fields": {
-  "name": "Книга: Крепкая Броня Ур. 1",
-  "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 1000,
-  "created": "2024-03-29T10:15:24.564Z",
   "type": "book"
  }
 },
@@ -1341,6 +1305,126 @@
   "sell_price": 2500,
   "created": "2024-04-16T12:42:16.162Z",
   "type": "potion"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 123,
+ "fields": {
+  "name": "Книга: Тайные Знания Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-23T13:21:21.857Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 124,
+ "fields": {
+  "name": "Книга: Смертельные Удары Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-23T13:22:48.341Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 125,
+ "fields": {
+  "name": "Книга: Ярость Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-23T13:32:31.384Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 126,
+ "fields": {
+  "name": "Книга: Концентрация Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-23T13:36:22.478Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 127,
+ "fields": {
+  "name": "Книга: Мастер Создания Ур.1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-24T08:15:29.700Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 128,
+ "fields": {
+  "name": "Книга: Точные Удары Ур. 2",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-24T08:16:41.201Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 129,
+ "fields": {
+  "name": "Книга: Удача Мастера Ур. 2",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-24T08:17:51.717Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 130,
+ "fields": {
+  "name": "Книга: Улучшенная Точность Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-24T08:21:10.441Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 131,
+ "fields": {
+  "name": "Книга: Крепкое Здоровье Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 1000,
+  "created": "2024-04-24T08:23:28.428Z",
+  "type": "book"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 132,
+ "fields": {
+  "name": "Эликсиры Мастера Ур. 1",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-04-24T08:53:02.542Z",
+  "type": "bag"
  }
 },
 {
@@ -1831,20 +1915,10 @@
 },
 {
  "model": "item.book",
- "pk": 59,
- "fields": {
-  "character_class": 3,
-  "required_level": 5,
-  "required_skill": 6,
-  "skill": 5
- }
-},
-{
- "model": "item.book",
  "pk": 60,
  "fields": {
   "character_class": 2,
-  "required_level": 5,
+  "required_level": 10,
   "required_skill": 1,
   "skill": 2
  }
@@ -1854,7 +1928,7 @@
  "pk": 96,
  "fields": {
   "character_class": 3,
-  "required_level": 10,
+  "required_level": 5,
   "required_skill": null,
   "skill": 15
  }
@@ -1871,32 +1945,12 @@
 },
 {
  "model": "item.book",
- "pk": 98,
- "fields": {
-  "character_class": 1,
-  "required_level": 10,
-  "required_skill": null,
-  "skill": 13
- }
-},
-{
- "model": "item.book",
  "pk": 99,
  "fields": {
   "character_class": 4,
   "required_level": 10,
   "required_skill": null,
   "skill": 12
- }
-},
-{
- "model": "item.book",
- "pk": 100,
- "fields": {
-  "character_class": 1,
-  "required_level": 10,
-  "required_skill": null,
-  "skill": 11
  }
 },
 {
@@ -1947,6 +2001,96 @@
   "required_level": 10,
   "required_skill": 17,
   "skill": 18
+ }
+},
+{
+ "model": "item.book",
+ "pk": 123,
+ "fields": {
+  "character_class": 4,
+  "required_level": 5,
+  "required_skill": null,
+  "skill": 24
+ }
+},
+{
+ "model": "item.book",
+ "pk": 124,
+ "fields": {
+  "character_class": 3,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 25
+ }
+},
+{
+ "model": "item.book",
+ "pk": 125,
+ "fields": {
+  "character_class": 1,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 26
+ }
+},
+{
+ "model": "item.book",
+ "pk": 126,
+ "fields": {
+  "character_class": 4,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 27
+ }
+},
+{
+ "model": "item.book",
+ "pk": 127,
+ "fields": {
+  "character_class": 2,
+  "required_level": 5,
+  "required_skill": null,
+  "skill": 1
+ }
+},
+{
+ "model": "item.book",
+ "pk": 128,
+ "fields": {
+  "character_class": 3,
+  "required_level": 5,
+  "required_skill": 29,
+  "skill": 30
+ }
+},
+{
+ "model": "item.book",
+ "pk": 129,
+ "fields": {
+  "character_class": 2,
+  "required_level": 5,
+  "required_skill": 28,
+  "skill": 31
+ }
+},
+{
+ "model": "item.book",
+ "pk": 130,
+ "fields": {
+  "character_class": 1,
+  "required_level": 5,
+  "required_skill": null,
+  "skill": 32
+ }
+},
+{
+ "model": "item.book",
+ "pk": 131,
+ "fields": {
+  "character_class": 1,
+  "required_level": 10,
+  "required_skill": null,
+  "skill": 23
  }
 },
 {
@@ -2241,6 +2385,11 @@
 {
  "model": "item.bag",
  "pk": 117,
+ "fields": {}
+},
+{
+ "model": "item.bag",
+ "pk": 132,
  "fields": {}
 },
 {
@@ -2648,16 +2797,6 @@
  "pk": 49,
  "fields": {
   "item": 58,
-  "bag": 12,
-  "chance": 1,
-  "amount": 1
- }
-},
-{
- "model": "item.bagitem",
- "pk": 50,
- "fields": {
-  "item": 59,
   "bag": 12,
   "chance": 1,
   "amount": 1
@@ -3077,7 +3216,7 @@
  "model": "item.bagitem",
  "pk": 92,
  "fields": {
-  "item": 96,
+  "item": 124,
   "bag": 103,
   "chance": 1,
   "amount": 1
@@ -3095,29 +3234,9 @@
 },
 {
  "model": "item.bagitem",
- "pk": 94,
- "fields": {
-  "item": 98,
-  "bag": 103,
-  "chance": 1,
-  "amount": 1
- }
-},
-{
- "model": "item.bagitem",
  "pk": 95,
  "fields": {
   "item": 99,
-  "bag": 103,
-  "chance": 1,
-  "amount": 1
- }
-},
-{
- "model": "item.bagitem",
- "pk": 96,
- "fields": {
-  "item": 100,
   "bag": 103,
   "chance": 1,
   "amount": 1
@@ -3240,6 +3359,136 @@
   "item": 122,
   "bag": 117,
   "chance": 1,
+  "amount": 10
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 110,
+ "fields": {
+  "item": 123,
+  "bag": 12,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 111,
+ "fields": {
+  "item": 96,
+  "bag": 12,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 112,
+ "fields": {
+  "item": 126,
+  "bag": 103,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 113,
+ "fields": {
+  "item": 125,
+  "bag": 103,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 114,
+ "fields": {
+  "item": 110,
+  "bag": 132,
+  "chance": 10,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 115,
+ "fields": {
+  "item": 112,
+  "bag": 132,
+  "chance": 5,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 116,
+ "fields": {
+  "item": 111,
+  "bag": 132,
+  "chance": 3,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 117,
+ "fields": {
+  "item": 119,
+  "bag": 132,
+  "chance": 5,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 118,
+ "fields": {
+  "item": 122,
+  "bag": 132,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 119,
+ "fields": {
+  "item": 121,
+  "bag": 132,
+  "chance": 10,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 120,
+ "fields": {
+  "item": 120,
+  "bag": 132,
+  "chance": 5,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 121,
+ "fields": {
+  "item": 105,
+  "bag": 132,
+  "chance": 10,
+  "amount": 10
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 122,
+ "fields": {
+  "item": 104,
+  "bag": 132,
+  "chance": 10,
   "amount": 10
  }
 },
@@ -3438,7 +3687,7 @@
  "pk": 22,
  "fields": {
   "property": "drop",
-  "amount": 20,
+  "amount": 10,
   "in_percent": true,
   "slug": "skill"
  }
@@ -3529,7 +3778,7 @@
  "fields": {
   "property": "mass_attack",
   "amount": 5,
-  "in_percent": true,
+  "in_percent": false,
   "slug": "skill"
  }
 },
@@ -3539,7 +3788,7 @@
  "fields": {
   "property": "no_death_exp",
   "amount": 5,
-  "in_percent": true,
+  "in_percent": false,
   "slug": "skill"
  }
 },
@@ -3548,8 +3797,8 @@
  "pk": 33,
  "fields": {
   "property": "evasion",
-  "amount": 5,
-  "in_percent": true,
+  "amount": 2,
+  "in_percent": false,
   "slug": "skill"
  }
 },
@@ -3738,7 +3987,7 @@
  "pk": 56,
  "fields": {
   "property": "drop",
-  "amount": 10,
+  "amount": 5,
   "in_percent": true,
   "slug": "skill"
  }
@@ -3841,6 +4090,116 @@
   "amount": 10,
   "in_percent": false,
   "slug": "power"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 67,
+ "fields": {
+  "property": "max_health",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 68,
+ "fields": {
+  "property": "max_mana",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 69,
+ "fields": {
+  "property": "crit_power",
+  "amount": 10,
+  "in_percent": false,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 70,
+ "fields": {
+  "property": "attack",
+  "amount": 20,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 71,
+ "fields": {
+  "property": "defence",
+  "amount": 20,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 72,
+ "fields": {
+  "property": "max_health",
+  "amount": 20,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 73,
+ "fields": {
+  "property": "mana",
+  "amount": 100,
+  "in_percent": false,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 74,
+ "fields": {
+  "property": "crit_race",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 75,
+ "fields": {
+  "property": "crit_race",
+  "amount": 20,
+  "in_percent": true,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 76,
+ "fields": {
+  "property": "accuracy",
+  "amount": 2,
+  "in_percent": false,
+  "slug": "skill"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 77,
+ "fields": {
+  "property": "accuracy",
+  "amount": 4,
+  "in_percent": false,
+  "slug": "skill"
  }
 },
 {
@@ -4691,34 +5050,6 @@
 },
 {
  "model": "character.skill",
- "pk": 5,
- "fields": {
-  "name": "Улучшенное Чутье",
-  "emoji": "🦻🏻",
-  "description": "Благодаря повышенному чутью Охотник добывает больше предметов за охоту",
-  "level": 2,
-  "mana_cost": 0,
-  "effect_time": null,
-  "cooldown": null,
-  "type": "passive"
- }
-},
-{
- "model": "character.skill",
- "pk": 6,
- "fields": {
-  "name": "Улучшенное Чутье",
-  "emoji": "🦻🏻",
-  "description": "Благодаря повышенному чутью Охотник добывает больше предметов за охоту",
-  "level": 1,
-  "mana_cost": 0,
-  "effect_time": null,
-  "cooldown": null,
-  "type": "passive"
- }
-},
-{
- "model": "character.skill",
  "pk": 7,
  "fields": {
   "name": "Улучшенная Защита",
@@ -4775,39 +5106,11 @@
 },
 {
  "model": "character.skill",
- "pk": 11,
- "fields": {
-  "name": "Крепкая Броня",
-  "emoji": "🛡",
-  "description": "Нападая на Вас Персонаж может убить себя.",
-  "level": 1,
-  "mana_cost": 0,
-  "effect_time": null,
-  "cooldown": null,
-  "type": "passive"
- }
-},
-{
- "model": "character.skill",
  "pk": 12,
  "fields": {
   "name": "Массовые Заклинания",
   "emoji": "🌪",
   "description": "При охоте есть шанс убить сразу несколько Монстров за раз",
-  "level": 1,
-  "mana_cost": 0,
-  "effect_time": null,
-  "cooldown": null,
-  "type": "passive"
- }
-},
-{
- "model": "character.skill",
- "pk": 13,
- "fields": {
-  "name": "Выживаемость",
-  "emoji": "❤️",
-  "description": "При смерти есть шанс не потерять Опыт",
   "level": 1,
   "mana_cost": 0,
   "effect_time": null,
@@ -4942,6 +5245,160 @@
  }
 },
 {
+ "model": "character.skill",
+ "pk": 23,
+ "fields": {
+  "name": "Крепкое Здоровье",
+  "emoji": "❤️",
+  "description": "Увеличивает Здоровье Персонажа",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 24,
+ "fields": {
+  "name": "Тайные Знания",
+  "emoji": "🔷",
+  "description": "Увеличивает запас Маны персонажа",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 25,
+ "fields": {
+  "name": "Смертельные Удары",
+  "emoji": "♦️",
+  "description": "Увеличивает Силу Критических Ударов Персонажа",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 26,
+ "fields": {
+  "name": "Ярость",
+  "emoji": "🔥",
+  "description": "Увеличивает характеристики персонажа на некоторое время",
+  "level": 1,
+  "mana_cost": 25,
+  "effect_time": "06:00:00",
+  "cooldown": "12:00:00",
+  "type": "active"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 27,
+ "fields": {
+  "name": "Концентрация",
+  "emoji": "🌱",
+  "description": "Пополняет Ману Персонажа",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": "12:00:00",
+  "type": "active"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 28,
+ "fields": {
+  "name": "Удача Мастера",
+  "emoji": "🍀",
+  "description": "Повышает шанс выпадения предметов при охоте",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 29,
+ "fields": {
+  "name": "Точные Удары",
+  "emoji": "🎲",
+  "description": "Повышает Шанс Критического Удара Персонажа",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 30,
+ "fields": {
+  "name": "Точные Удары",
+  "emoji": "🎲",
+  "description": "Повышает Шанс Критического Удара Персонажа",
+  "level": 2,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 31,
+ "fields": {
+  "name": "Удача Мастера",
+  "emoji": "🍀",
+  "description": "Повышает шанс выпадения предметов при охоте",
+  "level": 2,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 32,
+ "fields": {
+  "name": "Улучшенная Точность",
+  "emoji": "🎯",
+  "description": "Повышает Точность Персонажа",
+  "level": 1,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
+ "model": "character.skill",
+ "pk": 33,
+ "fields": {
+  "name": "Улучшенная Точность",
+  "emoji": "🎯",
+  "description": "Повышает Точность Персонажа",
+  "level": 2,
+  "mana_cost": 0,
+  "effect_time": null,
+  "cooldown": null,
+  "type": "passive"
+ }
+},
+{
  "model": "character.skilleffect",
  "pk": 1,
  "fields": {
@@ -4955,14 +5412,6 @@
  "fields": {
   "skill": 3,
   "effect": 14
- }
-},
-{
- "model": "character.skilleffect",
- "pk": 4,
- "fields": {
-  "skill": 5,
-  "effect": 22
  }
 },
 {
@@ -4991,26 +5440,10 @@
 },
 {
  "model": "character.skilleffect",
- "pk": 8,
- "fields": {
-  "skill": 11,
-  "effect": 30
- }
-},
-{
- "model": "character.skilleffect",
  "pk": 9,
  "fields": {
   "skill": 12,
   "effect": 31
- }
-},
-{
- "model": "character.skilleffect",
- "pk": 10,
- "fields": {
-  "skill": 13,
-  "effect": 32
  }
 },
 {
@@ -5087,10 +5520,106 @@
 },
 {
  "model": "character.skilleffect",
- "pk": 20,
+ "pk": 21,
  "fields": {
-  "skill": 6,
+  "skill": 23,
+  "effect": 67
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 22,
+ "fields": {
+  "skill": 24,
+  "effect": 68
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 23,
+ "fields": {
+  "skill": 25,
+  "effect": 69
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 24,
+ "fields": {
+  "skill": 26,
+  "effect": 70
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 25,
+ "fields": {
+  "skill": 26,
+  "effect": 71
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 26,
+ "fields": {
+  "skill": 26,
+  "effect": 72
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 27,
+ "fields": {
+  "skill": 27,
+  "effect": 73
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 28,
+ "fields": {
+  "skill": 28,
   "effect": 56
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 29,
+ "fields": {
+  "skill": 29,
+  "effect": 74
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 30,
+ "fields": {
+  "skill": 30,
+  "effect": 75
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 31,
+ "fields": {
+  "skill": 31,
+  "effect": 22
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 32,
+ "fields": {
+  "skill": 32,
+  "effect": 76
+ }
+},
+{
+ "model": "character.skilleffect",
+ "pk": 33,
+ "fields": {
+  "skill": 33,
+  "effect": 77
  }
 },
 {
@@ -5169,10 +5698,10 @@
  "model": "character.characterclass",
  "pk": 1,
  "fields": {
-  "name": "Рыцарь",
+  "name": "Воин",
   "created": "2024-03-25T12:02:02.622Z",
   "emoji": "🗡",
-  "description": "Рыцарь обладает хорошей защитой, но небольшой атакой. Носит тяжелую броню и меч",
+  "description": "Рыцарь обладает хорошей защитой. Носит тяжелую броню и меч",
   "attack": 9,
   "defence": 10
  }
@@ -5313,7 +5842,7 @@
  "model": "character.characterclassskill",
  "pk": 1,
  "fields": {
-  "skill": 6,
+  "skill": 29,
   "character_class": 3
  }
 },
@@ -5321,7 +5850,7 @@
  "model": "character.characterclassskill",
  "pk": 2,
  "fields": {
-  "skill": 1,
+  "skill": 28,
   "character_class": 2
  }
 },
@@ -5378,6 +5907,7 @@
  "pk": 1,
  "fields": {
   "name": "Заброшенная Шахта",
+  "type": "location",
   "created": "2024-04-18T10:54:28.261Z",
   "exp": 1
  }
@@ -5387,6 +5917,7 @@
  "pk": 2,
  "fields": {
   "name": "Лагерь Гоблинов",
+  "type": "location",
   "created": "2024-04-18T10:59:43.364Z",
   "exp": 2
  }
@@ -5396,6 +5927,7 @@
  "pk": 3,
  "fields": {
   "name": "Эльфийский лес",
+  "type": "location",
   "created": "2024-04-18T11:00:56.387Z",
   "exp": 3
  }
@@ -5405,6 +5937,7 @@
  "pk": 4,
  "fields": {
   "name": "Лагерь Орков",
+  "type": "location",
   "created": "2024-04-18T11:02:35.305Z",
   "exp": 4
  }
@@ -5414,6 +5947,7 @@
  "pk": 5,
  "fields": {
   "name": "Мертвая Деревня",
+  "type": "location",
   "created": "2024-04-18T11:04:50.305Z",
   "exp": 6
  }
@@ -5423,6 +5957,7 @@
  "pk": 6,
  "fields": {
   "name": "Призрачный Лес",
+  "type": "location",
   "created": "2024-04-18T11:06:01.558Z",
   "exp": 7
  }
@@ -5432,8 +5967,59 @@
  "pk": 7,
  "fields": {
   "name": "Угольная Шахта",
+  "type": "location",
   "created": "2024-04-18T11:07:38.967Z",
   "exp": 9
+ }
+},
+{
+ "model": "location.huntingzone",
+ "pk": 8,
+ "fields": {
+  "name": "Подземелье Опыта",
+  "type": "dungeon",
+  "created": "2024-04-18T11:35:12.592Z",
+  "exp": 7
+ }
+},
+{
+ "model": "location.huntingzone",
+ "pk": 9,
+ "fields": {
+  "name": "Подземелье Опыта",
+  "type": "dungeon",
+  "created": "2024-04-18T11:35:34.048Z",
+  "exp": 14
+ }
+},
+{
+ "model": "location.huntingzone",
+ "pk": 10,
+ "fields": {
+  "name": "Подземелье Знаний",
+  "type": "dungeon",
+  "created": "2024-04-18T11:39:07.772Z",
+  "exp": 1
+ }
+},
+{
+ "model": "location.huntingzone",
+ "pk": 11,
+ "fields": {
+  "name": "Подземелье Знаний",
+  "type": "dungeon",
+  "created": "2024-04-18T11:40:51.251Z",
+  "exp": 2
+ }
+},
+{
+ "model": "location.huntingzone",
+ "pk": 12,
+ "fields": {
+  "name": "Подземелье Талисманов",
+  "type": "dungeon",
+  "created": "2024-04-18T11:41:27.111Z",
+  "exp": 2
  }
 },
 {
@@ -5878,11 +6464,154 @@
  }
 },
 {
+ "model": "location.huntingzonedrop",
+ "pk": 36,
+ "fields": {
+  "hunting_zone": 8,
+  "item": 117,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.1
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 37,
+ "fields": {
+  "hunting_zone": 9,
+  "item": 117,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.5
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 38,
+ "fields": {
+  "hunting_zone": 10,
+  "item": 1,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 39,
+ "fields": {
+  "hunting_zone": 10,
+  "item": 12,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.5
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 40,
+ "fields": {
+  "hunting_zone": 10,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.5
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 41,
+ "fields": {
+  "hunting_zone": 11,
+  "item": 1,
+  "min_amount": 2,
+  "max_amount": 3,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 42,
+ "fields": {
+  "hunting_zone": 11,
+  "item": 12,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.0
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 43,
+ "fields": {
+  "hunting_zone": 11,
+  "item": 103,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.3
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 44,
+ "fields": {
+  "hunting_zone": 11,
+  "item": 8,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.0
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 45,
+ "fields": {
+  "hunting_zone": 11,
+  "item": 11,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.01
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 46,
+ "fields": {
+  "hunting_zone": 12,
+  "item": 1,
+  "min_amount": 1,
+  "max_amount": 3,
+  "chance": 50.0
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 47,
+ "fields": {
+  "hunting_zone": 12,
+  "item": 9,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 1.0
+ }
+},
+{
+ "model": "location.huntingzonedrop",
+ "pk": 48,
+ "fields": {
+  "hunting_zone": 12,
+  "item": 10,
+  "min_amount": 1,
+  "max_amount": 1,
+  "chance": 0.01
+ }
+},
+{
  "model": "location.locationboss",
  "pk": 1,
  "fields": {
   "name": "Король Орков",
-  "respawn": "2024-04-19T01:25:20Z",
+  "respawn": "2024-04-24T22:59:26.131Z",
   "required_power": 418,
   "location": 4
  }
@@ -5892,7 +6621,7 @@
  "pk": 2,
  "fields": {
   "name": "Повелитель Зомби",
-  "respawn": "2024-04-19T01:08:15.866Z",
+  "respawn": "2024-04-24T21:24:00.143Z",
   "required_power": 542,
   "location": 5
  }
@@ -5902,7 +6631,7 @@
  "pk": 3,
  "fields": {
   "name": "Древний Призрак",
-  "respawn": "2024-04-18T21:39:48.852Z",
+  "respawn": "2024-04-24T18:26:53.149Z",
   "required_power": 642,
   "location": 6
  }
@@ -5912,7 +6641,7 @@
  "pk": 4,
  "fields": {
   "name": "Железный Голем",
-  "respawn": "2024-04-19T00:38:12.902Z",
+  "respawn": "2024-04-24T21:29:36.153Z",
   "required_power": 729,
   "location": 7
  }
@@ -6160,11 +6889,97 @@
  }
 },
 {
+ "model": "location.dungeon",
+ "pk": 8,
+ "fields": {
+  "min_level": 3,
+  "max_level": 9,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 9,
+ "fields": {
+  "min_level": 10,
+  "max_level": 19,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 10,
+ "fields": {
+  "min_level": 3,
+  "max_level": 9,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 11,
+ "fields": {
+  "min_level": 10,
+  "max_level": 19,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeon",
+ "pk": 12,
+ "fields": {
+  "min_level": 10,
+  "max_level": 19,
+  "cooldown_hours": 24,
+  "hunting_hours": 4
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 1,
+ "fields": {
+  "dungeon": 8,
+  "item": 1,
+  "amount": 2000
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 2,
+ "fields": {
+  "dungeon": 9,
+  "item": 1,
+  "amount": 5000
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 3,
+ "fields": {
+  "dungeon": 10,
+  "item": 1,
+  "amount": 1000
+ }
+},
+{
+ "model": "location.dungeonrequireditem",
+ "pk": 4,
+ "fields": {
+  "dungeon": 11,
+  "item": 1,
+  "amount": 2500
+ }
+},
+{
  "model": "clan.clanboss",
  "pk": 1,
  "fields": {
   "name": "Каменный Голем",
-  "respawn": "2024-04-18T14:56:49Z",
+  "respawn": "2024-04-25T06:20:30.129Z",
   "required_power": 8940
  }
 },

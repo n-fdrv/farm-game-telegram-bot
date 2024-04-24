@@ -13,12 +13,14 @@ from item.models import EffectProperty
 from bot.character.backpack.utils import use_potion
 from bot.character.skills.messages import (
     ACTIVE_SKILL_INFO_MESSAGE,
+    ERROR_IN_USE_SKILL_MESSAGE,
     NOT_ENOUGH_MANA_MESSAGE,
     NOT_READY_SKILL_MESSAGE,
     SKILL_GET_MESSAGE,
     SUCCESS_USE_SKILL_MESSAGE,
     TOGGLE_SKILL_INFO_MESSAGE,
 )
+from bot.character.skills.skills_data import create_elixir, regeneration
 from bot.character.utils import get_expired_text
 
 
@@ -65,6 +67,24 @@ async def get_skill_info(character_skill: CharacterSkill):
     )
 
 
+async def use_self_buff(character_skill: CharacterSkill):
+    """Использование баффа."""
+    async for effect in character_skill.skill.effects.all():
+        effect_minutes = (
+            character_skill.skill.effect_time.hour * 60
+            + character_skill.skill.effect_time.minute
+            + character_skill.skill.effect_time.second // 60
+        )
+        await CharacterEffect.objects.acreate(
+            character=character_skill.character,
+            effect=effect,
+            expired=timezone.now()
+            + datetime.timedelta(
+                minutes=int(effect_minutes),
+            ),
+        )
+
+
 async def use_skill(character_skill: CharacterSkill):
     """Использование способности."""
     if character_skill.character.mana < character_skill.skill.mana_cost:
@@ -82,22 +102,23 @@ async def use_skill(character_skill: CharacterSkill):
     )
     await character_skill.asave(update_fields=("cooldown",))
     await character_skill.character.asave(update_fields=("mana",))
-    async for effect in character_skill.skill.effects.all():
-        effect_minutes = (
-            character_skill.skill.effect_time.hour * 60
-            + character_skill.skill.effect_time.minute
-            + character_skill.skill.effect_time.second // 60
+    add_info = ""
+    if await character_skill.skill.effects.exclude(
+        skill__effect_time=None
+    ).aexists():
+        await use_self_buff(character_skill)
+        return True, SUCCESS_USE_SKILL_MESSAGE.format(
+            character_skill.skill.name_with_level, add_info
         )
-        await CharacterEffect.objects.acreate(
-            character=character_skill.character,
-            effect=effect,
-            expired=timezone.now()
-            + datetime.timedelta(
-                minutes=int(effect_minutes),
-            ),
-        )
+    skill_data = {
+        "Концентрация": regeneration,
+        "Создание Эликсира": create_elixir,
+    }
+    if character_skill.skill.name not in skill_data.keys():
+        return False, ERROR_IN_USE_SKILL_MESSAGE
+    add_info = await skill_data[character_skill.skill.name](character_skill)
     return True, SUCCESS_USE_SKILL_MESSAGE.format(
-        character_skill.skill.name_with_level
+        character_skill.skill.name_with_level, add_info
     )
 
 
