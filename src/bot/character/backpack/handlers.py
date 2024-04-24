@@ -386,10 +386,8 @@ async def enhance_handler(
     scroll_item = await CharacterItem.objects.select_related(
         "item", "character"
     ).aget(id=callback_data.item_id)
-    new_item, text = await use_scroll(scroll_item, enhance_item)
-    callback_data.id = new_item.id
-    callback_data.amount = scroll_item.amount - 1
-    keyboard = await after_use_scroll_keyboard(callback_data)
+    success, text = await use_scroll(scroll_item, enhance_item)
+    keyboard = await after_use_scroll_keyboard()
     await callback.message.edit_text(
         text=text,
         reply_markup=keyboard.as_markup(),

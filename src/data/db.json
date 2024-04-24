@@ -233,8 +233,8 @@
  "fields": {
   "name": "Потрепанная Мантия",
   "description": "Данная броня подходит Магу",
-  "buy_price": 500,
-  "sell_price": 250,
+  "buy_price": 5000,
+  "sell_price": 2500,
   "created": "2024-03-25T12:01:25.276Z",
   "type": "armor"
  }
@@ -245,8 +245,8 @@
  "fields": {
   "name": "Потрепанный Кожанный Доспех",
   "description": "Данная броня подходит Охотнику",
-  "buy_price": 500,
-  "sell_price": 250,
+  "buy_price": 5000,
+  "sell_price": 2500,
   "created": "2024-03-25T12:01:25.410Z",
   "type": "armor"
  }
@@ -257,8 +257,8 @@
  "fields": {
   "name": "Потрепанный Тяжелый Доспех",
   "description": "Данная броня подходит Рыцарю и Мастеру",
-  "buy_price": 500,
-  "sell_price": 250,
+  "buy_price": 30000,
+  "sell_price": 15000,
   "created": "2024-03-25T12:01:25.416Z",
   "type": "armor"
  }
@@ -269,8 +269,8 @@
  "fields": {
   "name": "Мантия Ученика",
   "description": "Данная броня подходит Магу",
-  "buy_price": 3000,
-  "sell_price": 1500,
+  "buy_price": 15000,
+  "sell_price": 7500,
   "created": "2024-03-25T12:01:25.421Z",
   "type": "armor"
  }
@@ -281,8 +281,8 @@
  "fields": {
   "name": "Легкая Броня Ученика",
   "description": "Данная броня подходит Охотнику",
-  "buy_price": 3000,
-  "sell_price": 1500,
+  "buy_price": 30000,
+  "sell_price": 15000,
   "created": "2024-03-25T12:01:25.425Z",
   "type": "armor"
  }
@@ -293,8 +293,8 @@
  "fields": {
   "name": "Тяжелая Броня Ученика",
   "description": "Данная броня подходит Рыцарю и Мастеру",
-  "buy_price": 3000,
-  "sell_price": 1500,
+  "buy_price": 15000,
+  "sell_price": 7500,
   "created": "2024-03-25T12:01:25.430Z",
   "type": "armor"
  }
@@ -305,8 +305,8 @@
  "fields": {
   "name": "Потрепанный Посох",
   "description": "Данное оружие подходит Магу",
-  "buy_price": 500,
-  "sell_price": 250,
+  "buy_price": 5000,
+  "sell_price": 2500,
   "created": "2024-03-25T12:01:25.439Z",
   "type": "weapon"
  }
@@ -317,8 +317,8 @@
  "fields": {
   "name": "Деревянный Меч",
   "description": "Данное оружие подходит Рыцарю",
-  "buy_price": 500,
-  "sell_price": 250,
+  "buy_price": 5000,
+  "sell_price": 2500,
   "created": "2024-03-25T12:01:25.444Z",
   "type": "weapon"
  }
@@ -341,8 +341,8 @@
  "fields": {
   "name": "Надломанная Дубина",
   "description": "Данное оружие подходит Мастеру",
-  "buy_price": 500,
-  "sell_price": 250,
+  "buy_price": 5000,
+  "sell_price": 2500,
   "created": "2024-03-25T12:01:25.452Z",
   "type": "weapon"
  }
@@ -353,8 +353,8 @@
  "fields": {
   "name": "Посох Ученика",
   "description": "Данное оружие подходит Магу",
-  "buy_price": 3000,
-  "sell_price": 1500,
+  "buy_price": 30000,
+  "sell_price": 15000,
   "created": "2024-03-25T12:01:25.457Z",
   "type": "weapon"
  }
@@ -365,8 +365,8 @@
  "fields": {
   "name": "Меч Ученика",
   "description": "Данное оружие подходит Рыцарю",
-  "buy_price": 3000,
-  "sell_price": 1500,
+  "buy_price": 30000,
+  "sell_price": 15000,
   "created": "2024-03-25T12:01:25.461Z",
   "type": "weapon"
  }
@@ -389,8 +389,8 @@
  "fields": {
   "name": "Дубина Ученика",
   "description": "Данное оружие подходит Мастеру",
-  "buy_price": 3000,
-  "sell_price": 1500,
+  "buy_price": 30000,
+  "sell_price": 15000,
   "created": "2024-03-25T12:01:25.470Z",
   "type": "weapon"
  }
@@ -737,8 +737,8 @@
  "fields": {
   "name": "Железная Броня",
   "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 15000,
+  "buy_price": 150000,
+  "sell_price": 75000,
   "created": "2024-03-29T08:22:14.174Z",
   "type": "armor"
  }
@@ -749,8 +749,8 @@
  "fields": {
   "name": "Кожаный Доспех",
   "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 15000,
+  "buy_price": 150000,
+  "sell_price": 75000,
   "created": "2024-03-29T08:23:26.394Z",
   "type": "armor"
  }
@@ -761,8 +761,8 @@
  "fields": {
   "name": "Укрепленная Мантия",
   "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 15000,
+  "buy_price": 150000,
+  "sell_price": 75000,
   "created": "2024-03-29T08:24:45.110Z",
   "type": "armor"
  }
@@ -845,8 +845,8 @@
  "fields": {
   "name": "Магический Жезл",
   "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 15000,
+  "buy_price": 150000,
+  "sell_price": 75000,
   "created": "2024-03-29T08:42:04.963Z",
   "type": "weapon"
  }
@@ -869,8 +869,8 @@
  "fields": {
   "name": "Железная Дубина",
   "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 15000,
+  "buy_price": 150000,
+  "sell_price": 75000,
   "created": "2024-03-29T08:43:23.756Z",
   "type": "weapon"
  }
@@ -881,8 +881,8 @@
  "fields": {
   "name": "Железный Меч",
   "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 15000,
+  "buy_price": 150000,
+  "sell_price": 75000,
   "created": "2024-03-29T08:43:47.378Z",
   "type": "weapon"
  }
@@ -1170,7 +1170,7 @@
   "name": "Деревянный Браслет",
   "description": "Позволяет надеть 1 Талисман",
   "buy_price": 0,
-  "sell_price": 20000,
+  "sell_price": 75000,
   "created": "2024-04-15T09:58:18.360Z",
   "type": "bracelet"
  }
@@ -1425,6 +1425,54 @@
   "sell_price": 0,
   "created": "2024-04-24T08:53:02.542Z",
   "type": "bag"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 133,
+ "fields": {
+  "name": "Талисман Здоровья",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-04-24T09:54:18.963Z",
+  "type": "talisman"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 134,
+ "fields": {
+  "name": "Талисман Маны",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-04-24T10:13:21.317Z",
+  "type": "talisman"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 135,
+ "fields": {
+  "name": "Талисман Силы Крит. Удара",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-04-24T10:14:47.368Z",
+  "type": "talisman"
+ }
+},
+{
+ "model": "item.item",
+ "pk": 136,
+ "fields": {
+  "name": "Талисман Шанса Крит. удара",
+  "description": "Нет описания предмета",
+  "buy_price": 0,
+  "sell_price": 0,
+  "created": "2024-04-24T10:15:15.215Z",
+  "type": "talisman"
  }
 },
 {
@@ -1710,6 +1758,34 @@
  "pk": 56,
  "fields": {
   "talisman_type": "attack"
+ }
+},
+{
+ "model": "item.talisman",
+ "pk": 133,
+ "fields": {
+  "talisman_type": "max_health"
+ }
+},
+{
+ "model": "item.talisman",
+ "pk": 134,
+ "fields": {
+  "talisman_type": "max_mana"
+ }
+},
+{
+ "model": "item.talisman",
+ "pk": 135,
+ "fields": {
+  "talisman_type": "crit_power"
+ }
+},
+{
+ "model": "item.talisman",
+ "pk": 136,
+ "fields": {
+  "talisman_type": "crit_race"
  }
 },
 {
@@ -2708,7 +2784,7 @@
  "fields": {
   "item": 19,
   "bag": 9,
-  "chance": 120,
+  "chance": 180,
   "amount": 1
  }
 },
@@ -3493,11 +3569,91 @@
  }
 },
 {
+ "model": "item.bagitem",
+ "pk": 123,
+ "fields": {
+  "item": 135,
+  "bag": 9,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 124,
+ "fields": {
+  "item": 133,
+  "bag": 9,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 125,
+ "fields": {
+  "item": 134,
+  "bag": 9,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 126,
+ "fields": {
+  "item": 136,
+  "bag": 9,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 127,
+ "fields": {
+  "item": 135,
+  "bag": 10,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 128,
+ "fields": {
+  "item": 134,
+  "bag": 10,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 129,
+ "fields": {
+  "item": 133,
+  "bag": 10,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
+ "model": "item.bagitem",
+ "pk": 130,
+ "fields": {
+  "item": 136,
+  "bag": 10,
+  "chance": 1,
+  "amount": 1
+ }
+},
+{
  "model": "item.effect",
  "pk": 1,
  "fields": {
   "property": "defence",
-  "amount": 12,
+  "amount": 28,
   "in_percent": false,
   "slug": "item"
  }
@@ -3507,7 +3663,7 @@
  "pk": 2,
  "fields": {
   "property": "defence",
-  "amount": 4,
+  "amount": 9,
   "in_percent": false,
   "slug": "item"
  }
@@ -3517,7 +3673,7 @@
  "pk": 3,
  "fields": {
   "property": "defence",
-  "amount": 5,
+  "amount": 12,
   "in_percent": false,
   "slug": "item"
  }
@@ -3527,7 +3683,7 @@
  "pk": 4,
  "fields": {
   "property": "defence",
-  "amount": 6,
+  "amount": 16,
   "in_percent": false,
   "slug": "item"
  }
@@ -3537,7 +3693,7 @@
  "pk": 5,
  "fields": {
   "property": "defence",
-  "amount": 11,
+  "amount": 20,
   "in_percent": false,
   "slug": "item"
  }
@@ -3547,7 +3703,7 @@
  "pk": 6,
  "fields": {
   "property": "defence",
-  "amount": 9,
+  "amount": 16,
   "in_percent": false,
   "slug": "item"
  }
@@ -3557,7 +3713,7 @@
  "pk": 7,
  "fields": {
   "property": "attack",
-  "amount": 10,
+  "amount": 20,
   "in_percent": false,
   "slug": "item"
  }
@@ -3566,9 +3722,9 @@
  "model": "item.effect",
  "pk": 8,
  "fields": {
-  "property": "attack",
-  "amount": 11,
-  "in_percent": false,
+  "property": "max_health",
+  "amount": 10,
+  "in_percent": true,
   "slug": "item"
  }
 },
@@ -3577,7 +3733,7 @@
  "pk": 9,
  "fields": {
   "property": "attack",
-  "amount": 12,
+  "amount": 28,
   "in_percent": false,
   "slug": "item"
  }
@@ -3586,9 +3742,9 @@
  "model": "item.effect",
  "pk": 10,
  "fields": {
-  "property": "attack",
-  "amount": 5,
-  "in_percent": false,
+  "property": "max_mana",
+  "amount": 10,
+  "in_percent": true,
   "slug": "item"
  }
 },
@@ -3597,7 +3753,7 @@
  "pk": 11,
  "fields": {
   "property": "attack",
-  "amount": 6,
+  "amount": 16,
   "in_percent": false,
   "slug": "item"
  }
@@ -3607,7 +3763,7 @@
  "pk": 12,
  "fields": {
   "property": "attack",
-  "amount": 4,
+  "amount": 12,
   "in_percent": false,
   "slug": "item"
  }
@@ -3707,7 +3863,7 @@
  "pk": 24,
  "fields": {
   "property": "defence",
-  "amount": 20,
+  "amount": 45,
   "in_percent": false,
   "slug": "item"
  }
@@ -3717,7 +3873,7 @@
  "pk": 25,
  "fields": {
   "property": "defence",
-  "amount": 16,
+  "amount": 32,
   "in_percent": false,
   "slug": "item"
  }
@@ -3727,7 +3883,7 @@
  "pk": 26,
  "fields": {
   "property": "defence",
-  "amount": 14,
+  "amount": 26,
   "in_percent": false,
   "slug": "item"
  }
@@ -3737,7 +3893,7 @@
  "pk": 27,
  "fields": {
   "property": "attack",
-  "amount": 20,
+  "amount": 40,
   "in_percent": false,
   "slug": "item"
  }
@@ -3757,7 +3913,7 @@
  "pk": 29,
  "fields": {
   "property": "attack",
-  "amount": 17,
+  "amount": 32,
   "in_percent": false,
   "slug": "item"
  }
@@ -3847,7 +4003,7 @@
  "pk": 38,
  "fields": {
   "property": "max_mana",
-  "amount": 20,
+  "amount": 14,
   "in_percent": false,
   "slug": "item"
  }
@@ -3857,7 +4013,7 @@
  "pk": 40,
  "fields": {
   "property": "max_mana",
-  "amount": 32,
+  "amount": 24,
   "in_percent": false,
   "slug": "item"
  }
@@ -3867,7 +4023,7 @@
  "pk": 41,
  "fields": {
   "property": "max_mana",
-  "amount": 48,
+  "amount": 38,
   "in_percent": false,
   "slug": "item"
  }
@@ -3907,7 +4063,7 @@
  "pk": 45,
  "fields": {
   "property": "defence",
-  "amount": 8,
+  "amount": 12,
   "in_percent": false,
   "slug": "item"
  }
@@ -4203,6 +4359,66 @@
  }
 },
 {
+ "model": "item.effect",
+ "pk": 78,
+ "fields": {
+  "property": "evasion",
+  "amount": 1,
+  "in_percent": false,
+  "slug": "item"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 79,
+ "fields": {
+  "property": "evasion",
+  "amount": 2,
+  "in_percent": false,
+  "slug": "item"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 80,
+ "fields": {
+  "property": "accuracy",
+  "amount": 1,
+  "in_percent": false,
+  "slug": "item"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 81,
+ "fields": {
+  "property": "accuracy",
+  "amount": 2,
+  "in_percent": false,
+  "slug": "item"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 82,
+ "fields": {
+  "property": "crit_power",
+  "amount": 10,
+  "in_percent": true,
+  "slug": "item"
+ }
+},
+{
+ "model": "item.effect",
+ "pk": 83,
+ "fields": {
+  "property": "crit_race",
+  "amount": 5,
+  "in_percent": true,
+  "slug": "item"
+ }
+},
+{
  "model": "item.itemeffect",
  "pk": 2,
  "fields": {
@@ -4263,7 +4479,7 @@
  "pk": 9,
  "fields": {
   "item": 35,
-  "effect": 8
+  "effect": 7
  }
 },
 {
@@ -4287,7 +4503,7 @@
  "pk": 12,
  "fields": {
   "item": 31,
-  "effect": 10
+  "effect": 12
  }
 },
 {
@@ -4367,7 +4583,7 @@
  "pk": 26,
  "fields": {
   "item": 82,
-  "effect": 28
+  "effect": 29
  }
 },
 {
@@ -4576,6 +4792,110 @@
  "fields": {
   "item": 122,
   "effect": 58
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 66,
+ "fields": {
+  "item": 22,
+  "effect": 78
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 67,
+ "fields": {
+  "item": 25,
+  "effect": 79
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 68,
+ "fields": {
+  "item": 72,
+  "effect": 79
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 69,
+ "fields": {
+  "item": 29,
+  "effect": 80
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 70,
+ "fields": {
+  "item": 33,
+  "effect": 81
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 71,
+ "fields": {
+  "item": 83,
+  "effect": 81
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 72,
+ "fields": {
+  "item": 31,
+  "effect": 80
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 73,
+ "fields": {
+  "item": 35,
+  "effect": 81
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 74,
+ "fields": {
+  "item": 82,
+  "effect": 81
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 75,
+ "fields": {
+  "item": 133,
+  "effect": 8
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 76,
+ "fields": {
+  "item": 134,
+  "effect": 10
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 77,
+ "fields": {
+  "item": 135,
+  "effect": 82
+ }
+},
+{
+ "model": "item.itemeffect",
+ "pk": 78,
+ "fields": {
+  "item": 136,
+  "effect": 83
  }
 },
 {

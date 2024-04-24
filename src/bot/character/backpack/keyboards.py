@@ -5,7 +5,6 @@ from item.models import ItemType, Scroll
 
 from bot.character.backpack.buttons import (
     ENHANCE_BUTTON,
-    ENHANCE_MORE_BUTTON,
     EQUIP_BUTTON,
     OPEN_ALL_BUTTON,
     OPEN_BUTTON,
@@ -289,19 +288,9 @@ async def use_scroll_keyboard(character_item: CharacterItem):
     return keyboard
 
 
-async def after_use_scroll_keyboard(callback_data: BackpackData):
+async def after_use_scroll_keyboard():
     """Клавиатура после использования предмета."""
     keyboard = InlineKeyboardBuilder()
-    if callback_data.amount > 0:
-        keyboard.button(
-            text=ENHANCE_MORE_BUTTON,
-            callback_data=BackpackData(
-                action=backpack_action.enhance,
-                id=callback_data.id,
-                item_id=callback_data.item_id,
-                type=ItemType.SCROLL,
-            ),
-        )
     keyboard.button(
         text=BACK_BUTTON,
         callback_data=BackpackData(

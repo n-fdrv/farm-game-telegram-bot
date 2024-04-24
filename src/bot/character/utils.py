@@ -98,11 +98,16 @@ async def get_property_modifier(
         async for effect in character_item.item.effects.filter(
             property=effect_property, in_percent=True
         ):
-            amount = (
-                effect.amount
-                + character_item.enhancement_level
-                * game_config.ENHANCE_IN_PERCENT_INCREASE
-            )
+            amount = effect.amount
+            if (
+                character_item.enhancement_level > 0
+                and effect.property
+                not in game_config.NOT_ENHANCE_PROPERTY_DATA
+            ):
+                amount += (
+                    character_item.enhancement_level
+                    * game_config.ENHANCE_IN_PERCENT_INCREASE
+                )
             modifier += amount / 100
     if modifier < 0:
         modifier = 0
@@ -146,11 +151,16 @@ async def get_property_amount(
         async for effect in character_item.item.effects.filter(
             property=effect_property, in_percent=False
         ):
-            amount += (
-                effect.amount
-                + character_item.enhancement_level
-                * game_config.ENHANCE_INCREASE
-            )
+            amount += effect.amount
+            if (
+                character_item.enhancement_level > 0
+                and effect.property
+                not in game_config.NOT_ENHANCE_PROPERTY_DATA
+            ):
+                amount += (
+                    +character_item.enhancement_level
+                    * game_config.ENHANCE_INCREASE
+                )
     return amount
 
 

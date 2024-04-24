@@ -111,11 +111,17 @@ async def get_item_effects(
     effects = "\n<i>Эффекты:</i>\n"
     async for effect in item.effects.all():
         amount = effect.amount
-        if type(item) is not Item:
+        if (
+            type(item_with_enhance) is not Item
+            and effect.property not in game_config.NOT_ENHANCE_PROPERTY_DATA
+        ):
             enhance_type = game_config.ENHANCE_INCREASE
             if effect.in_percent:
                 enhance_type = game_config.ENHANCE_IN_PERCENT_INCREASE
-            amount = effect.amount + (enhance_type * item.enhancement_level)
+            enhancement_amount = (
+                enhance_type * item_with_enhance.enhancement_level
+            )
+            amount = f"{amount + enhancement_amount} (+{enhancement_amount})"
         effects += f"{effect.get_property_display()} - {amount}"
         if effect.in_percent:
             effects += "%"

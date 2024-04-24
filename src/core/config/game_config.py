@@ -1,3 +1,5 @@
+from item.models import EffectProperty
+
 EXP_RATE = 1
 DROP_RATE = 1
 EXP_DECREASE_PERCENT = 5
@@ -25,18 +27,20 @@ HEALTH_INCREASE_LEVEL_UP = 12
 MANA_INCREASE_LEVEL_UP = 8
 
 ENHANCE_CHANCE = [
+    80,
+    70,
+    60,
+    50,
+    40,
     30,
-    25,
     20,
-    15,
     10,
-    7,
-    5,
-    3,
 ]
 
 ENHANCE_INCREASE = 4
-ENHANCE_IN_PERCENT_INCREASE = 10
+ENHANCE_IN_PERCENT_INCREASE = 5
+
+NOT_ENHANCE_PROPERTY_DATA = [EffectProperty.EVASION, EffectProperty.ACCURACY]
 
 MARKETPLACE_TAX = 10
 MAX_LOT_AMOUNT = 5

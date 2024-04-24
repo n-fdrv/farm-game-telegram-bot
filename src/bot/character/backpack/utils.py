@@ -244,20 +244,15 @@ async def use_scroll(
         character_item.enhancement_level
     ]
     success = random.randint(1, 100) <= enhance_chance
-    remove, scroll_amount = await remove_item(
-        character_item.character, scroll, 1
-    )
-    if not success:
-        return character_item, FAILURE_ENCHANT.format(
-            game_config.ENHANCE_CHANCE[character_item.enhancement_level],
-            f"{scroll_amount} {scroll.name_with_type}",
-        )
+    await remove_item(character_item.character, scroll, 1)
     await remove_item(
         character_item.character,
         character_item.item,
         amount=1,
         enhancement_level=character_item.enhancement_level,
     )
+    if not success:
+        return False, FAILURE_ENCHANT
     new_item = await add_item(
         character_item.character,
         character_item.item,
@@ -265,10 +260,8 @@ async def use_scroll(
         enhancement_level=character_item.enhancement_level + 1,
         equipped=character_item.equipped,
     )
-    return new_item, SUCCESS_ENCHANT.format(
+    return True, SUCCESS_ENCHANT.format(
         new_item.name_with_enhance,
-        game_config.ENHANCE_CHANCE[new_item.enhancement_level],
-        f"{scroll_amount} {scroll.name_with_type}",
     )
 
 

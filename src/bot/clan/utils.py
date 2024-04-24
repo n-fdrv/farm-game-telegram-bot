@@ -2,9 +2,8 @@ import re
 
 from character.models import Character
 from clan.models import Clan, ClanRequest
-from item.models import EffectProperty
 
-from bot.character.utils import get_character_property
+from bot.character.utils import get_character_power
 from bot.clan.messages import (
     ERROR_IN_ENTER_CLAN_MESSAGE,
     GET_CLAN_MESSAGE,
@@ -29,12 +28,7 @@ async def get_clan_power(clan: Clan) -> int:
     """Получение силы клана."""
     return sum(
         [
-            sum(
-                (
-                    await get_character_property(x, EffectProperty.ATTACK),
-                    await get_character_property(x, EffectProperty.DEFENCE),
-                )
-            )
+            await get_character_power(x)
             async for x in Character.objects.filter(clan=clan)
         ]
     )
