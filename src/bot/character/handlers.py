@@ -1,7 +1,6 @@
 from aiogram import F, Router, types
 from aiogram.fsm.context import FSMContext
 from character.models import CharacterClass
-from item.models import EffectProperty
 
 from bot.character.keyboards import (
     about_keyboard,
@@ -208,35 +207,7 @@ async def about_callback(
 ):
     """Хендлер информации о персонаже."""
     user = await get_user(callback.from_user.id)
-    keyboard = await about_keyboard(user.character)
-    await callback.message.edit_text(
-        text=await get_character_about(user.character),
-        reply_markup=keyboard.as_markup(),
-    )
-
-
-@character_router.callback_query(
-    CharacterData.filter(F.action == character_action.auto_use)
-)
-@log_in_dev
-async def auto_use_callback(
-    callback: types.CallbackQuery,
-    state: FSMContext,
-    callback_data: CharacterData,
-):
-    """Хендлер переключения автоиспользования."""
-    user = await get_user(callback.from_user.id)
-    if callback_data.type == EffectProperty.HEALTH:
-        user.character.auto_use_hp_potion = (
-            not user.character.auto_use_hp_potion
-        )
-        await user.character.asave(update_fields=("auto_use_hp_potion",))
-    elif callback_data.type == EffectProperty.MANA:
-        user.character.auto_use_mp_potion = (
-            not user.character.auto_use_mp_potion
-        )
-        await user.character.asave(update_fields=("auto_use_mp_potion",))
-    keyboard = await about_keyboard(user.character)
+    keyboard = await about_keyboard()
     await callback.message.edit_text(
         text=await get_character_about(user.character),
         reply_markup=keyboard.as_markup(),

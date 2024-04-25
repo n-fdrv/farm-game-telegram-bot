@@ -38,7 +38,7 @@ ATTACK_CHARACTER_MESSAGE = (
 ATTACK_CHARACTER_MESSAGE_TO_TARGET = (
     "<b>⚔️ Вас атаковал {}!</b>\n\n"
     "<i>❤️Вы потеряли:</i> <b>{} Здоровья</b>\n\n"
-    "<i>❤️Здоровье:</i> <b>{}</b>"
+    "<i>❤️Здоровье:</i> <b>{}</b>\n\n{}"
 )
 
 NO_CHARACTER_CURRENT_LOCATION = (

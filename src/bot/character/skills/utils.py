@@ -21,7 +21,7 @@ from bot.character.skills.messages import (
     TOGGLE_SKILL_INFO_MESSAGE,
 )
 from bot.character.skills.skills_data import create_elixir, regeneration
-from bot.character.utils import get_expired_text
+from bot.character.utils import get_character_property, get_expired_text
 
 
 async def get_skill_info(character_skill: CharacterSkill):
@@ -124,31 +124,22 @@ async def use_skill(character_skill: CharacterSkill):
 
 async def use_toggle(character: Character):
     """Проверка на атакующей способности."""
-    counter = 0
-    potion_used = 0
-    if character.auto_use_mp_potion:
-        if character.mana < character.max_mana * 0.5:
-            exists = await CharacterItem.objects.filter(
-                character=character,
-                item__effects__property=EffectProperty.MANA,
-            ).aexists()
-            if exists:
-                character_item = await CharacterItem.objects.select_related(
-                    "item"
-                ).aget(
-                    character=character,
-                    item__effects__property=EffectProperty.MANA,
-                )
-                await use_potion(character, character_item.item)
-                potion_used = 1
-            else:
-                character.auto_use_mp_potion = False
-                await character.asave(update_fields=("auto_use_mp_potion",))
+    max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
+    exists = await CharacterItem.objects.filter(
+        character=character,
+        item__effects__property=EffectProperty.MANA,
+    ).aexists()
+    if character.mana < max_mana * 0.5 and exists:
+        character_item = await CharacterItem.objects.select_related(
+            "item"
+        ).aget(
+            character=character,
+            item__effects__property=EffectProperty.MANA,
+        )
+        await use_potion(character, character_item.item)
     async for character_toggle in CharacterSkill.objects.select_related(
         "skill"
     ).filter(character=character, turn_on=True):
         if character.mana < character_toggle.skill.mana_cost:
             continue
         character.mana -= character_toggle.skill.mana_cost
-        counter += 1
-    return counter, potion_used

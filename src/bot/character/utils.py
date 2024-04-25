@@ -20,8 +20,6 @@ from bot.character.messages import (
     CHARACTER_INFO_MESSAGE,
     INCREASE_CLAN_REPUTATION_MESSAGE,
     LEVEL_UP_MESSAGE,
-    TURN_OFF_TEXT,
-    TURN_ON_TEXT,
 )
 from bot.models import User
 from bot.utils.game_utils import get_expired_text
@@ -215,7 +213,11 @@ async def get_character_info(character: Character) -> str:
     exp_in_percent = round(character.exp / character.exp_for_level_up * 100, 2)
     location = "Город"
     if character.current_place:
-        location = f"{character.current_place.name}"
+        hunting_time = timezone.now() - character.hunting_begin
+        location = (
+            f"{character.current_place.name}\n"
+            f"🕙Время охоты: {await get_expired_text(hunting_time)}\n"
+        )
         if character.current_place.type == HuntingZoneType.DUNGEON:
             dungeon = await Dungeon.objects.aget(pk=character.current_place.pk)
             time_left = (
@@ -233,13 +235,6 @@ async def get_character_info(character: Character) -> str:
         character, EffectProperty.MAX_HEALTH
     )
     max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
-    hp_text = TURN_OFF_TEXT
-    mp_text = TURN_OFF_TEXT
-    if character.auto_use_hp_potion:
-        hp_text = TURN_ON_TEXT
-    if character.auto_use_mp_potion:
-        mp_text = TURN_ON_TEXT
-
     return CHARACTER_INFO_MESSAGE.format(
         character.name_with_class,
         character.level,
@@ -249,8 +244,6 @@ async def get_character_info(character: Character) -> str:
         f"{character.mana}/{int(max_mana)}",
         await get_character_power(character),
         location,
-        hp_text,
-        mp_text,
     )
 
 
@@ -326,9 +319,10 @@ async def get_character_about(character: Character) -> str:
         int(await get_character_property(character, EffectProperty.DEFENCE)),
         int(await get_character_property(character, EffectProperty.ACCURACY)),
         int(await get_character_property(character, EffectProperty.EVASION)),
-        int(
+        round(
             await get_character_property(character, EffectProperty.CRIT_RATE)
-            / 10
+            / 10,
+            2,
         ),
         int(
             await get_character_property(character, EffectProperty.CRIT_POWER)
@@ -428,20 +422,16 @@ async def regen_health_or_mana(
     """Регенерация здоровья или маны."""
     if health_or_mana == EffectProperty.HEALTH:
         character.health += amount
-        if character.health > await get_character_property(
+        max_health = await get_character_property(
             character, EffectProperty.MAX_HEALTH
-        ):
-            character.health = await get_character_property(
-                character, EffectProperty.MAX_HEALTH
-            )
+        )
+        if character.health > max_health:
+            character.health = max_health
         await character.asave(update_fields=("health",))
         return character.health
     character.mana += amount
-    if character.mana > await get_character_property(
-        character, EffectProperty.MAX_MANA
-    ):
-        character.mana = await get_character_property(
-            character, EffectProperty.MAX_MANA
-        )
+    max_mana = await get_character_property(character, EffectProperty.MAX_MANA)
+    if character.mana > max_mana:
+        character.mana = max_mana
     await character.asave(update_fields=("mana",))
     return character.mana

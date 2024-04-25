@@ -1,14 +1,5 @@
 
 services:
-  redis:
-    image: redis:latest
-    container_name: redis-bunker-bot
-    ports:
-      - 6379:6379
-    volumes:
-      - redis_data:/data
-    restart: always
-
   postgres-db:
     image: postgres:15
     container_name: postgres-container-bunker
@@ -36,7 +27,6 @@ services:
         - ../../.env
       depends_on:
         - postgres-db
-        - redis
 
   nginx:
     image: nginx:1.21.3-alpine
@@ -56,4 +46,3 @@ volumes:
   postgres-data:
   static_value:
   media_value:
-  redis_data:

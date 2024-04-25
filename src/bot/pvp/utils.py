@@ -9,6 +9,7 @@ from django.utils import timezone
 from item.models import Effect, EffectProperty, EffectSlug
 from loguru import logger
 
+from bot.character.backpack.utils import use_potion
 from bot.character.skills.utils import use_toggle
 from bot.character.utils import (
     get_character_item_with_effects,
@@ -127,8 +128,25 @@ async def attack_character(
     target_max_health = await get_character_property(
         target, EffectProperty.MAX_HEALTH
     )
+    exists = await CharacterItem.objects.filter(
+        character=target,
+        item__effects__property=EffectProperty.HEALTH,
+    ).aexists()
+    target_add_info = ""
+    if target.health < target_max_health * 0.5 and exists:
+        character_item = await CharacterItem.objects.select_related(
+            "item"
+        ).aget(
+            character=target,
+            item__effects__property=EffectProperty.MANA,
+        )
+        await use_potion(target, character_item.item)
+        target_add_info = "Использовано Зелье Здоровья"
     target_text = ATTACK_CHARACTER_MESSAGE_TO_TARGET.format(
-        attacker.name_with_clan, damage, f"{target.health}/{target_max_health}"
+        attacker.name_with_clan,
+        damage,
+        f"{target.health}/{target_max_health}",
+        target_add_info,
     )
     logger.info(
         f"{attacker.name_with_level} ({attacker.hp} напал на "

@@ -90,7 +90,7 @@ upload-characters: # Загрузить персонажей
 
 run-app: # Запуск Django и Telegram бота
 	@echo -e "$(COLOR_YELLOW)Starting bot...$(COLOR_RESET)"
-	@cd src && poetry run uvicorn core.asgi:application --reload && cd .. && \
+	@cd src && poetry run uvicorn core.asgi:application --reload --port 8001 && cd .. && \
 	echo -e "$(COLOR_GREEN)Bot stopped$(COLOR_RESET)"
 
 bot-init: # Базовая команда для запуска БД, миграций, бота и джанго
