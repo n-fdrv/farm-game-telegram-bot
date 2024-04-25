@@ -30,7 +30,7 @@ DEFAULT_APPS = [
     'django_object_actions'
 ]
 
-LOCAL_APPS = ['bot', 'admin_user', "item", "character", "location", "clan"]
+LOCAL_APPS = ['bot', 'admin_user', "item", "character", "location", "clan", "premium_shop"]
 
 EXTERNAL_APPS = []
 

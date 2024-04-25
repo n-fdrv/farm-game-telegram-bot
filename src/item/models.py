@@ -16,7 +16,7 @@ class ItemType(models.TextChoices):
     MATERIAL = "material", "🪵Ресурс"
     SCROLL = "scroll", "📜Свиток"
     BAG = "bag", "📦Мешок"
-    ETC = "etc", "Разное"
+    ETC = "etc", "❔Разное"
 
 
 class EquipmentType(models.TextChoices):

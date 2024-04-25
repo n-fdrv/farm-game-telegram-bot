@@ -257,8 +257,8 @@
  "fields": {
   "name": "Потрепанный Тяжелый Доспех",
   "description": "Данная броня подходит Рыцарю и Мастеру",
-  "buy_price": 30000,
-  "sell_price": 15000,
+  "buy_price": 5000,
+  "sell_price": 2500,
   "created": "2024-03-25T12:01:25.416Z",
   "type": "armor"
  }
@@ -281,8 +281,8 @@
  "fields": {
   "name": "Легкая Броня Ученика",
   "description": "Данная броня подходит Охотнику",
-  "buy_price": 30000,
-  "sell_price": 15000,
+  "buy_price": 15000,
+  "sell_price": 7500,
   "created": "2024-03-25T12:01:25.425Z",
   "type": "armor"
  }
@@ -329,8 +329,8 @@
  "fields": {
   "name": "Деревянный Кинжал",
   "description": "Данное оружие подходит Охотнику",
-  "buy_price": 500,
-  "sell_price": 250,
+  "buy_price": 5000,
+  "sell_price": 2500,
   "created": "2024-03-25T12:01:25.449Z",
   "type": "weapon"
  }
@@ -377,8 +377,8 @@
  "fields": {
   "name": "Кинжал Ученика",
   "description": "Данное оружие подходит Охотнику",
-  "buy_price": 3000,
-  "sell_price": 1500,
+  "buy_price": 30000,
+  "sell_price": 15000,
   "created": "2024-03-25T12:01:25.465Z",
   "type": "weapon"
  }
@@ -857,8 +857,8 @@
  "fields": {
   "name": "Железный Кинжал",
   "description": "Нет описания предмета",
-  "buy_price": 0,
-  "sell_price": 15000,
+  "buy_price": 150000,
+  "sell_price": 75000,
   "created": "2024-03-29T08:42:49.482Z",
   "type": "weapon"
  }
@@ -1108,7 +1108,7 @@
  "pk": 104,
  "fields": {
   "name": "Эликсир Здоровья",
-  "description": "Восполняет 10% Здоровья. Можно поставить на автоматическое использование",
+  "description": "Восполняет 10% Здоровья. В PvP используется автоматически",
   "buy_price": 100,
   "sell_price": 0,
   "created": "2024-03-31T18:18:55.287Z",
@@ -1120,7 +1120,7 @@
  "pk": 105,
  "fields": {
   "name": "Эликсир Маны",
-  "description": "Восполняет 10% Маны. Можно поставить на автоматическое использование",
+  "description": "Восполняет 10% Маны. В PvP используется автоматически",
   "buy_price": 100,
   "sell_price": 0,
   "created": "2024-03-31T18:19:42.066Z",
@@ -1232,7 +1232,7 @@
   "buy_price": 10000,
   "sell_price": 0,
   "created": "2024-04-15T11:14:04.814Z",
-  "type": "etc"
+  "type": "bag"
  }
 },
 {
@@ -6931,7 +6931,7 @@
  "pk": 1,
  "fields": {
   "name": "Король Орков",
-  "respawn": "2024-04-24T22:59:26.131Z",
+  "respawn": "2024-04-25T19:44:14.895Z",
   "required_power": 418,
   "location": 4
  }
@@ -6941,7 +6941,7 @@
  "pk": 2,
  "fields": {
   "name": "Повелитель Зомби",
-  "respawn": "2024-04-24T21:24:00.143Z",
+  "respawn": "2024-04-25T22:00:30.902Z",
   "required_power": 542,
   "location": 5
  }
@@ -6951,7 +6951,7 @@
  "pk": 3,
  "fields": {
   "name": "Древний Призрак",
-  "respawn": "2024-04-24T18:26:53.149Z",
+  "respawn": "2024-04-25T21:23:58.905Z",
   "required_power": 642,
   "location": 6
  }
@@ -6961,7 +6961,7 @@
  "pk": 4,
  "fields": {
   "name": "Железный Голем",
-  "respawn": "2024-04-24T21:29:36.153Z",
+  "respawn": "2024-04-25T23:15:45.907Z",
   "required_power": 729,
   "location": 7
  }
@@ -7299,7 +7299,7 @@
  "pk": 1,
  "fields": {
   "name": "Каменный Голем",
-  "respawn": "2024-04-25T06:20:30.129Z",
+  "respawn": "2024-04-26T06:47:03.893Z",
   "required_power": 8940
  }
 },
@@ -7444,6 +7444,328 @@
   "min_amount": 1,
   "max_amount": 1,
   "chance": 50.0
+ }
+},
+{
+ "model": "premium_shop.premiumlot",
+ "pk": 1,
+ "fields": {
+  "name": "🎟Премиум Подписка 30 Дней",
+  "description": "Дает следующие эффекты вашему Персонажу на 30 дней:\r\n<i>🔮Получение опыта:</i> <b>+100%</b>\r\n<i>🍀Шанс трофеев:</i> <b>+50%</b>\r\n<i>🪦Потеря опыта при смерти:</i> <b>-50%</b>",
+  "type": "premium",
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlot",
+ "pk": 2,
+ "fields": {
+  "name": "🎟Премиум Подписка 7 Дней",
+  "description": "Дает следующие эффекты вашему Персонажу на 7 дней:\r\n<i>🔮Получение опыта:</i> <b>+100%</b>\r\n<i>🍀Шанс трофеев:</i> <b>+50%</b>\r\n<i>🪦Потеря опыта при смерти:</i> <b>-50%</b>",
+  "type": "premium",
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlot",
+ "pk": 3,
+ "fields": {
+  "name": "🪄Стартовый Набор (Маг)",
+  "description": "Набор предметов для ускоренного развития",
+  "type": "skill",
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlot",
+ "pk": 4,
+ "fields": {
+  "name": "🗡Стартовый Набор (Воин)",
+  "description": "Набор предметов для ускоренного развития",
+  "type": "skill",
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlot",
+ "pk": 5,
+ "fields": {
+  "name": "🏹Стартовый Набор (Охотник)",
+  "description": "Набор предметов для ускоренного развития",
+  "type": "skill",
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlot",
+ "pk": 6,
+ "fields": {
+  "name": "🔨Стартовый Набор (Мастер)",
+  "description": "Набор предметов для ускоренного развития",
+  "type": "skill",
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlot",
+ "pk": 7,
+ "fields": {
+  "name": "🌡Стартовый Набор (Эликсиры)",
+  "description": "Набор предметов для ускоренного развития",
+  "type": "skill",
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 1,
+ "fields": {
+  "premium_lot": 1,
+  "item": 14,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 2,
+ "fields": {
+  "premium_lot": 2,
+  "item": 13,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 3,
+ "fields": {
+  "premium_lot": 3,
+  "item": 24,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 4,
+ "fields": {
+  "premium_lot": 3,
+  "item": 32,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 5,
+ "fields": {
+  "premium_lot": 3,
+  "item": 105,
+  "amount": 20
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 6,
+ "fields": {
+  "premium_lot": 3,
+  "item": 104,
+  "amount": 20
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 7,
+ "fields": {
+  "premium_lot": 4,
+  "item": 26,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 8,
+ "fields": {
+  "premium_lot": 4,
+  "item": 33,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 9,
+ "fields": {
+  "premium_lot": 4,
+  "item": 105,
+  "amount": 20
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 10,
+ "fields": {
+  "premium_lot": 4,
+  "item": 104,
+  "amount": 20
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 11,
+ "fields": {
+  "premium_lot": 5,
+  "item": 25,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 12,
+ "fields": {
+  "premium_lot": 5,
+  "item": 34,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 13,
+ "fields": {
+  "premium_lot": 5,
+  "item": 104,
+  "amount": 20
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 14,
+ "fields": {
+  "premium_lot": 5,
+  "item": 105,
+  "amount": 20
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 15,
+ "fields": {
+  "premium_lot": 6,
+  "item": 26,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 16,
+ "fields": {
+  "premium_lot": 6,
+  "item": 35,
+  "amount": 1
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 17,
+ "fields": {
+  "premium_lot": 6,
+  "item": 105,
+  "amount": 20
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 18,
+ "fields": {
+  "premium_lot": 6,
+  "item": 104,
+  "amount": 20
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 19,
+ "fields": {
+  "premium_lot": 7,
+  "item": 110,
+  "amount": 10
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 20,
+ "fields": {
+  "premium_lot": 7,
+  "item": 121,
+  "amount": 10
+ }
+},
+{
+ "model": "premium_shop.premiumlotreceiveditem",
+ "pk": 21,
+ "fields": {
+  "premium_lot": 7,
+  "item": 111,
+  "amount": 10
+ }
+},
+{
+ "model": "premium_shop.premiumlotrequireditem",
+ "pk": 1,
+ "fields": {
+  "premium_lot": 1,
+  "item": 2,
+  "amount": 250
+ }
+},
+{
+ "model": "premium_shop.premiumlotrequireditem",
+ "pk": 2,
+ "fields": {
+  "premium_lot": 2,
+  "item": 2,
+  "amount": 100
+ }
+},
+{
+ "model": "premium_shop.premiumlotrequireditem",
+ "pk": 3,
+ "fields": {
+  "premium_lot": 3,
+  "item": 2,
+  "amount": 250
+ }
+},
+{
+ "model": "premium_shop.premiumlotrequireditem",
+ "pk": 4,
+ "fields": {
+  "premium_lot": 4,
+  "item": 2,
+  "amount": 250
+ }
+},
+{
+ "model": "premium_shop.premiumlotrequireditem",
+ "pk": 5,
+ "fields": {
+  "premium_lot": 5,
+  "item": 2,
+  "amount": 250
+ }
+},
+{
+ "model": "premium_shop.premiumlotrequireditem",
+ "pk": 6,
+ "fields": {
+  "premium_lot": 6,
+  "item": 2,
+  "amount": 250
+ }
+},
+{
+ "model": "premium_shop.premiumlotrequireditem",
+ "pk": 7,
+ "fields": {
+  "premium_lot": 7,
+  "item": 2,
+  "amount": 100
  }
 }
 ]

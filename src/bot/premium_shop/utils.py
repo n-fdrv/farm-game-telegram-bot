@@ -1,65 +1,85 @@
-import datetime
-
-from character.models import Character
-from django.conf import settings
-from django.utils import timezone
-from item.models import Armor, Bag, Etc, Weapon
-
-from bot.character.backpack.utils import add_item
-from bot.premium_shop.buttons import (
-    MONTH_PREMIUM_BUTTON,
-    START_PACK_BUTTON,
-    WEEK_PREMIUM_BUTTON,
+from character.models import Character, CharacterItem
+from premium_shop.models import (
+    PremiumLot,
+    PremiumLotReceivedItem,
+    PremiumLotRequiredItem,
 )
-from bot.premium_shop.messages import NOT_ENOUGH_CURRENCY, SUCCESS_BUY_MESSAGE
-from bot.utils.game_utils import remove_item
+
+from bot.premium_shop.messages import (
+    PREMIUM_LOT_GET_MESSAGE,
+    SUCCESS_BUY_MESSAGE,
+)
+from bot.utils.game_utils import add_item, remove_item
+from bot.utils.messages import NOT_ENOUGH_REQUIRED_ITEMS_MESSAGE
 
 
-async def buy_premium(character: Character, premium_type: str, price: int):
-    """Метод покупки премиума."""
-    premium_days = {WEEK_PREMIUM_BUTTON: 7, MONTH_PREMIUM_BUTTON: 30}
-    diamonds = await Etc.objects.aget(name=settings.DIAMOND_NAME)
-    success = await remove_item(character, diamonds, price)
-    if not success:
-        return False, NOT_ENOUGH_CURRENCY
-    premium_expired = timezone.now()
-    if character.premium_expired >= premium_expired:
-        premium_expired = character.premium_expired
-    character.premium_expired = premium_expired + datetime.timedelta(
-        days=premium_days[premium_type],
+async def premium_lot_get_info(premium_lot: PremiumLot):
+    """Получение информации о лоте."""
+    return PREMIUM_LOT_GET_MESSAGE.format(
+        premium_lot.name,
+        premium_lot.amount,
+        premium_lot.description,
+        "\n".join(
+            [
+                f"<b>{x.item.name_with_type}</b> - <i>{x.amount} шт.</i>"
+                async for x in PremiumLotReceivedItem.objects.select_related(
+                    "item"
+                ).filter(premium_lot=premium_lot)
+            ]
+        ),
+        "\n".join(
+            [
+                f"<b>{x.item.name_with_type}</b> - <i>{x.amount} шт.</i>"
+                async for x in PremiumLotRequiredItem.objects.select_related(
+                    "item"
+                ).filter(premium_lot=premium_lot)
+            ]
+        ),
     )
-    await character.asave(update_fields=("premium_expired",))
-    return True, SUCCESS_BUY_MESSAGE.format(premium_type)
 
 
-async def buy_start_pack(character: Character, price: int):
-    """Метод покупки стартового набора."""
-    weapon = (
-        await Weapon.objects.filter(
-            equipment_type__in=character.character_class.equip.values_list(
-                "type", flat=True
-            ),
-            sell_price__gt=0,
+async def check_premium_lot_required_items(
+    character: Character, premium_lot: PremiumLot
+):
+    """Метод проверки наличия предмета для крафта."""
+    async for required_item in PremiumLotRequiredItem.objects.select_related(
+        "item"
+    ).filter(premium_lot=premium_lot):
+        is_exist = await character.items.filter(
+            pk=required_item.item.pk
+        ).aexists()
+        if not is_exist:
+            return False, NOT_ENOUGH_REQUIRED_ITEMS_MESSAGE
+        item = await CharacterItem.objects.aget(
+            character=character, item=required_item.item.pk
         )
-        .order_by("sell_price")
-        .afirst()
+        if item.amount < required_item.amount:
+            return False, NOT_ENOUGH_REQUIRED_ITEMS_MESSAGE
+    return True, "Достаточно"
+
+
+async def get_premium_lot(character: Character, premium_lot: PremiumLot):
+    """Покупка лота."""
+    success, text = await check_premium_lot_required_items(
+        character, premium_lot
     )
-    armor = (
-        await Armor.objects.filter(
-            equipment_type__in=character.character_class.equip.values_list(
-                "type", flat=True
-            ),
-            sell_price__gt=0,
-        )
-        .order_by("sell_price")
-        .afirst()
-    )
-    bag = await Bag.objects.aget(name="Мешок с Эликсирами (Обычный)")
-    diamonds = await Etc.objects.aget(name=settings.DIAMOND_NAME)
-    success = await remove_item(character, diamonds, price)
     if not success:
-        return False, NOT_ENOUGH_CURRENCY
-    await add_item(character, weapon)
-    await add_item(character, armor)
-    await add_item(character, bag, 40)
-    return True, SUCCESS_BUY_MESSAGE.format(START_PACK_BUTTON)
+        return success, text
+
+    async for received_item in PremiumLotReceivedItem.objects.select_related(
+        "item"
+    ).filter(premium_lot=premium_lot):
+        await add_item(
+            character=character,
+            item=received_item.item,
+            amount=received_item.amount,
+        )
+    async for required_item in PremiumLotRequiredItem.objects.select_related(
+        "item"
+    ).filter(premium_lot=premium_lot):
+        await remove_item(
+            character=character,
+            item=required_item.item,
+            amount=required_item.amount,
+        )
+    return True, SUCCESS_BUY_MESSAGE.format(premium_lot.name)

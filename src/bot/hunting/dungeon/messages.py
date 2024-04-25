@@ -19,9 +19,6 @@ ENTER_DUNGEON_CONFIRM_MESSAGE = (
     "<b>⚠️Подтверждение!</b>\n\n" "Вы уверены, что войти в данное Поздемелье?"
 )
 
-NOT_ENOUGH_REQUIRED_ITEMS_MESSAGE = (
-    "<b>❌Ошибка!</b>\n\n" "Недостаточно необходимых предметов!"
-)
 
 NOT_READY_DUNGEON_MESSAGE = (
     "<b>❌Ошибка!</b>\n\n" "Вы не можете войти в <b>{}</b>!"

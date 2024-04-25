@@ -1,6 +1,3 @@
-import datetime
-
-from django.apps import apps
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
 from item.models import Effect, EffectSlug, Item
@@ -15,8 +12,6 @@ from character.models import (
     Skill,
 )
 
-from bot.hunting.utils import end_hunting
-from bot.models import User
 from core.config import game_config
 
 
@@ -144,30 +139,6 @@ class CharacterEffectInline(admin.TabularInline):
 class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     """Управление моделью персонажей."""
 
-    def end_hunting(self, request, queryset):
-        """Окончить охоту персонажей."""
-        app_config = apps.get_app_config("bot")
-        app = app_config.bot
-        scheduler = app.get_scheduler()
-        bot = app.get_bot()
-        for character in queryset:
-            user = User.objects.get(character=character)
-            if character.current_place:
-                scheduler.add_job(
-                    end_hunting,
-                    "date",
-                    run_date=datetime.datetime.now(),
-                    args=[character, bot],
-                )
-            scheduler.add_job(
-                bot.send_message,
-                "date",
-                run_date=datetime.datetime.now(),
-                args=[user.telegram_id, "Сервер отключается на профилактику"],
-            )
-
-    end_hunting.short_description = "Окончить охоту всех персонажей"
-
     def reset_character_characteristics(self, request, queryset):
         """Окончить охоту персонажей."""
         for character in queryset:
@@ -205,7 +176,41 @@ class CharacterAdmin(DjangoObjectActions, admin.ModelAdmin):
     reset_character_characteristics.short_description = (
         "Сброс характеристик персонажей"
     )
-    changelist_actions = ("end_hunting", "reset_character_characteristics")
+    changelist_actions = ("reset_character_characteristics",)
+    fieldsets = [
+        (
+            "Основная Информация",
+            {
+                "fields": [
+                    "name",
+                    "character_class",
+                    "clan",
+                    "level",
+                    "exp",
+                    "exp_for_level_up",
+                    "skill_points",
+                ]
+            },
+        ),
+        (
+            "Характеристики",
+            {
+                "classes": ["collapse"],
+                "fields": [
+                    "health",
+                    "max_health",
+                    "mana",
+                    "max_mana",
+                    "attack",
+                    "defence",
+                    "accuracy",
+                    "evasion",
+                    "crit_rate",
+                    "crit_power",
+                ],
+            },
+        ),
+    ]
 
     list_display = (
         "name_with_level",

@@ -12,10 +12,10 @@ from location.models import (
 )
 
 from bot.hunting.dungeon.messages import (
-    NOT_ENOUGH_REQUIRED_ITEMS_MESSAGE,
     NOT_READY_DUNGEON_MESSAGE,
 )
 from bot.utils.game_utils import get_expired_text, remove_item
+from bot.utils.messages import NOT_ENOUGH_REQUIRED_ITEMS_MESSAGE
 
 
 async def get_dungeon_required_items(dungeon: Dungeon) -> str:

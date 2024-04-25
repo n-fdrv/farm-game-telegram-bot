@@ -1,41 +1,30 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from premium_shop.models import PremiumLot, PremiumLotType
 
-from bot.command.buttons import BACK_BUTTON
+from bot.command.buttons import BACK_BUTTON, NO_BUTTON, YES_BUTTON
 from bot.constants.actions import premium_action
 from bot.constants.callback_data import PremiumData
 from bot.premium_shop.buttons import (
+    BUY_BUTTON,
     DIAMOND_100_BUTTON,
     DIAMOND_300_BUTTON,
     DIAMOND_500_BUTTON,
     DIAMONDS_BUTTON,
-    MONTH_PREMIUM_BUTTON,
-    PREMIUM_BUTTON,
-    START_PACK_BUTTON,
-    START_PACK_BUY_BUTTON,
-    WEEK_PREMIUM_BUTTON,
+    PREMIUM_LOTS_BUTTON,
 )
+from bot.utils.paginator import Paginator
 
 
-async def premium_list_keyboard():
+async def premium_preview_keyboard():
     """Список Товаров."""
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
+        text=PREMIUM_LOTS_BUTTON,
+        callback_data=PremiumData(action=premium_action.choose_type),
+    )
+    keyboard.button(
         text=DIAMONDS_BUTTON,
-        callback_data=PremiumData(
-            action=premium_action.get, type=DIAMONDS_BUTTON
-        ),
-    )
-    keyboard.button(
-        text=PREMIUM_BUTTON,
-        callback_data=PremiumData(
-            action=premium_action.get, type=PREMIUM_BUTTON
-        ),
-    )
-    keyboard.button(
-        text=START_PACK_BUTTON,
-        callback_data=PremiumData(
-            action=premium_action.get, type=START_PACK_BUTTON
-        ),
+        callback_data=PremiumData(action=premium_action.diamonds),
     )
     keyboard.adjust(1)
     return keyboard
@@ -46,73 +35,133 @@ async def diamonds_keyboard():
     keyboard = InlineKeyboardBuilder()
     keyboard.button(
         text=DIAMOND_100_BUTTON,
-        callback_data=PremiumData(
-            action=premium_action.buy, type=DIAMOND_100_BUTTON
-        ),
+        url="http://127.0.0.1:8000",
     )
     keyboard.button(
         text=DIAMOND_300_BUTTON,
-        callback_data=PremiumData(
-            action=premium_action.buy, type=DIAMOND_300_BUTTON
-        ),
+        url="http://127.0.0.1:8000",
     )
     keyboard.button(
         text=DIAMOND_500_BUTTON,
-        callback_data=PremiumData(
-            action=premium_action.buy, type=DIAMOND_500_BUTTON
-        ),
+        url="http://127.0.0.1:8000",
     )
     keyboard.button(
         text=BACK_BUTTON,
-        callback_data=PremiumData(action=premium_action.list),
+        callback_data=PremiumData(action=premium_action.preview),
     )
     keyboard.adjust(1)
     return keyboard
 
 
-async def premium_keyboard():
-    """Клавиатура премиум подписки."""
+async def premium_choose_type_keyboard():
+    """Распределение клавиатуры в зависимости от категории."""
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(
-        text=WEEK_PREMIUM_BUTTON,
-        callback_data=PremiumData(
-            action=premium_action.buy, type=WEEK_PREMIUM_BUTTON, price=100
-        ),
-    )
-    keyboard.button(
-        text=MONTH_PREMIUM_BUTTON,
-        callback_data=PremiumData(
-            action=premium_action.buy, type=MONTH_PREMIUM_BUTTON, price=250
-        ),
-    )
+    button_number = 0
+    row = []
+    button_in_row = 2
+    for premium_type in PremiumLotType.choices:
+        keyboard.button(
+            text=premium_type[1],
+            callback_data=PremiumData(
+                action=premium_action.list,
+                type=premium_type[0],
+            ),
+        )
+        button_number += 1
+        if button_number == button_in_row:
+            row.append(button_number)
+            button_number = 0
+    if button_number > 0:
+        row.append(button_number)
     keyboard.button(
         text=BACK_BUTTON,
-        callback_data=PremiumData(action=premium_action.list),
+        callback_data=PremiumData(action=premium_action.preview),
     )
-    keyboard.adjust(1)
+    keyboard.adjust(*row, 1)
     return keyboard
 
 
-async def pack_keyboard():
-    """Клавиатура стартовых наборов."""
+async def premium_list_keyboard(callback_data: PremiumData):
+    """Распределение клавиатуры в зависимости от категории."""
     keyboard = InlineKeyboardBuilder()
-    keyboard.button(
-        text=START_PACK_BUY_BUTTON,
-        callback_data=PremiumData(action=premium_action.buy, price=300),
-    )
-    keyboard.button(
-        text=BACK_BUTTON,
-        callback_data=PremiumData(action=premium_action.list),
-    )
+    async for lot in PremiumLot.objects.filter(type=callback_data.type):
+        keyboard.button(
+            text=lot.name,
+            callback_data=PremiumData(
+                action=premium_action.get,
+                id=lot.id,
+                type=callback_data.type,
+                page=callback_data.page,
+            ),
+        )
     keyboard.adjust(1)
-    return keyboard
+    paginator = Paginator(
+        keyboard=keyboard,
+        action=premium_action.list,
+        size=6,
+        page=callback_data.page,
+        type=callback_data.type,
+    )
+    return paginator.get_paginator_with_buttons_list(
+        [[BACK_BUTTON, PremiumData(action=premium_action.choose_type)]]
+    )
 
 
 async def premium_get_keyboard(callback_data: PremiumData):
     """Распределение клавиатуры в зависимости от категории."""
-    keyboard_data = {
-        DIAMONDS_BUTTON: diamonds_keyboard,
-        PREMIUM_BUTTON: premium_keyboard,
-        START_PACK_BUTTON: pack_keyboard,
-    }
-    return await keyboard_data[callback_data.type]()
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BUY_BUTTON,
+        callback_data=PremiumData(
+            action=premium_action.buy_confirm,
+            id=callback_data.id,
+            type=callback_data.type,
+        ),
+    )
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=PremiumData(
+            action=premium_action.list,
+            type=callback_data.type,
+            page=callback_data.page,
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard
+
+
+async def premium_buy_confirm_keyboard(callback_data: PremiumData):
+    """Распределение клавиатуры в зависимости от категории."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=YES_BUTTON,
+        callback_data=PremiumData(
+            action=premium_action.buy,
+            id=callback_data.id,
+            type=callback_data.type,
+        ),
+    )
+    keyboard.button(
+        text=NO_BUTTON,
+        callback_data=PremiumData(
+            action=premium_action.get,
+            id=callback_data.id,
+            type=callback_data.type,
+            page=callback_data.page,
+        ),
+    )
+    keyboard.adjust(2)
+    return keyboard
+
+
+async def premium_buy_keyboard(callback_data: PremiumData):
+    """Распределение клавиатуры в зависимости от категории."""
+    keyboard = InlineKeyboardBuilder()
+    keyboard.button(
+        text=BACK_BUTTON,
+        callback_data=PremiumData(
+            action=premium_action.list, type=callback_data.type
+        ),
+    )
+    keyboard.adjust(1)
+    return keyboard

@@ -139,7 +139,12 @@ class MasterShopAction(Action):
 class PremiumAction(Action):
     """Действия для хендлеров создания."""
 
-    buy = f"{callback_data.PremiumData.__prefix__}-buy"
+    preview = f"{callback_data.PremiumData.__prefix__}-pr"
+    choose_type = f"{callback_data.PremiumData.__prefix__}-chty"
+    diamonds = f"{callback_data.PremiumData.__prefix__}-di"
+
+    buy_confirm = f"{callback_data.PremiumData.__prefix__}-buco"
+    buy = f"{callback_data.PremiumData.__prefix__}-bu"
 
 
 class PvPAction(Action):

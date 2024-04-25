@@ -1,9 +1,8 @@
 DIAMONDS_BUTTON = "💎Алмазы"
-PREMIUM_BUTTON = "🎟Премиум Подписка"
-START_PACK_BUTTON = "⚔️Стартовый набор"
-WEEK_PREMIUM_BUTTON = "🎟7 дней (100💎)"
-MONTH_PREMIUM_BUTTON = "🎟30 дней (250💎)"
 DIAMOND_100_BUTTON = "100💎 (99 RUB)"
 DIAMOND_300_BUTTON = "300💎 (259 RUB)"
 DIAMOND_500_BUTTON = "500💎 (399 RUB)"
-START_PACK_BUY_BUTTON = "⚔️Стартовый набор (250💎)"
+
+PREMIUM_LOTS_BUTTON = "🏬Список Доступных Товаров"
+
+BUY_BUTTON = "💰Купить"
