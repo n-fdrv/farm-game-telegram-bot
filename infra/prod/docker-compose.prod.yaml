@@ -12,7 +12,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   bot:
-      image: oupsfed/farm-game
+      build: '../../src/'
       container_name: farm-game
       restart: always
       command: >

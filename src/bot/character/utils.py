@@ -410,7 +410,7 @@ async def get_exp(character: Character, exp_amount: int, bot):
 async def remove_exp(character: Character, exp_amount: int):
     """Метод отнятия опыта."""
     character.exp -= exp_amount
-    if character.level == 1 and character.exp < 0:
+    if character.exp < 0:
         character.exp = 0
     await character.asave(update_fields=("exp",))
     return character

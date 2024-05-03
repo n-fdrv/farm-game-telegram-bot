@@ -6,8 +6,10 @@ BOOK_INFO_MESSAGE = (
     "<i>Требуемая способность:</i> <b>{}</b>\n"
 )
 
+EQUIPPED_CLASS_INFO = "\n<i>Необходимый класс:</i> <b>{}</b>\n"
+
 ITEM_GET_MESSAGE = (
-    "<b>{}</b> - {} шт. "
+    "<b>{}</b> - {} шт."
     "<i>{}</i>\n\n"
     "ℹ️{}\n"
     "{}\n"

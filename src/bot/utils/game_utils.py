@@ -1,13 +1,22 @@
 import datetime
 import re
 
-from character.models import Character, CharacterItem, MarketplaceItem
+from character.models import (
+    Character,
+    CharacterItem,
+    ClassEquipment,
+    MarketplaceItem,
+)
 from clan.models import ClanWarehouse
 from django.conf import settings
 from django.db.models import F
-from item.models import BagItem, Book, Item, ItemType
+from item.models import BagItem, Book, Equipment, Item, ItemType
 
-from bot.utils.messages import BOOK_INFO_MESSAGE, ITEM_GET_MESSAGE
+from bot.utils.messages import (
+    BOOK_INFO_MESSAGE,
+    EQUIPPED_CLASS_INFO,
+    ITEM_GET_MESSAGE,
+)
 from core.config import game_config
 
 
@@ -165,6 +174,21 @@ async def get_book_info(item: Item) -> str:
     )
 
 
+async def get_equip_info(item: Item) -> str:
+    """Метод получения дропа из мешков."""
+    equip = await Equipment.objects.aget(pk=item.pk)
+    return EQUIPPED_CLASS_INFO.format(
+        " | ".join(
+            [
+                x.character_class.emoji_name
+                async for x in ClassEquipment.objects.select_related(
+                    "character_class"
+                ).filter(type=equip.equipment_type)
+            ]
+        )
+    )
+
+
 async def get_lots_info(
     item: [CharacterItem, MarketplaceItem, ClanWarehouse], currency_name: str
 ):
@@ -190,7 +214,12 @@ async def get_item_info_text(
     item_data: [CharacterItem, MarketplaceItem, ClanWarehouse, Item]
 ):
     """Метод получения текста информации о товаре."""
-    add_info_data = {ItemType.BAG: get_bag_loot, ItemType.BOOK: get_book_info}
+    add_info_data = {
+        ItemType.BAG: get_bag_loot,
+        ItemType.BOOK: get_book_info,
+        ItemType.WEAPON: get_equip_info,
+        ItemType.ARMOR: get_equip_info,
+    }
     additional_info = await get_item_effects(item_data)
     name = item_data
     amount = 1
@@ -206,7 +235,6 @@ async def get_item_info_text(
     if item.type in add_info_data.keys():
         additional_info += await add_info_data[item.type](item)
     equipped = ""
-
     if type(item_data) is CharacterItem:
         if item_data.equipped:
             equipped = "\n⤴️Экипировано"
