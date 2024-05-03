@@ -47,10 +47,6 @@ async def shop_get(
     callback_data: ShopData,
 ):
     """Коллбек перехода в магазин."""
-    user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     keyboard = await shop_get_keyboard()
     await callback.message.edit_text(
         text=SHOP_GET_MESSAGE, reply_markup=keyboard.as_markup()
@@ -67,10 +63,6 @@ async def shop_buy_preview(
     callback_data: ShopData,
 ):
     """Коллбек перехода в магазин."""
-    user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     keyboard = await buy_preview_keyboard()
     await callback.message.edit_text(
         text=PREVIEW_MESSAGE, reply_markup=keyboard.as_markup()
@@ -85,10 +77,6 @@ async def shop_buy_list(
     callback_data: ShopData,
 ):
     """Коллбек перехода в список товаров для покупки."""
-    user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     paginator = await buy_list_keyboard(callback_data)
     await callback.message.edit_text(text=LIST_MESSAGE, reply_markup=paginator)
 
@@ -101,10 +89,6 @@ async def shop_buy_get_handler(
     callback_data: ShopData,
 ):
     """Хендлер товара для покупки."""
-    user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     item = await Item.objects.aget(pk=callback_data.id)
     keyboard = await buy_get_keyboard(callback_data)
     await callback.message.edit_text(
@@ -122,9 +106,6 @@ async def shop_buy_handler(
 ):
     """Хендлер покупки товара."""
     user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     item = await Item.objects.aget(pk=callback_data.id)
     keyboard = await buy_keyboard(callback_data)
     success, text = await buy_item(user.character, item)
@@ -145,9 +126,6 @@ async def shop_sell_preview(
 ):
     """Коллбек перехода в превью продаж."""
     user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     keyboard = await sell_preview_keyboard(user.character)
     await callback.message.edit_text(
         text=PREVIEW_MESSAGE, reply_markup=keyboard.as_markup()
@@ -163,9 +141,6 @@ async def shop_sell_list(
 ):
     """Коллбек перехода в продажи."""
     user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     paginator = await sell_list_keyboard(user, callback_data)
     await callback.message.edit_text(text=LIST_MESSAGE, reply_markup=paginator)
 
@@ -178,10 +153,6 @@ async def shop_sell_get_handler(
     callback_data: ShopData,
 ):
     """Хендлер товара для продажи."""
-    user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     character_item = await CharacterItem.objects.select_related("item").aget(
         pk=callback_data.id
     )
@@ -203,10 +174,6 @@ async def shop_sell_amount_handler(
     callback_data: ShopData,
 ):
     """Хендлер ввода количества товаров."""
-    user = await get_user(callback.from_user.id)
-    if user.character.current_place:
-        await callback.message.delete()
-        return
     keyboard = await sell_keyboard(callback_data)
     await callback.message.edit_text(
         text=SELL_AMOUNT_MESSAGE, reply_markup=keyboard.as_markup()
@@ -219,10 +186,6 @@ async def shop_sell_amount_handler(
 @log_in_dev
 async def shop_sell_amount_state(message: types.Message, state: FSMContext):
     """Хендлер обработки количества товаров."""
-    user = await get_user(message.from_user.id)
-    if user.character.current_place:
-        await message.message.delete()
-        return
     amount = message.text
     is_correct = await check_correct_amount(amount)
     keyboard = await in_shop_keyboard()
@@ -252,7 +215,6 @@ async def shop_sell_handler(
 ):
     """Хендлер продажи товара."""
     await state.clear()
-
     character_item = await CharacterItem.objects.select_related(
         "item", "character", "character__current_place"
     ).aget(pk=callback_data.id)

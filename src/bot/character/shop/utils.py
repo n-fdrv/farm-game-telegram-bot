@@ -4,7 +4,6 @@ from item.models import Item
 
 from bot.character.backpack.utils import add_item
 from bot.character.shop.messages import (
-    CHARACTER_IN_LOCATION_MESSAGE,
     EQUIPPED_ITEM_MESSAGE,
     NOT_ENOUGH_GOLD_MESSAGE,
     NOT_ENOUGH_ITEMS_MESSAGE,
@@ -18,8 +17,6 @@ async def sell_item(character_item: CharacterItem, amount: int):
     """Метод продажи товара в магазин."""
     if character_item.equipped and character_item.amount <= amount:
         return False, EQUIPPED_ITEM_MESSAGE
-    if character_item.character.current_place:
-        return False, CHARACTER_IN_LOCATION_MESSAGE
     gold = await Item.objects.aget(name=settings.GOLD_NAME)
     character_amount = await get_item_amount(
         character_item.character,
@@ -48,8 +45,6 @@ async def sell_item(character_item: CharacterItem, amount: int):
 
 async def buy_item(character: Character, item: Item):
     """Метод покупки товара."""
-    if character.current_place:
-        return False, CHARACTER_IN_LOCATION_MESSAGE
     gold = await Item.objects.aget(name=settings.GOLD_NAME)
     character_amount = await get_item_amount(
         character,

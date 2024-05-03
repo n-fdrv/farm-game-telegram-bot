@@ -41,11 +41,6 @@ async def character_get_keyboard(character: Character):
             ),
         )
         rows.append(1)
-        keyboard.button(
-            text=BACKPACK_BUTTON,
-            callback_data=BackpackData(action=backpack_action.preview),
-        )
-        rows.append(1)
     else:
         keyboard.button(
             text=LOCATIONS_BUTTON,
@@ -56,16 +51,15 @@ async def character_get_keyboard(character: Character):
             callback_data=DungeonData(action=dungeon_action.list),
         )
         rows.append(2)
-        keyboard.button(
-            text=SHOP_BUTTON,
-            callback_data=ShopData(action=shop_action.get),
-        )
-        keyboard.button(
-            text=BACKPACK_BUTTON,
-            callback_data=BackpackData(action=backpack_action.preview),
-        )
-        rows.append(2)
-
+    keyboard.button(
+        text=SHOP_BUTTON,
+        callback_data=ShopData(action=shop_action.get),
+    )
+    keyboard.button(
+        text=BACKPACK_BUTTON,
+        callback_data=BackpackData(action=backpack_action.preview),
+    )
+    rows.append(2)
     keyboard.button(
         text=SKILLS_BUTTON,
         callback_data=CharacterData(action=character_action.skill_list),
